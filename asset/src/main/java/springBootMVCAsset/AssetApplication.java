@@ -13,7 +13,7 @@ public class AssetApplication {
 	}
 	@GetMapping("/")
 	public String index() {
-		return "thymeleaf/test";
+		return "thymeleaf/index";
 	}
 
 }
