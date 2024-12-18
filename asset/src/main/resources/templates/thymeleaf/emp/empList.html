@@ -20,14 +20,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="dto : ${list}" th:data-emp-num="${dto.empNum}" onclick="empMyInfo(this)" style="cursor:pointer">
+       <!--  <tr th:each="dto : ${list}" th:data-emp-num="${dto.empNum}" onclick="empMyInfo(this)" style="cursor:pointer">
           <td><img src="/static/images/cover.jpg" style="width:60px;"></td>
           <td>[[${dto.empNum}]]</td>
           <td>[[${dto.empName}]]</td>
           <td>
             <a th:attr="onclick=|deleteEmp('${dto.empNum}')|" style="text-decoration: none;">×</a>
           </td>
-        </tr>
+        </tr>--> 
       </tbody>
     </table>
   </div>

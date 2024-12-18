@@ -12,7 +12,6 @@
 <script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
-<script type="text/javascript" src="/static/js/index.js"></script>
 <script type="text/javascript">
 function myAccFunc() {
 	  var x = document.getElementById("demoAcc");
@@ -81,9 +80,9 @@ font-size: 15px;
 	
 
   	  <a  class="w3-bar-item w3-button w3-padding" >주문목록</a> 
-  	  <a href="memberList" id="memberList" class="w3-bar-item w3-button w3-padding">회원관리</a>
-  	  <a href="employeeList" class="w3-bar-item w3-button w3-padding">직원관리</a>
-  	  <a href="myPage" class="w3-bar-item w3-button w3-padding">내 정보</a>
+  	  <a href="member/memberList" id="memberList" class="w3-bar-item w3-button w3-padding">회원관리</a>
+  	  <a href="employee/employeeList" class="w3-bar-item w3-button w3-padding">직원관리</a>
+  	  <a href="my/myPage" class="w3-bar-item w3-button w3-padding">내 정보</a>
   	  
   	  <a class="w3-bar-item w3-button w3-padding">문의</a> 
   
@@ -225,8 +224,8 @@ font-size: 15px;
   <div class="w3-modal-content w3-animate-zoom" style="padding:32px">
     <div class="w3-container w3-white w3-center">
       <i onclick="document.getElementById('newsletter').style.display='none'" class="fa fa-remove w3-right w3-button w3-transparent w3-xxlarge"></i>
-      <a type="button" href="bookRegist" class="w3-button w3-block w3-black">도서</a>
-      <a type="button" href="studyRegist"  class="w3-button w3-block w3-black">강의</a>
+      <a type="button" href="goods/bookRegist" class="w3-button w3-block w3-black">도서</a>
+      <a type="button" href="goods/studyRegist"  class="w3-button w3-block w3-black">강의</a>
     </div>
   </div>
 </div>
