@@ -10,16 +10,12 @@ import springBootMVCAsset.command.GoodsCommand;
 import springBootMVCAsset.service.goods.GoodsRegistService;
 
 @Controller
-//@RequestMapping("goods")
+@RequestMapping("goods")
 public class GoodsController {
 	@Autowired
 	GoodsRegistService goodsRegistService;
-	@GetMapping("bookRegist")
+	@GetMapping("goodsRegist")
 	public String bookRegist() {
-		return "thymeleaf/goods/goodsRegist";
-	}
-	@GetMapping("studyRegist")
-	public String studyRegist() {
 		return "thymeleaf/goods/goodsRegist";
 	}
 	@PostMapping("goodsRegist")

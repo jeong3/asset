@@ -1,168 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Insert title here</title>
-
-<style>
-.w3-sidebar a { 
-    font-family: "Roboto", sans-serif;
-    text-decoration: none; /* 밑줄 제거 */
-}
-a { 
-	cursor: pointer;
-    font-family: "Roboto", sans-serif;
-    text-decoration: none; /* 밑줄 제거 */
-	font-size: 15px;
-}
-
-body, h1, h2, h3, h4, h5, h6, .w3-wide { 
-    font-family: "Montserrat", sans-serif;
-}
-hr{
-color: red;
-}
-#login{
-font-family: "Roboto", sans-serif;
-font-size: 15px;
-}
-form {
-    margin-left: 260px; /* 메뉴바의 넓이 */
-    padding: 20px;
-}
-
-</style>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body, h1 {
+            font-family: "Raleway", Arial, sans-serif;
+        }
+        h1 {
+            letter-spacing: 6px;
+        }
+        .w3-row-padding img {
+            margin-bottom: 12px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: white;
+            border-radius: 8px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .w3-button {
+            width: 100%;
+        }
+        .w3-select {
+            width: 100%;
+        }
+    </style>
 </head>
 <body class="w3-content" style="max-width:1200px">
-<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
-  <div class="w3-container w3-display-container w3-padding-16">
-    <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <a href="/"><h3 class="w3-wide"><b>ALBUM</b></h3></a>
-  </div>
-  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-    <a href="/" class="w3-bar-item w3-button">홈</a>
-    <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-      앨범 <i class="fa fa-caret-down"></i>
-    </a>
-     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-	    <a href="bookList" type="button"  class="w3-bar-item w3-button">도서</a>
-	    <a href="studyList" type="button"  class="w3-bar-item w3-button">강의</a>
-	</div>
-   
-  
-    
-  <br /><br />
-  
-  
-	  
-	  	<a class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">상품등록</a> 
-	  		<a  class="w3-bar-item w3-button w3-padding" >입고현황</a> 
-	
 
-  	  <a  class="w3-bar-item w3-button w3-padding" >주문목록</a> 
-  	  <a href="memberList" id="memberList" class="w3-bar-item w3-button w3-padding">회원관리</a>
-  	  <a href="employeeList" class="w3-bar-item w3-button w3-padding">직원관리</a>
-  	  <a href="myPage" class="w3-bar-item w3-button w3-padding">내 정보</a>
-  	  
-  	  <a class="w3-bar-item w3-button w3-padding">문의</a> 
-  
-  
-     <a class="w3-bar-item w3-button w3-padding">내 주문</a> 
- 	 <a  class="w3-bar-item w3-button w3-padding">내 정보</a>
-  	 <a class="w3-bar-item w3-button w3-padding" >문의</a> 
-  
+<!-- Top Bar -->
+<div class="w3-top">
+    <div class="w3-bar w3-theme-d2 w3-left-align">
+        <a class="w3-bar-item w3-button w3-teal" href="/"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+        <a href="goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+        <a href="news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+        <a href="stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+        <a href="member/memberList" class="w3-bar-item w3-button w3-hide-small">회원관리</a>
+        <a href="employee/employeeList" class="w3-bar-item w3-button w3-hide-small">직원관리</a>
 
-  
-  </div>
-</nav>
-	<form action="/goods/goodsRegist" method="post" enctype="multipart/form-data">
-		<div class="w3-container" align="center">
-			<h2>상품 등록</h2>
-			<p>상품을 등록하세요.</p>
-			<hr />
-			<table style="width: 70%;">
-				<tr class="w3-bar">
-					<th>상품번호</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="text" name="goodsNum" th:value="${autoNum}"
-								readonly="readonly" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>상품명</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="text" name="goodsName" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>아티스트명</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="text" name="artistName" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>상품가격</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="number" name="goodsPrice" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>상품 설명</th>
-					<th>
-						<div class="w3-bar-item">
-							<textarea name="goodsContents"></textarea>
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>메인이미지</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="file" name="goodsMainImage" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>상세이미지</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="file" name="goodsDetailImage" multiple="multiple" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>카테고리</th>
-					<th>
-						<div class="w3-bar-item">
-							<select name="category">
-								<option value="KPOP" th:selected="${category == 'KPOP' or category == 'KP_'}">KPOP</option>
-								<option value="POP/ROCK" th:selected="${category == 'POP/ROCK' or category == 'P&R'}">POP/ROCK</option>
-								<option value="CLASSIC" th:selected="${category == 'CLASSIC' or category == 'CL_'}">CLASSIC</option>
-								<option value="LP" th:selected="${category == 'LP' or category == 'LP_'}">LP</option>
-							</select>
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th colspan="2"> <input type="submit" value="등록" /></th>
-					
-				</tr>
-			</table>
-		</div>
-	</form>
+        <div class="w3-dropdown-hover w3-hide-small">
+            <button class="w3-button">상품 <i class="fa fa-caret-down"></i></button>
+            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+                <a href="goods/bookList" class="w3-bar-item w3-button">강의</a>
+                <a href="goods/studyList" class="w3-bar-item w3-button">도서</a>
+                <a href="goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+                <a href="goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+            </div>
+        </div>
+        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+    </div>
+</div>
+
+<!-- Form Section -->
+<div class="form-container w3-container w3-card-4 w3-light-grey">
+    <h2 class="w3-center">상품 등록</h2>
+    <p class="w3-center">상품을 등록하세요.</p>
+    <hr class="w3-opacity" />
+
+    <form action="/goods/goodsRegist" method="post" enctype="multipart/form-data">
+        <div class="w3-section">
+            <label><b>상품번호</b></label>
+            <input class="w3-input w3-border" type="text" name="goodsNum" th:value="${autoNum}" readonly="readonly" />
+        </div>
+
+        <div class="w3-section">
+            <label><b>상품명</b></label>
+            <input class="w3-input w3-border" type="text" name="goodsName" placeholder="상품명을 입력하세요." />
+        </div>
+
+        <div class="w3-section">
+            <label><b>상품가격</b></label>
+            <input class="w3-input w3-border" type="number" name="goodsPrice" placeholder="가격을 입력하세요." />
+        </div>
+
+        <div class="w3-section">
+            <label><b>상품 설명</b></label>
+            <textarea class="w3-input w3-border" name="goodsContents" rows="5" placeholder="상품 설명을 입력하세요."></textarea>
+        </div>
+
+        <div class="w3-section">
+            <label><b>메인이미지</b></label>
+            <input class="w3-input w3-border" type="file" name="goodsMainImage" />
+        </div>
+
+        <div class="w3-section">
+            <label><b>상세이미지</b></label>
+            <input class="w3-input w3-border" type="file" name="goodsDetailImage" multiple="multiple" />
+        </div>
+
+        <div class="w3-section">
+            <label><b>카테고리</b></label>
+            <select class="w3-select w3-border" name="category">
+                <option value="KPOP" th:selected="${category == 'KPOP' or category == 'KP_'}">KPOP</option>
+                <option value="POP/ROCK" th:selected="${category == 'POP/ROCK' or category == 'P&R'}">POP/ROCK</option>
+                <option value="CLASSIC" th:selected="${category == 'CLASSIC' or category == 'CL_'}">CLASSIC</option>
+                <option value="LP" th:selected="${category == 'LP' or category == 'LP_'}">LP</option>
+            </select>
+        </div>
+
+        <div class="w3-center">
+            <button class="w3-button w3-teal w3-round w3-padding-large" type="submit">등록</button>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>
