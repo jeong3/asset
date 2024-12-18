@@ -4,79 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Employee List</title>
 <style>
-.w3-sidebar a { 
-    font-family: "Roboto", sans-serif;
-    text-decoration: none; /* 밑줄 제거 */
-}
-a { 
-	cursor: pointer;
-    font-family: "Roboto", sans-serif;
-    text-decoration: none; /* 밑줄 제거 */
-	font-size: 15px;
-}
-
-body, h1, h2, h3, h4, h5, h6, .w3-wide { 
-    font-family: "Montserrat", sans-serif;
-}
-hr{
-color: red;
-}
-#login{
-font-family: "Roboto", sans-serif;
-font-size: 15px;
-}
-
+body,h1 {font-family: "Raleway", Arial, sans-serif}
+h1 {letter-spacing: 6px}
+.w3-row-padding img {margin-bottom: 12px}
 </style>
+<title>Employee List</title>
 </head>
-<body class="w3-content" style="max-width:1200px">
+<body >
+<div class="w3-content" style="max-width:1500px">
 
-<!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
-  <div class="w3-container w3-display-container w3-padding-16">
-    <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <a href="/"><h3 class="w3-wide"><b>ALBUM</b></h3></a>
+
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+  <a href="news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <a href="member/memberList" class="w3-bar-item w3-button w3-hide-small">회원관리</a>
+  <a href="employee/employeeList" class="w3-bar-item w3-button w3-hide-small">직원관리</a>
+ 
+    <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품<i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
+   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
   </div>
-  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-    <a href="/" class="w3-bar-item w3-button">홈</a>
-    <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-      앨범 <i class="fa fa-caret-down"></i>
-    </a>
-     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-	    <a href="bookList" type="button"  class="w3-bar-item w3-button">도서</a>
-	    <a href="studyList" type="button"  class="w3-bar-item w3-button">강의</a>
-	</div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+ <div class="w3-bar w3-theme-d2 w3-right-align"><button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button></div>
+  </div>
    
-  
-    
-  <br /><br />
-  
-  
-	  
-	  <a class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">상품등록</a> 
-	  <a  class="w3-bar-item w3-button w3-padding" >입고현황</a> 
-	
-
-  	  <a  class="w3-bar-item w3-button w3-padding" >주문목록</a> 
-  	  <a href="member/memberList" id="memberList" class="w3-bar-item w3-button w3-padding">회원관리</a>
-  	  <a href="employee/employeeList" class="w3-bar-item w3-button w3-padding">직원관리</a>
-  	  <a href="my/myPage" class="w3-bar-item w3-button w3-padding">내 정보</a>
-  	  
-  	  <a class="w3-bar-item w3-button w3-padding">문의</a> 
-  
-  
-     <a class="w3-bar-item w3-button w3-padding">내 주문</a> 
- 	 <a  class="w3-bar-item w3-button w3-padding">내 정보</a>
-  	 <a class="w3-bar-item w3-button w3-padding" >문의</a> 
-  
-
-  
-  </div>
-</nav>
+ <br /><br /><br />
 
   <div align="center">
     <h2>Employee List</h2>
@@ -103,6 +68,7 @@ font-size: 15px;
         </tr>--> 
       </tbody>
     </table>
+  </div>
   </div>
 </body>
 </html>
