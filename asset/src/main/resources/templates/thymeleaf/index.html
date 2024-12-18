@@ -34,11 +34,25 @@ h1 {letter-spacing: 6px}
   <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
-  <a href="/member/memberList" class="w3-bar-item w3-button w3-hide-small">회원관리</a>
-  <a href="/employee/employeeList" class="w3-bar-item w3-button w3-hide-small">직원관리</a>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+    </div>
+  </div>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+    </div>
+  </div>
  
-    <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button" title="Notifications">상품<i class="fa fa-caret-down"></i></button>     
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
    	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
    	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
