@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+
+<title>empRegist</title>
+
+</head>
+<body>
+   <form action="/emp/empRegist" method="post" th:object="${empCommand}">
+	<div class="w3-container" align="center">
+	 <h2>가입</h2>
+	  <p>empRegist</p>
+	  <hr/>
+
+		<table  style="width:50%;">
+		    <tr class="w3-bar">
+		      <th>
+		        번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="empNum" readonly="readonly" th:value="${empCommand.empNum}"/>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        이름
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="empName" th:value="${empCommand.empName}" />
+		          <span style = "color : red" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        아이디
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="empId" id="userId" th:value="${empCommand.empId}"  />
+		          <span id="idCheck"></span>
+				  <span style="color: red" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        비밀번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="password" name="empPw" /> 
+		          <span style = "color : red" th:if="${#fields.hasErrors('empPw')}" th:errors="*{empPw}"  ></span>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        비밀번호확인
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="password" name="empPwCon" />
+		          <span style = "color : red" th:if="${#fields.hasErrors('empPwCon')}" th:errors="*{empPwCon}" ></span>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        주소
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="empAddr" id="sample4_roadAddress"  readonly="readonly" th:value="${empCommand.empAddr}"/> <button type="button" onclick="execDaumPostcode();" >주소검색</button>
+		          <span style="color: red" th:if="${#fields.hasErrors('empAddr')}" th:errors="*{empAddr}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        상세주소
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="empAddrDetail" th:value="${empCommand.empAddrDetail}" />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        우편번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="empPost" id="sample4_postcode"  th:value="${empCommand.empPost}"  readonly="readonly" />
+		        </div>
+		      </th>
+		    </tr>
+		     <tr class="w3-bar">
+		      <th>
+		        연락처
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="tel" name="empPhone" th:value="${empCommand.empPhone}"  /> 
+		          <span style = "color : red" th:if="${#fields.hasErrors('empPhone')}" th:errors="*{empPhone}"></span>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        이메일
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="email" name="empEmail" id="userEmail" th:value="${empCommand.empEmail}"  /> 
+		          <span id="emailCheck"></span>
+				  <span style = "color : red" th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}"></span>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        주민등록번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="empJumin" th:value="${empCommand.empJumin}"   />
+		          <span style = "color : red" th:if="${#fields.hasErrors('empJumin')}" th:errors="${empCommand.empJumin}"></span> 
+		        </div>
+		      </th>
+		    </tr>
+		    
+		    <tr class="w3-bar">
+		      <th colspan="2">
+		        	<input type="submit" value="등록" >
+		      </th>
+		    </tr>
+		    
+		    
+		    
+		  </table>
+	  </div>
+	</form>
+</body>
+</html>

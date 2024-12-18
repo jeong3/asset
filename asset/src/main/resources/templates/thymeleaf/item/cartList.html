@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>cartList</title>
+<script type="text/javascript" src="/static/js/checkbox.js"></script>
+<script type="text/javascript">
+//숫자를 원화로 포맷하는 formatter
+
+const formatter = new Intl.NumberFormat('ko-KR', {
+    style: 'currency',
+    currency: 'KRW'
+});
+
+function prodChk() {
+    var chkLeng = $('input[name="nums"]');
+    var cnt = 0; // 상품 수
+    var totalQty = 0; // 총 상품의 갯수
+    var totalPrice = 0; // 총 상품 금액
+
+    for (var i = 0; i < chkLeng.length; i++) {
+        if (chkLeng[i].checked) {
+            cnt++;
+
+            // 수량 처리
+            var stringQty = $(".cartQty:eq(" + i + ")").text();  // 1,000
+            var number = Number(stringQty.replace(/,/g, '')); // 1000
+            totalQty += number;
+
+            // 금액 처리: 금액에서 '원'을 제거하지 않고 계산만 합니다.
+            var priceText = $(".totalPrice:eq(" + i + ")").text(); // "4,444원"
+            var price = parseInt(priceText.replace(/[^0-9]/g, "")); // "4444"
+            totalPrice += price;
+        }
+    }
+
+    // 수량과 금액 포맷 처리
+    var commaQty = totalQty.toLocaleString(); // 1,001
+    var formattedPrice = formatter.format(totalPrice).replace('₩', '') + '원'; // 원화 포맷 후 '₩'을 제거하고 '원'을 추가
+
+    // 최종 업데이트
+    $("#prodCnt").text(cnt);
+    $("#totQty").text(commaQty);
+    $("#totalPrice").text(formattedPrice); // '원' 포함하여 표시
+}
+
+function upQty(goodsNum, goodsPrice) {
+    var stringNumber = $("#" + goodsNum).text(); // 1,000
+    var number = Number(stringNumber.replace(/,/g, '')); // 1000
+    number += 1; // 수량 증가
+
+    const commaNumber = number.toLocaleString(); // 1,001
+    var formData = JSON.stringify({
+        "goodsNum": goodsNum,
+    });
+
+    // 재고 확인 AJAX 요청
+    $.ajax({
+        type: "GET",
+        url: "/item/checkStock", // 재고 확인 API
+        data: { "goodsNum": goodsNum },
+        success: function(stock) {
+            if (number <= stock) {
+                // 재고가 충분한 경우, 수량 증가 요청
+                $.ajax({
+                    type: "POST",
+                    url: "/item/upQty",
+                    contentType: "application/json",
+                    data: formData, // JSON 형식의 데이터 전송
+                    success: function(result) {
+                        if (result == 200) {
+                            var priceText = $("#t_" + goodsNum).text(); // "4,444원"
+                            var price = parseInt(priceText.replace(/[^0-9]/g, "")); // "4444"
+                            $("#" + goodsNum).text(commaNumber); // 수량 1000 + 1
+
+                            // 금액 업데이트
+                            price = price + parseInt(goodsPrice);
+                            $("#t_" + goodsNum).text(formatter.format(price).replace('₩', '') + '원'); // 금액 포맷 후 '₩'을 제거하고 '원'을 추가
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("수량 증가 요청 실패:", status, error);
+                    },
+                    complete: prodChk // 수량 증가 후 총 금액 업데이트
+                });
+            } else {
+                alert("최대 수량입니다.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("재고 확인 요청 실패:", status, error);
+        }
+    });
+}
+
+function downQty(goodsNum, goodsPrice) {
+    var stringNumber = $("#" + goodsNum).text(); // 1,000
+    var number = Number(stringNumber.replace(/,/g, '')); // 1000
+    number -= 1;
+
+    const commaNumber = number.toLocaleString(); // 1,001
+    var formData = JSON.stringify({
+        "goodsNum": goodsNum,
+    });
+    if (number >= 1) {
+        // 재고가 충분한 경우, 수량 증가 요청
+        $.ajax({
+            type: "POST",
+            url: "/item/downQty",
+            contentType: "application/json",
+            data: formData, // JSON 형식의 데이터 전송
+            success: function(result) {
+                if (result == 200) {
+                    var priceText = $("#t_" + goodsNum).text(); // "4,444원"
+                    var price = parseInt(priceText.replace(/[^0-9]/g, "")); // "4444"
+                    $("#" + goodsNum).text(commaNumber); // 수량 1000 + 1
+
+                    // 금액 업데이트
+                    price = price - parseInt(goodsPrice);
+                    var formattedPrice = price.toLocaleString(); // 4,444
+                    $("#t_" + goodsNum).text(formattedPrice + "원"); // 금액 포맷 후 '원' 추가
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("수량 증가 요청 실패:", status, error);
+            },
+            complete: prodChk // 수량 증가 후 총 금액 업데이트
+        });
+    } else {
+        alert("최소 수량입니다.");
+    }
+}
+
+
+function deleteFromCart(cartNum) {
+	var cartNums = [];
+	if(cartNum != null){
+		cartNums.push(cartNum);
+	} else{
+		 $("input:checkbox[name=nums]:checked").each(function(){
+				cartNums.push($(this).val());
+		 });
+	}
+	if (confirm("정말 삭제하시겠습니까?")) {
+		$.ajax({
+			type: "post",
+			url: "/item/cartDelete",
+			contentType: "application/json",
+	        data: JSON.stringify(cartNums), // JSON 형식의 데이터 전송
+			success: function(response) {
+				if(response == 200){
+					alert("선택상품이 삭제되었습니다");
+				}
+			},
+			error: function() {
+				alert("서버 오류가 발생했습니다. 삭제할 수 없습니다.");
+			},
+			complete: cartList 
+		});
+	} else {
+		complete: cartList 
+	}
+}
+</script>
+</head>
+<body>
+  <div align="center">
+    <h2>장바구니</h2>
+    <p> cart </p>
+    <hr/>
+
+
+    <table border="1" cellpadding="5" cellspacing="0" style="width: 80%; text-align: center;">
+      <thead>
+        <tr>
+        <th><input type="checkbox" checked="checked" id="checkBoxs"/></th>
+          <th>사진</th>
+          <th>상품번호</th>
+          <th>상품명</th>
+          <th>수량</th>
+          <th>금액</th><!-- 수량에대한금액으로 -->
+          <th><input type="button"  value="삭제" style="cursor: pointer;" onclick="deleteFromCart();"/></th>
+        </tr>
+      </thead>
+     <tbody>
+        <tr th:each="dto : ${list}">
+       	  <td><input type="checkbox" name="nums" checked="checked" th:value="${dto.cartDTO.cartNum}" /></td>
+          <td><img th:src="|/static/images/${dto.goodsDTO.goodsMainStoreImage}|" style="width:60px;"></td>
+          <td>[[${dto.goodsDTO.goodsNum}]]</td>
+          <td>[[${dto.goodsDTO.goodsName}]]</td>
+          <td>
+          <a th:href="|javascript:downQty('${dto.goodsDTO.goodsNum}','${dto.goodsDTO.goodsPrice}');|"> - </a>
+          <span th:id="${dto.goodsDTO.goodsNum}" class="cartQty">[[${#numbers.formatInteger(dto.cartDTO.cartQty,1,'COMMA')}]]</span>
+          <a th:href="|javascript:upQty('${dto.goodsDTO.goodsNum}', '${dto.goodsDTO.goodsPrice}');|"> + </a>
+          </td>
+          <td><span th:id="${'t_'+dto.goodsDTO.goodsNum}" class="totalPrice">[[${#numbers.formatInteger(dto.goodsDTO.goodsPrice * dto.cartDTO.cartQty, 1, 'COMMA')}]]원</span></td>
+          <td>
+            <a th:attr="onclick=|deleteFromCart('${dto.cartDTO.cartNum}')|" style="text-decoration: none;">×</a>
+          </td>
+        </tr>
+        
+        <tr><td colspan="7" align="right">
+			상품수 : <span id="prodCnt">[[${#numbers.formatInteger(list.size(),1,'COMMA')}]]</span>개<br />
+			총수량 : <span id="totQty">[[${#numbers.formatInteger(totQty,1,'COMMA')}]]</span>개<br />
+			전체 합계 : <span id="totalPrice">[[${#numbers.formatInteger(totPri, 1, 'COMMA')}]]원</span>
+		</td></tr>
+		<tr> <th colspan="7"><button type="button" 
+				onclick="purchaseRegist()" class="w3-button w3-block w3-black">주문하기</button></th></tr>
+      </tbody> 
+    </table>
+  </div>
+</body>
+</html>

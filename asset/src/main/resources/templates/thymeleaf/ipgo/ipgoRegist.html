@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+$(function(){
+	$("#btn").click(function(){
+		window.open("/goods/goodsItem","상품검색","width=600, height=500, top=500, left=60")
+	});
+});
+
+
+	
+
+</script>
+</head>
+<body>
+	<form onsubmit="return ipgoSubmit(event)" id="ipgoForm">
+		<div class="w3-container" align="center">
+			<h2>입고 등록</h2>
+			<p>입고 정보를 등록하세요.</p>
+			<hr />
+			<table style="width: 70%;">
+				<tr class="w3-bar">
+					<th>입고번호</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="text" name="ipgoNum" id="ipgoNum" th:value="${autoNum}" readonly="readonly" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>상품번호</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="text" name="goodsNum" id="goodsNum" /> <button type="button" id="btn" >상품 검색</button>
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>입고수량</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="number" name="ipgoQty" id="ipgoQty" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>제조일자</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="date" name="madeDate" id="madeDate" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>입고가격</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="number" name="ipgoPrice" id="ipgoPrice" step="0.01" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>직원번호</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="text" name="empNum" id="empNum" th:value="${empNum}" readonly="readonly" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th colspan="2">
+						<input type="submit" value="등록"  />
+					</th>
+				</tr>
+			</table>
+		</div>
+	</form>
+</body>
+</html>

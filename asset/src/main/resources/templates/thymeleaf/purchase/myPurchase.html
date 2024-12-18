@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        .order-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .order-date {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-info {
+            flex: 2;
+            display: flex;
+            gap: 15px;
+        }
+
+        .product-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            object-fit: contain;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-details h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .product-details p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .order-status {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .order-status span {
+            color: green;
+            font-weight: bold;
+        }
+
+        .actions {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .actions button, .actions a {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .actions button {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .actions .return {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .actions .review {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .actions a {
+            text-decoration: none;
+            color: #007bff;
+            text-align: center;
+            border: 1px solid #007bff;
+            padding: 8px 0;
+            border-radius: 4px;
+        }
+    </style>
+    <script type="text/javascript">
+function myPurchaseDetail(element){
+	var purchaseNum = $(element).data("purchaseNum");
+
+	alert(purchaseNum);
+	window.open("/purchase/purchaseDetail?purchaseNum="+purchaseNum, "purchaseDetail", "width=600,height=1100,top=50,right=100");
+	
+}
+function reviewRegist1(element){
+	var purchaseNum = $(element).data("purchaseNum")
+	var goodsNum = [];
+	$('span[id^="goodsNum_"]').each(function() {
+	    goodsNum.push($(this).text());  // 각 span의 텍스트 값을 배열에 추가
+	});
+	let url = "/reviews/reviewRegist?purchaseNum="+purchaseNum+"&goodsNum=" + goodsNum.join(',');
+	
+	alert(url);
+	window.open(url, "reviews","width=700,height=800,top=50,right=100");
+}
+function reviewRegist(element){
+	var purchaseNum = $(element).data("purchaseNum")
+	
+	let url = "/reviews/choiceGoods?purchaseNum="+purchaseNum;
+	
+	alert(url);
+	window.open(url, "reviews","width=700,height=800,top=50,right=100");
+}
+function reviewUpdate(element){
+	var purchaseNum = $(element).data("purchaseNum")
+	
+	let url = "/reviews/choiceGoodsUp?purchaseNum="+purchaseNum;
+	
+	alert(url);
+	window.open(url, "reviews","width=700,height=800,top=50,right=100");
+}
+
+</script>
+</head>
+<body>
+<h1 align="center">myPurchaseList</h1>
+<p align="center">내 주문목록</p>
+<hr>
+<div th:each="dto,idx : ${list}">
+	<div class="order-container">
+	<th:block th:each="list,idx : ${dto.purchaseListGoodsDTO}">
+	<span id="goodsNum_[[${idx}]]" style="display: none">[[${list.goodsDTO.goodsNum}]]</span>
+	</th:block>
+	    <div class="order-date">[[${#dates.format(dto.purchaseDTO.purchaseDate,'yyyy.MM.dd')}]] 주문</div>
+	    <div class="order-item">
+	        <div class="order-info">
+	            <img th:src="|/static/images/${dto.purchaseListGoodsDTO[0].goodsDTO.goodsMainStoreImage}|" alt="상품" class="product-image" >
+	            <div class="product-details">
+	                <p class="order-status">
+	               
+	         	 	<br>
+	         	 		
+		          <th:block th:if="${dto.deliveryDTO.deliveryStatus == null}">
+		          	<span>[[${dto.purchaseDTO.purchaseStatus}]] · 결제필요</span>
+	     	 
+		          </th:block>
+		          <th:block th:if="${dto.deliveryDTO.deliveryStatus != null}">
+		          	<span>송장번호 [[${dto.deliveryDTO.deliveryNum}]] <br>
+		          	  [[${dto.deliveryDTO.deliveryStatus}]]</span>
+		          	  <span> · 배송날짜 [[${#dates.format(dto.deliveryDTO.deliveryDate, 'yyyy.MM.dd')}]]</span></p>
+		          </th:block>
+	         
+	                
+	               <br>
+	                <h3>🚀 <span id="purchaseNum">[[${dto.purchaseDTO.purchaseNum}]]</span> / [[${dto.purchaseDTO.purchaseName}]] / [[${dto.purchaseListGoodsDTO.size}]]개</h3>
+	                <h3> <th:block th:if="${dto.paymentDTO.totalprice != null}">
+	         				총 금액 [[${#numbers.formatCurrency(dto.paymentDTO.totalprice)}]] <br></h3>
+	         	 		 </th:block>
+	            </div>
+	        </div>
+	        <div class="actions">
+	            <a onclick="myPurchaseDetail(this)" th:data-purchase-num=${dto.purchaseDTO.purchaseNum}>주문 상세보기</a>
+	            
+	            <th:block th:if="${dto.paymentDTO.totalprice != null}">
+	            	<button class="return" th:data-purchase-num="${dto.purchaseDTO.purchaseNum}" onclick="paymentDelete(this)">결제취소 및 반품</button>
+	            </th:block>
+	            <th:block th:if="${dto.paymentDTO.totalprice == null}">
+					<button class="return" th:data-purchase-num="${dto.purchaseDTO.purchaseNum}" onclick="paymentOk(this)">결제하기</button>
+		          </th:block>
+	            <button>배송조회</button>
+	            <th:block th:if="${dto.purchaseListGoodsDTO[0].reviewDTO == null}">
+	            	<button class="review" th:data-purchase-num="${dto.purchaseDTO.purchaseNum}" onclick="reviewRegist(this)">리뷰 작성하기</button>
+	            </th:block>
+	            <th:block th:if="${dto.purchaseListGoodsDTO[0].reviewDTO != null}">
+	            	<button class="review" th:data-purchase-num="${dto.purchaseDTO.purchaseNum}" onclick="reviewUpdate(this)">리뷰 수정하기</button>
+	            </th:block>
+	            
+	        </div>
+	    </div>
+	</div>
+</div>
+
+</body>
+</html>

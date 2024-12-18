@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 등록</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #28a745;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script type="text/javascript">
+    $(function(){
+        $("#goodsNum").click(function(){
+            window.open("/goods/goodsItem", "상품검색", "width=600, height=500, top=500, left=60");
+        });
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>문의 등록</h2>
+       
+            <table>
+                <tr>
+                    <th>문의 종류</th>
+                    <td>
+                        <select name="inquireKind" id="inquireKind" required>
+                            <option value="상품">상품 (성능/불량)</option>
+                            <option value="배송">배송</option>
+                            <option value="교환">교환</option>
+                            <option value="반품/취소/환불">반품/취소/환불</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>상품 선택</th>
+                    <td>
+                        <input type="text" name="goodsNum" id="goodsNum" placeholder="선택된 상품 없음" readonly>
+                       
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>문의 제목</th>
+                    <td>
+                        <input type="text" name="inquireSubject" id="inquireSubject" placeholder="제목을 입력하세요" required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>문의 내용</th>
+                    <td>
+                        <textarea name="inquireContents" id="inquireContents" rows="6" placeholder="문의 내용을 입력하세요" required></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button type="submit" class="submit-btn" onclick="InquireRegistPost()">등록하기</button>
+                    </td>
+                </tr>
+            </table>
+       
+    </div>
+</body>
+</html>

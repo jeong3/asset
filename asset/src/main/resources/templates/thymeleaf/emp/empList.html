@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Employee List</title>
+</head>
+<body>
+  <div align="center">
+    <h2>Employee List</h2>
+    <a href="/emp/empRegist">직원등록</a>
+    <hr/>
+
+    <table border="1" cellpadding="5" cellspacing="0" style="width: 80%; text-align: center;">
+      <thead>
+        <tr>
+          <th>사진</th>
+          <th>직원번호</th>
+          <th>직원 이름</th>
+          <th>삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="dto : ${list}" th:data-emp-num="${dto.empNum}" onclick="empMyInfo(this)" style="cursor:pointer">
+          <td><img src="/static/images/cover.jpg" style="width:60px;"></td>
+          <td>[[${dto.empNum}]]</td>
+          <td>[[${dto.empName}]]</td>
+          <td>
+            <a th:attr="onclick=|deleteEmp('${dto.empNum}')|" style="text-decoration: none;">×</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

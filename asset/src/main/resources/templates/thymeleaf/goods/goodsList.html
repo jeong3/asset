@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Sidebar/menu -->
+<!-- Top header -->
+<header class="w3-container w3-xlarge">
+	<p class="w3-left">[[${category}]]</p>
+	<p class="w3-right">
+		<i class="fa fa-shopping-cart w3-margin-right"></i> 
+		<i class="fa fa-search"></i>
+	</p>
+</header>
+
+<span th:if="${session.auth != null}"> <span
+		th:if="${session.auth.grade == 'emp'}">
+			<button type="button" th:data-category="${category}"
+				onclick="goodsRegist(this)" class="w3-button w3-block w3-black">상품등록</button>
+	</span>
+	</span>
+
+<body class="w3-content" style="max-width: 1200px">
+	 <div id="searchResult">
+  <div class="w3-row w3-grayscale">
+   <div class="w3-container w3-text-grey" id="cover">
+		<p>[[${list.size}]] items</p>
+	</div>
+
+	<!-- Product grid -->
+
+	<th:block th:each="dto : ${list}">
+		<div class="w3-col l3 s6">
+			<div class="w3-container">
+				<div class="w3-display-container">
+					<img height= "200px", width= "200px"
+						th:src="|/static/images/${dto.goodsMainStoreImage}|" style="cursor: pointer;" th:data-goods-num="${dto.goodsNum}" onclick="goodsDetail(this)"> <span
+						class="w3-tag w3-display-topleft">New</span>
+					<div class="w3-display-middle w3-display-hover">
+						<button class="w3-button w3-black">
+							Buy now<i class="fa fa-shopping-cart"></i>
+						</button>
+					</div>
+				</div>
+				<p>
+					[[${dto.goodsName}]]
+					<img style="width: 20px; height: 20px; float: right;"
+						th:data-goods-num="${dto.goodsNum}" onclick="addWish(this)"
+						src="/static/images/hart1.png">
+					<br> <b>[[${dto.goodsPrice}]]</b>
+					<!-- 오른쪽 끝에 작은 이미지 추가 -->
+					
+				</p>
+			</div>
+		</div>
+	</th:block>
+  </div>
+  </div>
+
+  <!-- Subscribe section -->
+  <div class="w3-container w3-black w3-padding-32" align="center">
+    <h1>Search</h1>
+    <p><input class="w3-input w3-border" type="search" name="searchWord"  id="searchWord" placeholder="CATEGORY OR ARTIST OR ALBUM" style="width:100%"></p>
+    <button type="button" th:data-category="${category}" class="w3-button w3-red w3-margin-bottom" onclick="searchGoods(this)">Search</button>
+  </div>
+	
+</body>
+</html>

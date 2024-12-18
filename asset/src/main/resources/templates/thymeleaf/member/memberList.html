@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Member List</title>
+</head>
+<body>
+  <div align="center">
+    <h2>Member List</h2>
+    <a href="/member/memberRegist">회원가입</a>
+    <hr/>
+
+    <table border="1" cellpadding="5" cellspacing="0" style="width: 80%; text-align: center;">
+      <thead>
+        <tr>
+          
+          <th>회원번호</th>
+          <th>회원 이름</th>
+          <th>삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="dto : ${list}" th:data-member-num="${dto.memberNum}" onclick="myInfo(this)" style="cursor:pointer">
+          <td>[[${dto.memberNum}]]</td>
+          <td>[[${dto.memberName}]]</td>
+          <td>
+            <a href="#" th:attr="onclick=|deleteMember('${dto.memberNum}')|" style="text-decoration: none;">×</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

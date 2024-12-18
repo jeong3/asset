@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="/goods/goodsRegist" method="post" enctype="multipart/form-data">
+		<div class="w3-container" align="center">
+			<h2>상품 등록</h2>
+			<p>상품을 등록하세요.</p>
+			<hr />
+			<table style="width: 70%;">
+				<tr class="w3-bar">
+					<th>상품번호</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="text" name="goodsNum" th:value="${autoNum}"
+								readonly="readonly" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>상품명</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="text" name="goodsName" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>아티스트명</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="text" name="artistName" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>상품가격</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="number" name="goodsPrice" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>상품 설명</th>
+					<th>
+						<div class="w3-bar-item">
+							<textarea name="goodsContents"></textarea>
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>메인이미지</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="file" name="goodsMainImage" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>상세이미지</th>
+					<th>
+						<div class="w3-bar-item">
+							<input type="file" name="goodsDetailImage" multiple="multiple" />
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th>카테고리</th>
+					<th>
+						<div class="w3-bar-item">
+							<select name="category">
+								<option value="KPOP" th:selected="${category == 'KPOP' or category == 'KP_'}">KPOP</option>
+								<option value="POP/ROCK" th:selected="${category == 'POP/ROCK' or category == 'P&R'}">POP/ROCK</option>
+								<option value="CLASSIC" th:selected="${category == 'CLASSIC' or category == 'CL_'}">CLASSIC</option>
+								<option value="LP" th:selected="${category == 'LP' or category == 'LP_'}">LP</option>
+							</select>
+						</div>
+					</th>
+				</tr>
+				<tr class="w3-bar">
+					<th colspan="2"> <input type="submit" value="등록" /></th>
+					
+				</tr>
+			</table>
+		</div>
+	</form>
+
+</body>
+</html>

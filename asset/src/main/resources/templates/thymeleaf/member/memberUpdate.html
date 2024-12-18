@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+
+<title>MemberUpdate</title>
+
+</head>
+<body>
+   
+	<div class="w3-container" align="center">
+	 <h2>회원수정</h2>
+	  <p>MemberUpdate</p>
+	  <hr/>
+	  <form action="/member/memberUpdate" method="post" th:object="${memberCommand}">
+		
+		<table  style="width:50%;">
+		    <tr class="w3-bar">
+		      <th>
+		        회원번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="memberNum" readonly="readonly" th:value="${memberCommand.memberNum}"/>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        회원이름
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="memberName" th:value="${memberCommand.memberName}" />
+		          <span style = "color : red" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        회원아이디
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="memberId" id="userId" th:value="${memberCommand.memberId}"  />
+		          <span id="idCheck"></span>
+				  <span style="color: red" th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        회원비밀번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="memberPw" /> 
+		          <span style = "color : red" th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}"  ></span>
+		        </div>
+		      </th>
+		    </tr>
+		    
+		    <tr class="w3-bar">
+		      <th>
+		        회원주소
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="memberAddr" id="sample4_roadAddress"  readonly="readonly" th:value="${memberCommand.memberAddr}"/> <button type="button" onclick="execDaumPostcode();" >주소검색</button>
+		          <span style="color: red" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        회원상세주소
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="memberAddrDetail" th:value="${memberCommand.memberAddrDetail}" />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        회원우편번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="memberPost" id="sample4_postcode"  th:value="${memberCommand.memberPost}"  readonly="readonly" />
+		        </div>
+		      </th>
+		    </tr>
+		     <tr class="w3-bar">
+		      <th>
+		        회원성별
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		        <th:block th:if="${memberCommand.gender == 'M'}">
+		          <input type="radio" name="gender" value="M" checked/>남자
+		          <input type="radio" name="gender" value="F" />여자
+		        </th:block>
+		        <th:block th:if="${memberCommand.gender == 'F'}">
+		          <input type="radio" name="gender" value="M" />남자
+		          <input type="radio" name="gender" value="F" checked/>여자
+		        </th:block>
+		        </div>
+		      </th>
+		    </tr>
+		     <tr class="w3-bar">
+		      <th>
+		        회원연락처1
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="tel" name="memberPhone1" th:value="${memberCommand.memberPhone1}"  /> 
+		          <span style = "color : red" th:if="${#fields.hasErrors('memberPhone1')}" th:errors="*{memberPhone1}"></span>
+		        </div>
+		      </th>
+		    </tr>
+		     <tr class="w3-bar">
+		      <th>
+		        회원연락처2
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="tel" name="memberPhone2" th:value="${memberCommand.memberPhone2}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        회원이메일
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="email" name="memberEmail" id="userEmail" th:value="${memberCommand.memberEmail}"  /> 
+		          <span id="emailCheck"></span>
+				  <span style = "color : red" th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}"></span>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        회원생년월일
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="date" name="memberBirth" th:value="${#dates.format(memberCommand.memberBirth,'yyyy-MM-dd')}"   />
+		          <span style = "color : red" th:if="${#fields.hasErrors('memberBirth')}" th:errors="${memberCommand.memberBirth}"></span> 
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th colspan="2">
+		        	<input type="submit" value="수정" >
+		      </th>
+		    </tr>
+		  </table>
+		  </form>
+		  
+		  
+	  </div>
+	  
+	
+</body>
+</html>

@@ -1,0 +1,199 @@
+<head>
+<link rel="stylesheet" href="/static/css/goodsDetail.css">
+<script src="/static/js/goodsDetail.js"></script>
+<script>
+$(document).ready(function () {
+    const goodsPrice = parseFloat($("#goodsPrice").text());
+    const totalPriceDisplay = $("#totalPrice");
+
+    // 수량 입력 값 변경 이벤트
+    $("#cartQty").on("input", function () {
+        const quantity = parseInt($(this).val()) || 1; // 수량이 없거나 잘못 입력되면 기본값 1로 설정
+
+        // AJAX 요청
+        $.ajax({
+            url: "/totalPrice", // 서버 요청 URL
+            type: "POST",
+            contentType: "application/json", // JSON 형식으로 데이터 전송
+            data: JSON.stringify({ goodsPrice: goodsPrice, quantity: quantity }), // 요청 데이터
+            success: function (response) {
+                // 성공 시 서버 응답 데이터로 총 금액 업데이트
+                totalPriceDisplay.text(response.totalPrice.toLocaleString());
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            },
+        });
+    });
+});
+document.getElementById("toggleReviewsBtn").addEventListener("click", function() {
+    var reviews = document.getElementById("reviews");
+    if (reviews.style.display === "none" || reviews.style.display === "") {
+        reviews.style.display = "block";  // 리뷰 영역 보이기
+    } else {
+        reviews.style.display = "none";   // 리뷰 영역 숨기기
+    }
+});
+</script>
+<style type="text/css">
+/* 리뷰 컨테이너 스타일 */
+.reviews-container {
+    display: flex;               /* 리뷰를 가로로 나열하기 위해 flex 사용 */
+    overflow-x: auto;            /* 가로 스크롤을 허용 */
+    padding: 20px 0;             /* 위 아래 패딩 */
+    gap: 20px;                   /* 리뷰들 사이의 간격 */
+    max-width: 100%;             /* 컨테이너가 화면 너비를 넘지 않도록 설정 */
+    background-color: #f4f4f4;   /* 배경 색 */
+}
+
+/* 개별 리뷰 스타일 */
+.review {
+    width: 300px;                /* 각 리뷰의 너비 */
+    min-width: 300px;            /* 리뷰 너비 최소 크기 */
+    background-color: #fff;      /* 배경 색 */
+    padding: 20px;               /* 안쪽 여백 */
+    border: 1px solid #ddd;      /* 테두리 */
+    border-radius: 8px;          /* 둥근 모서리 */
+    box-sizing: border-box;      /* 패딩, 테두리 포함해서 크기 계산 */
+    flex-shrink: 0;              /* 리뷰가 줄어들지 않도록 설정 */
+}
+
+.review h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.review p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.review span {
+    font-size: 14px;
+    color: #888;
+}
+
+/* 스크롤바 스타일 */
+.reviews-container::-webkit-scrollbar {
+    height: 8px;                 /* 세로 스크롤바 높이 */
+}
+
+.reviews-container::-webkit-scrollbar-thumb {
+    background: #888;            /* 스크롤바의 색상 */
+    border-radius: 10px;          /* 스크롤바 둥근 모서리 */
+}
+
+.reviews-container::-webkit-scrollbar-thumb:hover {
+    background: #555;            /* 스크롤바를 올렸을 때 색상 */
+}
+
+.reviews-container::-webkit-scrollbar-track {
+    background: #f1f1f1;         /* 스크롤바 트랙 색상 */
+}
+
+</style>
+
+
+</head>
+<nav class="flex-nav">
+  <div class="container">
+    <div class="grid menu">
+      <div class="column-xs-8 column-md-6">
+        <p id="highlight">[[${dto.goodsDTO.category}]]</p>
+      </div>
+      <div class="column-xs-4 column-md-6">
+        <a href="#" class="toggle-nav">Menu <i class="ion-navicon-round"></i></a>
+        <ul>
+          <li class="nav-item"><a href="#">Cart (0)</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<main>
+  <div class="container">
+    <div class="grid second-nav">
+      <div class="column-xs-12">
+        <nav>
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript:window.history.back()">back</a></li>
+            
+            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a onclick="goodsUpdate(this)" th:data-goods-num="${dto.goodsDTO.goodsNum}">[[${dto.goodsDTO.goodsNum}]] update</a></li>
+         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a onclick="goodsDelete(this)" th:data-goods-num="${dto.goodsDTO.goodsNum}">[[${dto.goodsDTO.goodsNum}]] delete</a></li>
+         		
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="grid product">
+      <div class="column-xs-12 column-md-7">
+        <div class="product-gallery">
+          <div class="product-image">
+            <img class="active" th:src="|/static/images/${dto.goodsDTO.goodsMainStoreImage}|">
+          </div>
+          <ul class="image-list">
+          <th:block th:each="image : ${#strings.arraySplit(dto.goodsDTO.goodsDetailStoreImage,'[`/]')}">
+				<li class="image-item"><img th:src="|/static/images/${image}|"></li>
+		 </th:block>
+          </ul>
+        </div>
+      </div>
+      <div class="column-xs-12 column-md-5">
+        <h1>[[${dto.goodsDTO.artistName}]] - [[${dto.goodsDTO.goodsName}]]</h1>
+        <h5>[[${dto.goodsDTO.goodsContents}]]</h5>
+        <h5>판매가  <span id="goodsPrice">[[${dto.goodsDTO.goodsPrice}]]</span></h5>
+        <h5>조회수 [[${dto.goodsDTO.visitCount}]]</h5>
+        <div class="description">
+      	<h5>수량 <input type="number" name="cartQty" id="cartQty" min="1" value="1" style="width:45px;"> 개</h5>
+      	<h5>총 금액  <span id="totalPrice">[[${dto.goodsDTO.goodsPrice}]]</span>원</h5>
+        <span th:if="${session.auth != null and session.auth.grade == 'emp'}" >
+        <h5>등록한 직원 [[${dto.goodsDTO.registEmpNum}]]</h5>
+        <h5>등록일 [[${#dates.format(dto.goodsDTO.goodsRegistDate,'yyyy-MM-dd')}]]</h5>
+        <h5>수정한 직원 [[${dto.goodsDTO.updateEmpNum}]]</h5>
+        <h5>수정한 날짜 [[${#dates.format(dto.goodsDTO.goodsUpdateDate,'yyyy-MM-dd')}]]</h5>
+        </span>
+        </div>
+        <button class="add-to-cart" th:data-goods-num="${dto.goodsDTO.goodsNum}" onclick="addCart(this)">Add To Cart</button>
+        <button class="add-to-cart" th:data-goods-num="${dto.goodsDTO.goodsNum}" onclick="buyNow(this)">Pay</button> <br><br><br><br><br><br><br>
+         <button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>
+       
+      </div>
+
+       </div>
+     <div class="reviews-container" id="reviews" style="display: none"  align="center">
+	    <div class="review" th:each="reviewDTO : ${reviewList}" align="center">    	 
+	    	<span th:if="${reviewDTO.rating == 1}">별점: ★☆☆☆☆</span>
+	    	<span th:if="${reviewDTO.rating == 2}">별점: ★★☆☆☆</span>
+	    	<span th:if="${reviewDTO.rating == 3}">별점: ★★★☆☆</span>
+	    	<span th:if="${reviewDTO.rating == 4}">별점: ★★★★☆</span>
+	    	<span th:if="${reviewDTO.rating == 5}">별점: ★★★★★</span>
+	        <h3>[[${reviewDTO.reviewSubject}]]</h3>
+	        <p>[[${reviewDTO.reviewContents}]]</p>
+	       
+	    </div>  
+	</div>
+      
+    <!-- 같은 카테고리에 있는 상품  -->
+    <div class="column-xs-12">
+	  <h3>Products in the same category</h3>
+	</div>
+	
+	<table align="center">
+	  <tr align="center">
+	    <td th:each="goodsDTO : ${goodsList}">
+	      <img th:src="|/static/images/${goodsDTO.goodsMainStoreImage}|" alt="Product Image" style="width: 200px;height:200px; margin :30px;">
+	      <h4>[[${goodsDTO.goodsName}]]</h4>
+	      <p class="price">[[${#numbers.formatCurrency(goodsDTO.goodsPrice)}]]</p>
+	    </td>
+	  </tr>
+	</table>
+</main>
+<footer>
+  <div class="grid">
+    <div class="column-xs-12">
+      <p class="copyright">&copy; Copyright 2018 <a href="https://katherinekato.com" title="Katherine Kato"  target="_blank">Katherine Kato</a></p>
+    </div>
+  </div>
+</footer>

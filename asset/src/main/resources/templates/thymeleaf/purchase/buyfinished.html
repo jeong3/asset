@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>결제 완료</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            margin: 50px auto;
+            max-width: 600px;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333333;
+        }
+        .summary {
+            text-align: left;
+            margin: 20px 0;
+        }
+        .summary h3 {
+            font-size: 18px;
+            color: #555555;
+        }
+        .summary p {
+            margin: 5px 0;
+            color: #777777;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #ffffff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            text-decoration: none;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaaaaa;
+        }
+    </style>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script type="text/javascript">
+function memPurchaseList(){
+	$.ajax({
+		type:"get",
+		url:"/purchase/myPurchase",
+		dataType: "html",  // 응답을 HTML 형식으로 처리
+        success: function(result) {
+			$("#content").html(result);
+        },
+        error: function() {
+            alert("주문정보를 불러오는데 실패했습니다.");
+        }
+	});
+}	
+</script>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✔️</div>
+        <h1>결제가 성공적으로 완료되었습니다!</h1>
+        <div class="summary">
+            <h3>결제 요약</h3>
+            <p><strong>주문 번호:</strong> [[${purchaseNum}]]</p>
+            <p><strong>결제 금액:</strong> [[${totalprice}]]원</p>
+            <span th:if="${confirmnumber == null}">
+            <p><strong>결제 방식:</strong> 카드</p>
+            </span>
+            <span th:if="${confirmnumber != null}">
+            <p><strong>결제 방식:</strong> 카드</p>
+            </span>
+        </div>
+        <div class="button-container">
+            <a href="/" class="button">메인 페이지로 이동</a>
+            <a onclick="memPurchaseList()" class="button" style="background-color: #28a745;">주문 내역 확인</a>
+        </div>
+    </div>
+    <footer>
+        감사합니다! 또 이용해주세요.
+    </footer>
+</body>
+</html>

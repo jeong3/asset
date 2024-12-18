@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰 작성</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 별점 시스템을 위한 간단한 JS
+        $(document).ready(function () {
+            $('#reviewRating input').on('change', function () {
+                let ratingValue = $("input[name='rating']:checked").val();
+                console.log("선택된 별점: " + ratingValue);
+            });
+        });
+        
+        $(document).ready(function() {
+            $("#reviewUpdateForm").submit(function(event) {
+                event.preventDefault(); // 기본 폼 제출을 방지
+
+                var formData ={
+                        purchaseNum: $("#purchaseNum").val(),
+                        goodsNum: $("#goodsNum").val(),
+                        reviewSubject: $("#reviewSubject").val(),
+                        reviewContents: $("#reviewContents").val(),
+                        rating: $("input[name='rating']:checked").val()
+                    };
+                $.ajax({
+                    url: "/reviews/reviewUpdate",  // 실제 URL로 변경
+                    type: "POST",
+                    contentType: "application/json; charset=UTF-8",
+                    data: JSON.stringify(formData),
+                    success: function(result) {
+                    	if(result == 200){
+                    		alert("리뷰가 성공적으로 등록되었습니다.");
+                            window.close();
+                    	}
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        alert("리뷰 등록에 실패했습니다. 다시 시도해 주세요.");
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div class="review-form-container">
+        <h2>리뷰 수정</h2>
+		
+	
+	        <form id="reviewUpdateForm">
+	            <!-- 구매 번호와 상품 번호 (hidden 필드로 처리) -->
+	            <input type="hidden" name="purchaseNum" id="purchaseNum" th:value="${dto.purchaseNum}">
+	            <input type="hidden" name="goodsNum" id="goodsNum" th:value="${dto.goodsNum}">
+			  	
+	            <div class="form-group">
+	                <label for="reviewSubject">리뷰 제목</label>
+	                <input type="text" id="reviewSubject" name="reviewSubject" th:value="${dto.reviewSubject}" required>
+	            </div>
+	
+	            <div class="form-group">
+	                <label for="reviewContents">리뷰 내용</label>
+	                <textarea id="reviewContents" name="reviewContents" rows="5" required>[[${dto.reviewContents}]]</textarea>
+	            </div>
+				 <div class="form-group">
+				    <label for="reviewRating">별점</label>
+				    <div id="reviewRating" class="star-rating" align="center">
+				        <!-- 별점 순서와 값 반대로 수정 -->
+				        <input type="radio" name="rating" value="5" id="star5" th:checked="${dto.rating == 5}"><label for="star5">★</label>
+				        <input type="radio" name="rating" value="4" id="star4" th:checked="${dto.rating == 4}"><label for="star4">★</label>
+				        <input type="radio" name="rating" value="3" id="star3" th:checked="${dto.rating == 3}"><label for="star3">★</label>
+				        <input type="radio" name="rating" value="2" id="star2" th:checked="${dto.rating == 2}"><label for="star2">★</label>
+				        <input type="radio" name="rating" value="1" id="star1" th:checked="${dto.rating == 1}"><label for="star1">★</label>
+				    </div>
+				</div>
+	
+	            <div class="form-group">
+	                <button type="submit" >리뷰 등록</button>
+	            </div>
+	           
+	       	</form>
+	     </div>
+	           
+	
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .review-form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+         .star-rating {
+	         display: flex; /* Flexbox로 별을 가로로 나열 */
+        flex-direction: row-reverse; /* 오른쪽에서 왼쪽으로 나열 */
+        justify-content: flex-start; /* 왼쪽 정렬 */
+        max-width: 250px; /* 최대 너비 설정 */
+	    }
+	
+	    .star-rating input[type="radio"] {
+	        display: none; /* 라디오 버튼은 숨기고 레이블만 보이게 */
+	    }
+	
+	    .star-rating label {
+	        font-size: 50px; /* 별 크기 */
+	        color: #ccc; /* 기본 색상 */
+	        cursor: pointer;
+	        transition: color 0.2s ease; /* 마우스를 올렸을 때 색 변화 */
+	    }
+	
+	    .star-rating input[type="radio"]:checked ~ label,
+	    .star-rating label:hover,
+	    .star-rating label:hover ~ label {
+	        color: gold; /* 체크된 별과 마우스를 올린 별은 금색으로 변경 */
+	    }
+	    
+	    .star-rating input[type="radio"]:checked {
+	        color: gold; /* 선택된 별의 색을 gold로 */
+	    }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</body>
+</html>

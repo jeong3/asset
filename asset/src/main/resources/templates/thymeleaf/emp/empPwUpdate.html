@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script type="text/javascript">
+	function updatePassword(event) {
+		event.preventDefault();
+		var empPw = document.getElementById("empPw").value;
+		var empPwCon = document.getElementById("empPwCon").value;
+
+		var updatePw = document.getElementById("updatePw").value;
+		var empNum = document.getElementById("empNum").value;
+
+		if (!empPw || !updatePw) {
+			alert("모든 필드를 입력해주세요.");
+			return false;
+		}
+		if (confirm("정말 변경하시겠습니까?")) {
+			$.ajax({
+				type : "POST",
+				url : "/emp/empPwUpdate",
+				data : {
+					"updatePw" : updatePw,
+					"empNum" : empNum,
+					"empPw" : empPw,
+					"empPwCon" :empPwCon
+					},
+				success : function(response) {
+					if (response === "success") {
+						window.close(); // "예" 선택 시 팝업 창 닫기
+					} else {
+						alert("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+					}
+				},
+				error : function() {
+					alert("서버 오류가 발생했습니다.");
+				}
+			});
+		} else {
+			// 사용자가 "아니요"를 선택하면 아무 작업도 하지 않음
+			alert("비밀번호 변경이 취소되었습니다.");
+		}
+	}
+	
+</script>
+</head>
+<body>
+	<form action="empPwUpdate" method="post" onsubmit="return updatePassword(event);">
+		<input type="hidden" name="empPwCon" id="empPwCon" th:value="${empCommand.empPw}"> 
+		<input type="hidden" name="empNum" id="empNum" th:value="${empCommand.empNum}">
+		<table border="1">
+			<tr class="w3-bar">
+				<th>현재 비밀번호</th>
+				<th>
+					<div class="w3-bar-item">
+						<input type="password" name="empPw" id="empPw" />
+					</div>
+				</th>
+			</tr>
+			<tr class="w3-bar">
+				<th>변경 비밀번호</th>
+				<td>
+					<div class="w3-bar-item">
+						<input type="password" name="updatePw" id="updatePw" />
+					</div>
+				</td>
+			</tr>
+			<tr class="w3-bar">
+				<th colspan="2"><input type="submit" value="비밀번호 변경"></th>
+			</tr>
+		</table>
+	</form>
+
+
+</body>
+</html>

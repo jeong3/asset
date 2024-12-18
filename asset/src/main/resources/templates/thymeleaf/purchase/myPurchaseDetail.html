@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>송장번호 입력</title>
+<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script>
+	const formatter = new Intl.NumberFormat('ko-KR', {
+		style : 'currency',
+		currency : 'KRW'
+	});
+	function deliveryNumRegist() {
+		var purchaseNum = $("#purchaseNum").text();
+		var deliveryNum = $("#deliveryNum").val();
+		if (deliveryNum === "") {
+			$("#feedback").textContent = "송장 번호를 입력해 주세요.";
+			$("#feedback").style.color = "red";
+		} else {
+			$.ajax({
+				type : "post",
+				url : "/purchase/deliveryRegist",
+				data :JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
+					"purchaseNum" : purchaseNum, "deliveryNum":deliveryNum
+			       }),
+			    contentType: "application/json; charset=UTF-8",
+				dataType : "json",
+				success : function(result) {
+					if (window.opener && !window.opener.closed) {
+					    // 부모 창에 reloadList 함수가 존재하는지 확인
+					    if (typeof window.opener.empPurchaseList === "function") {
+					        window.opener.empPurchaseList(); // 부모 창의 empPurchaseList() 실행
+					    }
+					}
+					// 팝업창 닫기
+					window.close();
+				},
+				error : function() {
+					alert("송장페이지 이동을 실패하였습니다.");
+				}
+			});
+		}
+	}
+</script>
+
+<style>
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+}
+
+.container {
+	width: 80%;
+	margin: 20px auto;
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	text-align: center;
+	color: #4CAF50;
+}
+
+.order-info, .delivery-info, .payment-info {
+	margin-bottom: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th {
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+td {
+	padding: 10px;
+	border: 1px solid #ddd;
+	width: 300px;
+}
+
+th {
+	background-color: #f2f2f2;
+}
+
+.button {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.button:hover {
+	background-color: #45a049;
+}
+
+.feedback {
+	text-align: center;
+	margin-top: 20px;
+	font-size: 18px;
+	color: #555;
+}
+
+.link {
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.link a {
+	color: #4CAF50;
+	text-decoration: none;
+	font-size: 16px;
+}
+
+.link a:hover {
+	text-decoration: underline;
+}
+</style>
+</head>
+<body>
+	<div class="container" >
+		<h1>purchaseDetail</h1>
+		<p align="center">주문정보확인</p>
+		<hr>
+		<!-- 주문 정보 -->
+		<div class="order-info">
+			<h2>주문 정보</h2>
+			<table>
+				<tr>
+					<th>주문 번호</th>
+					<td colspan="3"><span id="purchaseNum">[[${list[0].purchaseDTO.purchaseNum}]]</span></td>
+
+				</tr>
+				<tr>
+					<th>주문 날짜</th>
+					<td colspan="3">[[${#dates.format(list[0].purchaseDTO.purchaseDate,'yyyy.MM.dd')}]]</td>
+				</tr>
+				<tr>
+					<th>주문 상품</th>
+					<td colspan="3">[[${list[0].purchaseDTO.purchaseName}]]</td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- 배송지 정보 -->
+		<div class="delivery-info">
+			<h2>배송지 정보</h2>
+			<table>
+				<tr>
+					<th>받는 사람</th>
+					<td colspan="3">[[${list[0].purchaseDTO.deliveryName}]]</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td colspan="3">[[${list[0].purchaseDTO.deliveryAddr}]]</td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td colspan="3">[[${list[0].purchaseDTO.deliveryPhone}]]</td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- 결제 정보 -->
+		<div class="payment-info">
+			<h2>결제 정보</h2>
+			<table>
+				<tr>
+					<th>결제 금액</th>
+					<td>[[${#numbers.formatCurrency(list[0].paymentDTO.totalprice)}]]</td>
+				</tr>
+				<tr>
+					<th>결제 방법</th>
+					<td><span th:if="${list[0].paymentDTO.confirmnumber == null}">현금</span>
+						<span th:if="${list[0].paymentDTO.confirmnumber != null}">신용카드</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	
+		
+
+		<button type="button" class="button" onclick="window.close()">닫기</button>
+
+		
+	</div>
+
+
+</body>
+</html>

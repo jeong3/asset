@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 상세 보기</title>
+    <style>
+        .goods-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* 화면의 높이를 기준으로 중앙 정렬 */
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .goods-image {
+            width: 300px; /* 이미지 크기 조절 */
+            height: 300px;
+            object-fit: cover; /* 이미지 비율 유지 */
+            border-radius: 10px; /* 모서리 둥글게 */
+            margin-bottom: 20px; /* 이미지와 텍스트 간격 */
+        }
+
+        .goods-details {
+            margin-bottom: 20px;
+        }
+
+        .goods-details p {
+            margin: 5px 0; /* 각 텍스트 간격 조정 */
+        }
+
+        .select-button {
+            padding: 10px 20px;
+            background-color: #007bff; /* 파란색 버튼 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .select-button:hover {
+            background-color: #0056b3; /* 호버 시 더 진한 색 */
+        }
+    </style>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function selectgoods(element) {
+            var goodsNum = $(element).data("goodsNum");
+            var purchaseNum = $("#purchaseNum").val();
+          location.href="/reviews/reviewRegist?purchaseNum="+purchaseNum+"&goodsNum="+goodsNum;
+            
+        }
+    </script>
+</head>
+<body>
+<h2 align="center">리뷰할 상품을 선택해주세요!</h2>
+<hr>
+    <div class="goods-container" th:each="dto : ${list}">
+        <!-- 메인 이미지 -->
+        <img th:src="|/static/images/${dto.goodsMainStoreImage}|" alt="상품 이미지" class="goods-image">
+
+        <!-- 상품 세부 정보 -->
+        <div class="goods-details">
+            <p>상품 번호: <span id="goodsNum">[[${dto.goodsNum}]]</span></p>
+            <p>상품 이름: <span id="goodsName">[[${dto.goodsName}]]</span></p>
+            <p>상품 가격: <span id="goodsPrice">[[${dto.goodsPrice}]]</span></p>
+        </div>
+[[${purchaseNum}]]
+<input type="hidden" id="purchaseNum" th:value="${purchaseNum}">
+        <!-- 선택 버튼 -->
+        <button class="select-button" th:data-goods-num="${dto.goodsNum}"  onclick="selectgoods(this)">선택</button>
+    </div>
+   
+</body>
+</html>

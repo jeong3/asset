@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>문의 리스트</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<style>
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 20px;
+}
+
+.container {
+	max-width: 800px;
+	margin: 0 auto;
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+	text-align: center;
+	color: #333;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 12px;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+}
+
+th {
+	background-color: gray;
+	color: #fff;
+}
+
+tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+tr:hover {
+	background-color: #f1f1f1;
+}
+
+.status {
+	font-weight: bold;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.pending {
+	background-color: #ffc107;
+	color: #fff;
+}
+
+.completed {
+	background-color: #28a745;
+	color: #fff;
+}
+
+.buttons button {
+	padding: 6px 12px;
+	margin: 2px;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.update-btn {
+	background-color: #17a2b8;
+}
+
+.delete-btn {
+	background-color: #dc3545;
+}
+
+.answer-btn {
+	background-color: #6c757d;
+}
+
+.inquire-btn {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #007BFF;
+	color: white;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.answer {
+	display: none;
+	padding: 10px;
+	background-color: #e9ecef;
+	border-left: 4px solid #28a745;
+	margin-top: 10px;
+	border-radius: 5px;
+	text-align: left;
+}
+</style>
+<script type="text/javascript">
+	function inquireUpdate(inquireNum) {
+		window.open("/inquire/inquireUpdate?inquireNum=" + inquireNum, "",
+				"width=700, height=650, top=100, left=100");
+	}
+
+	function inquireDelete(inquireNum) {
+		alert(inquireNum);
+		$.ajax({
+			type : "POST",
+			url : "/inquire/inquireDelete",
+			data : {
+				"inquireNum" : inquireNum
+			},
+			success : function() {
+				inquire();
+			}
+		});
+	}
+
+	function contentsOpen(id) {
+		$("." + id).slideToggle();
+	}
+
+	function answerUpdate() {
+		var inquireNum = $("#inquireNum").val();
+		var inquireAnswer = $("#inquireAnswer").val();
+		var formData = JSON.stringify({
+			"inquireNum" : inquireNum,
+			"inquireAnswer" : inquireAnswer
+		});
+		$.ajax({
+			type : "POST",
+			url : "/inquire/inquireAnswer",
+			contentType : "application/json",
+			data : formData,
+			dataType : "html",
+			success : function(result) {
+
+			},
+			error : function() {
+				alert("서버 오류");
+			},
+			complete : InquireListEmp
+		});
+	}
+</script>
+</head>
+<body>
+	<div class="container">
+		<h2>InquiryList</h2>
+		<hr>
+
+		<table>
+			<tr>
+				<th width="15%">답변 상태</th>
+				<th>작성자</th>
+				<th>제목 및 내용</th>
+				<th>관리</th>
+			</tr>
+
+			<!-- 예제 문의 항목 -->
+
+			<th:block th:each="dto : ${list}">
+				<input type="hidden" name="inquireNum" id="inquireNum"
+					th:value="${dto.inquireNum}">
+				<tr>
+					<td><span class="status pending"
+						th:if="${dto.inquireAnswerDate == null}">검토</span> <span
+						class="status completed" th:if="${dto.inquireAnswerDate != null}">답변완료</span>
+					</td>
+					<td>[[${#dates.format(dto.inquireDate,'yyyy-MM-dd')}]] /
+						[[${dto.memberNum}]]</td>
+					<td>[[${dto.inquireSubject}]] / [[${dto.inquireContents}]]</td>
+					<td class="buttons">
+						<button class="delete-btn" onclick="inquireDelete()">삭제</button>
+						<button class="answer-btn" onclick="contentsOpen('inq_1')">답변
+							확인</button>
+					</td>
+				</tr>
+				<tr class="answer inq_1">
+					<th:block th:if="${dto.inquireAnswerDate == null}">
+						<td colspan="3"><textarea cols="50" rows="2"
+								name=inquireAnswer id="inquireAnswer"></textarea></td>
+
+						<td class="buttons">
+							<button class="answer-btn" onclick="answerUpdate()">답변등록</button>
+						</td>
+					</th:block>
+					<th:block th:if="${dto.inquireAnswerDate != null}">
+						<td colspan="4"><strong>답변일:</strong> [[${#dates.format(dto.inquireAnswerDate,'yyyy.MM.dd')}]]<br>
+							<strong>답변자:</strong> [[${dto.empNum}]]<br>
+							[[${dto.inquireAnswer}]]</td>
+					</th:block>
+
+				</tr>
+			</th:block>
+
+
+		</table>
+	</div>
+</body>
+</html>

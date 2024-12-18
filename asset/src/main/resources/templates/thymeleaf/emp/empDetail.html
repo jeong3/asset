@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Employee Detail</title>
+<script type="text/javascript">
+  function empPwUpdate(empNum) {
+    window.open("/emp/empPwUpdate?empNum=" + empNum, "empPwUpdate", "width=500,height=400,left=100,top=100");
+  }
+</script>
+</head>
+<body>
+  <div align="center">
+    <h2>Employee Detail</h2>
+    <p>[[${empCommand.empName}]]님의 상세정보입니다.</p>
+    <a href="/emp/empUpdate?empNum=${empCommand.empNum}">정보수정</a> |
+    <a href="#" onclick="empPwUpdate('${empCommand.empNum}')" style="text-decoration: underline;">비밀번호변경</a> |
+    <a href="#" onclick="deleteEmp('${empCommand.empNum}')" style="text-decoration: underline;">삭제</a>
+    <hr />
+
+    <table border="1" cellpadding="5" cellspacing="0" style="width: 70%; text-align: left;">
+      <tr>
+        <th>번호 :</th>
+        <td>[[${empCommand.empNum}]]</td>
+      </tr>
+      <tr>
+        <th>이름 :</th>
+        <td>[[${empCommand.empName}]]</td>
+      </tr>
+      <tr>
+        <th>아이디 :</th>
+        <td>[[${empCommand.empId}]]</td>
+      </tr>
+      <tr>
+        <th>주소 :</th>
+        <td>[[${empCommand.empAddr}]]</td>
+      </tr>
+      <tr>
+        <th>상세주소 :</th>
+        <td>[[${empCommand.empAddrDetail}]]</td>
+      </tr>
+      <tr>
+        <th>우편번호 :</th>
+        <td>[[${empCommand.empPost}]]</td>
+      </tr>
+      <tr>
+        <th>입사일 :</th>
+        <td>[[${#dates.format(empCommand.empHireDate, 'yyyy-MM-dd')}]]</td>
+      </tr>
+      <tr>
+        <th>연락처 :</th>
+        <td>[[${empCommand.empPhone}]]</td>
+      </tr>
+      <tr>
+        <th>이메일 :</th>
+        <td>[[${empCommand.empEmail}]]</td>
+      </tr>
+      <tr>
+        <th>주민등록번호 :</th>
+        <td>[[${empCommand.empJumin}]]</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
