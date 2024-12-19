@@ -27,8 +27,8 @@ h1 {letter-spacing: 6px}
 		<div class="w3-col l3 s6">
 			<div class="w3-container">
 				<div class="w3-display-container">
-					<img height= "200px", width= "200px"
-						th:src="|/static/images/${dto.mainStoreImage}|" style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)"> <span
+					<a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}"><img height= "200px", width= "200px"
+						th:src="|/static/images/${dto.mainStoreImage}|" style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)"></a> <span
 						class="w3-tag w3-display-topleft">New</span>
 					<div class="w3-display-middle w3-display-hover">
 						<button class="w3-button w3-black">

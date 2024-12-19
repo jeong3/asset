@@ -27,4 +27,32 @@ values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
 <select id="goodsAllSelect" resultType="goodsDTO" parameterType="String">
 select * from goods where goods_Kind = #{goodsKind}
 </select>
+
+<select id="goodsSelectOne" parameterType="String" resultType="goodsDTO">
+select * from goods where goods_num = #{goodsNum}
+</select>
+
+<update id="goodsUpdate" parameterType="goodsDTO"> 
+update goods
+<trim prefix="set" suffixOverrides=",">
+	 GOODS_NAME = #{goodsName}, GOODS_PRICE = #{goodsPrice}
+	,GOODS_CONTENTs = #{goodsContents}
+	,GOODS_KIND = #{goodsKind, jdbcType=VARCHAR}
+    <if test="mainImage != null">
+    ,MAIN_IMAGE = #{mainImage}
+    ,MAIN_STORE_IMAGE = #{mainStoreImage}
+    </if>
+    <if test="detailImage != null ">
+    ,DETAIL_IMAGE = #{detailImage}
+    ,DETAIL_STORE_IMAGE = #{detailStoreImage}
+    </if>
+</trim>
+where goods_num = #{goodsNum}
+</update>
+
+<delete id="goodsDelete" parameterType="string">
+delete from goods
+where goods_num = #{goodsNum}
+</delete>
+
 </mapper>

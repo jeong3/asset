@@ -100,7 +100,7 @@ document.getElementById("toggleReviewsBtn").addEventListener("click", function()
   <div class="container">
     <div class="grid menu">
       <div class="column-xs-8 column-md-6">
-        <p id="highlight">[[${dto.goodsDTO.category}]]</p>
+        <p id="highlight"></p>
       </div>
       <div class="column-xs-4 column-md-6">
         <a href="#" class="toggle-nav">Menu <i class="ion-navicon-round"></i></a>
@@ -120,8 +120,8 @@ document.getElementById("toggleReviewsBtn").addEventListener("click", function()
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="javascript:window.history.back()">back</a></li>
             
-            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a onclick="goodsUpdate(this)" th:data-goods-num="${dto.goodsDTO.goodsNum}">[[${dto.goodsDTO.goodsNum}]] update</a></li>
-         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a onclick="goodsDelete(this)" th:data-goods-num="${dto.goodsDTO.goodsNum}">[[${dto.goodsDTO.goodsNum}]] delete</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsNum})}">update</a></li>
+         	<li class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsNum})}">delete</a></li>
          		
           </ol>
         </nav>
@@ -131,61 +131,47 @@ document.getElementById("toggleReviewsBtn").addEventListener("click", function()
       <div class="column-xs-12 column-md-7">
         <div class="product-gallery">
           <div class="product-image">
-            <img class="active" th:src="|/static/images/${dto.goodsDTO.goodsMainStoreImage}|">
+            <img class="active" th:src="|/static/images/${dto.mainStoreImage}|">
           </div>
           <ul class="image-list">
-          <th:block th:each="image : ${#strings.arraySplit(dto.goodsDTO.goodsDetailStoreImage,'[`/]')}">
+          <th:block th:each="image : ${#strings.arraySplit(dto.detailStoreImage,'[`/]')}">
 				<li class="image-item"><img th:src="|/static/images/${image}|"></li>
 		 </th:block>
           </ul>
         </div>
       </div>
       <div class="column-xs-12 column-md-5">
-        <h1>[[${dto.goodsDTO.artistName}]] - [[${dto.goodsDTO.goodsName}]]</h1>
-        <h5>[[${dto.goodsDTO.goodsContents}]]</h5>
-        <h5>판매가  <span id="goodsPrice">[[${dto.goodsDTO.goodsPrice}]]</span></h5>
-        <h5>조회수 [[${dto.goodsDTO.visitCount}]]</h5>
+        <h1>상품명</h1>
+        <h5>상품내용</h5>
+        <h5>판매가  <span id="goodsPrice">[[${dto.goodsPrice}]]</span></h5>
         <div class="description">
-      	<h5>수량 <input type="number" name="cartQty" id="cartQty" min="1" value="1" style="width:45px;"> 개</h5>
-      	<h5>총 금액  <span id="totalPrice">[[${dto.goodsDTO.goodsPrice}]]</span>원</h5>
         <span th:if="${session.auth != null and session.auth.grade == 'emp'}" >
-        <h5>등록한 직원 [[${dto.goodsDTO.registEmpNum}]]</h5>
-        <h5>등록일 [[${#dates.format(dto.goodsDTO.goodsRegistDate,'yyyy-MM-dd')}]]</h5>
-        <h5>수정한 직원 [[${dto.goodsDTO.updateEmpNum}]]</h5>
-        <h5>수정한 날짜 [[${#dates.format(dto.goodsDTO.goodsUpdateDate,'yyyy-MM-dd')}]]</h5>
         </span>
         </div>
-        <button class="add-to-cart" th:data-goods-num="${dto.goodsDTO.goodsNum}" onclick="addCart(this)">Add To Cart</button>
-        <button class="add-to-cart" th:data-goods-num="${dto.goodsDTO.goodsNum}" onclick="buyNow(this)">Pay</button> <br><br><br><br><br><br><br>
+        <button class="add-to-cart" onclick="addCart(this)">Add To Cart</button>
+        <button class="add-to-cart"  onclick="buyNow(this)">Pay</button> <br><br><br><br><br><br><br>
          <button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>
        
       </div>
 
-       </div>
+       </div> 
      <div class="reviews-container" id="reviews" style="display: none"  align="center">
 	    <div class="review" th:each="reviewDTO : ${reviewList}" align="center">    	 
-	    	<span th:if="${reviewDTO.rating == 1}">별점: ★☆☆☆☆</span>
-	    	<span th:if="${reviewDTO.rating == 2}">별점: ★★☆☆☆</span>
-	    	<span th:if="${reviewDTO.rating == 3}">별점: ★★★☆☆</span>
-	    	<span th:if="${reviewDTO.rating == 4}">별점: ★★★★☆</span>
-	    	<span th:if="${reviewDTO.rating == 5}">별점: ★★★★★</span>
-	        <h3>[[${reviewDTO.reviewSubject}]]</h3>
-	        <p>[[${reviewDTO.reviewContents}]]</p>
+	    	<span th:if=>별점: ★☆☆☆☆</span>
+	        <h3>리뷰제목</h3>
+	        <p>리뷰내용</p>
 	       
 	    </div>  
 	</div>
       
     <!-- 같은 카테고리에 있는 상품  -->
-    <div class="column-xs-12">
-	  <h3>Products in the same category</h3>
-	</div>
 	
 	<table align="center">
 	  <tr align="center">
 	    <td th:each="goodsDTO : ${goodsList}">
-	      <img th:src="|/static/images/${goodsDTO.goodsMainStoreImage}|" alt="Product Image" style="width: 200px;height:200px; margin :30px;">
-	      <h4>[[${goodsDTO.goodsName}]]</h4>
-	      <p class="price">[[${#numbers.formatCurrency(goodsDTO.goodsPrice)}]]</p>
+	      <img th:src="|/static/images/${dto.mainStoreImage}|" alt="Product Image" style="width: 200px;height:200px; margin :30px;">
+	      <h4>상품명</h4>
+	      <p class="price">[[${#numbers.formatCurrency(dto.goodsPrice)}]]</p>
 	    </td>
 	  </tr>
 	</table>

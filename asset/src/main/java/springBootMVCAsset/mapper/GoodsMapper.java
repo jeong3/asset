@@ -8,6 +8,9 @@ import springBootMVCAsset.domain.GoodsDTO;
 
 @Mapper
 public interface GoodsMapper {
-	public void goodsInsert(GoodsDTO dto);
+	public int goodsInsert(GoodsDTO dto);
 	public List<GoodsDTO> goodsAllSelect(String goodsKind);
+	public GoodsDTO goodsSelectOne(String goodsNum);
+	public int goodsUpdate(GoodsDTO dto);
+	public int goodsDelete(String goodsNum);
 }

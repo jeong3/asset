@@ -2,11 +2,85 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+function fileDel(btn, orgFile, storeFile, kind) {
 
+	$.ajax({
+		type: "post",
+		url: "/file/fileDel",
+		data: { "orgFile": orgFile, "storeFile": storeFile },
+		dataType: "text",
+		success: function(result) {
+			if (result == 1) {
+				$(btn).html("삭제취소");
+				if (kind == 'main') {
+					$("#main").css("display", "none");
+					$("#mainFile").html("<input type='file' name='mainImage'/>")
+				}
+				
+			} else {
+				$(btn).html("<span>삭제</span>");
+				if (kind == 'main') {
+					$("#main").css("display", "");
+					$("#mainFile").css("display", "none");
+				}
+			}
+
+		},
+		error: function() {
+			alert("서버오류");
+		}
+	});
+}
+</script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
 <body>
-	<form action="/goods/goodsUpdate" method="post" enctype="multipart/form-data">
+<div class="w3-content" style="max-width:1500px">
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+    </div>
+  </div>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+   	  <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
+    </div>
+  </div>
+ 
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+   	  <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
+	<form action="goodsUpdate" method="post" enctype="multipart/form-data">
 	
 		<div class="w3-container" align="center">
 			<h2>상품 수정</h2>
@@ -18,7 +92,7 @@
 					<th>상품번호</th>
 					<th>
 						<div class="w3-bar-item">
-							<input type="text" name="goodsNum" th:value="${dto.goodsDTO.goodsNum}" readonly="readonly" />
+							<input type="text" name="goodsNum" th:value="${dto.goodsNum}" readonly="readonly" />
 						</div>
 					</th>
 				</tr>
@@ -26,15 +100,7 @@
 					<th>상품명</th>
 					<th>
 						<div class="w3-bar-item">
-							<input type="text" name="goodsName" th:value="${dto.goodsDTO.goodsName}" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>아티스트명</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="text" name="artistName"  th:value="${dto.goodsDTO.artistName}"/>
+							<input type="text" name="goodsName" th:value="${dto.goodsName}" />
 						</div>
 					</th>
 				</tr>
@@ -42,7 +108,7 @@
 					<th>상품가격</th>
 					<th>
 						<div class="w3-bar-item">
-							<input type="number" name="goodsPrice" th:value="${dto.goodsDTO.goodsPrice}" />
+							<input type="number" name="goodsPrice" th:value="${dto.goodsPrice}" />
 						</div>
 					</th>
 				</tr>
@@ -50,35 +116,35 @@
 					<th>상품 설명</th>
 					<th>
 						<div class="w3-bar-item">
-							<textarea name="goodsContents">[[${dto.goodsDTO.goodsContents}]]</textarea>
+							<textarea name="goodsContents">[[${dto.goodsContents}]]</textarea>
 						</div>
 					</th>
 				</tr>
 				<tr class="w3-bar">
 					<th>메인이미지</th>
-					<th th:if="${dto.goodsDTO.goodsMainImage != null or dto.goodsDTO.goodsMainImage != ''}">
+					<th th:if="${dto.mainImage != null or dto.mainImage != ''}">
 						<div class="w3-bar-item" >
 						<br>
-							<span id="main">[[${dto.goodsDTO.goodsMainImage}]]</span> <br>
-							<span id="mainFile" />
-							<a type="button" th:attr="onclick=|javascript:fileDel(this, '${dto.goodsDTO.goodsMainImage}' ,'${dto.goodsDTO.goodsMainStoreImage}','main');|" ><span class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span></a>
+							<span id="mainFile">[[${dto.mainImage}]]</span>
+							<button type="button" th:attr="onclick=|javascript:fileDel(this, '${dto.mainImage}' ,'${dto.mainStoreImage}','main');|" ><span>삭제</button>
+							<span id="main"></span>
 						</div>
 					</th>
 				</tr>
 				<tr class="w3-bar" >
 					<th>상세이미지</th>
-					<th th:if="${dto.goodsDTO.goodsDetailImage != null or dto.goodsDTO.goodsDetailImage != ''}">
+					<th th:if="${dto.detailImage != null or dto.detailImage != ''}">
 					 
 						<div class="w3-bar-item" >
 						<br>
-							<div th:each="image, idx : ${#strings.arraySplit(dto.goodsDTO.goodsDetailImage,'[`/]')}" >
+							<div th:each="image, idx : ${#strings.arraySplit(dto.detailImage,'[`/]')}" >
 								[[${image}]] <br> 
-								<a type="button" th:attr="onclick=|javascript:fileDel(this, '${image}', '${#strings.arraySplit(dto.goodsDTO.goodsDetailStoreImage, '[`/]')[idx.index]}');|">
-									<span class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
-								</a>
+								<button type="button" th:attr="onclick=|javascript:fileDel(this, '${image}', '${#strings.arraySplit(dto.detailStoreImage, '[`/]')[idx.index]}');|">
+									<span>삭제</span>
+								</button>
 								<br>
 							</div>
-							<input type="file" name="goodsDetailImage" multiple="multiple" />	
+							<input type="file" name="detailImage" multiple="multiple" />	
 						</div>
 						
 					</th>
@@ -87,18 +153,16 @@
 					<th>카테고리</th>
 					<th>
 						<div class="w3-bar-item">
-							<select name="category">
-								<option value="KPOP" th:selected="${dto.goodsDTO.category == 'KPOP' or dto.goodsDTO.category == 'KP_'}">KPOP</option>
-								<option value="POP/ROCK" th:selected="${dto.goodsDTO.category == 'POP/ROCK' or dto.goodsDTO.category == 'P&R'}">POP/ROCK</option>
-								<option value="CLASSIC" th:selected="${dto.goodsDTO.category == 'CLASSIC' or dto.goodsDTO.category == 'CL_'}">CLASSIC</option>
-								<option value="LP" th:selected="${dto.goodsDTO.category == 'LP' or dto.goodsDTO.category == 'LP_'}">LP</option>
+							<select name="goodsKind">
+								<option value="강의">강의</option>
+								<option value="도서">도서</option>
 							</select>
 						</div>
 					</th>
 				</tr>
 				<tr class="w3-bar">
 					<th colspan="2">
-						<input type="submit" th:data-goods-num="${dto.goodsDTO.goodsNum}" onclick="goodsUpdateSubmit(this)" value="수정" />
+						<input type="submit"  value="수정" />
 						<input type="button" onclick="javascript:location.href='/'" value="수정취소">
 					</th>
 					
@@ -106,6 +170,6 @@
 			</table>
 		</div>
 	</form>
-
+</div> 
 </body>
 </html>

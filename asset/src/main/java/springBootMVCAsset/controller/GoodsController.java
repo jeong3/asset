@@ -7,12 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.GoodsCommand;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.goods.GoodsDeleteService;
+import springBootMVCAsset.service.goods.GoodsDetailService;
 import springBootMVCAsset.service.goods.GoodsListService;
 import springBootMVCAsset.service.goods.GoodsRegistService;
+import springBootMVCAsset.service.goods.GoodsUpdateService;
 
 @Controller
 @RequestMapping("goods")
@@ -23,6 +27,12 @@ public class GoodsController {
 	GoodsRegistService goodsRegistService;
 	@Autowired
 	GoodsListService goodsListService;
+	@Autowired
+	GoodsDetailService goodsDetailService;
+	@Autowired
+	GoodsUpdateService goodsUpdateService;
+	@Autowired
+	GoodsDeleteService goodsDeleteService;
 	@GetMapping("goodsRegist")
 	public String bookRegist(Model model) {
 		String autoNum = autoNumService.execute("goods_", "goods_num", 7, "goods");
@@ -40,5 +50,28 @@ public class GoodsController {
 	public String goodsList(@PathVariable String goodsKind, Model model) {
 		goodsListService.execute(goodsKind, model);
 		return "thymeleaf/goods/goodsList";
+	}
+	@GetMapping("goodsDetail")
+	public String goodsDetail(@RequestParam("goodsNum") String goodsNum
+			,Model model, HttpSession session) {
+		session.removeAttribute("fileList");
+		goodsDetailService.execute(goodsNum, model, session);
+		return "thymeleaf/goods/goodsDetail";
+	}
+	@GetMapping("goodsUpdate") 
+	public String goodsUpdate(@RequestParam("goodsNum") String goodsNum
+			,Model model, HttpSession session) {
+		goodsDetailService.execute(goodsNum, model, session);
+		return "thymeleaf/goods/goodsUpdate";
+	}
+	@PostMapping("goodsUpdate")
+	public String goodsUpdate(GoodsCommand goodsCommand, HttpSession session, Model model) {
+		goodsUpdateService.execute(goodsCommand, session, model);
+		return "redirect:goodsDetail?goodsNum=" + goodsCommand.getGoodsNum();
+	}
+	@RequestMapping("goodsDelete")
+	public String goodsDel(@RequestParam ("goodsNum") String goodsNum) {
+		goodsDeleteService.execute(goodsNum);
+		return "redirect:/"; //PathVariable인 경우에는 주소 앞에 .. 을 꼭해줘야 합니다.
 	}
 }
