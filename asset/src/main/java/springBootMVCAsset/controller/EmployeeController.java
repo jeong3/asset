@@ -45,7 +45,7 @@ public class EmployeeController {
 		if (!employeeCommand.isEmpPwEqualEmpPwCon()) {
 			// model.addAttribute("errPw", "비밀번호가 일치하지 않습니다.");
 			result.rejectValue("empPwCon", "employeeCommand.empPwCon", "비밀번호가 일치하지 않습니다.");
-			return "thymeleaf/emp/empRegist";
+			return "redirect:employeeList";
 		}
 		employeeRegistService.execute(employeeCommand);
 		return "thymeleaf/emp/empRegist";
