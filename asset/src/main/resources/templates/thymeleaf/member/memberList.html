@@ -2,33 +2,80 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<style>
+body,h1 {font-family: "Raleway", Arial, sans-serif}
+h1 {letter-spacing: 6px}
+.w3-row-padding img {margin-bottom: 12px}
+</style>
 <title>Member List</title>
 </head>
+
 <body>
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  
+ <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+    </div>
+  </div>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+    </div>
+  </div>
+ 
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
+   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+ <div class="w3-bar w3-theme-d2 w3-right-align"><button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button></div>
+ </div>
+ 
   <div align="center">
     <h2>Member List</h2>
-    <a href="/member/memberRegist">회원가입</a>
     <hr/>
-
+  <form action="membersDelete" method="post" id="frm">
     <table border="1" cellpadding="5" cellspacing="0" style="width: 80%; text-align: center;">
-      <thead>
         <tr>
-          
           <th>회원번호</th>
           <th>회원 이름</th>
           <th>삭제</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr th:each="dto : ${list}" th:data-member-num="${dto.memberNum}" onclick="myInfo(this)" style="cursor:pointer">
-          <td>[[${dto.memberNum}]]</td>
-          <td>[[${dto.memberName}]]</td>
-          <td>
-            <a href="#" th:attr="onclick=|deleteMember('${dto.memberNum}')|" style="text-decoration: none;">×</a>
-          </td>
-        </tr>
-      </tbody>
+	    <tr th:each="dto : ${list}" style="cursor:pointer">
+	       <td><a th:href="|memberDetail/${dto.memberNum}|">[[${dto.memberNum}]]</a></td>
+	       <td><a th:href="|memberDetail/${dto.memberNum}|">[[${dto.memberName}]]</td>
+	       <td>[[${#dates.format(dto.memberRegist, 'yyyy-MM-dd')}]]</td>
+	       <td>
+	         <button type="button" th:attr="onclick=|javascript:location.href='membersDelete?nums=${dto.memberNum}'|">삭제</button>
+	       </td>
+	    </tr>
     </table>
+  </form>
   </div>
 </body>
 </html>

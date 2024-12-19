@@ -46,6 +46,10 @@ public class MemberCommand {
 	@NotNull(message = "생년월일을 입력해주세요")
 	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	Date memberBirth;
+	
+	public boolean isMemberPwEqualmemberPwCon() { // false나 true 리턴 => is
+		return memberPw.equals(memberPwCon);
+	}
 
 	public String getMemberNum() {
 		return memberNum;
