@@ -6,14 +6,26 @@
 <sql id="BaseColums">
 		MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
 		,MEMBER_ADDR, MEMBER_ADDR_DETAIL, MEMBER_POST
-		,MEMBER_REGIST, GENDER, MEMBER_PHONE
+		,MEMBER_REGIST, MEMBER_GENDER, MEMBER_PHONE
 		,MEMBER_EMAIL, MEMBER_BIRTH
 </sql>
+
 <insert id="memberinsert" parameterType="memberDTO">
 insert into members (<include refid="BaseColums"/>)
 values(#{memberNum}, #{memberName}, #{memberId}
 	   ,#{memberPw}, #{memberAddr}, #{memberAddrDetail}
-	   ,#{memberPost}, sysdate, #{gender}
+	   ,#{memberPost}, sysdate, #{memberGender}
 	   ,#{memberPhone}, #{memberEmail}, #{memberBirth})
 </insert>
+
+<select id="memberList" parameterType="memberDTO">
+select <include refid="BaseColums"/>
+from members
+</select>
+
+<select id="memberDetail" parameterType="string" resultType="memberDTO">
+select <include refid="BaseColums"/>
+from members
+where MEMBER_NUM = #{memberNum}
+</select>
 </mapper>

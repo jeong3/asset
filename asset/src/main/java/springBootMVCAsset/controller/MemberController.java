@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import springBootMVCAsset.command.MemberCommand;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.member.MemberDetailService;
+import springBootMVCAsset.service.member.MemberListService;
 import springBootMVCAsset.service.member.MemberRegistService;
+import springBootMVCAsset.service.member.MemberUpdateService;
 
 @Controller
 @RequestMapping("member")
@@ -20,6 +23,12 @@ public class MemberController {
 	AutoNumService autoNumService;
 	@Autowired
 	MemberRegistService memberRegistService;
+	@Autowired
+	MemberListService memberListService;
+	@Autowired
+	MemberDetailService memberDetailService;
+	@Autowired
+	MemberUpdateService memberUpdateService;
 	
 	@GetMapping("memberRegist")
 	public String memberRegist(Model model) {
@@ -31,7 +40,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("memberRegist")
-	public String write(@Validated MemberCommand memberCommand
+	public String memberRegist(@Validated MemberCommand memberCommand
 			, BindingResult result) { // 오버로딩
 		if(result.hasErrors()) {
 			return "thymeleaf/member/memberRegist";
@@ -43,4 +52,22 @@ public class MemberController {
 		memberRegistService.execute(memberCommand);
 		return "redirect:memberList";
 	}
-}
+	
+	@GetMapping("memberList")
+	public String memberList(Model model) {
+		memberListService.execute(model);
+		return "thymeleaf/member/memberList";
+	}
+	
+	@GetMapping("memberDetail")
+	public String memberDetail(String memberNum, Model model) {
+		memberDetailService.execute(memberNum, model);
+		return "thymeleaf/member/memberDetail";
+	}
+	
+	@GetMapping("memberUpdate")
+	public String memberUpdate(String memberNum, Model model) {
+		memberDetailService.execute(memberNum, model);
+		return "thymeleaf/member/memberUpdate";
+	}
+} 

@@ -14,7 +14,7 @@ public class MemberDTO {
 	String memberAddrDetail;
 	String memberPost;
 	Date memberRegist;
-	String gender;
+	String memberGender;
 	String memberPhone;
 	String memberEmail;
 	Date memberBirth;
@@ -66,11 +66,11 @@ public class MemberDTO {
 	public void setMemberRegist(Date memberRegist) {
 		this.memberRegist = memberRegist;
 	}
-	public String getGender() {
-		return gender;
+	public String getMemberGender() {
+		return memberGender;
 	}
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setMemberGender(String memberGender) {
+		this.memberGender = memberGender;
 	}
 	public String getMemberPhone() {
 		return memberPhone;

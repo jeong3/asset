@@ -34,7 +34,8 @@ public class MemberCommand {
 	String memberPost;
 	
 	Date memberRegist;
-	String gender;
+	
+	String memberGender;
 	
 	@NotBlank(message = "연락처를 입력해주세요")
 	@Size(min = 11, max = 23)
@@ -123,12 +124,12 @@ public class MemberCommand {
 		this.memberRegist = memberRegist;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getmemberGender() {
+		return memberGender;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setmemberGender(String memberGender) {
+		this.memberGender = memberGender;
 	}
 
 	public String getMemberPhone() {

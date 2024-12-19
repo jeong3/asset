@@ -124,6 +124,7 @@ h1 {letter-spacing: 6px}
 		      <th>
 		        <div class="w3-bar-item">
 		          <input type="text" name="memberAddr" id="sample4_roadAddress"  readonly="readonly" th:value="${memberCommand.memberAddr}" onclick="execDaumPostcode();" />
+		          <button type="button" onclick="execDaumPostcode();" >우편번호검색</button><br/>
 		          <span style="color: red" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}"></span>
 		        </div>
 		      </th>
@@ -144,7 +145,7 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="text" name="memberPost" id="sample4_postcode"  th:value="${memberCommand.memberPost}"  readonly="readonly" />
+		          <input type="text" name="memberPost" id="sample4_postcode" th:value="${memberCommand.memberPost}"  readonly="readonly" />
 		        </div>
 		      </th>
 		    </tr>
