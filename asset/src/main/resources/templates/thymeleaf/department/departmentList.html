@@ -2,9 +2,197 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- css링크와 style가져오기 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+    font-family: "Raleway", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+.header {
+    text-align: center;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #ccc;
+}
+.header h1 {
+    color: #333;
+    font-size: 36px;
+}
+.department-info {
+text-align:center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 40px;
+}
+.department-info h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.department-info p {
+	
+    font-size: 18px;
+    line-height: 0.7;
+    color: #666;
+}
+.employee-list {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.employee-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.employee-list th, .employee-list td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.employee-list th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+.employee-list tr:hover {
+    background-color: #f1f1f1;
+}
+.action-btns {
+text-align: center;
+margin-top: 30px;
+}
+
+.action-btn {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #0056b3;
+}
+
+.action-btn:active {
+    background-color: #003d80;
+}
+
+ 
+</style>
 <title>Insert title here</title>
+
 </head>
 <body>
+<div class="w3-content" style="max-width:1500px">
+<!-- 상단 메뉴 -->
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+    </div>
+  </div>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+    </div>
+  </div>
+ 
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
+   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
 
+
+
+
+
+<div class="container">
+<br /><br /><br />
+<th:block th:each="dto : ${list}">
+
+    <!-- 부서 정보 -->
+    <div class="department-info">
+        <h2> [[${dto.departmentName}]]</h2>
+        <p><strong>부서장 :</strong> [[${dto.managerNum}]]</p>
+        <p><strong>부서전화번호 :</strong> [[${dto.departmentTel}]]</p>
+        <p><strong></strong> [[${dto.departmentContents}]]</p>
+    </div>
+    <div style="text-align: right"><a th:href="|/employee/departmentUpdate?departmentNum=${dto.departmentNum}|" class="action-btn" style="padding: 10px 20px;">부서정보수정</a></div>
+
+    <!-- 직원 목록 -->
+    <div class="employee-list">
+        <h3>[[${dto.departmentName}]] 직원 목록</h3>
+        <table>
+            <thead>
+                <tr>
+                 	<th>직원번호</th>
+                    <th>이름</th>
+                    <th>직무</th>
+                    <th>연락처</th>
+                    <th>이메일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="empDTO : ${dto.employeeDTO}">
+              	    <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empNum}]]</a> </td>
+                    <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empName}]]</a></td>
+                    <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.jobTitle}]]</a></td>
+                    <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empPhone}]]</a></td>
+                    <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empEmail}]]</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br /><br /><br />
+</th:block>
+    <!-- 버튼 영역 -->
+    <div class="action-btns">
+        <a href="/employee/departmentRegist"  class="action-btn">부서정보등록</a>
+        <a href="/employee/employeeRegist" class="action-btn">직원정보등록</a>
+    </div>
+</div>
+
+
+
+
+</div>
 </body>
 </html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>부서 등록</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+    }
+    .container {
+        width: 70%;
+        margin: 0 auto;
+        padding-top: 50px;
+    }
+    .header {
+        text-align: center;
+        padding-bottom: 30px;
+        border-bottom: 2px solid #ccc;
+    }
+    .header h1 {
+        color: #333;
+        font-size: 36px;
+    }
+    .form-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-bottom: 40px;
+    }
+    .form-container h2 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        font-size: 18px;
+        color: #333;
+        display: block;
+        margin-bottom: 8px;
+    }
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+    }
+    .form-group textarea {
+        resize: vertical;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+        border-color: #007BFF;
+        outline: none;
+    }
+    .action-btns {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.action-btn {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+    outline: none;
+}
+
+.action-btn:hover {
+    background-color: #0056b3;
+}
+
+.action-btn:active {
+    background-color: #003d80;
+}
+
+</style>
+</head>
+<body>
+<div class="w3-content" style="max-width:1500px">
+
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+    </div>
+  </div>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+    </div>
+  </div>
+ 
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
+   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
+<div class="container">
+    <div class="header">
+        <h1>부서 등록</h1>
+    </div>
+
+    <!-- 부서 등록 폼 -->
+    <form action="/employee/departmentUpdate" method="post">
+    <div class="form-container">
+        <h2>새 부서 등록</h2>
+        	<div class="form-group">
+                <label for="departmentNum" >부서번호</label>
+                <input type="text" id="departmentNum" name="departmentNum" th:value="${dto.departmentNum}" required placeholder="부서번호를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="departmentName">부서명</label>
+                <input type="text" id="departmentName" name="departmentName" th:value="${dto.departmentName}" required placeholder="부서명을 입력하세요">
+            </div>
+            
+            <div class="form-group">
+                <label for="departmentTel">부서전화번호</label>
+                <input type="text" id="departmentTel" name="departmentTel" th:value="${dto.departmentTel}" required placeholder="부서전화번호를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="departmentContents">부서 설명</label>
+                <textarea id="departmentContents" name="departmentContents" rows="4" th:value="${dto.departmentContents}" required placeholder="부서에 대한 설명을 입력하세요"></textarea>
+            </div>
+           
+        
+    </div>
+
+    <!-- 버튼 영역 (취소 버튼 등 추가 가능) -->
+    <div class="action-btns">
+        <button type="submit" class="action-btn">등록</button><a href="/employee/departmentList" class="action-btn">취소</a>
+    </div>
+    </form>
+</div>
+</div> 
+</body>
+</html>

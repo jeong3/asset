@@ -39,4 +39,54 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 	delete from employees
 	where emp_num = #{empNum}
 </delete>
+
+
+<insert id="departmentInsert">
+	insert into department (DEPARTMENT_NUM,MANAGER_NUM,DEPARTMENT_NAME,DEPARTMENT_TEL,DEPARTMENT_CONTENTS)
+	values (#{departmentNum}, null, #{departmentName}, #{departmentTel}, #{departmentContents})
+</insert>
+
+<resultMap type="departmentDTO" id="departmentEmployeeResultMap">
+	<id column="DEPARTMENT_NUM" property="departmentNum"/>
+    <result column="MANAGER_NUM" property="managerNum"/>
+    <result column="DEPARTMENT_NAME" property="departmentName"/>
+    <result column="DEPARTMENT_TEL" property="departmentTel"/>
+    <result column="DEPARTMENT_CONTENTS" property="departmentContents"/>
+	<collection property="employeeDTO" ofType="employeeDTO">
+	    <id column="EMP_NUM" property="empNum"/>
+	    <result column="EMP_NAME" property="empName"/>
+	    <result column="EMP_ID" property="empId"/>
+	    <result column="EMP_PW" property="empPw"/>
+	    <result column="EMP_JUMIN" property="empJumin"/>
+	    <result column="EMP_ADDR" property="empAddr"/>
+	    <result column="EMP_ADDR_DETAIL" property="empAddrDetail"/>
+	    <result column="EMP_PHONE" property="empPhone"/>
+	    <result column="EMP_EMAIL" property="empEmail"/>
+	    <result column="REGIST_DATE" property="registDate"/>
+	    <result column="JOB_TITLE" property="jobTitle"/>
+	    <result column="EMP_POST" property="empPost"/>
+	</collection>
+</resultMap>
+
+<select id="departmentEmployeeSelectAll" resultMap="departmentEmployeeResultMap">
+	select d.DEPARTMENT_NUM,MANAGER_NUM,DEPARTMENT_NAME,DEPARTMENT_TEL,DEPARTMENT_CONTENTS
+	, EMP_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE, JOB_TITLE , EMP_POST
+	from department d left outer join employees e
+	on d.department_num = e.department_num
+</select>
+
+<select id="departmentEmployeeSelectOne" resultMap="departmentEmployeeResultMap">
+	select d.DEPARTMENT_NUM,MANAGER_NUM,DEPARTMENT_NAME,DEPARTMENT_TEL,DEPARTMENT_CONTENTS
+	, EMP_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE, JOB_TITLE , EMP_POST
+	from department d left outer join employees e
+	on d.department_num = e.department_num
+	where d.department_num = #{departmentNum}
+</select>
+
+<update id="departmentUpdate">
+	update department set
+	DEPARTMENT_NAME = #{departmentName},DEPARTMENT_TEL = #{departmentTel}, DEPARTMENT_CONTENTS = #{departmentContents}
+	where DEPARTMENT_NUM = #{departmentNum}
+</update>
+
 </mapper>

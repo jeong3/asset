@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import springBootMVCAsset.command.DepartmentCommand;
 import springBootMVCAsset.command.EmployeeCommand;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.department.DepartmentDetailService;
+import springBootMVCAsset.service.department.DepartmentListService;
+import springBootMVCAsset.service.department.DepartmentRegistService;
+import springBootMVCAsset.service.department.DepartmentUpdateService;
 import springBootMVCAsset.service.employee.EmployeeDetailService;
 import springBootMVCAsset.service.employee.EmployeeListService;
 import springBootMVCAsset.service.employee.EmployeeRegistService;
@@ -35,6 +40,14 @@ public class EmployeeController {
 	EmployeeUpdateService employeeUpdateService;
 	@Autowired
 	EmployeeMapper employeeMapper;
+	@Autowired
+	DepartmentRegistService departmentRegistService;
+	@Autowired
+	DepartmentListService departmentListService;
+	@Autowired
+	DepartmentDetailService departmentDetailService;
+	@Autowired
+	DepartmentUpdateService departmentUpdateService;
 	
 	@GetMapping("employeeList")
 	public String employeeList(Model model) {
@@ -89,7 +102,28 @@ public class EmployeeController {
 	}
 	@GetMapping("departmentList")
 	public String departmentList(Model model) {
+		departmentListService.execute(model);
 		return "thymeleaf/department/departmentList";
+	}
+	@GetMapping("departmentRegist")
+	public String departmentRegist() {
+		return "thymeleaf/department/departmentRegist";
+	}
+	@PostMapping("departmentRegist")
+	public String departmentRegist(DepartmentCommand departmentCommand) {
+		departmentRegistService.execute(departmentCommand);
+		return "redirect:departmentList";
+	}
+	@GetMapping("departmentUpdate")
+	public String departmentUpdate(String departmentNum,Model model) {
+		departmentDetailService.execute(departmentNum, model);
+		return "thymeleaf/department/departmentUpdate";
+	}
+	@PostMapping("departmentUpdate")
+	public String departmentUpdate(DepartmentCommand departmentCommand) {
+		System.out.println(departmentCommand);
+		departmentUpdateService.execute(departmentCommand);
+		return "redirect:departmentList";
 	}
 	
 		
