@@ -17,7 +17,6 @@ public class EmployeeCommand {
 	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
 			message = "영문자와 숫자 그리고 특수문자가 포함된 8글자 이상")
 	String empPw;
-	@NotEmpty(message = "비밀번호를 확인해주세요")
 	String empPwCon;
 	@NotEmpty(message = "이름을 입력해주세요")
 	String empName;
@@ -34,7 +33,6 @@ public class EmployeeCommand {
 	String empEmail;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date registDate;
-	String empImage;
 	String departmentNum;
 	String jobTitle;
 	

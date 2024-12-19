@@ -4,13 +4,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.EmployeeMapper">
 <sql id="BaseColumns">
-EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE, JOB_TITLE
+EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE, JOB_TITLE , EMP_POST
 </sql>
 
 <insert id="employeeInsert">
 	insert into employees ( <include refid="BaseColumns" /> )
 	values (#{empNum}, 1, #{empName}, #{empId}, #{empPw}, #{empJumin},
-	 #{empAddr}, #{empAddrDetail}, #{empPhone}, #{empEmail}, sysdate, null)
+	 #{empAddr}, #{empAddrDetail}, #{empPhone}, #{empEmail}, sysdate, null, #{empPost})
 </insert>
 
 <select id="employeeSelectAll">
@@ -21,4 +21,18 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 	select <include refid="BaseColumns" /> from employees
 	where emp_num = #{empNum}
 </select>
+
+<update id="employeeUpdate">
+	update employees set
+	EMP_NAME = #{empName}
+	, EMP_ID = #{empId}
+	, EMP_JUMIN = #{empJumin}
+	, EMP_ADDR = #{empAddr}
+	, EMP_ADDR_DETAIL = #{empAddrDetail}
+	, EMP_PHONE = #{empPhone}
+	, EMP_EMAIL = #{empEmail}
+	, EMP_POST = #{empPost}
+	where emp_num = #{empNum}
+	
+</update>
 </mapper>

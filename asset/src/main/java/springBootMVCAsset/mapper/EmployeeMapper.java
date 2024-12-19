@@ -14,4 +14,6 @@ public interface EmployeeMapper {
 
 	EmployeeDTO employeeSelectOne(String empNum);
 
+	int employeeUpdate(EmployeeDTO dto);
+
 }

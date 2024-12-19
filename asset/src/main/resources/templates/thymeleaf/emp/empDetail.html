@@ -58,13 +58,13 @@ h1 {letter-spacing: 6px}
   </div>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
- <div class="w3-bar w3-theme-d2 w3-right-align"><button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button></div>
+ 
 </div>
 <br /><br /><br />
   
     <h2>Employee Detail</h2>
     <p>[[${employeeCommand.empName}]]님의 상세정보입니다.</p>
-    <a href="/emp/empUpdate?empNum=${employeeCommand.empNum}">정보수정</a> |
+    <a th:href="|/employee/employeeUpdate?empNum=${employeeCommand.empNum}|">정보수정</a> |
     <a href="#" onclick="empPwUpdate('${employeeCommand.empNum}')" style="text-decoration: underline;">비밀번호변경</a> |
     <a href="#" onclick="deleteEmp('${employeeCommand.empNum}')" style="text-decoration: underline;">삭제</a>
     <hr />
@@ -109,6 +109,18 @@ h1 {letter-spacing: 6px}
       <tr>
         <th>주민등록번호 :</th>
         <td>[[${employeeCommand.empJumin}]]</td>
+      </tr>
+      <tr>
+        <th>부서번호 :</th>
+        <td><span th:if="${employeeCommand.departmentNum != '1' }">[[${employeeCommand.departmentNum}]] </span> 
+        <span th:if="${employeeCommand.departmentNum == '1' }">미정</span> 
+        </td>
+      </tr>
+      <tr>
+        <th>직무 :</th>
+        <td> <span th:if="${employeeCommand.jobTitle != null }"> [[${employeeCommand.jobTitle}]]</span> 
+        <span th:if="${employeeCommand.jobTitle == null }">미정</span> 
+        </td>
       </tr>
     </table>
   </div>

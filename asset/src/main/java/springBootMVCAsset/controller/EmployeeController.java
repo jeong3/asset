@@ -1,6 +1,7 @@
 package springBootMVCAsset.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.employee.EmployeeDetailService;
 import springBootMVCAsset.service.employee.EmployeeListService;
 import springBootMVCAsset.service.employee.EmployeeRegistService;
+import springBootMVCAsset.service.employee.EmployeeUpdateService;
 
 @Controller
 @RequestMapping("employee")
@@ -26,6 +28,10 @@ public class EmployeeController {
 	AutoNumService autoNumService;
 	@Autowired
 	EmployeeDetailService employeeDetailService;
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	@Autowired
+	EmployeeUpdateService employeeUpdateService;
 	
 	@GetMapping("employeeList")
 	public String employeeList(Model model) {
@@ -58,7 +64,24 @@ public class EmployeeController {
 		employeeDetailService.execute(empNum,model);
 		return "thymeleaf/emp/empDetail";
 	}
+	@GetMapping("employeeUpdate")
+	public String employeeUpdate(String empNum, Model model) {
+		employeeDetailService.execute(empNum,model);
+		return "thymeleaf/emp/empUpdate";
+	}
+	@PostMapping("employeeUpdate")
+	public String employeeUpdate(@Validated EmployeeCommand employeeCommand, BindingResult result) {
+		System.out.println("커맨드"+employeeCommand);
+		if (result.hasErrors()) {
+			System.out.println(result);
+			return "thymeleaf/emp/empUpdate";
+		}
+		employeeUpdateService.execute(employeeCommand);
+		return "redirect:employeeDetail?empNum=" + employeeCommand.getEmpNum();
+	}
 	
+		
+		
 	
 	
 }

@@ -21,7 +21,6 @@ public class EmployeeDTO {
 	String empJumin;
 	String empEmail;
 	Date registDate;
-	String empImage;
 	String departmentNum;
 	String jobTitle;
 }
