@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import springBootMVCAsset.command.EmployeeCommand;
+import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.employee.EmployeeDetailService;
 import springBootMVCAsset.service.employee.EmployeeListService;
@@ -32,6 +33,8 @@ public class EmployeeController {
 	PasswordEncoder passwordEncoder;
 	@Autowired
 	EmployeeUpdateService employeeUpdateService;
+	@Autowired
+	EmployeeMapper employeeMapper;
 	
 	@GetMapping("employeeList")
 	public String employeeList(Model model) {
@@ -54,10 +57,10 @@ public class EmployeeController {
 		if (!employeeCommand.isEmpPwEqualEmpPwCon()) {
 			// model.addAttribute("errPw", "비밀번호가 일치하지 않습니다.");
 			result.rejectValue("empPwCon", "employeeCommand.empPwCon", "비밀번호가 일치하지 않습니다.");
-			return "redirect:employeeList";
+			return "thymeleaf/emp/empRegist";
 		}
 		employeeRegistService.execute(employeeCommand);
-		return "thymeleaf/emp/empRegist";
+		return "redirect:employeeList";
 	}
 	@GetMapping("employeeDetail")
 	public String employeeDetail(String empNum, Model model) {
@@ -78,6 +81,15 @@ public class EmployeeController {
 		}
 		employeeUpdateService.execute(employeeCommand);
 		return "redirect:employeeDetail?empNum=" + employeeCommand.getEmpNum();
+	}
+	@GetMapping("employeeDelete")
+	public String employeeDelete(String empNum) {
+		employeeMapper.employeeDelete(empNum);
+		return "redirect:employeeList"; 
+	}
+	@GetMapping("departmentList")
+	public String departmentList(Model model) {
+		return "thymeleaf/department/departmentList";
 	}
 	
 		

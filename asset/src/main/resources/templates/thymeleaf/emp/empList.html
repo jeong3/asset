@@ -75,7 +75,7 @@ h1 {letter-spacing: 6px}
           <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"  style="text-decoration: none;">[[${dto.empNum}]]</a></td>
           <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"  style="text-decoration: none;">[[${dto.empName}]]</a></td>
           <td>
-            <a th:attr="onclick=|deleteEmp('${dto.empNum}')|" style="text-decoration: none;">×</a>
+            <a th:href="|/employee/employeeDelete?empNum=${dto.empNum}|" style="text-decoration: none; cursor:pointer;">×</a>
           </td>
           
         </tr>

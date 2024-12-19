@@ -16,4 +16,6 @@ public interface EmployeeMapper {
 
 	int employeeUpdate(EmployeeDTO dto);
 
+	int employeeDelete(String empNum);
+
 }

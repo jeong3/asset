@@ -66,7 +66,8 @@ h1 {letter-spacing: 6px}
     <p>[[${employeeCommand.empName}]]님의 상세정보입니다.</p>
     <a th:href="|/employee/employeeUpdate?empNum=${employeeCommand.empNum}|">정보수정</a> |
     <a href="#" onclick="empPwUpdate('${employeeCommand.empNum}')" style="text-decoration: underline;">비밀번호변경</a> |
-    <a href="#" onclick="deleteEmp('${employeeCommand.empNum}')" style="text-decoration: underline;">삭제</a>
+    <a href="#" style="text-decoration: underline;">부서 및 직무변경</a> |
+    <a th:href="|/employee/employeeDelete?empNum=${employeeCommand.empNum}|" style="text-decoration: underline;">삭제</a>
     <hr />
 
     <table border="1" cellpadding="5" cellspacing="0" style="width: 70%; text-align: left;">
