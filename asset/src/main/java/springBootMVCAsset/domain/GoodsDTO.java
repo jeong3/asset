@@ -24,4 +24,5 @@ public class GoodsDTO {
 	String mainStoreImage;
 	String detailImage;
 	String detailStoreImage;
+
 }

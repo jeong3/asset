@@ -39,6 +39,7 @@ public class EmployeeCommand {
 	public boolean isEmpPwEqualEmpPwCon() {
 		return empPw.equals(empPwCon);
 	}
+
 	
 	
 	

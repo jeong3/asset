@@ -23,4 +23,5 @@ public class EmployeeDTO {
 	Date registDate;
 	String departmentNum;
 	String jobTitle;
+
 }

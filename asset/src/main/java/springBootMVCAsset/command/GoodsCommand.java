@@ -16,4 +16,5 @@ public class GoodsCommand {
 	String goodsKind;
 	MultipartFile mainImage;
 	MultipartFile detailImage[];
+	
 }
