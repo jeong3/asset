@@ -19,10 +19,8 @@ public class MemberCommand {
 	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
 			message = "영문자와 숫자 그리고 특수문자가 포함된 8글자 이상")
 	String memberPw;
-	
-	@NotBlank(message = "비밀번호 확인을 입력해주세요")
+
 	String memberPwCon;
-	
 	@NotBlank(message = "이름을 입력해주세요")
 	String memberName;
 	
@@ -45,7 +43,7 @@ public class MemberCommand {
 	String memberEmail;
 	
 	@NotNull(message = "생년월일을 입력해주세요")
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date memberBirth;
 	
 	public boolean isMemberPwEqualmemberPwCon() { // false나 true 리턴 => is
@@ -124,11 +122,11 @@ public class MemberCommand {
 		this.memberRegist = memberRegist;
 	}
 
-	public String getmemberGender() {
+	public String getMemberGender() {
 		return memberGender;
 	}
 
-	public void setmemberGender(String memberGender) {
+	public void setMemberGender(String memberGender) {
 		this.memberGender = memberGender;
 	}
 

@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
-<script type="text/javascript" src="/static/js/checkbox.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <style>
 body,h1 {font-family: "Raleway", Arial, sans-serif}
@@ -20,6 +19,7 @@ h1 {letter-spacing: 6px}
 
 </head>
 <body>
+<div class="w3-content" style="max-width:1500px">
 <div class="w3-top">
 	 <div class="w3-bar w3-theme-d2 w3-left-align">
 	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
@@ -63,7 +63,6 @@ h1 {letter-spacing: 6px}
 	  <p>MemberUpdate</p>
 	  <hr/>
 	  <form action="memberUpdate" method="post" th:object="${memberCommand}">
-		
 		<table  style="width:50%;">
 		    <tr class="w3-bar">
 		      <th>
@@ -71,7 +70,7 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="text" name="memberNum" readonly="readonly" th:value="${memberCommand.memberNum}"/>
+		          <input type="text" name="memberNum" readonly="readonly" th:field="*{memberNum}"/>
 		        </div>
 		      </th>
 		    </tr>
@@ -81,8 +80,8 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="text" name="memberName" th:value="${memberCommand.memberName}" />
-		          <span style = "color : red" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}"  />
+		          <input type="text" name="memberName" th:field="*{memberName}" />
+		          <span style = "color : red" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}"></span>
 		        </div>
 		      </th>
 		    </tr>
@@ -92,9 +91,9 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="text" name="memberId" id="userId" th:value="${memberCommand.memberId}"  />
+		          <input type="text" name="memberId" id="userId" th:field="*{memberId}"  />
 		          <span id="idCheck"></span>
-				  <span style="color: red" th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"  />
+				  <span style="color: red" th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"></span>
 		        </div>
 		      </th>
 		    </tr>
@@ -105,8 +104,8 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="text" name="memberAddr" id="sample4_roadAddress"  readonly="readonly" th:value="${memberCommand.memberAddr}"/> <button type="button" onclick="execDaumPostcode();" >주소검색</button>
-		          <span style="color: red" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}"  />
+		          <input type="text" name="memberAddr" id="sample4_roadAddress"  readonly="readonly" th:field="*{memberAddr}"/> <button type="button" onclick="execDaumPostcode();" >주소검색</button>
+		          <span style="color: red" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}"></span>
 		        </div>
 		      </th>
 		    </tr>
@@ -116,7 +115,7 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="text" name="memberAddrDetail" th:value="${memberCommand.memberAddrDetail}" />
+		          <input type="text" name="memberAddrDetail" th:field="*{memberAddrDetail}" />
 		        </div>
 		      </th>
 		    </tr>
@@ -126,7 +125,7 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="text" name="memberPost" id="sample4_postcode"  th:value="${memberCommand.memberPost}"  readonly="readonly" />
+		          <input type="text" name="memberPost" id="sample4_postcode"  th:field="*{memberPost}" readonly="readonly" />
 		        </div>
 		      </th>
 		    </tr>
@@ -153,8 +152,8 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="tel" name="memberPhone" th:value="${memberCommand.memberPhone}"  /> 
-		          <span style = "color : red" th:if="${#fields.hasErrors('memberPhone')}" th:errors="*{memberPhone1}"></span>
+		          <input type="tel" name="memberPhone" th:field="*{memberPhone}"/> 
+		          <span style = "color : red" th:if="${#fields.hasErrors('memberPhone')}" th:errors="*{memberPhone}"></span>
 		        </div>
 		      </th>
 		    </tr>
@@ -164,7 +163,7 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="email" name="memberEmail" id="userEmail" th:value="${memberCommand.memberEmail}"  /> 
+		          <input type="email" name="memberEmail" id="userEmail" th:field="*{memberEmail}"  /> 
 		          <span id="emailCheck"></span>
 				  <span style = "color : red" th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}"></span>
 		        </div>
@@ -189,5 +188,6 @@ h1 {letter-spacing: 6px}
 		  </table>
 		  </form>  
 	  </div>	
+	 </div>
 </body>
 </html>

@@ -18,6 +18,7 @@ h1 {letter-spacing: 6px}
 <title>Member Detail</title>
 </head>
 <body>
+<div class="w3-content" style="max-width:1500px">
 	<div class="w3-top">
 	 <div class="w3-bar w3-theme-d2 w3-left-align">
 	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
@@ -60,7 +61,7 @@ h1 {letter-spacing: 6px}
     <h2>Member Detail</h2>
     <p>[[${memberCommand.memberName}]]님의 상세정보입니다.</p>
     <a th:href="|memberUpdate?memberNum=${memberCommand.memberNum}|">수정</a> |
-    <a href="|memberDelete?memberNum=${memberCommand.memberNum}|" style="text-decoration: underline;">삭제</a>
+    <a th:href="|memberDelete?memberNum=${memberCommand.memberNum}|" style="text-decoration: underline;">삭제</a>
     <hr />
 
     <table border="1" cellpadding="5" cellspacing="0" style="width: 70%; text-align: left;">
@@ -110,5 +111,6 @@ h1 {letter-spacing: 6px}
       </tr>
     </table>
   </div>
+</div>
 </body>
 </html>

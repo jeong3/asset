@@ -19,6 +19,7 @@ h1 {letter-spacing: 6px}
 </head>
 
 <body>
+<div class="w3-content" style="max-width:1500px">
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
@@ -54,32 +55,28 @@ h1 {letter-spacing: 6px}
   </div>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
- <div class="w3-bar w3-theme-d2 w3-right-align"><button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button></div>
  </div>
- 
+ <br/> <br/> <br/>
   <div align="center">
     <h2>Member List</h2>
     <hr/>
-  <form action="membersDelete" method="post" id="frm">
     <table border="1" cellpadding="5" cellspacing="0" style="width: 80%; text-align: center;">
         <tr>
-      	  <th><input type="checkbox" id="checkBoxs"/></th>
           <th>회원번호</th>
           <th>회원 이름</th>
-          <th>회원 등록일</th>
+          <th>회원일</th>
           <th>삭제</th>
         </tr>
 	    <tr th:each="dto : ${list}" style="cursor:pointer">
-	       <td><input type="checkbox" name="nums" th:value="${dto.memberNum}"/></td>
 	       <td><a th:href="|memberDetail?memberNum=${dto.memberNum}|">[[${dto.memberNum}]]</a></td>
-	       <td><a th:href="|memberDetail?memberNum=${dto.memberNum}|">[[${dto.memberName}]]</td>
+	       <td><a th:href="|memberDetail?memberNum=${dto.memberNum}|">[[${dto.memberName}]]</a></td>
 	       <td>[[${#dates.format(dto.memberRegist, 'yyyy-MM-dd')}]]</td>
 	       <td>
-	         <button type="button" th:attr="onclick=|javascript:location.href='membersDelete?nums=${dto.memberNum}'|">삭제</button>
+	       	<a th:href="|memberDelete?memberNum=${dto.memberNum}|">x</a>
 	       </td>
 	    </tr>
     </table>
-  </form>
   </div>
+</div>
 </body>
 </html>
