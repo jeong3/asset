@@ -28,11 +28,11 @@ public class GoodsRegistService {
 		//String empNum = employeeMapper.getEmpNum(auth.getUserId());
 		//dto.setEmpNum(empNum);
 		
-		URL resource = getClass().getClassLoader().getResource("static/upload");
+		URL resource = getClass().getClassLoader().getResource("static/images");
 		System.out.println("resource : " + resource);
 		String filrDir = resource.getFile();
 		//String filrDir = "C:/Users/misolaptop1/eclipse-workspace/real_time_data_process_20240708/springBootMVCShopping/target/classes/static/upload";
-		MultipartFile mf = goodsCommand.getGoodsMainImage();
+		MultipartFile mf = goodsCommand.getMainImage();
 		String originalFile = mf.getOriginalFilename();
 
 		String extension = originalFile.substring(originalFile.lastIndexOf("."));
@@ -47,13 +47,13 @@ public class GoodsRegistService {
 			e.printStackTrace();
 		}
 	
-		dto.setGoodsMainImage(originalFile);
-		dto.setGoodsMainStoreImage(storeFileName);
+		dto.setMainImage(originalFile);
+		dto.setMainStoreImage(storeFileName);
 	
-		if(!goodsCommand.getGoodsDetailImage()[0].getOriginalFilename().isEmpty()) {
+		if(!goodsCommand.getDetailImage()[0].getOriginalFilename().isEmpty()) {
 			String originalTotal = ""; 
 			String storeTotal = "";
-			for(MultipartFile mpf : goodsCommand.getGoodsDetailImage()) {
+			for(MultipartFile mpf : goodsCommand.getDetailImage()) {
 				originalFile = mpf.getOriginalFilename();//오류
 				extension = originalFile.substring(originalFile.lastIndexOf("."));
 				storeName = UUID.randomUUID().toString().replace("-", "");
@@ -67,8 +67,8 @@ public class GoodsRegistService {
 				originalTotal += originalFile + "/";
 				storeTotal += storeFileName +"/";
 			}
-			dto.setGoodsDetailImage(originalTotal);
-			dto.setGoodsDetailStoreImage(storeTotal);
+			dto.setDetailImage(originalTotal);
+			dto.setDetailStoreImage(storeTotal);
 		}
 		goodsMapper.goodsInsert(dto);
 		

@@ -19,9 +19,9 @@ public class GoodsDTO {
 	Integer goodsPrice;
 	String empNum;
 	String goodsKind;
-	Date goodsRegist;
-	String goodsMainImage;
-	String goodsMainStoreImage;
-	String goodsDetailImage;
-	String goodsDetailStoreImage;
+	Date registDate;
+	String mainImage;
+	String mainStoreImage;
+	String detailImage;
+	String detailStoreImage;
 }

@@ -71,7 +71,7 @@
     <form action="/goods/goodsRegist" method="post" enctype="multipart/form-data">
         <div class="w3-section">
             <label><b>상품번호</b></label>
-            <input class="w3-input w3-border" type="text" name="goodsNum" th:value="${autoNum}" readonly="readonly" />
+            <input class="w3-input w3-border" type="text" name="goodsNum" th:value="${goodsCommand.goodsNum}" readonly="readonly" />
         </div>
 
         <div class="w3-section">
@@ -91,21 +91,19 @@
 
         <div class="w3-section">
             <label><b>메인이미지</b></label>
-            <input class="w3-input w3-border" type="file" name="goodsMainImage" />
+            <input class="w3-input w3-border" type="file" name="mainImage" />
         </div>
 
         <div class="w3-section">
             <label><b>상세이미지</b></label>
-            <input class="w3-input w3-border" type="file" name="goodsDetailImage" multiple="multiple" />
+            <input class="w3-input w3-border" type="file" name="detailImage" multiple="multiple" />
         </div>
 
         <div class="w3-section">
             <label><b>카테고리</b></label>
-            <select class="w3-select w3-border" name="category">
-                <option value="KPOP" th:selected="${category == 'KPOP' or category == 'KP_'}">KPOP</option>
-                <option value="POP/ROCK" th:selected="${category == 'POP/ROCK' or category == 'P&R'}">POP/ROCK</option>
-                <option value="CLASSIC" th:selected="${category == 'CLASSIC' or category == 'CL_'}">CLASSIC</option>
-                <option value="LP" th:selected="${category == 'LP' or category == 'LP_'}">LP</option>
+            <select class="w3-select w3-border" name="goodsKind">
+                <option value="도서">도서</option>
+                <option value="강의">강의</option>
             </select>
         </div>
 

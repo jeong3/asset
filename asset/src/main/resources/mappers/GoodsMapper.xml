@@ -4,23 +4,27 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.GoodsMapper">
 
-<sql id="goodsColumnsBase">
+<sql id="BaseColumns">
 	   goods_Num , goods_name , goods_price ,goods_contents , emp_num  
-	  ,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE 
-	  , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE, goods_kind
+	  ,regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
+	  ,DETAIL_IMAGE ,DETAIL_STORE_IMAGE, goods_kind
 </sql>
 
 <insert id="goodsInsert" parameterType="goodsDTO">
-insert into goods ( <include refid="goodsColumnsBase" /> )
+insert into goods ( <include refid="BaseColumns" /> )
 values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
 		,null, sysdate, 
-		#{goodsMainImage}, #{goodsMainStoreImage},
-		<if test="goodsDetailImage != null">
-		#{goodsDetailImage},#{goodsDetailStoreImage},
+		#{mainImage}, #{mainStoreImage},
+		<if test="detailImage != null">
+		#{detailImage},#{detailStoreImage},
 		</if>
-		<if test="goodsDetailImage == null">
+		<if test="detailImage == null">
 		null,null,
 		</if>
-		,#{goodsKind})
+		#{goodsKind})
 </insert>
+
+<select id="goodsAllSelect" resultType="goodsDTO" parameterType="String">
+select * from goods where goods_Kind = #{goodsKind}
+</select>
 </mapper>

@@ -12,8 +12,8 @@ public class GoodsCommand {
 	String goodsName;
 	String goodsContents;
 	Integer goodsPrice;
-	Date RegistDate;
+	Date registDate;
 	String goodsKind;
-	MultipartFile goodsMainImage;
-	MultipartFile goodsDetailImage[];
+	MultipartFile mainImage;
+	MultipartFile detailImage[];
 }
