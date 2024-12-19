@@ -13,5 +13,12 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 	 #{empAddr}, #{empAddrDetail}, #{empPhone}, #{empEmail}, sysdate, null)
 </insert>
 
+<select id="employeeSelectAll">
+	select <include refid="BaseColumns" /> from employees
+</select>
 
+<select id="employeeSelectOne">
+	select <include refid="BaseColumns" /> from employees
+	where emp_num = #{empNum}
+</select>
 </mapper>

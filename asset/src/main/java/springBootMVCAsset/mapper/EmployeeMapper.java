@@ -12,4 +12,6 @@ public interface EmployeeMapper {
 
 	List<EmployeeDTO> employeeSelectAll();
 
+	EmployeeDTO employeeSelectOne(String empNum);
+
 }

@@ -65,19 +65,20 @@ h1 {letter-spacing: 6px}
         <tr>
           <th>사진</th>
           <th>직원번호</th>
-          <th>직원 이름</th>
+          <th>직원이름</th>
           <th>삭제</th>
         </tr>
       </thead>
       <tbody>
-       <!--  <tr style="cursor:pointer">
-          <td><img src="/static/images/cover.jpg" style="width:60px;"></td>
-          <td></td>
-          <td></td>
+        <tr th:each="dto : ${list}">
+          <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"><img src="/static/images/hart.jpg" style="width:60px;"></a></td>
+          <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"  style="text-decoration: none;">[[${dto.empNum}]]</a></td>
+          <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"  style="text-decoration: none;">[[${dto.empName}]]</a></td>
           <td>
             <a th:attr="onclick=|deleteEmp('${dto.empNum}')|" style="text-decoration: none;">×</a>
           </td>
-        </tr>--> 
+          
+        </tr>
       </tbody>
     </table>
   </div>

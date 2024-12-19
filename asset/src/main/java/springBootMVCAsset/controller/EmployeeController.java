@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import springBootMVCAsset.command.EmployeeCommand;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.employee.EmployeeDetailService;
 import springBootMVCAsset.service.employee.EmployeeListService;
 import springBootMVCAsset.service.employee.EmployeeRegistService;
 
@@ -23,6 +24,8 @@ public class EmployeeController {
 	EmployeeRegistService employeeRegistService;
 	@Autowired
 	AutoNumService autoNumService;
+	@Autowired
+	EmployeeDetailService employeeDetailService;
 	
 	@GetMapping("employeeList")
 	public String employeeList(Model model) {
@@ -50,5 +53,12 @@ public class EmployeeController {
 		employeeRegistService.execute(employeeCommand);
 		return "thymeleaf/emp/empRegist";
 	}
+	@GetMapping("employeeDetail")
+	public String employeeDetail(String empNum, Model model) {
+		employeeDetailService.execute(empNum,model);
+		return "thymeleaf/emp/empDetail";
+	}
+	
+	
 	
 }

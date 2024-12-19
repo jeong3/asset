@@ -33,7 +33,7 @@ public class EmployeeCommand {
 	@NotEmpty(message = "이메일를 입력해주세요")
 	String empEmail;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date empHireDate;
+	Date registDate;
 	String empImage;
 	String departmentNum;
 	String jobTitle;

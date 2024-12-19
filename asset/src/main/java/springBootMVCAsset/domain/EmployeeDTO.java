@@ -20,7 +20,7 @@ public class EmployeeDTO {
 	String empPhone;
 	String empJumin;
 	String empEmail;
-	Date empHireDate;
+	Date registDate;
 	String empImage;
 	String departmentNum;
 	String jobTitle;
