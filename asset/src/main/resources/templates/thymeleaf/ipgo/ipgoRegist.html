@@ -3,20 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	$("#btn").click(function(){
-		window.open("/goods/goodsItem","상품검색","width=600, height=500, top=500, left=60")
+		window.open("/goodsIpgo/goodsItem","상품검색","width=600, height=500, top=500, left=60")
 	});
 });
-
-
-	
-
 </script>
 </head>
 <body>
-	<form onsubmit="return ipgoSubmit(event)" id="ipgoForm">
+	<form action="ipgoRegist" method="post">
 		<div class="w3-container" align="center">
 			<h2>입고 등록</h2>
 			<p>입고 정보를 등록하세요.</p>
@@ -26,7 +24,7 @@ $(function(){
 					<th>입고번호</th>
 					<th>
 						<div class="w3-bar-item">
-							<input type="text" name="ipgoNum" id="ipgoNum" th:value="${autoNum}" readonly="readonly" />
+							<input type="text" name="ipgoNum" id="ipgoNum" th:value="${ipgoCommand.ipgoNum}" readonly="readonly" />
 						</div>
 					</th>
 				</tr>
@@ -34,7 +32,7 @@ $(function(){
 					<th>상품번호</th>
 					<th>
 						<div class="w3-bar-item">
-							<input type="text" name="goodsNum" id="goodsNum" /> <button type="button" id="btn" >상품 검색</button>
+							<input type="text" name="goodsNum" id="goodsNum" /><button type="button" id="btn" >상품 검색</button>
 						</div>
 					</th>
 				</tr>
@@ -47,10 +45,10 @@ $(function(){
 					</th>
 				</tr>
 				<tr class="w3-bar">
-					<th>제조일자</th>
+					<th>입고날짜</th>
 					<th>
 						<div class="w3-bar-item">
-							<input type="date" name="madeDate" id="madeDate" />
+							<input type="date" name="ipgoDate" id="ipgoDate" />
 						</div>
 					</th>
 				</tr>
@@ -59,14 +57,6 @@ $(function(){
 					<th>
 						<div class="w3-bar-item">
 							<input type="number" name="ipgoPrice" id="ipgoPrice" step="0.01" />
-						</div>
-					</th>
-				</tr>
-				<tr class="w3-bar">
-					<th>직원번호</th>
-					<th>
-						<div class="w3-bar-item">
-							<input type="text" name="empNum" id="empNum" th:value="${empNum}" readonly="readonly" />
 						</div>
 					</th>
 				</tr>
