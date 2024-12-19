@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>W3.CSS Template</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<link rel="stylesheet" href="/static/css/login.css" />
 <style>
 body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
-<title>Member List</title>
 </head>
-
 <body>
+
+
+<!-- !PAGE CONTENT! -->
 <div class="w3-content" style="max-width:1500px">
+
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
@@ -27,7 +28,7 @@ h1 {letter-spacing: 6px}
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
   
- <div class="w3-dropdown-hover w3-hide-small">
+  <div class="w3-dropdown-hover w3-hide-small">
   	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
   	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
    	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
@@ -40,42 +41,51 @@ h1 {letter-spacing: 6px}
   	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
    	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
    	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+   	  <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
     </div>
   </div>
  
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
-   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+   	  <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+   	  <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
       <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
       <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
     </div>
   </div>
+  <a href="/login/login" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search">로그인</a>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
- </div>
- <br/> <br/> <br/>
-  <div align="center">
-    <h2>Member List</h2>
-    <hr/>
-    <table border="1" cellpadding="5" cellspacing="0" style="width: 80%; text-align: center;">
-        <tr>
-          <th>회원번호</th>
-          <th>회원 이름</th>
-          <th>회원일</th>
-          <th>삭제</th>
-        </tr>
-	    <tr th:each="dto : ${list}" style="cursor:pointer">
-	       <td><a th:href="|memberDetail?memberNum=${dto.memberNum}|">[[${dto.memberNum}]]</a></td>
-	       <td><a th:href="|memberDetail?memberNum=${dto.memberNum}|">[[${dto.memberName}]]</a></td>
-	       <td>[[${#dates.format(dto.memberRegist, 'yyyy-MM-dd')}]]</td>
-	       <td>
-	       	<a th:href="|memberDelete?memberNum=${dto.memberNum}|">x</a>
-	       </td>
-	    </tr>
-    </table>
-  </div>
 </div>
+</div>
+<br/><br/><br/>
+<form action="/login/login" method="post" th:object="${loginCommand}">
+<table>
+    <tr>
+        <td><h2>로그인</h2></td>
+    </tr>
+    <tr>
+        <td><input type="text" name="userId" th:value="${loginCommand.userId}" placeholder="ID"></td>
+        <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span>
+    </tr>
+    <tr>
+        <td><input type="password" name="userPw" placeholder="Password"></td>
+        <span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}"></span>
+    </tr>
+    <tr>
+       <td><input type="checkbox" name="autoLogin">로그인 정보 저장</td>
+    </tr>
+    <tr>
+       <td><input type="checkbox" name="idStore">아이디저장</td>
+    </tr>
+    <tr>
+       <td><input type="submit" value="로그인" class="btn"></td>
+    </tr>
+    <tr>
+        <td class="join"><a href="/member/memberMyRegist">회원가입</a></td>
+    </tr>
+</table>
+</form>
 </body>
 </html>
