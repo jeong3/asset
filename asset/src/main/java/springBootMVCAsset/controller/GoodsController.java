@@ -36,8 +36,8 @@ public class GoodsController {
 		goodsRegistService.execute(goodsCommand, session);
 		return "redirect:/";
 	}
-	@GetMapping("bookList/{goodsKind}")
-	public String  goodsList(@PathVariable String goodsKind, Model model) {
+	@GetMapping("goodsList/{goodsKind}")
+	public String goodsList(@PathVariable String goodsKind, Model model) {
 		goodsListService.execute(goodsKind, model);
 		return "thymeleaf/goods/goodsList";
 	}
