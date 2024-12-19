@@ -35,6 +35,8 @@ public class EmployeeCommand {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date empHireDate;
 	String empImage;
+	String departmentNum;
+	String jobTitle;
 	
 	public boolean isEmpPwEqualEmpPwCon() {
 		return empPw.equals(empPwCon);

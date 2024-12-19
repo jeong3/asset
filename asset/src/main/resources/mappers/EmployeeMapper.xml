@@ -3,5 +3,15 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.EmployeeMapper">
+<sql id="BaseColumns">
+EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE, JOB_TITLE
+</sql>
+
+<insert id="employeeInsert">
+	insert into employees ( <include refid="BaseColumns" /> )
+	values (#{empNum}, null, #{empName}, #{empId}, #{empPw}, #{empJumin},
+	 #{empAddr}, #{empAddrDetail}, #{empPhone}, #{empEmail}, sysdate, null)
+</insert>
+
 
 </mapper>
