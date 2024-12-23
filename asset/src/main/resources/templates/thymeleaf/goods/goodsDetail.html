@@ -40,7 +40,6 @@ function addCart(element) {
 	
     var goodsNum = $(element).data('goodsNum');  // 상품 번호
     var cartQty = $('#cartQty').val();           // 수량
-	alert(cartQty);
     $.ajax({
         type: "POST",
         url: "/item/addCart",  // 서버에서 처리할 URL
@@ -53,7 +52,7 @@ function addCart(element) {
         success: function(result) {
             if(result != null){
                if (confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
-				cartList();
+            	   window.location.href = "/item/cartList";
 				}
             } else {
                 alert("장바구니 추가에 실패했습니다.");
@@ -149,19 +148,17 @@ function addCart(element) {
           <ol class="breadcrumb-list">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="javascript:window.history.back()">back</a></li>
-            
-            <li class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsNum})}">update</a></li>
-         	<li class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsNum})}">delete</a></li>
-         		
+            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsNum})}">update</a></li>
+         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsNum})}">delete</a></li>
           </ol>
         </nav>
+        </div>
       </div>
-    </div>
     <div class="grid product">
       <div class="column-xs-12 column-md-7">
         <div class="product-gallery">
           <div class="product-image">
-            <img class="active" th:src="|/static/images/${dto.mainStoreImage}|">
+            <img class="active" th:src="|/static/images/${dto.mainStoreImage}|" style>
           </div>
           <ul class="image-list">
           <th:block th:each="image : ${#strings.arraySplit(dto.detailStoreImage,'[`/]')}">
