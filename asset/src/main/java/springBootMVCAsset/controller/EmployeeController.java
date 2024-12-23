@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCAsset.command.DepartmentCommand;
 import springBootMVCAsset.command.EmployeeCommand;
@@ -92,6 +93,7 @@ public class EmployeeController {
 			System.out.println(result);
 			return "thymeleaf/emp/empUpdate";
 		}
+
 		employeeUpdateService.execute(employeeCommand);
 		return "redirect:employeeDetail?empNum=" + employeeCommand.getEmpNum();
 	}
@@ -121,10 +123,16 @@ public class EmployeeController {
 	}
 	@PostMapping("departmentUpdate")
 	public String departmentUpdate(DepartmentCommand departmentCommand) {
-		System.out.println(departmentCommand);
 		departmentUpdateService.execute(departmentCommand);
 		return "redirect:departmentList";
 	}
+	@GetMapping("departmentItem")
+	public String departmentItem(Model model, String empNum) {
+		departmentListService.execute(model);
+		model.addAttribute("empNum", empNum);
+		return "thymeleaf/department/departmentItem";
+	}
+	
 	
 		
 		

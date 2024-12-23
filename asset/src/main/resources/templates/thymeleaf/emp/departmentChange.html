@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	$("#btn").click(function(){
+		window.open("/employee/departmentItem","부서검색","width=600, height=500, top=500, left=60")
+	});
+});
+</script>
+</head>
+<body>
+<table>
+	<tr class="w3-bar">
+     <th>
+       부서
+     </th>
+     <th>
+       <div class="w3-bar-item">
+         <input type="text" id="departmentNum" name="departmentNum" th:value="${employeeCommand.departmentNum}"  readonly="readonly" /> <button type="button" id="btn" >부서선택</button>
+       <input type="submit" value="변경" >
+       </div>
+     </th>
+   </tr>
+</table>
+</body>
+</html>

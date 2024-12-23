@@ -4,13 +4,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.EmployeeMapper">
 <sql id="BaseColumns">
-EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE, JOB_TITLE , EMP_POST
+EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE , EMP_POST
 </sql>
 
 <insert id="employeeInsert">
 	insert into employees ( <include refid="BaseColumns" /> )
 	values (#{empNum}, 1, #{empName}, #{empId}, #{empPw}, #{empJumin},
-	 #{empAddr}, #{empAddrDetail}, #{empPhone}, #{empEmail}, sysdate, null, #{empPost})
+	 #{empAddr}, #{empAddrDetail}, #{empPhone}, #{empEmail}, sysdate, #{empPost})
 </insert>
 
 <select id="employeeSelectAll">
@@ -34,6 +34,11 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 	, EMP_POST = #{empPost}
 	where emp_num = #{empNum}
 </update>
+<update id="setDepartmentNumUpdate">
+	update employees set
+	department_num = #{departmentNum}
+	where emp_num = #{empNum}
+</update>
 
 <delete id="employeeDelete">
 	delete from employees
@@ -42,8 +47,8 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 
 
 <insert id="departmentInsert">
-	insert into department (DEPARTMENT_NUM,MANAGER_NUM,DEPARTMENT_NAME,DEPARTMENT_TEL,DEPARTMENT_CONTENTS)
-	values (#{departmentNum}, null, #{departmentName}, #{departmentTel}, #{departmentContents})
+	insert into department (DEPARTMENT_NUM,MANAGER_NUM,DEPARTMENT_NAME,DEPARTMENT_TEL,DEPARTMENT_CONTENTS, JOB_TITLE)
+	values (#{departmentNum}, null, #{departmentName}, #{departmentTel}, #{departmentContents}, #{jobTitle})
 </insert>
 
 <resultMap type="departmentDTO" id="departmentEmployeeResultMap">
@@ -52,6 +57,7 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
     <result column="DEPARTMENT_NAME" property="departmentName"/>
     <result column="DEPARTMENT_TEL" property="departmentTel"/>
     <result column="DEPARTMENT_CONTENTS" property="departmentContents"/>
+    <result column="JOB_TITLE" property="jobTitle"/>
 	<collection property="employeeDTO" ofType="employeeDTO">
 	    <id column="EMP_NUM" property="empNum"/>
 	    <result column="EMP_NAME" property="empName"/>
@@ -63,7 +69,6 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 	    <result column="EMP_PHONE" property="empPhone"/>
 	    <result column="EMP_EMAIL" property="empEmail"/>
 	    <result column="REGIST_DATE" property="registDate"/>
-	    <result column="JOB_TITLE" property="jobTitle"/>
 	    <result column="EMP_POST" property="empPost"/>
 	</collection>
 </resultMap>
@@ -85,7 +90,7 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 
 <update id="departmentUpdate">
 	update department set
-	DEPARTMENT_NAME = #{departmentName},DEPARTMENT_TEL = #{departmentTel}, DEPARTMENT_CONTENTS = #{departmentContents}
+	DEPARTMENT_NAME = #{departmentName},DEPARTMENT_TEL = #{departmentTel}, DEPARTMENT_CONTENTS = #{departmentContents}, JOB_TITLE = #{jobTitle}
 	where DEPARTMENT_NUM = #{departmentNum}
 </update>
 

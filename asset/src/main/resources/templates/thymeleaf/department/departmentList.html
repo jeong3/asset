@@ -153,9 +153,10 @@ margin-top: 30px;
         <h2> [[${dto.departmentName}]]</h2>
         <p><strong>부서장 :</strong> [[${dto.managerNum}]]</p>
         <p><strong>부서전화번호 :</strong> [[${dto.departmentTel}]]</p>
+        <p><strong>주요업무 :</strong> [[${dto.jobTitle}]]</p>
         <p><strong></strong> [[${dto.departmentContents}]]</p>
     </div>
-    <div style="text-align: right"><a th:href="|/employee/departmentUpdate?departmentNum=${dto.departmentNum}|" class="action-btn" style="padding: 10px 20px;">부서정보수정</a></div>
+    <div style="text-align: right"><a th:href="|/employee/departmentUpdate?departmentNum=${dto.departmentNum}|" class="action-btn" style="padding: 10px 20px;">부서정보수정</a>
 
     <!-- 직원 목록 -->
     <div class="employee-list">
@@ -165,7 +166,6 @@ margin-top: 30px;
                 <tr>
                  	<th>직원번호</th>
                     <th>이름</th>
-                    <th>직무</th>
                     <th>연락처</th>
                     <th>이메일</th>
                 </tr>
@@ -174,7 +174,6 @@ margin-top: 30px;
                 <tr th:each="empDTO : ${dto.employeeDTO}">
               	    <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empNum}]]</a> </td>
                     <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empName}]]</a></td>
-                    <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.jobTitle}]]</a></td>
                     <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empPhone}]]</a></td>
                     <td><a th:href="|/employee/employeeDetail?empNum=${empDTO.empNum}|" style="text-decoration: none;">[[${empDTO.empEmail}]]</a></td>
                 </tr>

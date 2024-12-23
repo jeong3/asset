@@ -1,6 +1,7 @@
 package springBootMVCAsset.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,5 +27,8 @@ public interface EmployeeMapper {
 	DepartmentDTO departmentEmployeeSelectOne(String departmentNum);
 
 	int departmentUpdate(DepartmentDTO dto);
+
+
+	void setDepartmentNumUpdate(String departmentNum, String empNum);
 
 }

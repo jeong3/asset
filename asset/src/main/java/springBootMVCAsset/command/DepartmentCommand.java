@@ -9,4 +9,5 @@ public class DepartmentCommand {
 	String managerNum;
 	String departmentTel;
 	String departmentContents;
+	String jobTitle;
 }

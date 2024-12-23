@@ -15,7 +15,7 @@ public class EmployeeUpdateService {
 	public void execute(EmployeeCommand employeeCommand) {
 		EmployeeDTO dto = new EmployeeDTO();
 		BeanUtils.copyProperties(employeeCommand, dto);
-		System.out.println("디티오"+dto);
+
 		employeeMapper.employeeUpdate(dto);
 		
 	}

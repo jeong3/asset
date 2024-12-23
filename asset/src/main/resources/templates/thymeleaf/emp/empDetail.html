@@ -13,10 +13,17 @@ body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script type="text/javascript">
-  function empPwUpdate(empNum) {
-    window.open("/emp/empPwUpdate?empNum=" + empNum, "empPwUpdate", "width=500,height=400,left=100,top=100");
-  }
+$(function(){
+
+	$("#btn").click(function(){
+		var empNum = $("#empNum").text();
+		window.open("/employee/departmentItem?empNum="+empNum,"부서검색","width=600, height=500, top=500, left=60")
+	});
+});
+ 
 </script>
 </head>
 <body>
@@ -64,16 +71,15 @@ h1 {letter-spacing: 6px}
   
     <h2>Employee Detail</h2>
     <p>[[${employeeCommand.empName}]]님의 상세정보입니다.</p>
-    <a th:href="|/employee/employeeUpdate?empNum=${employeeCommand.empNum}|">정보수정</a> |
+    <a th:href="|/employee/employeeUpdate?empNum=${employeeCommand.empNum}|">직원정보수정 및 부서변경</a> |
     <a href="#" onclick="empPwUpdate('${employeeCommand.empNum}')" style="text-decoration: underline;">비밀번호변경</a> |
-    <a href="#" style="text-decoration: underline;">부서 및 직무변경</a> |
     <a th:href="|/employee/employeeDelete?empNum=${employeeCommand.empNum}|" style="text-decoration: underline;">삭제</a>
     <hr />
 
     <table border="1" cellpadding="5" cellspacing="0" style="width: 70%; text-align: left;">
       <tr>
         <th>번호 :</th>
-        <td>[[${employeeCommand.empNum}]]</td>
+        <td id="empNum">[[${employeeCommand.empNum}]]</td>
       </tr>
       <tr>
         <th>이름 :</th>
@@ -112,18 +118,12 @@ h1 {letter-spacing: 6px}
         <td>[[${employeeCommand.empJumin}]]</td>
       </tr>
       <tr>
-        <th>부서번호 :</th>
-        <td><span th:if="${employeeCommand.departmentNum != '1' }">[[${employeeCommand.departmentNum}]] </span> 
-        <span th:if="${employeeCommand.departmentNum == '1' }">미정</span> 
-        </td>
+        <th>부서번호 <button  id="btn" >부서이동</button> :</th>
+        <td>[[${employeeCommand.departmentNum}]]</td>
       </tr>
-      <tr>
-        <th>직무 :</th>
-        <td> <span th:if="${employeeCommand.jobTitle != null }"> [[${employeeCommand.jobTitle}]]</span> 
-        <span th:if="${employeeCommand.jobTitle == null }">미정</span> 
-        </td>
-      </tr>
+      
     </table>
+    
   </div>
 </div> 
 </body>

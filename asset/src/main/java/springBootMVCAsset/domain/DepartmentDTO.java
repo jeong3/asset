@@ -14,5 +14,6 @@ public class DepartmentDTO {
 	String managerNum;
 	String departmentTel;
 	String departmentContents;
+	String jobTitle;
 	List<EmployeeDTO> employeeDTO;
 }
