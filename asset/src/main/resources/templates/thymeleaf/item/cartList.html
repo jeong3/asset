@@ -185,7 +185,7 @@ function deleteFromCart(cartNum) {
      <tbody>
         <tr th:each="dto : ${list}">
        	  <td><input type="checkbox" name="nums" checked="checked" th:value="${dto.cartDTO.cartNum}" /></td>
-          <td><img th:src="|/static/images/${dto.goodsDTO.goodsMainStoreImage}|" style="width:60px;"></td>
+          <td><img th:src="|/static/images/${dto.goodsDTO.mainStoreImage}|" style="width:60px;"></td>
           <td>[[${dto.goodsDTO.goodsNum}]]</td>
           <td>[[${dto.goodsDTO.goodsName}]]</td>
           <td>

@@ -15,4 +15,66 @@ WHEN NOT MATCHED THEN
 	values ((select nvl(max(cart_num),0) + 1  from cart)
 			,#{memberNum}, #{goodsNum}, sysdate, #{cartQty})
 </update>
+
+<sql id="goodsColumnsBase">
+	   goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+	  ,goods_kind, regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
+	  , DETAIL_IMAGE ,DETAIL_STORE_IMAGE
+</sql>
+
+<resultMap type="cartDTO" id="cartResultMap">
+	<id column="goods_num" jdbcType="VARCHAR" property="goodsNum"/>
+	<id column="member_num" jdbcType="VARCHAR" property="memberNum"/>
+	<result column="cart_Num" jdbcType="BIGINT" property="cartNum"/>
+	<result column="cart_date" jdbcType="DATE" property="cartDate"/>
+	<result column="cart_qty" jdbcType="BIGINT" property="cartQty"/>
+</resultMap>
+
+<select id="cartSelect" resultMap="cartResultMap" parameterType="integer"> 
+	select cart_num , goods_num, member_num, regist_date, cart_qty
+	from cart
+	where cart_num = #{cartNum}
+</select>
+
+<resultMap type="goodsCartDTO" id="cartGoodsResultMap">
+	<association property="goodsDTO" javaType="goodsDTO" column="goodsNum"  select="goodsSelect" />
+	<association property="cartDTO" javaType="cartDTO" column="cartNum"  select="cartSelect"/>
+</resultMap>
+
+
+
+<select id="goodsSelect" parameterType="string" resultMap="goodsResultMap">
+	select <include refid="goodsColumnsBase" />
+	from goods  
+	where goods_Num = #{goodsNum} 
+</select>
+
+<resultMap type="goodsDTO" id="goodsResultMap">
+	<id column="goods_Num" 						jdbcType="VARCHAR" 	property="goodsNum"/>
+	<result column="goods_Name" 				jdbcType="VARCHAR" 	property="goodsName" />
+	<result column="GOODS_PRICE" 				jdbcType="BIGINT" 	property="goodsPrice" />
+	<result column="goods_Contents"  			jdbcType="VARCHAR" 	property="goodsContents" />
+	<result column="emp_Num"  					jdbcType="VARCHAR"  property="empNum" />
+	<result column="goods_kind"  				jdbcType="VARCHAR"  property="goodsKind" />
+	<result column="regist_Date" 				jdbcType="DATE"  	property="registDate" />
+	<result column="MAIN_IMAGE"  			jdbcType="VARCHAR"  property="mainImage" />
+	<result column="MAIN_STORE_IMAGE"  	jdbcType="VARCHAR"  property="mainStoreImage" />
+	<result column="DETAIL_IMAGE"  		jdbcType="VARCHAR"  property="detailImage" />
+	<result column="DETAIL_STORE_IMAGE"  	jdbcType="VARCHAR"  property="detailStoreImage" />		
+</resultMap>
+
+<select id="cartSelectList" resultMap="cartGoodsResultMap" >
+	select GOODS_NUM goodsNum, cart_num cartNum
+	from cart
+	<trim prefix="where" prefixOverrides="AND | OR">
+		member_num = #{memberNum}
+		<if test="nums != null">
+			and goods_num in 
+			<foreach collection="nums" item="goodsNum" close=")" open="(" index="index" 
+					separator=",">
+				#{goodsNum}
+			</foreach>
+		</if>
+	</trim>
+</select>
 </mapper>

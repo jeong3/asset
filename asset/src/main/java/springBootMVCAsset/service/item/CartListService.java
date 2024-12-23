@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
+import springBootMVCAsset.domain.GoodsCartDTO;
 import springBootMVCAsset.mapper.CartMapper;
 import springBootMVCAsset.mapper.MemberMapper;
 
@@ -19,8 +20,18 @@ public class CartListService {
 	CartMapper cartMapper;
 	public void execute(Model model, HttpSession session) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		String memberNum = memberMapper.memberNumSelect(auth.getUserId());
 		
-		
+		List<GoodsCartDTO> list = cartMapper.cartSelectList(memberNum, null);
+		model.addAttribute("list", list);
+		Integer totPri = 0;
+		Integer totQty = 0;
+		for( GoodsCartDTO dto  :  list) {
+			totPri += dto.getGoodsDTO().getGoodsPrice() * dto.getCartDTO().getCartQty();
+			totQty += dto.getCartDTO().getCartQty();
+		}
+		model.addAttribute("totPri", totPri);
+		model.addAttribute("totQty", totQty);
 	}
 }
 

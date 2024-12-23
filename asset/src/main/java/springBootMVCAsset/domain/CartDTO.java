@@ -8,10 +8,11 @@ import springBootMVCAsset.domain.CartDTO;
 @Data
 @Alias("cartDTO")
 public class CartDTO {
-	Integer cartNum;
-	String memberNum;
 	String goodsNum;
-	Integer cartQty;
+	String memberNum;
+	Integer cartNum;
 	Date cartDate;
+	Integer cartQty;
+	
 }
 
