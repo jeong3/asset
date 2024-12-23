@@ -4,13 +4,21 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.IpgoMapper">
 <sql id="BaseColumns">
-	ipgoNum, ipgoQty, ipgoDate, ipgoPrice
-	,empNum, goodsNum
+	IPGO_NUM, IPGO_QTY, IPGO_DATE, IPGO_PRICE
+	,EMP_NUM, GOODS_NUM
 </sql>
 
 <insert id="ipgoRegist" parameterType="ipgoDTO">
-insert into ipgo ( <include refid="BaseColumns" /> )
-values (#{goodsNum}, #{ipgoQty}, #{ipgoDate}, #{ipgoPrice}
-,#{empNum}, #{#{goodsNum, jdbcType=VARCHAR})
+  insert into ipgo ( <include refid="BaseColumns" /> )
+  values (#{ipgoNum, jdbcType=VARCHAR}, #{ipgoQty, jdbcType=INTEGER}, #{ipgoDate, jdbcType=TIMESTAMP}, 
+  #{ipgoPrice, jdbcType=INTEGER}, null, #{goodsNum, jdbcType=VARCHAR})
 </insert>
+
+<select id="ipgoSelectAll" resultType="ipgoDTO">
+select * from ipgo
+</select>
+
+<delete id="ipgoDelete" parameterType="String">
+delete from ipgo where ipgo_num = #{ipgoNum}
+</delete>
 </mapper>

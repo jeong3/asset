@@ -3,6 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>입고 목록</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script>
+function deleteIpgo(ipgoNum) {
+	if (confirm("정말 삭제하시겠습니까?")) {
+		$.ajax({
+			type: "get",
+			url: "/goodsIpgo/ipgoDelete",
+			data: { ipgoNum: ipgoNum },
+			success: function(response) {
+				alert("삭제가 완료되었습니다.");
+				window.location.reload();
+			},
+			error: function() {
+				alert("서버 오류가 발생했습니다. 삭제할 수 없습니다.");
+			},
+			complete : ipgoList
+		});
+	} else {
+		ipgoList();
+	}
+}
+function ipgoList() {
+	$.ajax({
+		type: "get",
+		url: "/goodsIpgo/ipgoList",
+		dataType: "html",
+		success: function(result) {
+			$("#content").html(result);
+		},
+		error: function() {
+			alert("서버 오류");
+		}
+	});
+}
+</script>
 </head>
 <body>
   <div align="center">
@@ -21,7 +57,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="dto : ${list}" th:data-ipgo-num="${dto.ipgoNum}" onclick="ipgoUpdate(this)">
+        <tr th:each="dto : ${list}" th:data-ipgo-num="${dto.ipgoNum}">
           <td>[[${dto.ipgoNum}]]</td>
           <td>[[${dto.goodsNum}]]</td>
           <td>[[${dto.ipgoQty}]]</td>

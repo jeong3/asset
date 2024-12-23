@@ -15,7 +15,11 @@ public class IpgoRegistService {
 	IpgoMapper ipgoMapper;
 	public void execute(IpgoCommand ipgoCommand, HttpSession session) {
 		IpgoDTO dto = new IpgoDTO();
-		BeanUtils.copyProperties("ipgoCommand", dto);
+		dto.setIpgoNum(ipgoCommand.getIpgoNum());
+		dto.setIpgoDate(ipgoCommand.getIpgoDate());
+		dto.setIpgoPrice(ipgoCommand.getIpgoPrice());
+		dto.setIpgoQty(ipgoCommand.getIpgoQty());
+		dto.setGoodsNum(ipgoCommand.getGoodsNum());
 		ipgoMapper.ipgoRegist(dto);
 		
 	}

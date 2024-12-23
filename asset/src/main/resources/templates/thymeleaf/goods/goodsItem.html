@@ -21,9 +21,9 @@ function setGoods(element) {
 		<caption>상품 목록 (상품 수)</caption>
 		
 		<tr th:each="dto, status : ${list}">
-			
 			<th th:text="${status.count}"></th>
 			<th id="goodsNum">[[${dto.goodsNum }]]</th>
+			<th>[[${dto.goodsKind}]]</th>
 			<th>[[${dto.goodsName}]]</th>
 			<th>[[${dto.goodsPrice }]]</th>
 			<th><button type="button" th:data-goods-num="${dto.goodsNum}" onclick="setGoods(this);">상품 선택</button></th>

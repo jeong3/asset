@@ -28,6 +28,10 @@ values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
 select * from goods where goods_Kind = #{goodsKind}
 </select>
 
+<select id="goodsSelectAll" resultType="goodsDTO" parameterType="String">
+select * from goods
+</select>
+
 <select id="goodsSelectOne" parameterType="String" resultType="goodsDTO">
 select * from goods where goods_num = #{goodsNum}
 </select>
