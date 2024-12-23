@@ -61,7 +61,6 @@ h1 {letter-spacing: 6px}
       <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
     </div>
   </div>
-  
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
         <!-- 마이페이지 -->
@@ -72,12 +71,14 @@ h1 {letter-spacing: 6px}
                  <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
             </div>
         </div>
+        
         <!-- 로그아웃 -->
-        <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search">로그아웃</a>
+        
      </th:block>
+     <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
   </div>
   <div th:if="${session.auth == null}">
-       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search">로그인</a>
+       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
   </div>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
