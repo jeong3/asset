@@ -51,7 +51,6 @@ h1 {letter-spacing: 6px}
         <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
     </div>
   </div>
- 
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
@@ -63,6 +62,7 @@ h1 {letter-spacing: 6px}
   </div>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
+     <a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
         <!-- 마이페이지 -->
         <div class="w3-dropdown-hover w3-hide-small">
            <button class="w3-button" title="Notifications">마이페이지 <i class="fa fa-caret-down"></i></button>     
