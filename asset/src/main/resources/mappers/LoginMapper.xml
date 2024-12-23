@@ -22,4 +22,9 @@
 		where emp_id = #{userId}
 </select>
 
+<select id="userIdCheck" parameterType="string" resultType="integer">
+	select 1 from members where member_id = #{userId}
+	union
+	select 1 from employees where emp_id = #{userId}
+</select>
 </mapper>

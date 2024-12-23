@@ -3,5 +3,35 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.MyPageMapper">
+<sql id="BaseColums">
+		MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
+		,MEMBER_ADDR, MEMBER_ADDR_DETAIL, MEMBER_POST
+		,MEMBER_REGIST, MEMBER_GENDER, MEMBER_PHONE
+		,MEMBER_EMAIL , MEMBER_BIRTH
+</sql>
 
+<select id="memberMyDetail" parameterType="memberDTO">
+select <include refid="BaseColums"/>
+from members
+where MEMBER_ID = #{memberId}
+</select>
+
+<update id="memberMyUpdate" parameterType="memberDTO">
+update members
+set
+	MEMBER_NAME = #{memberName},
+	MEMBER_ADDR = #{memberAddr},
+	<if test="memberAddrDetail != null">
+	MEMBER_ADDR_DETAIL = #{memberAddrDetail},
+	</if>
+	<if test="memberAddrDetail == null">
+	MEMBER_ADDR_DETAIL = null,
+	</if>
+	MEMBER_POST = #{memberPost},
+	MEMBER_GENDER = #{memberGender},
+	MEMBER_PHONE = #{memberPhone},
+	MEMBER_EMAIL = #{memberEmail},
+	MEMBER_BIRTH = #{memberBirth}
+where MEMBER_ID = #{memberId}
+</update>
 </mapper>

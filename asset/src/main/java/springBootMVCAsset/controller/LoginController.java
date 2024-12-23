@@ -7,9 +7,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.LoginCommand;
+import springBootMVCAsset.service.login.IdcheckService;
 import springBootMVCAsset.service.login.UserLoginService;
 
 @Controller
@@ -17,6 +19,8 @@ import springBootMVCAsset.service.login.UserLoginService;
 public class LoginController {
 	@Autowired
 	UserLoginService userLoginService;
+	@Autowired
+	IdcheckService idcheckService;
 	
 	@GetMapping("login")
 	public String String(LoginCommand loginCommand) {
@@ -36,5 +40,10 @@ public class LoginController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@PostMapping("userIdCheck")
+	public @ResponseBody Integer userIdCheck(String userId){
+		return idcheckService.execute(userId);
 	}
 }

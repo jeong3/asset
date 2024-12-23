@@ -7,4 +7,5 @@ import springBootMVCAsset.domain.MemberDTO;
 @Mapper
 public interface MyPageMapper {
 	public MemberDTO memberMyDetail(String memberId);
+	public void memberMyUpdate(MemberDTO dto);
 }

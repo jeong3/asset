@@ -68,13 +68,11 @@ h1 {letter-spacing: 6px}
            <button class="w3-button" title="Notifications">마이페이지 <i class="fa fa-caret-down"></i></button>     
            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
               <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
-                 <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+              <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
             </div>
         </div>
-        
-        <!-- 로그아웃 -->
-        
-     </th:block>
+       </th:block>
      <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
   </div>
   <div th:if="${session.auth == null}">
