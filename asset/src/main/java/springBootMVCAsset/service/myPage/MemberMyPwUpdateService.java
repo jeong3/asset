@@ -15,7 +15,20 @@ public class MemberMyPwUpdateService {
 	@Autowired
 	MyPageMapper myPageMapper;
 	
-	public void execute(String oldPw, String newPw, String newPWCon, HttpSession session) {
+	public Integer execute(String oldPw, String newPw, String newPwCon, HttpSession session) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		if(passwordEncoder.matches(oldPw, auth.getUserPw())) {
+			System.out.println(newPw);
+			System.out.println(newPwCon);
+			if(newPw.equals(newPwCon) ) {
+				String pw = passwordEncoder.encode(newPw);
+				myPageMapper.memberMyPwUpdate(pw, auth.getUserId());
+				return 1;
+			}else {
+				return 0;
+			}
+		}else {
+			return 0;
+		}
 	}
 }

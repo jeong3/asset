@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.MemberCommand;
@@ -48,8 +49,19 @@ public class MyPageController {
 	}
 	
 	@PostMapping("memberMyPwUpdate")
-	public String memberMyPwUpdate(String oldPw, String newPw, String newPWCon, HttpSession session) {
-		memberMyPwUpdateService.execute(oldPw, newPw, newPWCon, session);
-		return "redirect:memberMyDetail";
+	public String memberMyPwUpdate(String oldPw, String newPw, String newPwCon, HttpSession session) {
+		int i = memberMyPwUpdateService.execute(oldPw, newPw, newPwCon, session);
+		if(i == 1) {
+			return "redirect:memberMyDetail";
+		}else{
+			return "redirect:memberMyPwUpdate";
+		}
+	}
+	
+	@PostMapping("newPwCheck")
+	public @ResponseBody Integer newPwCheck(String newPw, String newPwCon){
+		if(newPw.equals(newPwCon)) {
+			return 1;
+		}else {return 0;}
 	}
 }

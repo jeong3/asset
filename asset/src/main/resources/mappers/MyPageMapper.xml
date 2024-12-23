@@ -34,4 +34,10 @@ set
 	MEMBER_BIRTH = #{memberBirth}
 where MEMBER_ID = #{memberId}
 </update>
+
+<update id="memberMyPwUpdate">
+update members
+set MEMBER_PW = #{_newPw}
+where MEMBER_ID = #{_memberId}
+</update>
 </mapper>

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import springBootMVCAsset.mapper.LoginMapper;
 
 @Service
-public class IdcheckService {
+public class IdCheckService {
 	@Autowired
 	LoginMapper loginMapper;
 	

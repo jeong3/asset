@@ -22,4 +22,26 @@ $(function(){
 			}
 		});
 	});
+	
+	$("#newPwCon").on("change keyup", function(){
+			$.ajax({
+				type: "post",
+				url: "/myPage/newPwCheck",
+				data: {"newPw": $("#newPw").val(),
+					"newPwCon": $("#newPwCon").val()},
+				dataType: "text",
+				success : function(result){
+					if(result == "1"){
+						$("#pwCheck").text("비밀번호가 일치합니다.");
+						$("#pwCheck").css("color", "blue");
+					}else{
+						$("#pwCheck").text("비밀번호가 일치하지않습니다.");
+						$("#pwCheck").css("color", "red");
+					}
+				},
+				error:function(){
+					alert("서버오류");
+				}
+			});
+		});
 });

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.LoginCommand;
-import springBootMVCAsset.service.login.IdcheckService;
+import springBootMVCAsset.service.login.IdCheckService;
 import springBootMVCAsset.service.login.UserLoginService;
 
 @Controller
@@ -20,7 +20,7 @@ public class LoginController {
 	@Autowired
 	UserLoginService userLoginService;
 	@Autowired
-	IdcheckService idcheckService;
+	IdCheckService idCheckService;
 	
 	@GetMapping("login")
 	public String String(LoginCommand loginCommand) {
@@ -44,6 +44,6 @@ public class LoginController {
 	
 	@PostMapping("userIdCheck")
 	public @ResponseBody Integer userIdCheck(String userId){
-		return idcheckService.execute(userId);
+		return idCheckService.execute(userId);
 	}
 }
