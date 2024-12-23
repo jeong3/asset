@@ -200,9 +200,9 @@ function deleteFromCart(cartNum) {
         </tr>
         
         <tr><td colspan="7" align="right">
-			상품수 : <span id="prodCnt">[[${#numbers.formatInteger(list.size(),1,'COMMA')}]]</span>개<br />
-			총수량 : <span id="totQty">[[${#numbers.formatInteger(totQty,1,'COMMA')}]]</span>개<br />
-			전체 합계 : <span id="totalPrice">[[${#numbers.formatInteger(totPri, 1, 'COMMA')}]]원</span>
+			상품수 : <span id="prodCnt"></span>개<br />
+			총수량 : <span id="totQty"></span>개<br />
+			전체 합계 : <span id="totalPrice">원</span>
 		</td></tr>
 		<tr> <th colspan="7"><button type="button" 
 				onclick="purchaseRegist()" class="w3-button w3-block w3-black">주문하기</button></th></tr>

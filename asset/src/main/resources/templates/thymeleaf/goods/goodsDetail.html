@@ -1,6 +1,8 @@
 <head>
 <link rel="stylesheet" href="/static/css/goodsDetail.css">
 <script src="/static/js/goodsDetail.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script>
 $(document).ready(function () {
     const goodsPrice = parseFloat($("#goodsPrice").text());
@@ -34,6 +36,34 @@ document.getElementById("toggleReviewsBtn").addEventListener("click", function()
         reviews.style.display = "none";   // 리뷰 영역 숨기기
     }
 });
+function addCart(element) {
+	
+    var goodsNum = $(element).data('goodsNum');  // 상품 번호
+    var cartQty = $('#cartQty').val();           // 수량
+	alert(cartQty);
+    $.ajax({
+        type: "POST",
+        url: "/item/addCart",  // 서버에서 처리할 URL
+        contentType: "application/json",  // JSON 형식으로 데이터 전송
+        data: JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
+            "goodsNum": goodsNum,
+            "cartQty": cartQty
+        }),
+        dataType: "html",  // 응답을 HTML 형식으로 처리
+        success: function(result) {
+            if(result != null){
+               if (confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
+				cartList();
+				}
+            } else {
+                alert("장바구니 추가에 실패했습니다.");
+            }
+        },
+        error: function() {
+            alert("장바구니 추가에 실패했습니다.");
+        }
+    });
+}
 </script>
 <style type="text/css">
 /* 리뷰 컨테이너 스타일 */
@@ -144,11 +174,12 @@ document.getElementById("toggleReviewsBtn").addEventListener("click", function()
         <h1>상품명</h1>
         <h5>상품내용</h5>
         <h5>판매가  <span id="goodsPrice">[[${dto.goodsPrice}]]</span></h5>
+        <h5>수량 <input type="number" min="1" step="1" value="1" id="cartQty"/></h5>
         <div class="description">
         <span th:if="${session.auth != null and session.auth.grade == 'emp'}" >
         </span>
         </div>
-        <button class="add-to-cart" onclick="addCart(this)">Add To Cart</button>
+        <button class="add-to-cart" th:data-goods-num="${dto.goodsNum}" onclick="addCart(this)">Add To Cart</button>
         <button class="add-to-cart"  onclick="buyNow(this)">Pay</button> <br><br><br><br><br><br><br>
          <button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>
        
