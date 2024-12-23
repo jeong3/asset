@@ -9,8 +9,8 @@ import springBootMVCAsset.mapper.LoginMapper;
 public class IdCheckService {
 	@Autowired
 	LoginMapper loginMapper;
-	
 	public Integer execute(String userId) {
-		return loginMapper.userIdCheck(userId);
+		return loginMapper.idCheckSelectOne(userId);
+		
 	}
 }

@@ -7,6 +7,8 @@ import springBootMVCAsset.domain.AuthInfoDTO;
 
 @Mapper
 public interface LoginMapper {
-	public AuthInfoDTO login(String userId);
-	public Integer userIdCheck(@Param("userId") String userId);
+	AuthInfoDTO LoginSelectOne(String userId);
+
+	Integer idCheckSelectOne(String userId);
+	
 }

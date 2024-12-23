@@ -60,24 +60,24 @@ h1 {letter-spacing: 6px}
 </div>
 </div>
 <br/><br/><br/>
-<form action="/login/login" method="post" th:object="${loginCommand}">
+<form action="/login/login" method="post" id="frm" th:object="${loginCommand}">
 <table>
     <tr>
         <td><h2>로그인</h2></td>
     </tr>
     <tr>
-        <td><input type="text" name="userId" th:value="${loginCommand.userId}" placeholder="ID"></td>
+        <td><input id="userId" type="text" placeholder="ID" th:field="*{userId}" required="required"></td>
         <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span>
     </tr>
     <tr>
-        <td><input type="password" name="userPw" placeholder="Password"></td>
+        <td><input id="userPw" type="password" placeholder="Password" th:field="*{userPw}" required="required" ></td>
         <span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}"></span>
     </tr>
     <tr>
-       <td><input type="checkbox" name="autoLogin">로그인 정보 저장</td>
+       <td><input type="checkbox" name="autoLogin" th:checked="${loginCommand.autoLogin}">자동로그인</td>
     </tr>
     <tr>
-       <td><input type="checkbox" name="idStore">아이디저장</td>
+       <td><input type="checkbox" name="idStore" th:checked="${loginCommand.userId != null}" >아이디저장</td>
     </tr>
     <tr>
        <td><input type="submit" value="로그인" class="btn"></td>

@@ -5,6 +5,7 @@
 <mapper namespace="springBootMVCAsset.mapper.LoginMapper">
 
 <resultMap type="authDTO" id="authResultMap">
+<result column="member_num" property="userNum" jdbcType="VARCHAR"/>
 <result column="member_id" property="userId" jdbcType="VARCHAR"/>
 <result column="member_pw" property="userPw" jdbcType="VARCHAR"/>
 <result column="member_name" property="userName" jdbcType="VARCHAR"/>
@@ -12,17 +13,15 @@
 <result column="grade" property="grade" jdbcType="VARCHAR"/>
 </resultMap>
 
-<select id="login" parameterType="string" resultMap="authResultMap">
-	select member_id, member_pw, member_name, member_email, 'mem' as grade
-		from members
-		where member_id = #{userId}
-	union
-	select emp_id, emp_pw, emp_name, emp_email, 'emp' as grade
-		from employees
-		where emp_id = #{userId}
+<select id="LoginSelectOne" parameterType="string" resultMap="authResultMap">
+	select member_num, member_id, member_pw, member_name, member_email, 'mem' as grade from members 
+where member_id = #{userId} 
+union
+select emp_num, emp_id, emp_pw, emp_name, emp_email, 'emp' from employees 
+where emp_id = #{userId} 
 </select>
 
-<select id="userIdCheck" parameterType="string" resultType="integer">
+<select id="idCheckSelectOne" parameterType="string" resultType="integer">
 	select 1 from members where member_id = #{userId}
 	union
 	select 1 from employees where emp_id = #{userId}
