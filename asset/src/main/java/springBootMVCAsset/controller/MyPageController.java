@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.MemberCommand;
+import springBootMVCAsset.service.myPage.MemberMyDeleteService;
 import springBootMVCAsset.service.myPage.MemberMyDetailService;
 import springBootMVCAsset.service.myPage.MemberMyPwUpdateService;
 import springBootMVCAsset.service.myPage.MemberMyUpdateService;
@@ -23,6 +24,8 @@ public class MyPageController {
 	MemberMyUpdateService memberMyUpdateService;
 	@Autowired
 	MemberMyPwUpdateService memberMyPwUpdateService;
+	@Autowired
+	MemberMyDeleteService memberMyDeleteService;
 	
 	@GetMapping("memberMyDetail")
 	public String memberMyDetail(HttpSession session, Model model) {
@@ -63,5 +66,16 @@ public class MyPageController {
 		if(newPw.equals(newPwCon)) {
 			return 1;
 		}else {return 0;}
+	}
+	
+	@GetMapping("memberMyDelete")
+	public String memberMyDelete() {
+		return "thymeleaf/myPage/memberMyDelete";
+	}
+	
+	@PostMapping("memberMyDelete")
+	public String memberMyDelete(String memberPw, HttpSession session) {
+		memberMyDeleteService.execute(memberPw, session);
+		return "redirect:/login/logout";
 	}
 }

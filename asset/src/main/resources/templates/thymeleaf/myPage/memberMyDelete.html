@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="/static/js/check.js"></script>
+<style>
+body,h1 {font-family: "Raleway", Arial, sans-serif}
+h1 {letter-spacing: 6px}
+.w3-row-padding img {margin-bottom: 12px}
+</style>
+<title>Member Detail</title>
+</head>
+<body>
+<div class="w3-content" style="max-width:1500px">
+	<div class="w3-top">
+	 <div class="w3-bar w3-theme-d2 w3-left-align">
+	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+	  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+	  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+	  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+	  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+	  
+	 <div class="w3-dropdown-hover w3-hide-small">
+	  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+	   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+	    </div>
+	  </div>
+	  
+	  <div class="w3-dropdown-hover w3-hide-small">
+	  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+	   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	    </div>
+	  </div>
+	 
+	  <div class="w3-dropdown-hover w3-hide-small">
+	    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+	    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
+	   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+	      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+	      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+	    </div>
+	  </div>
+	  
+  <div th:if="${session.auth != null}">
+     <th:block th:if="${session.auth.grade == 'mem'}">
+        <!-- 마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">마이페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+     <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
+  </div>
+  <div th:if="${session.auth == null}">
+       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
+  </div>
+	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+	 </div>
+	 </div>
+ <br/> <br/> <br/>
+ <form action="memberMyDelete" method="post" id="frm">
+	<div class="w3-container" align="center">
+	 <h2>회원 탈퇴</h2>
+	  <p>Member Resign</p>
+	  <hr/>
+		<table  style="width:50%;">
+		    <tr class="w3-bar">
+		      <th>
+		        비밀번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="password" id="memberPw" name="memberPw" required="required"/>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th colspan="2">
+		        	<input type="submit" value="회원탈퇴" >
+		      </th>
+		    </tr>  
+		  </table>
+	  </div>
+	</form>
+</div>
+</body>
+</html>

@@ -40,4 +40,9 @@ update members
 set MEMBER_PW = #{_newPw}
 where MEMBER_ID = #{_memberId}
 </update>
+
+<delete id="memberMyDelete" parameterType="string">
+delete from members
+where MEMBER_ID = #{memberId}
+</delete>
 </mapper>

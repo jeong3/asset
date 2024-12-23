@@ -11,4 +11,5 @@ public interface MyPageMapper {
 	public Integer memberMyUpdate(MemberDTO dto);
 	public Integer memberMyPwUpdate(@Param("_newPw") String newPw
 			, @Param("_memberId") String memberId);
+	public Integer memberMyDelete(String memberId);
 }
