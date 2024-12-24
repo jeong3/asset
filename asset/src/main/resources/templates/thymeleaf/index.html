@@ -59,12 +59,12 @@ h1 {letter-spacing: 6px}
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
         <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
         <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
-        <div th:if="${session.auth != null}">
-     		<th:block th:if="${session.auth.grade == 'emp'}">
+       
+     		
       			<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
       			<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
-      		</th:block>
-      	</div>
+      		
+      	
     </div>
   </div>
   <div th:if="${session.auth != null}">
@@ -81,6 +81,16 @@ h1 {letter-spacing: 6px}
               <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
               <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
               <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+       <th:block th:if="${session.auth.grade == 'emp'}">
+        <!-- 직원마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/empMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/empMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
             </div>
         </div>
        </th:block>
@@ -102,7 +112,6 @@ h1 {letter-spacing: 6px}
   <div class="w3-row-padding w3-center">
     <div class="w3-col m3">
       <img src="/static/images/main.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="The mist over the mountains">
-      sfddfdfd
     </div>
 
     <div class="w3-col m3">
