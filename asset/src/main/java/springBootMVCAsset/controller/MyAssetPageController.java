@@ -15,8 +15,13 @@ public class MyAssetPageController {
 		return "thymeleaf/myAsset/myAssetPage";
 	}
 	
+	@GetMapping("dealChoose")
+	public String dealChoose() {
+		return "thymeleaf/myAsset/dealChoose";
+	}
+	
 	@GetMapping("dealRegist")
 	public String dealRegist() {
-		return "thymeleaf/myAsset/dealRegist";
+		return "thymeleaf/myAsset/dealChoose";
 	}
 }
