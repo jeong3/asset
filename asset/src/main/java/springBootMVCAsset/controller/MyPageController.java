@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.MemberCommand;
+import springBootMVCAsset.service.myPage.EmpMyDetailService;
+import springBootMVCAsset.service.myPage.EmpMyPwUpdateService;
 import springBootMVCAsset.service.myPage.MemberMyDeleteService;
 import springBootMVCAsset.service.myPage.MemberMyDetailService;
 import springBootMVCAsset.service.myPage.MemberMyPwUpdateService;
@@ -26,6 +28,10 @@ public class MyPageController {
 	MemberMyPwUpdateService memberMyPwUpdateService;
 	@Autowired
 	MemberMyDeleteService memberMyDeleteService;
+	@Autowired
+	EmpMyDetailService empMyDetailService;
+	@Autowired
+	EmpMyPwUpdateService empMyPwUpdateService;
 	
 	@GetMapping("memberMyDetail")
 	public String memberMyDetail(HttpSession session, Model model) {
@@ -78,4 +84,24 @@ public class MyPageController {
 		memberMyDeleteService.execute(memberPw, session);
 		return "redirect:/login/logout";
 	}
+	@GetMapping("empMyDetail")
+	public String empMyDetail(HttpSession session, Model model) {
+		empMyDetailService.execute(session,model);
+		return "thymeleaf/emp/empDetail";
+	}
+	@GetMapping("empMyPwUpdate")
+	public String empMyPwUpdate(HttpSession session, Model model) {
+		empMyDetailService.execute(session,model);
+		return "thymeleaf/myPage/empMyPwUpdate";
+	}
+	@PostMapping("empMyPwUpdate")
+	public String empMyPwUpdate(String oldPw, String newPw, String newPwCon, HttpSession session) {
+		int i = empMyPwUpdateService.execute(oldPw, newPw, newPwCon, session);
+		if(i == 1) {
+			return "redirect:empMyDetail";
+		}else{
+			return "redirect:empMyPwUpdate";
+		}
+	}
+	
 }

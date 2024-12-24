@@ -36,13 +36,24 @@ where MEMBER_ID = #{memberId}
 </update>
 
 <update id="memberMyPwUpdate">
-update members
-set MEMBER_PW = #{_newPw}
-where MEMBER_ID = #{_memberId}
+	update members
+	set MEMBER_PW = #{_newPw}
+	where MEMBER_ID = #{_memberId}
 </update>
 
 <delete id="memberMyDelete" parameterType="string">
-delete from members
-where MEMBER_ID = #{memberId}
+	delete from members
+	where MEMBER_ID = #{memberId}
 </delete>
+
+<select id="EmpMyDetail">
+	select EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR_DETAIL, EMP_PHONE, EMP_EMAIL, REGIST_DATE , EMP_POST
+	from employees where emp_id = #{empId}
+</select>
+
+<update id="empMyPwUpdate">
+	update employees
+	set emp_PW = #{empPw}
+	where emp_ID = #{empId}
+</update>
 </mapper>

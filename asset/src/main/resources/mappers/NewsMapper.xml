@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.NewsMapper">
+
+<sql id="BaseColumns">
+	NEWS_NUM, NEWS_CONTENTS, REGIST_DATE, UPDATE_DATE, NEWS_TITLE, IMAGE, STORE_IMAGE, EMP_NUM, UPDATE_EMP_NUM, IMAGE_TITLE, IMAGE_CONTENTS
+</sql>
+
+<insert id="newsInsert">
+	insert into news ( <include refid="BaseColumns" /> )
+	values ( #{newsNum}, #{newsContents}, sysdate, null, #{newsTitle}, #{image}, #{storeImage}
+	, #{empNum}, null, #{imageTitle}, #{imageContents} )
+</insert>
+
+<select id="newsSelectAll">
+	select <include refid="BaseColumns" /> from news order by news_num desc
+</select>
+
+<select id="newsSelectOne">
+	select <include refid="BaseColumns" /> from news where news_num = #{newsNum}
+</select>
+
+<update id="newsUpdate">
+	update news set
+	NEWS_CONTENTS = #{newsContents}
+	, UPDATE_DATE = sysdate
+	, NEWS_TITLE = #{newsTitle}
+	<if test="image != null">
+	, IMAGE = #{image}
+	, STORE_IMAGE = #{storeImage}
+	</if>
+	, UPDATE_EMP_NUM = #{updateEmpNum}
+	, IMAGE_TITLE = #{imageTitle}
+	, IMAGE_CONTENTS = #{imageContents}
+	where news_num = #{newsNum}
+</update>
+
+<delete id="newsDelete">
+	delete from news where news_num = #{newsNum}
+</delete>
+</mapper>

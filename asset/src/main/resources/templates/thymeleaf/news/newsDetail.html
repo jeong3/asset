@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>뉴스 상세 페이지</title>
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc; /* 이전 배경색 유지 */
+}
+.container {
+   
+    margin: 50px auto;
+    
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+}
+.main-content {
+ margin-left: 70px;
+    width: 70%; /* 메인 뉴스 내용 */
+}
+.side-content {
+    width: 20%; /* 사이드 기사 목록 */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-left: 70px; /* 메인 기사와 사이드 기사 사이 여백 */
+   
+}
+.news-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.news-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+.image-caption {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 0px;
+    color: #555;
+    text-align: center;
+}
+.image-description {
+    font-size: 1em;
+    color: #777;
+    margin-top: 5px;
+    text-align: center;
+}
+.news-content {
+    font-size: 1.15em;
+    line-height: 1.8;
+    color: #333;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.news-content p {
+    margin-bottom: 20px;
+}
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    margin-top: 30px;
+    text-align: center;
+}
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* 사이드 기사 목록 스타일 */
+.side-article {
+    margin-bottom: 20px;
+}
+.side-article img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.side-article-title {
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    font-size: 1.1em;
+}
+.side-article-description {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 5px;
+}
+</style>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script type="text/javascript">
+function newsDetail(element){
+	var newsNum = $(element).data('newsNum');
+	location.href="/news/newsDetail?newsNum="+newsNum;
+
+}
+function newsDelete(element){
+	if (confirm("정말 삭제하시겠습니까?")) {
+	var newsNum = $(element).data('newsNum');
+	location.href="/news/newsDelete?newsNum="+newsNum;
+	}
+}
+</script>
+</head>
+<body>
+<div class="w3-content" style="max-width:1500px">
+<div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">뉴스<i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	    	<a href="/news/newsList" class="w3-bar-item w3-button">뉴스</a>
+	        <a href="/news/newsRegist" class="w3-bar-item w3-button">뉴스등록</a>
+	 
+	       
+	    </div>
+	  </div>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <div th:if="${session.auth != null}">
+  	<th:block th:if="${session.auth.grade == 'emp'}">
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+	        <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+	    </div>
+	  </div>
+	  
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+	        <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
+	    </div>
+	  </div>
+  	</th:block>
+  </div>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+        <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+       
+     		
+      			<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      			<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+      		
+      	
+    </div>
+  </div>
+  <div th:if="${session.auth != null}">
+     <th:block th:if="${session.auth.grade == 'mem'}">
+     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     	
+     	<!-- 마이자산페이지 -->
+     	<a href="/budget/myBudgetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
+     	
+        <!-- 마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+       <th:block th:if="${session.auth.grade == 'emp'}">
+        <!-- 직원마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/empMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/empMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+            </div>
+        </div>
+       </th:block>
+     <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
+  </div>
+  <div th:if="${session.auth == null}">
+       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+ <br /><br /><br />
+ 
+ 
+ 
+    <div class="container">
+        <!-- 뉴스 상세 페이지 메인 내용 -->
+        <div class="main-content">
+            <!-- 뉴스 제목 -->
+            <div class="news-title">
+                [[${dto.newsTitle}]]
+            </div>
+
+            <!-- 뉴스 이미지 -->
+            <img th:src="|/static/images/${dto.storeImage}|" alt="뉴스 이미지" class="news-image">
+            
+            <div class="image-description">
+               <b>[[${dto.imageTitle}]]</b> - [[${dto.imageContents}]]
+            </div>
+
+            <div class="spacer"></div> <!-- 공백 추가 -->
+
+            <!-- 뉴스 내용 -->
+            <div class="news-content">
+                 <p><div th:utext="${#strings.replace(newsContents, '\n', '<br>')}"></div></p>
+            </div>
+
+            <!-- 돌아가기 버튼 -->
+            <a href="javascript:history.back()" class="back-button">돌아가기</a>
+            <a th:href="|/news/newsUpdate?newsNum=${dto.newsNum}|" class="back-button">수정</a>
+            <a th:data-news-num="${dto.newsNum}" onclick="newsDelete(this);" class="back-button">삭제</a>
+        </div>
+
+        <!-- 오른쪽 사이드에 다른 기사 목록 -->
+        <div class="side-content">
+            <h3>다른 기사들</h3>
+            <div class="side-article" th:each="list : ${list}" th:data-news-num="${list.newsNum}" onclick="newsDetail(this)">
+                <img th:src="|/static/images/${list.storeImage}|" alt="기사 이미지">
+                <div class="side-article-title">[[${list.newsTitle}]]</div>
+                <div class="side-article-description">[[${#strings.abbreviate(list.newsContents, 50)}]]</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

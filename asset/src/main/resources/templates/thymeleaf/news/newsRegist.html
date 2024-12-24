@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" Contents="width=device-width, initial-scale=1.0">
+    <title>Register News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input, textarea {
+            width: calc(100% - 20px); /* Added space to avoid overlap */
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            margin-right: 10px; /* Add margin to the right */
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register News</h1>
+        <form action="/news/newsRegist" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="newsId">News Num</label>
+                <input type="text" id="newsNum" name="newsNum" th:value="${newsCommand.newsNum}" readonly="readonly">
+            </div>
+            <div>
+                <label for="newsTitle">News Title</label>
+                <input type="text" id="newsTitle" name="newsTitle" >
+            </div>
+            <div>
+                <label for="newsContents">News Contents</label>
+                <textarea id="newsContents" name="newsContents" rows="5" ></textarea>
+            </div>
+            <div>
+                <label for="imageTitle">Image Title</label>
+                <input type="text" id="imageTitle" name="imageTitle" >
+            </div>
+            <div>
+                <label for="imageContents">Image Contents</label>
+                <textarea id="imageContents" name="imageContents" rows="3" ></textarea>
+            </div>
+            <div>
+                <label for="image">Upload Image</label>
+                <input type="file" id="image" name="image" accept="image/*" >
+            </div>
+            <button type="submit">등록</button>
+        </form>
+    </div>
+</body>
+</html>
