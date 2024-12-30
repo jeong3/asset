@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script type="text/javascript" src="/static/js/checkbox.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<style>
+body,h1 {font-family: "Raleway", Arial, sans-serif}
+h1 {letter-spacing: 6px}
+.w3-row-padding img {margin-bottom: 12px}
+</style>
+<title>Deal Regist</title>
+</head>
+<body>
+<div class="w3-content" style="max-width:1500px">
+	<div class="w3-top">
+	 <div class="w3-bar w3-theme-d2 w3-left-align">
+	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+	  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+	  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+	  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+	  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+	  
+	 <div class="w3-dropdown-hover w3-hide-small">
+	  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+	   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+	    </div>
+	  </div>
+	  
+	  <div class="w3-dropdown-hover w3-hide-small">
+	  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+	   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	    </div>
+	  </div>
+	 
+	  <div class="w3-dropdown-hover w3-hide-small">
+	    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+	    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
+	   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+	      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+	      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+	    </div>
+	  </div>
+	  
+  <div th:if="${session.auth != null}">
+     <th:block th:if="${session.auth.grade == 'mem'}">
+        <!-- 마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">마이페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-buton">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+     <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
+  </div>
+  <div th:if="${session.auth == null}">
+       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
+  </div>
+	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+	 </div>
+	 </div>
+ <br/> <br/> <br/>
+<form action="dealRegist" method="post" th:object="${dealCommand}">
+	<div class="w3-container" align="center">
+		<div th:if="${dealCommand.categoryName == '지출'}">
+			<h2>지출입력</h2>
+		</div>
+		<div th:if="${dealCommand.categoryName == '수입'}">
+			<h2>지출입력</h2>
+		</div>
+		<div th:if="${dealCommand.categoryName == '저축'}">
+			<h2>지출입력</h2>
+		</div>
+		<div th:if="${dealCommand.categoryName == '재테크'}">
+			<h2>지출입력</h2>
+		</div>
+	  	<p>dealRegist</p>
+	 	<hr/>
+
+		<table  style="width:50%;">
+		    <tr class="w3-bar">
+		      <th>
+		        거래번호
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="dealNum" th:value="${dealCommand.dealNum}" readonly="readonly"/>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        거래수단
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          	<input type="radio" name="dealMethod" value="cash" checked/> 현금 
+		          	<input type="radio" name="dealMethod" value="checkCard" /> 체크카드
+		          	<input type="radio" name="dealMethod" value="creditCard" /> 신용카드
+		        	<span style = "color : red" th:if="${#fields.hasErrors('dealMethod')}" th:errors="*{dealMethod}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        거래날짜
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="date" name="dealDate" th:value="${#dates.format(dealCommand.dealDate,'yyyy-MM-dd')}"   />
+		          <span style = "color : red" th:if="${#fields.hasErrors('dealDate')}" th:errors="${dealCommand.dealDate}"></span> 
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        카테고리
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		        	<div th:if="${dealCommand.categoryName == '지출'}">
+			        	<select name="categoryType" class="text">
+	        				<option value="이체" th:selected="${dealCommand.categoryType == '이체'}">이체</option>
+	            			<option value="식비" th:selected="${dealCommand.categoryType == '식비'}">식비</option>
+	            			<option value="교통비" th:selected="${dealCommand.categoryType == '교통비'}">교통비</option>
+	            			<option value="문화생활" th:selected="${dealCommand.categoryType == '문화생활'}">문화생활</option>
+	            			<option value="생필품" th:selected="${dealCommand.categoryType == '생필품'}">생필품</option>
+	            			<option value="의류" th:selected="${dealCommand.categoryType == '의류'}">의류</option>
+	            			<option value="미용" th:selected="${dealCommand.categoryType == '미용'}">미용</option>
+	            			<option value="의료" th:selected="${dealCommand.categoryType == '의료'}">의료</option>
+	            			<option value="교육" th:selected="${dealCommand.categoryType == '생필품'}">교육</option>
+	            			<option value="기타" th:selected="${dealCommand.categoryType == '기타'}">기타</option>
+	        			</select>
+        			</div>
+        			<div th:if="${dealCommand.categoryName == '수입'}">
+			        	<select name="categoryType" class="text">
+	        				<option value="월급" th:selected="${dealCommand.categoryType == '월급'}">월급</option>
+	            			<option value="용돈" th:selected="${dealCommand.categoryType == '용돈'}">용돈</option>
+	            			<option value="이월" th:selected="${dealCommand.categoryType == '이월'}">이월</option>
+	            			<option value="이체" th:selected="${dealCommand.categoryType == '이체'}">이체</option>
+	            			<option value="기타" th:selected="${dealCommand.categoryType == '기타'}">기타</option>
+	        			</select>
+        			</div>
+        			<div th:if="${dealCommand.categoryName == '저축'}">
+			        	<select name="categoryType" class="text">
+	        				<option value="예금" th:selected="${dealCommand.categoryType == '예금'}">예금</option>
+	            			<option value="적금" th:selected="${dealCommand.categoryType == '적금'}">적금</option>
+	            			<option value="기타" th:selected="${dealCommand.categoryType == '기타'}">기타</option>
+	        			</select>
+        			</div>
+        			<div th:if="${dealCommand.categoryName == '재테크'}">
+			        	<select name="categoryType" class="text">
+	        				<option value="펀드" th:selected="${dealCommand.categoryType == '펀드'}">펀드</option>
+	            			<option value="투자" th:selected="${dealCommand.categoryType == '투자'}">투자</option>
+	            			<option value="주식" th:selected="${dealCommand.categoryType == '주식'}">주식</option>
+	            			<option value="기타" th:selected="${dealCommand.categoryType == '기타'}">기타</option>
+	        			</select>
+        			</div>
+				  	<span style="color: red" th:if="${#fields.hasErrors('categoryType')}" th:errors="*{categoryType}"  />
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        거래금액
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <input type="text" name="dealPrice" th:value="${dealCommand.dealPrice}" class="text">
+		          <span style = "color : red" th:if="${#fields.hasErrors('dealPrice')}" th:errors="*{dealPrice}"  ></span>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th>
+		        거래내용
+		      </th>
+		      <th>
+		        <div class="w3-bar-item">
+		          <textarea rows="10" cols="60" name="dealContents" class="text">[[${dealCommand.dealContents}]]</textarea>
+		        </div>
+		      </th>
+		    </tr>
+		    <tr class="w3-bar">
+		      <th colspan="2">
+		        	<input type="submit" value="거래등록" >
+		      </th>
+		    </tr>  
+		  </table>
+	  </div>
+	</form>
+</div>
+</body>
+</html>
