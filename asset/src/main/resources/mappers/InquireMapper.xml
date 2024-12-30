@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.InquireMapper">
+<select id="inquireList" parameterType="hashmap" resultType="inquire">
+select inquire_num, i.member_num, inquire_subject, inquire_contents ,inquire_kind, 
+      inquire_date, inquire_answer, inquire_answer_date ,i.emp_num 
+      ,member_id 
+from inquire i left outer join members m 
+on i.member_num = m.member_num 
+<trim prefix="where" prefixOverrides="AND | OR">
+	<if test="inquireNum  != null">
+		and inquire_num = #{inquireNum}
+	</if>
+</trim> 
+</select>
+</mapper>

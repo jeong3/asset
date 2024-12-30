@@ -34,7 +34,7 @@ public class CartInsertService {
 			dto.setCartQty(cartCommand.getCartQty());
 			dto.setGoodsNum(cartCommand.getGoodsNum());
 			dto.setMemberNum(memberNum);
-			System.out.println("dto : " + dto);
+			System.out.println("Cartdto1 : " + dto);
 			cartMapper.cartMerge(dto);
 			return "200";
 		}

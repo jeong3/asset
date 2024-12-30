@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class CartCommand {
 	String goodsNum;
-	Integer CartQty;
+	Integer cartQty;
 }

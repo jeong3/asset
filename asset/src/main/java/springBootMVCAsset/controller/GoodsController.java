@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.GoodsCommand;
 import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.goods.GoodsDeleteService;
 import springBootMVCAsset.service.goods.GoodsDetailService;
+import springBootMVCAsset.service.goods.GoodsDetailViewService;
 import springBootMVCAsset.service.goods.GoodsListService;
 import springBootMVCAsset.service.goods.GoodsRegistService;
 import springBootMVCAsset.service.goods.GoodsUpdateService;
@@ -51,6 +53,7 @@ public class GoodsController {
 		goodsListService.execute(goodsKind, model);
 		return "thymeleaf/goods/goodsList";
 	}
+	/*
 	@GetMapping("goodsDetail")
 	public String goodsDetail(@RequestParam("goodsNum") String goodsNum
 			,Model model, HttpSession session) {
@@ -58,6 +61,7 @@ public class GoodsController {
 		goodsDetailService.execute(goodsNum, model, session);
 		return "thymeleaf/goods/goodsDetail";
 	}
+	*/
 	@GetMapping("goodsUpdate") 
 	public String goodsUpdate(@RequestParam("goodsNum") String goodsNum
 			,Model model, HttpSession session) {
@@ -73,5 +77,14 @@ public class GoodsController {
 	public String goodsDel(@RequestParam ("goodsNum") String goodsNum) {
 		goodsDeleteService.execute(goodsNum);
 		return "redirect:/"; //PathVariable인 경우에는 주소 앞에 .. 을 꼭해줘야 합니다.
+	}
+	@Autowired
+	GoodsDetailViewService goodsDetailViewService;
+	@GetMapping("goodsDetail")
+	public String goodsInfo(
+			@RequestParam("goodsNum") String goodsNum,Model model
+			, HttpServletResponse response, HttpSession session) {	
+		goodsDetailViewService.execute(goodsNum, model, response, session);
+		return "thymeleaf/goods/goodsDetail";
 	}
 }

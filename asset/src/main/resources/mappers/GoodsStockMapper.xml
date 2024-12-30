@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.GoodsStockMapper">
+<resultMap type="goodsStock" id="goodsStockResultMap">
+	<result column="stock" jdbcType="VARCHAR" property="stock"/>
+	<association property="goodsDTO" javaType="goodsDTO" >
+		<id column="goods_Num" jdbcType="VARCHAR" property="goodsNum"/>
+		<result column="goods_Name" jdbcType="VARCHAR" property="goodsName"/>
+		<result column="GOODS_CONTENTS" jdbcType="VARCHAR" property="goodsContents"/>
+		<result column="goods_Price" jdbcType="BIGINT" property="goodsPrice"/>
+		<result column="EMP_NUM" jdbcType="VARCHAR" property="empNum"/>
+		<result column="GOODS_KIND" jdbcType="VARCHAR" property="goodsKind"/>
+		<result column="REGIST_DATE" jdbcType="DATE" property="registDate"/>
+		<result column="MAIN_IMAGE" jdbcType="VARCHAR" property="mainImage"/>
+		<result column="MAIN_STORE_IMAGE" jdbcType="VARCHAR" property="mainStoreImage"/>
+		<result column="DETAIL_IMAGE" jdbcType="VARCHAR" property="detailImage"/>
+		<result column="DETAIL_STORE_IMAGE" jdbcType="VARCHAR" property="detailStoreImage"/>
+		
+		
+		
+	</association>
+</resultMap>
+<select id="goodsStockSelectOne" parameterType="string" resultMap="goodsStockResultMap">
+	select 	g.goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+	  ,regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
+	  , DETAIL_IMAGE ,DETAIL_STORE_IMAGE , stock
+	from goods g left outer join 
+	(select ip.goods_num , COALESCE(iqty,0) - COALESCE(pqty, 0) stock
+	from (select goods_num, sum(IPGO_QTY)  iqty
+			from ipgo
+			group by goods_num) ip left outer join 
+		(select goods_num , sum(purchase_qty) pqty
+		from purchase_list
+		group by goods_num) pl
+	on ip.goods_num = pl.goods_num) s
+	on g.goods_num = s.goods_num
+	where g.goods_num = #{goodsNum} 
+</select>
+<update id="goodsVisitCountUpdate" parameterType="string">
+	update goods
+	set visit_count = visit_count + 1
+	where goods_num = #{goodsNum}
+</update>
+</mapper>

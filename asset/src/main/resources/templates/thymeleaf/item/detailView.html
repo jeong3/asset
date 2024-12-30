@@ -88,10 +88,6 @@ function buyNow(element){
 	   });
 }
 $(function(){
-	goodsDescript();
-    $("#descript").click(function(){
-        goodsDescript();
-    });
     $("#buyItem").click(function(){
         location.href = 
             "/item/buyItem?goodsNum=[[${dto.goodsDTO.goodsNum}]]&cartQty="+$("#cartQty").val();
@@ -138,36 +134,6 @@ $(function(){
             },
             error:function(){
                 alert("로그아웃되었습니다.");
-            }
-        });
-    }
-    function goodsDescript(){
-        var formData = JSON.stringify(
-                {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
-        );
-        $.ajax({
-            type : "post",
-            url : "/corner/goodsDescript",
-            data : formData,
-            contentType: "application/json",
-            dataType : "json",
-            success : function(data){
-            	console.log("Response data:", data);
-                var item = "";
-                item += "<div class='product-details'>";
-                item += "<span style='cursor: default; text-decoration: none; color: black;'>상품 설명 : " + data.goodsDTO.goodsContents + "</span>";
-                item += "<br />";
-                if(data.goodsDTO.goodsDetailStoreImage != null){
-                    var imageParts = data.goodsDTO.goodsDetailStoreImage.split(/[\/,`]/);
-                    imageParts.forEach(function(image,index, array){
-                    	item += "<img src='/static/images/"+image+"' style='max-width: 500px; height: auto;' /><br />";
-                    });
-                }
-                item += "</div>";
-                $("#content").html(item);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", error);
             }
         });
     }
@@ -296,6 +262,11 @@ $(function(){
                     품절입니다. 곧 입고될 예정입니다.
         </th:block>
         </tr>
+       	<!--  <button class="add-to-cart" id="descript">제품 상세 설명</button>
+       	<button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>-->
+       	<button class="add-to-cart" id="inquire">상품 문의</button>
+      </div>
+
        </div> 
      <div class="reviews-container" id="reviews" style="display: none"  align="center">
 	    <div class="review" th:each="reviewDTO : ${reviewList}" align="center">    	 
@@ -317,13 +288,6 @@ $(function(){
 	    </td>
 	  </tr>
 	</table>
-	<div class="column-xs-12 column-md-12" align="center">
-	 <button class="add-to-cart" id="descript">제품 상세 설명</button>
-       	<button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>
-       	<button class="add-to-cart" id="inquire">상품 문의</button>
-	</div>   	
-	<tr><td colspan="2"><div id="content"></div></td></tr>
-      </div>
 </main>
 <footer>
   <div class="grid">

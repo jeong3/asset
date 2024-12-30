@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
 <head>
 <link rel="stylesheet" href="/static/css/goodsDetail.css">
+<script src="/static/js/goodsDetail.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script>
@@ -29,7 +28,6 @@ $(document).ready(function () {
         });
     });
 });
-/*
 document.getElementById("toggleReviewsBtn").addEventListener("click", function() {
     var reviews = document.getElementById("reviews");
     if (reviews.style.display === "none" || reviews.style.display === "") {
@@ -38,7 +36,6 @@ document.getElementById("toggleReviewsBtn").addEventListener("click", function()
         reviews.style.display = "none";   // 리뷰 영역 숨기기
     }
 });
-*/
 function addCart(element) {
 	
     var goodsNum = $(element).data('goodsNum');  // 상품 번호
@@ -66,113 +63,6 @@ function addCart(element) {
         }
     });
 }
-function buyNow(element){
-	var goodsNum = $(element).data('goodsNum');  // 상품 번호
-	var cartQty = "1";           // 수량
-
-	   $.ajax({
-	       type: "POST",
-	       url: "/item/addCart",  // 서버에서 처리할 URL
-	       contentType: "application/json",  // JSON 형식으로 데이터 전송
-	       data: JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
-	           "goodsNum": goodsNum,
-	           "cartQty": cartQty
-	       }),
-	       dataType: "html",  // 응답을 HTML 형식으로 처리
-	       success: function(result) {
-				purchaseRegist(result);
-	       },
-	       error: function() {
-	           alert("주문을 실패하였습니다.");
-	       }
-	   });
-}
-$(function(){
-	goodsDescript();
-    $("#descript").click(function(){
-        goodsDescript();
-    });
-    $("#buyItem").click(function(){
-        location.href = 
-            "/item/buyItem?goodsNum=[[${dto.goodsDTO.goodsNum}]]&cartQty="+$("#cartQty").val();
-    });
-    $("#inquire").click(function(){
-        inquire();
-    });
-    $("#cartBtn").click(function(){
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/item/addCart", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = function(){
-            if (xhr.status === 200) {
-                if(xhr.responseText == "200"){
-                    if(confirm("계속 쇼핑하려면 '취소'를 클릭하세요."))
-                        location.href="/item/cartList";
-                }else if(xhr.responseText == "900"){
-                    alert("관리자는 사용할 수 없는 페이지입니다.");
-                }else if(xhr.responseText == "000"){
-                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
-                    window.open("/login/item.login","login"
-                            ,"width=600, height=400,top = 100, left=100"); 
-                }
-            }else{
-                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
-                    window.open("/login/item.login","login"
-                            ,"width=315, height=200,top = 100, left=100"); 
-            }
-        }
-        var formData = JSON.stringify({
-            goodsNum: "[[${dto.goodsDTO.goodsNum}]]",
-            cartQty : $("#cartQty").val()
-        })
-        xhr.send(formData);
-    });
-    function inquire(){
-        $.ajax({
-            type : "POST",
-            url: "/corner/inquireList",
-            dataType : "html",
-            data : {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"},
-            success : function(item){
-                $("#content").html(item);
-            },
-            error:function(){
-                alert("로그아웃되었습니다.");
-            }
-        });
-    }
-    function goodsDescript(){
-        var formData = JSON.stringify(
-                {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
-        );
-        $.ajax({
-            type : "post",
-            url : "/corner/goodsDescript",
-            data : formData,
-            contentType: "application/json",
-            dataType : "json",
-            success : function(data){
-            	console.log("Response data:", data);
-                var item = "";
-                item += "<div class='product-details'>";
-                item += "<span style='cursor: default; text-decoration: none; color: black;'>상품 설명 : " + data.goodsDTO.goodsContents + "</span>";
-                item += "<br />";
-                if(data.goodsDTO.goodsDetailStoreImage != null){
-                    var imageParts = data.goodsDTO.goodsDetailStoreImage.split(/[\/,`]/);
-                    imageParts.forEach(function(image,index, array){
-                    	item += "<img src='/static/images/"+image+"' style='max-width: 500px; height: auto;' /><br />";
-                    });
-                }
-                item += "</div>";
-                $("#content").html(item);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", error);
-            }
-        });
-    }
-})
-
 </script>
 <style type="text/css">
 /* 리뷰 컨테이너 스타일 */
@@ -235,7 +125,6 @@ $(function(){
 
 
 </head>
-<body>
 <nav class="flex-nav">
   <div class="container">
     <div class="grid menu">
@@ -269,10 +158,10 @@ $(function(){
       <div class="column-xs-12 column-md-7">
         <div class="product-gallery">
           <div class="product-image">
-            <img class="active" th:src="|/static/images/${dto.goodsDTO.mainStoreImage}|" style>
+            <img class="active" th:src="|/static/images/${dto.mainStoreImage}|" style>
           </div>
           <ul class="image-list">
-          <th:block th:each="image : ${#strings.arraySplit(dto.goodsDTO.detailStoreImage,'[`/]')}">
+          <th:block th:each="image : ${#strings.arraySplit(dto.detailStoreImage,'[`/]')}">
 				<li class="image-item"><img th:src="|/static/images/${image}|"></li>
 		 </th:block>
           </ul>
@@ -281,21 +170,23 @@ $(function(){
       <div class="column-xs-12 column-md-5">
         <h1>상품명</h1>
         <h5>상품내용</h5>
-        <h5>판매가  <span id="goodsPrice">[[${dto.goodsDTO.goodsPrice}]]</span></h5>
-        <tr>
-        	<h5>수량 <input type="number" min="1" step="1" value="1" id="cartQty"/></h5>
-        </tr>
+        <h5>판매가  <span id="goodsPrice">[[${dto.goodsPrice}]]</span></h5>
+        <h5>수량 <input type="number" min="1" step="1" value="1" id="cartQty"/></h5>
         <div class="description">
+        <span th:if="${session.auth != null and session.auth.grade == 'emp'}" >
+        </span>
         </div>
-        <tr>
         <th:block th:if="${dto.stock > 0 and dto.stock != null}"> 
-        <button type="button" class="add-to-cart" id="cartBtn">장바구니</button>   | 
-        <button type="button" class="add-to-cart" id="buyItem">바로구매 </button>
+        <button class="add-to-cart" th:data-goods-num="${dto.goodsNum}" onclick="addCart(this)">Add To Cart</button>
+        <button class="add-to-cart"  onclick="buyNow(this)">Pay</button> <br><br><br><br><br><br><br>
         </th:block>
         <th:block th:if="${dto.stock <= 0 or dto.stock == null}">  
                     품절입니다. 곧 입고될 예정입니다.
         </th:block>
-        </tr>
+        <button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>
+       
+      </div>
+
        </div> 
      <div class="reviews-container" id="reviews" style="display: none"  align="center">
 	    <div class="review" th:each="reviewDTO : ${reviewList}" align="center">    	 
@@ -317,13 +208,6 @@ $(function(){
 	    </td>
 	  </tr>
 	</table>
-	<div class="column-xs-12 column-md-12" align="center">
-	 <button class="add-to-cart" id="descript">제품 상세 설명</button>
-       	<button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>
-       	<button class="add-to-cart" id="inquire">상품 문의</button>
-	</div>   	
-	<tr><td colspan="2"><div id="content"></div></td></tr>
-      </div>
 </main>
 <footer>
   <div class="grid">
@@ -332,5 +216,3 @@ $(function(){
     </div>
   </div>
 </footer>
-</body>
-</html>

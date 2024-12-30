@@ -13,6 +13,5 @@ public class CartDTO {
 	Integer cartNum;
 	Date cartDate;
 	Integer cartQty;
-	
 }
 
