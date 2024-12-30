@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import jakarta.servlet.http.HttpSession;
+import springBootMVCAsset.domain.AuthInfoDTO;
+import springBootMVCAsset.domain.NewsAnalyzeDTO;
 import springBootMVCAsset.domain.NewsDTO;
 import springBootMVCAsset.mapper.NewsMapper;
 
@@ -20,12 +23,25 @@ public class NewsDetailService {
 	    return text;
 	}
 
-	public void execute(String newsNum, Model model) {
+	public void execute(String newsNum, Model model, HttpSession session) {
 		NewsDTO dto = newsMapper.newsSelectOne(newsNum);
 		model.addAttribute("dto", dto);
-		 String newsContents = dto.getNewsContents();
-		 String formattedNewsContents = convertNewlinesToHtml(newsContents); // 줄 바꿈 처리
-		 model.addAttribute("newsContents", formattedNewsContents);
+		String newsContents = dto.getNewsContents();
+		String formattedNewsContents = convertNewlinesToHtml(newsContents); // 줄 바꿈 처리
+		model.addAttribute("newsContents", formattedNewsContents);
+		
+		if(session != null) {
+			AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
+			
+			NewsAnalyzeDTO newsAnalyzeDTO = new NewsAnalyzeDTO(); 
+			newsAnalyzeDTO.setMemberId(auth.getUserId());
+			newsAnalyzeDTO.setNewsNum(newsNum);
+			newsMapper.newsAnalyzeMerge(newsAnalyzeDTO);
+		}
+		
+		
+		
+		
 		
 	}
 

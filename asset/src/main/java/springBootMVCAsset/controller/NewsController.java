@@ -50,14 +50,14 @@ public class NewsController {
 		return "redirect:newsList";
 	}
 	@GetMapping("newsDetail")
-	public String newsDetail(String newsNum, Model model) {
+	public String newsDetail(String newsNum, Model model, HttpSession session) {
 		newsListService.execute(model);
-		newsDetailService.execute(newsNum, model);
+		newsDetailService.execute(newsNum, model, session);
 		return "thymeleaf/news/newsDetail";
 	}
 	@GetMapping("newsUpdate")
-	public String newsUpdate(String newsNum, Model model) {
-		newsDetailService.execute(newsNum, model);
+	public String newsUpdate(String newsNum, Model model, HttpSession session) {
+		newsDetailService.execute(newsNum, model, null);
 		return "thymeleaf/news/newsUpdate";
 	}
 	@PostMapping("newsUpdate")

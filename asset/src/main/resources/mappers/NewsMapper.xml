@@ -40,4 +40,6 @@
 <delete id="newsDelete">
 	delete from news where news_num = #{newsNum}
 </delete>
+
+
 </mapper>
