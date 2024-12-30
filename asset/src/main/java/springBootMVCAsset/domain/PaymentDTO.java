@@ -15,5 +15,5 @@ public class PaymentDTO {
 	String resultmessage;
 	String paymethod;
 	String appldate;
-	String appltime;
+	String apptime;
 }

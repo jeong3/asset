@@ -44,7 +44,7 @@ where purchase_num = #{purchaseNum}
 insert into payment(PURCHASE_NUM,CONFIRMNUMBER,CARDNUM,TID,TOTALPRICE,RESULTMESSAGE,PAYMETHOD
 					,APPLDATE,APPTIME)
 values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultmessage}
-	  ,#{paymethod},#{appldate},#{appltime})
+	  ,#{paymethod},#{appldate},#{apptime, jdbcType=TIME})
 </insert>
 
 <resultMap type="orderList" id="orderListResultMap">
@@ -53,12 +53,10 @@ values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultm
 			<idArg column="purchase_Num" javaType="string" />
 			<arg column="purchase_Date" javaType="java.util.Date"/>
 			<arg column="purchase_Price" javaType="integer"/>
-			<arg column="discount_Price" javaType="integer"/>
-			<arg column="purchase_Sale" javaType="integer"/>
 			<arg column="delivery_Addr" javaType="string"/>
 			<arg column="delivery_Addr_Detail" javaType="string"/>
 			<arg column="delivery_Post" javaType="string"/>
-			<arg column="delivery_TEL" javaType="string"/>
+			<arg column="delivery_Tel" javaType="string"/>
 			<arg column="message" javaType="string"/>
 			<arg column="purchase_Status" javaType="string"/>
 			<arg column="member_num" javaType="string"/>
@@ -98,12 +96,12 @@ values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultm
 	</collection>
 </resultMap>
 <select id="orderList" parameterType="hashmap" resultMap="orderListResultMap">
-select  g.goods_num goodsNum, goods_name, MAIN_STORE_IMAGE, goods_contents
+select  g.goods_num , goods_name, MAIN_STORE_IMAGE, goods_contents
 	   ,GOODS_UNIT_PRICE, PURCHASE_QTY
-	   ,p.purchase_num purchaseNum, PURCHASE_DATE , PURCHASE_PRICE, DISCOUNT_PRICE, PURCHASE_SALE, DELIVERY_ADDR, DELIVERY_ADDR_DETAIL
+	   ,p.purchase_num , PURCHASE_DATE , PURCHASE_PRICE, DELIVERY_ADDR, DELIVERY_ADDR_DETAIL
 	   ,DELIVERY_POST, DELIVERY_TEL, MESSAGE, PURCHASE_STATUS, MEMBER_NUM
 	   ,PURCHASE_NAME
-       ,pm.CONFIRMNUMBER ConfirmNumber, CARDNUM,  APPLDATE, APPTIME, totalprice
+       ,CONFIRMNUMBER, CARDNUM,  APPLDATE, APPTIME, CONFIRMNUMBER, totalprice
        ,DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS
        ,REGIST_DATE, REVIEW_CONTENTS, MEMBER_ID
 from  goods g join purchase_list pl

@@ -112,7 +112,7 @@ public class INIstdpayPcReturn {
 				  //throw new Exception("강제 Exception");
 					PaymentDTO dto = new PaymentDTO();
 					dto.setAppldate(resultMap.get("applDate"));
-					dto.setAppltime(resultMap.get("applTime"));
+					dto.setApptime(resultMap.get("appTime"));
 					dto.setCardnum(resultMap.get("CARD_Num"));
 					dto.setConfirmnumber(resultMap.get("applNum"));
 					dto.setPaymethod(resultMap.get("payMethod"));

@@ -70,6 +70,7 @@ h1 {letter-spacing: 6px}
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
      	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     	<a href="/purchase/purchaseList" class="w3-bar-item w3-button">결제리스트</a>
      	
      	<!-- 마이자산페이지 -->
      	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
