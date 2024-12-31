@@ -8,4 +8,5 @@ import springBootMVCAsset.domain.DeliveryDTO;
 public interface DeliveryMapper {
 	public Integer deliveryInsert(DeliveryDTO dto);
 	public Integer deliveryStatusUpdate(String purchaseNum);
+	public Integer deliveryDelete(String purchaseNum);
 }	

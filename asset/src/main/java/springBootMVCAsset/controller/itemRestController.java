@@ -1,6 +1,7 @@
 package springBootMVCAsset.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.CartCommand;
 import springBootMVCAsset.service.item.CartInsertService;
-import springBootMVCAsset.service.item.CartUpdateService;
+import springBootMVCAsset.service.item.CartQtyDownService;
 import springBootMVCAsset.service.item.GoodsCartDelsService;
 
 @RestController
@@ -20,7 +21,7 @@ public class itemRestController {
 	@Autowired
 	GoodsCartDelsService goodsCartDelsService;
 	@Autowired
-	CartUpdateService cartUpdateService;
+	CartQtyDownService cartQtyDownService;
 	@PostMapping("addCart")
 	public String cartAdd(@RequestBody CartCommand cartCommand, HttpSession session) {
 		System.out.println("CartCommand GoodsNum: " + cartCommand.getGoodsNum());
@@ -34,8 +35,7 @@ public class itemRestController {
 		return goodsCartDelsService.execute(goodsNums, session);
 	}
 	@PostMapping("cartQtyDown")
-    public String cartQtyDown(@RequestBody String goodsNum, HttpSession session) {
-        String memberNum = (String) session.getAttribute("memberNum");  // 세션에서 회원 번호 가져오기
-        return cartUpdateService.execute(goodsNum, memberNum);
-    }
+	public void cartQtyDown(String goodsNum, HttpSession session )  {
+		cartQtyDownService.execute(goodsNum, session);
+	}
 }

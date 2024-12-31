@@ -69,9 +69,10 @@
     <script type="text/javascript">
     $(function(){
         $("#goodsNum").click(function(){
-            window.open("/goods/goodsItem", "상품검색", "width=600, height=500, top=500, left=60");
+            window.open("/goodsIpgo/goodsItem", "상품검색", "width=600, height=500, top=500, left=60");
         });
     });
+    
     </script>
 </head>
 <body>
@@ -116,7 +117,7 @@
 
                 <tr>
                     <td colspan="2" style="text-align: center;">
-                        <button type="submit" class="submit-btn" onclick="InquireRegistPost()">등록하기</button>
+                        <input type="submit" id="btnInsert" value="문의하기" />
                     </td>
                 </tr>
             </table>

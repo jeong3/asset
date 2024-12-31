@@ -16,5 +16,6 @@ public interface CartMapper {
 			@Param("memberNum") String memberNum, 
 			@Param("nums") String [] nums);
 	public int goodsNumsDelete(Map<String, Object> condition);
-	public int qtyDown(@Param("goodsNum") String goodsNum, @Param("memberNum") String memberNum);
+	public int cartQtyDown(@Param("goodsNum") String goodsNum
+            ,@Param("memberNum") String memberNum);
 }

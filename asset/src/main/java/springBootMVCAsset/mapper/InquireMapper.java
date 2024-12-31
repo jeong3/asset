@@ -8,4 +8,5 @@ import springBootMVCAsset.domain.InquireDTO;
 @Mapper
 public interface InquireMapper {
 	public List<InquireDTO> inquireList(String goodsNum, Integer inquireNum);
+	public Integer inquireInsert(InquireDTO dto);
 }

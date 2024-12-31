@@ -17,7 +17,7 @@ where substr(purchase_num,1 ,8) = to_char(sysdate,'yyyyMMdd')
 <insert id="purchaseInsert" parameterType="purchase" >
 insert into purchase( <include refid="purchaseBaseColumns" /> )
 values(#{purchaseNum},sysdate,#{purchasePrice}, null, null
-	  ,#{deliveryAddr},#{deliveryAddrDetail},#{deliveryPost}
+	  ,#{deliveryAddr},#{deliveryAddrDetail},#{deliveryPost, jdbcType=INTEGER}
 	  ,#{deliveryTel},#{message},'입금대기중',#{memberNum}, #{deliveryName, jdbcType=VARCHAR}, #{purchaseName})
 </insert>
 
@@ -139,5 +139,10 @@ values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultm
 	set PURCHASE_STATUS = '구매확정'
 	where purchase_num = #{purchaseNum}
 </update>
+
+<delete id="paymentDel" parameterType="string">
+	delete from payment
+	where purchase_num = #{purchaseNum}
+</delete>
 
 </mapper>

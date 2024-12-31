@@ -88,12 +88,11 @@ and goods_num in
 	</foreach>
 </delete>
 
-<update id="decreaseCartQty" parameterType="map">
-    update cart
-    set cart_qty = cart_qty - 1
-    where goods_num = #{goodsNum} 
-    and member_num = #{memberNum}
-    and cart_qty > 1
+<update id="cartQtyDown" >
+	update cart
+	set cart_qty = cart_qty - 1
+	where goods_num = #{goodsNum} 
+	and member_num = #{memberNum}
 </update>
 
 </mapper>

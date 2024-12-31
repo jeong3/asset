@@ -12,4 +12,8 @@ values (#{purchaseNum},#{deliveryNum},sysdate,'배송중' )
 	set delivery_status = '배송완료'
 	where purchase_num = #{purchaseNum}
 </update>
+<delete id="deliveryDelete"  parameterType="string">
+	delete from delivery
+	where purchase_num = #{purchaseNum}
+</delete>
 </mapper>
