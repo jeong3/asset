@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.PurchaseCommand;
+import springBootMVCAsset.mapper.PurchaseMapper;
 import springBootMVCAsset.service.purchase.GoodsBuyService;
 import springBootMVCAsset.service.purchase.GoodsOrderService;
 import springBootMVCAsset.service.purchase.IniPayReqService;
@@ -24,7 +25,9 @@ public class PurchaseController {
 	@Autowired
 	IniPayReqService iniPayReqService;
 	@Autowired
-	PurchaseListService purchaseListService;	
+	PurchaseListService purchaseListService;
+	@Autowired
+	PurchaseMapper purchaseMapper;
 	@RequestMapping("goodsBuy")
 	public String goodsBuy(String nums[] , HttpSession session,Model model) {
 		goodsBuyService.execute(nums, session, model);
@@ -45,10 +48,20 @@ public class PurchaseController {
 		}
 		return "thymeleaf/purchase/payment";
 	}
+	@GetMapping("orderList")
+	public String orderList(HttpSession session, Model model) {
+		purchaseListService.execute(session, model, null);
+		return "thymeleaf/purchase/myPurchase";
+	}
 	@GetMapping("purchaseList")
 	public String purchaseList(HttpSession session, Model model) {
 		purchaseListService.execute(session, model, null);
 		return "thymeleaf/purchase/purchaseList";
+	}
+	@GetMapping("purchaseOk")
+	public String purchaseOk(String purchaseNum) {
+		purchaseMapper.paymentStatusUpdate(purchaseNum);
+		return "redirect:orderList";
 	}
 }
 	

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 작성</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Review Form Container */
+        .review-form-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        /* Header */
+        .review-form-header {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Form Group Styling */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* Label Styling */
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        /* Textarea Styling */
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            resize: none;  /* Prevent resizing */
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+            height: 150px;  /* Fixed height */
+            transition: border 0.3s ease;
+        }
+
+        .form-group textarea:focus {
+            border-color: #6c6cff;
+            outline: none;
+            background-color: #fff;
+        }
+
+        /* Input Styling for Title */
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+            transition: border 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus {
+            border-color: #6c6cff;
+            outline: none;
+            background-color: #fff;
+        }
+
+        /* Message Styling */
+        .message {
+            color: #ff4d4d;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Submit Button Styling */
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #6c6cff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #5555cc;
+        }
+
+        .submit-btn:active {
+            background-color: #4a4a99;
+        }
+    </style>
+</head>
+<body>
+    <div class="review-form-container">
+        <div class="review-form-header">리뷰 작성</div>
+        <form action="reviewWrite" method="post">
+            <input type="hidden" name="goodsNum" th:value="${dto.goodsNum}" />
+            <input type="hidden" name="purchaseNum" th:value="${dto.purchaseNum}" />
+            
+            <div class="form-group">
+            	<label for="reviewSubject">리뷰 제목</label>
+            	<input type="text" id="reviewSubject" name="reviewSubject" placeholder="리뷰 제목을 입력하세요" th:value="${dto.reviewSubject}" />
+                <label for="reviewContents">리뷰 내용</label>
+                <textarea rows="5" id="reviewContents" name="reviewContents">[[${dto.reviewContents}]]</textarea>
+                <span class="message">[[${message}]]</span>
+            </div>
+            
+            <button type="submit" class="submit-btn">리뷰 등록</button>
+        </form>
+    </div>
+</body>
+</html>

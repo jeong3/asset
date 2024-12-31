@@ -1,214 +1,215 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>송장번호 입력</title>
-<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<title>deliveryRegist</title>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
-<script>
-	const formatter = new Intl.NumberFormat('ko-KR', {
-		style : 'currency',
-		currency : 'KRW'
-	});
-	function deliveryNumRegist() {
-		var purchaseNum = $("#purchaseNum").text();
-		var deliveryNum = $("#deliveryNum").val();
-		if (deliveryNum === "") {
-			$("#feedback").textContent = "송장 번호를 입력해 주세요.";
-			$("#feedback").style.color = "red";
-		} else {
-			$.ajax({
-				type : "post",
-				url : "/purchase/deliveryRegist",
-				data :JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
-					"purchaseNum" : purchaseNum, "deliveryNum":deliveryNum
-			       }),
-			    contentType: "application/json; charset=UTF-8",
-				dataType : "json",
-				success : function(result) {
-					if (window.opener && !window.opener.closed) {
-					    // 부모 창에 reloadList 함수가 존재하는지 확인
-					    if (typeof window.opener.empPurchaseList === "function") {
-					        window.opener.empPurchaseList(); // 부모 창의 empPurchaseList() 실행
-					    }
-					}
-					// 팝업창 닫기
-					window.close();
-				},
-				error : function() {
-					alert("송장페이지 이동을 실패하였습니다.");
-				}
-			});
-		}
-	}
-</script>
+<script type="text/javascript">
+$(function(){
+    $("#btn").click(function(){
+        opener.location.reload();
+        window.self.close();
+    });
+});
 
+window.onunload = function () {
+    if (window.opener && !window.opener.closed) {
+        window.opener.location.reload();
+    }
+};
+</script>
 <style>
+/* 기본 설정 */
 body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
 }
 
-.container {
-	width: 80%;
-	margin: 20px auto;
-	background-color: #ffffff;
-	padding: 20px;
-	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* 페이지의 중앙 정렬 */
+.center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 테이블 스타일링 */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+table td {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+}
+
+table td img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 10px;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+}
+
+.product-info img {
+    margin-right: 15px;
+}
+
+/* 폼 스타일링 */
+form {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #e0e0e0;
+}
+
+/* 버튼 스타일링 */
+#btn {
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* 주문내용, 결제내용 영역 */
+h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 h1 {
-	text-align: center;
-	color: #4CAF50;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-.order-info, .delivery-info, .payment-info {
-	margin-bottom: 20px;
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-th {
-	padding: 10px;
-	border: 1px solid #ddd;
-}
-
-td {
-	padding: 10px;
-	border: 1px solid #ddd;
-	width: 300px;
-}
-
-th {
-	background-color: #f2f2f2;
-}
-
-.button {
-	display: block;
-	width: 100%;
-	padding: 10px;
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	font-size: 16px;
-	cursor: pointer;
-}
-
-.button:hover {
-	background-color: #45a049;
-}
-
-.feedback {
-	text-align: center;
-	margin-top: 20px;
-	font-size: 18px;
-	color: #555;
-}
-
-.link {
-	display: block;
-	text-align: center;
-	margin-top: 10px;
-}
-
-.link a {
-	color: #4CAF50;
-	text-decoration: none;
-	font-size: 16px;
-}
-
-.link a:hover {
-	text-decoration: underline;
+/* 작은 화면에서 반응형 */
+@media screen and (max-width: 768px) {
+    table {
+        width: 90%;
+    }
+    form {
+        width: 90%;
+    }
 }
 </style>
 </head>
 <body>
+<div class="center">
+    <h1>구매상품 정보</h1>
+</div>
+<table align="center">
+<th:block th:each="dto : ${list[0].purchaseListGoodsDTOs}">
+    <tr>
+        <td class="product-info">
+            <img th:src="|/static/images/${dto.goodsDTO.mainStoreImage}|"/>
+            제품명: [[${dto.goodsDTO.goodsName}]] | 
+            제품가격: [[${dto.purchaseListDTO.totalPrice}]] | 
+            주문수량: [[${dto.purchaseListDTO.purchaseQty}]]
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <b>상품설명</b><br />
+            <span>[[${#strings.replace(dto.goodsDTO.goodsContents,newLineChar,'&lt;br /&gt;')}]]</span>
+        </td>
+    </tr>
+</th:block>
+</table>
 
-	<div class="container">
-		<h1>DeliveryRegist</h1>
-		<p align="center">송장번호입력</p>
-		<hr>
-		<!-- 주문 정보 -->
-		<div class="order-info">
-			<h2>주문 정보</h2>
-			<table>
-				<tr>
-					<th>주문 번호</th>
-					<td colspan="3"><span id="purchaseNum">[[${list[0].purchaseDTO.purchaseNum}]]</span></td>
+<table align="center">
+    <tr>
+        <td width="50%">
+            <h2>주문내용</h2>
+            주문번호: [[${list[0].purchaseDTO.purchaseNum}]]<br />
+            주문날짜: [[${#dates.format(list[0].purchaseDTO.purchaseDate,'yyyy-MM-dd')}]]<br />
+            주문금액: [[${list[0].purchaseDTO.purchasePrice}]]<br />
+            배송지: [[${list[0].purchaseDTO.deliveryAddr + ' ' + list[0].purchaseDTO.deliveryAddrDetail}]]<br />
+            연락처: [[${list[0].purchaseDTO.deliveryTel}]]<br />
+            받는사람: [[${list[0].purchaseDTO.deliveryName}]]<br />
+            주문메세지: [[${list[0].purchaseDTO.message}]]<br />
+        </td>
+        <td width="50%" th:if="${list[0].paymentDTO.appldate != null}">
+            <h2>결제내용</h2>
+            결제번호: 
+            <span th:if="${list[0].paymentDTO.confirmnumber != null}">
+                [[${list[0].paymentDTO.confirmnumber}]]
+            </span>
+            <span th:if="${list[0].paymentDTO.confirmnumber == null}">
+                현금결제
+            </span>
+            <br />
+            결제금액: [[${list[0].paymentDTO.totalprice}]]<br />
+            카드번호: [[${list[0].paymentDTO.cardnum}]]<br />
+        </td>
+    </tr>
+</table>
 
-				</tr>
-				<tr>
-					<th>주문 날짜</th>
-					<td colspan="3">[[${#dates.format(list[0].purchaseDTO.purchaseDate,'yyyy.MM.dd')}]]</td>
-				</tr>
-				<tr>
-					<th>주문 상품</th>
-					<td colspan="3">[[${list[0].purchaseDTO.purchaseName}]]</td>
-				</tr>
-			</table>
-		</div>
+<form action="/delivery/deliveryDelete" method="post" 
+      th:if="${list[0].deliveryDTO.deliveryNum != null}">
+    <input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
+    <table align="center">
+        <tr><th colspan="2">배송정보</th></tr>
+        <tr><td>송장번호</td><td>[[${list[0].deliveryDTO.deliveryNum}]]</td></tr>
+        <tr><td colspan="2"><input type="submit" value="배송정보삭제"/></td></tr>
+    </table>
+</form>
 
-		<!-- 배송지 정보 -->
-		<div class="delivery-info">
-			<h2>배송지 정보</h2>
-			<table>
-				<tr>
-					<th>받는 사람</th>
-					<td colspan="3">[[${list[0].purchaseDTO.deliveryName}]]</td>
-				</tr>
-				<tr>
-					<th>주소</th>
-					<td colspan="3">[[${list[0].purchaseDTO.deliveryAddr}]]</td>
-				</tr>
-				<tr>
-					<th>연락처</th>
-					<td colspan="3">[[${list[0].purchaseDTO.deliveryPhone}]]</td>
-				</tr>
-			</table>
-		</div>
+<form action="/delivery/deliveryRegist" method="post" 
+      th:if="${list[0].deliveryDTO.deliveryNum == null and list[0].paymentDTO.appldate != null}">
+    <input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
+    <table align="center">
+        <tr><th colspan="2">배송정보입력</th></tr>
+        <tr><td>송장번호</td><td><input type="text" name="deliveryNum" required="required"/></td></tr>
+        <tr><td colspan="2"><input type="submit" value="배송정보등록"/></td></tr>    
+    </table>
+</form>
 
-		<!-- 결제 정보 -->
-		<div class="payment-info">
-			<h2>결제 정보</h2>
-			<table>
-				<tr>
-					<th>결제 금액</th>
-					<td>[[${#numbers.formatCurrency(list[0].paymentDTO.totalprice)}]]</td>
-				</tr>
-				<tr>
-					<th>결제 방법</th>
-					<td><span th:if="${list[0].paymentDTO.confirmnumber == null}">현금</span>
-						<span th:if="${list[0].paymentDTO.confirmnumber != null}">신용카드</span>
-					</td>
-				</tr>
-			</table>
-		</div>
-
-		<!-- 송장 번호 입력 -->
-		<div>
-			<input type="text" id="deliveryNum"
-				placeholder="송장 번호를 입력하세요"
-				style="width: 100%; padding: 10px; margin-bottom: 10px;">
-		</div>
-
-		<button type="button" class="button" onclick="deliveryNumRegist()">송장
-			번호 등록</button>
-
-		<div class="feedback" id="feedback"></div>
-
-		<div class="link">
-			<a href="/">메인페이지로 돌아가시려면 클릭해주세요</a>
-		</div>
-	</div>
-
-
+<div class="center">
+    <button type="button" id="btn">닫기</button>
+</div>
 </body>
 </html>

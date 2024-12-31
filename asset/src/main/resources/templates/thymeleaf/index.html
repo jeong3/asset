@@ -70,7 +70,7 @@ h1 {letter-spacing: 6px}
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
      	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
-     	<a href="/purchase/purchaseList" class="w3-bar-item w3-button">결제리스트</a>
+     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
      	
      	<!-- 마이자산페이지 -->
      	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
@@ -86,6 +86,7 @@ h1 {letter-spacing: 6px}
         </div>
        </th:block>
        <th:block th:if="${session.auth.grade == 'emp'}">
+       <a href="/purchase/purchaseList" class="w3-bar-item w3-button">주문 내역</a>
         <!-- 직원마이페이지 -->
         <div class="w3-dropdown-hover w3-hide-small">
            <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     

@@ -27,7 +27,7 @@
                         rating: $("input[name='rating']:checked").val()
                     };
                 $.ajax({
-                    url: "/reviews/reviewRegist",  // 실제 URL로 변경
+                    url: "/review/reviewWrite",  // 실제 URL로 변경
                     type: "POST",
                     contentType: "application/json; charset=UTF-8",
                     data: JSON.stringify(formData),
