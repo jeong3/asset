@@ -3,7 +3,7 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.MemberMapper">
-<sql id="BaseColums">
+<sql id="BaseColumns">
 		MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
 		,MEMBER_ADDR, MEMBER_ADDR_DETAIL, MEMBER_POST
 		,MEMBER_REGIST, MEMBER_GENDER, MEMBER_PHONE
@@ -11,7 +11,7 @@
 </sql>
 
 <insert id="memberinsert" parameterType="memberDTO">
-insert into members (<include refid="BaseColums"/>)
+insert into members (<include refid="BaseColumns"/>)
 values(#{memberNum}, #{memberName}, #{memberId}
 	   ,#{memberPw}, #{memberAddr}, #{memberAddrDetail}
 	   ,#{memberPost}, sysdate, #{memberGender}
@@ -19,12 +19,12 @@ values(#{memberNum}, #{memberName}, #{memberId}
 </insert>
 
 <select id="memberList" parameterType="memberDTO">
-select <include refid="BaseColums"/>
+select <include refid="BaseColumns"/>
 from members
 </select>
 
 <select id="memberDetail" parameterType="string" resultType="memberDTO">
-select <include refid="BaseColums"/>
+select <include refid="BaseColumns"/>
 from members
 where MEMBER_NUM = #{memberNum}
 </select>

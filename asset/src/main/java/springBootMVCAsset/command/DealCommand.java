@@ -2,6 +2,8 @@ package springBootMVCAsset.command;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -10,7 +12,7 @@ public class DealCommand {
 	String dealNum;
 	String memberNum;
 	
-	@NotEmpty(message = "거래 금액을 입력해주세요")
+	@NotNull(message = "거래 금액을 입력해주세요")
 	Integer dealPrice;
 	
 	String dealContents;
@@ -19,6 +21,7 @@ public class DealCommand {
 	String dealMethod;
 	
 	@NotNull(message = "거래 날짜를 입력해주세요")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date dealDate;
 	
 	String categoryName;

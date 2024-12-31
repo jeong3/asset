@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.DealMapper">
+<sql id="BaseColums">
+	DEAL_NUM, MEMBER_NUM, DEAL_PRICE, DEAL_CONTENTS
+	, DEAL_METHOD, DEAL_DATE, CATEGORY_NAME, CATEGORY_TYPE
+</sql>
+<insert id="dealInsert" parameterType="dealDTO">
+insert into deal(DEAL_NUM, MEMBER_NUM, DEAL_PRICE
+				 <if test="dealContents != null">
+				 ,DEAL_CONTENTS
+				 </if>
+				 ,DEAL_METHOD, DEAL_DATE,
+				 CATEGORY_NAME, CATEGORY_TYPE)
+values(#{dealNum}, #{memberNum}, #{dealPrice}
+	<if test="dealContents != null">
+	,#{dealContents}
+	</if>
+	,#{dealMethod}, #{dealDate}
+	,#{categoryName}, #{categoryType})
+</insert>
+</mapper>

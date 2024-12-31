@@ -13,15 +13,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.DealCommand;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.budget.BudgetRegistService;
+import springBootMVCAsset.service.budget.TotalBugetListService;
+import springBootMVCAsset.service.deal.DealRegistService;
 
 @Controller
 @RequestMapping("myAsset")
 public class MyAssetPageController {
 	@Autowired
 	AutoNumService autoNumService;
+	@Autowired
+	DealRegistService dealRegistService;
+	@Autowired
+	BudgetRegistService budgetRegistService;
+	@Autowired
+	TotalBugetListService totalBugetListService;
 	
 	@GetMapping("myAssetPage")
-	public String myAssetPage() {
+	public String myAssetPage(Model model, HttpSession session) {
+		totalBugetListService.execute(model, session);
 		return "thymeleaf/myAsset/myAssetPage";
 	}
 	
@@ -32,7 +42,6 @@ public class MyAssetPageController {
 	
 	@GetMapping("dealRegist")
 	public String dealRegist(@RequestParam(value = "categoryName", required = false) String categoryName, Model model) {
-		System.out.println("categoryName:!!!!!!!!!!!!!!"+ categoryName);
 		String autoNum = autoNumService.execute("deal_", "deal_num", 6, "deal");
 		DealCommand dealCommand = new DealCommand();
 		dealCommand.setDealNum(autoNum);
@@ -42,11 +51,20 @@ public class MyAssetPageController {
 	}
 	
 	@PostMapping("dealRegist")
-	public String dealRegist(@Validated DealCommand dealCommand, BindingResult result) {
+	public String dealRegist(@Validated DealCommand dealCommand, BindingResult result
+			, HttpSession session, @RequestParam(value = "categoryName", required = false) String categoryName) {
 		if(result.hasErrors()) {
 			return "thymeleaf/myAsset/dealRegist";
 		}
+		dealRegistService.execute(dealCommand, session, categoryName);
+		
+		String autoNum = autoNumService.execute("budget_", "budget_num", 8, "budget");
+		budgetRegistService.execute(dealCommand, session, categoryName, autoNum);
 		return "redirect:myAssetPage";
 	}
 	
+	@GetMapping("dealList")
+	public String dealList() {
+		return "thymeleaf/myAsset/dealList";
+	}
 }

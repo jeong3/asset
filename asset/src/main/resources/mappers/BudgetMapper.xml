@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.BudgetMapper">
+
+<sql id="totalAssetColumn">
+		 NVL(
+	        (SELECT remain_price
+	         FROM (SELECT remain_price
+	               FROM budget
+	               WHERE MEMBER_NUM = #{memberNum}
+	               ORDER BY BUDGET_NUM DESC)
+	         WHERE ROWNUM = 1),
+	        0)
+</sql>
+
+<sql id="checkColumn">
+   NVL(
+   		(SELECT SUM(
+	        CASE 
+	            WHEN CATEGORY_NAME IN ('수입', '저축', '재테크') THEN deal_price
+	            WHEN CATEGORY_NAME = '지출' THEN -deal_price
+	            ELSE 0
+	        END
+	    )
+    	FROM deal
+   	 	WHERE MEMBER_NUM = #{memberNum}
+    	AND DEAL_METHOD = 'checkCard'),0)
+</sql>
+
+<sql id="cashColumn">
+  NVL(
+  	SELECT(SUM(
+	        CASE 
+	            WHEN CATEGORY_NAME = '수입' THEN deal_price
+	            WHEN CATEGORY_NAME = '지출' THEN -deal_price
+	            ELSE 0
+	        END
+	    )
+	    FROM deal
+	    WHERE MEMBER_NUM = #{memberNum}
+	    	AND DEAL_METHOD = 'cash'),0)
+</sql>
+
+<sql id="creditColumn">
+ NVL(
+ 	SELECT(SUM(deal_price)
+			FROM deal
+			WHERE MEMBER_NUM = #{memberNum}
+		  	AND DEAL_METHOD = 'creditCard'),0)
+</sql>
+
+<insert id="budgetInsert" parameterType="budgetDTO">
+
+INSERT INTO BUDGET (BUDGET_NUM, MEMBER_NUM, BUDGET_PRICE, CATEGORY_NAME, DEAL_METHOD, REMAIN_PRICE)
+SELECT 
+    #{budgetNum}, 
+    #{memberNum}, 
+    #{budgetPrice}, 
+    #{categoryName},
+    #{dealMethod},
+    (
+        NVL((SELECT REMAIN_PRICE 
+        	FROM
+            (SELECT REMAIN_PRICE 
+             FROM BUDGET 
+             WHERE MEMBER_NUM = #{memberNum} 
+             ORDER BY BUDGET_NUM DESC) 
+             WHERE ROWNUM = 1), 0)
+        +
+        CASE 
+            WHEN #{categoryName} IN ('수입', '저축', '재테크') THEN #{budgetPrice}
+            WHEN #{categoryName} = '지출' AND #{dealMethod} != 'creditCard' THEN -#{budgetPrice}
+            ELSE 0
+        END
+    )
+FROM DUAL
+</insert>
+
+<select id="totalBudgetList" parameterType="string" resultType="totalBudgetDTO">
+select nvl((SELECT remain_price  
+                  FROM (
+                         SELECT remain_price                 
+                         	FROM budget                 
+                         WHERE MEMBER_NUM = #{memberNum}               
+                         ORDER BY BUDGET_NUM DESC)           
+           WHERE ROWNUM = 1) ,0) as totalAsset     
+      ,nvl((SELECT SUM(CASE WHEN CATEGORY_NAME IN ('수입', '저축', '재테크') THEN deal_price              
+                            WHEN CATEGORY_NAME = '지출' THEN - deal_price              
+                            ELSE 0 
+                            END      
+                     )      
+            	FROM deal
+            WHERE MEMBER_NUM = #{memberNum}  
+            AND DEAL_METHOD = 'checkCard') ,0)  as totalCheck  
+     , nvl((SELECT SUM(
+                    CASE   
+                        WHEN CATEGORY_NAME = '수입' THEN deal_price              
+                        WHEN CATEGORY_NAME = '지출' THEN -deal_price              
+                        ELSE 0 
+                        END      
+                        )      
+            FROM deal      
+            WHERE MEMBER_NUM = #{memberNum}  
+            AND DEAL_METHOD = 'cash') ,0) as totalCash   
+     ,nvl((SELECT SUM(deal_price)    
+           FROM deal    
+           WHERE MEMBER_NUM = #{memberNum}  
+           AND DEAL_METHOD = 'creditCard') ,0)  as totalCredit 
+from dual
+</select>
+</mapper>

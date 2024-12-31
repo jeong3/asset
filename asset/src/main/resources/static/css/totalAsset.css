@@ -1,0 +1,50 @@
+.financial-table {
+            border-collapse: collapse;
+            width: 50%;
+            max-width: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+
+        .financial-table th, 
+        .financial-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd; /* 셀 경계선 */
+        }
+
+        .financial-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* 왼쪽 열에 색 입히기 */
+        .financial-table td:first-child {
+            background-color: #f4f4f4; /* 연한 회색 */
+            font-weight: bold;
+            width: 30%; /* 왼쪽 열을 더 좁게 설정 */
+        }
+
+        /* 오른쪽 열은 흰색 배경 */
+        .financial-table td:last-child {
+            background-color: white;
+            width: 70%; /* 오른쪽 열을 더 넓게 설정 */
+        }
+
+        /* 테이블 행 구분 줄 */
+        .financial-table tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* 둥근 모서리 */
+        .financial-table {
+            border-radius: 12px;
+        }
+
+        .financial-table tr:hover {
+            background-color: #f1f1f1;
+        }
