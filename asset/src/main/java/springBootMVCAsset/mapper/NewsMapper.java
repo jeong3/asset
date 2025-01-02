@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import springBootMVCAsset.domain.NewsAnalyzeDTO;
+import springBootMVCAsset.domain.NewsCommentDTO;
 import springBootMVCAsset.domain.NewsDTO;
 
 @Mapper
@@ -20,6 +21,22 @@ public interface NewsMapper {
 
 	int newsDelete(String newsNum);
 
-	int newsAnalyzeMerge(NewsAnalyzeDTO newsAnalyzeDTO);
+	int countUpdate(String newsNum);
+
+	int updateLikeCount(String newsNum, String memberId);
+
+	int selectLikeCount(String newsNum);
+
+	String newsAnalyzeSelect(String newsNum, String memberId);
+
+	int newsAnalyzeCount(String newsNum);
+
+	int commentInsert(NewsCommentDTO dto);
+
+	List<NewsCommentDTO> commentSelectAll(String newsNum);
+
+	int newsSaveUpdate(String newsNum, String memberNum);
+
+	String newsSaveSelect(String newsNum, String memberNum);
 
 }

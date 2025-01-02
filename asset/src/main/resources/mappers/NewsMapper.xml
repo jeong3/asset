@@ -5,13 +5,13 @@
 <mapper namespace="springBootMVCAsset.mapper.NewsMapper">
 
 <sql id="BaseColumns">
-	NEWS_NUM, NEWS_CONTENTS, REGIST_DATE, UPDATE_DATE, NEWS_TITLE, IMAGE, STORE_IMAGE, EMP_NUM, UPDATE_EMP_NUM, IMAGE_TITLE, IMAGE_CONTENTS
+	NEWS_NUM, NEWS_CONTENTS, REGIST_DATE, UPDATE_DATE, NEWS_TITLE, IMAGE, STORE_IMAGE, EMP_NUM, UPDATE_EMP_NUM, IMAGE_TITLE, IMAGE_CONTENTS, visit_count
 </sql>
 
 <insert id="newsInsert">
 	insert into news ( <include refid="BaseColumns" /> )
 	values ( #{newsNum}, #{newsContents}, sysdate, null, #{newsTitle}, #{image}, #{storeImage}
-	, #{empNum}, null, #{imageTitle}, #{imageContents} )
+	, #{empNum}, null, #{imageTitle}, #{imageContents}, 0 )
 </insert>
 
 <select id="newsSelectAll">
@@ -41,5 +41,60 @@
 	delete from news where news_num = #{newsNum}
 </delete>
 
+<update id="countUpdate">
+	update news set
+	visit_count = visit_count + 1
+	where news_num = #{news_num}
+</update>
 
+<update id="updateLikeCount">
+	merge into news_analyze na
+		using (SELECT news_num FROM news WHERE news_num = #{newsNum} ) n
+		on (na.news_num = n.news_num and member_id = #{memberId})
+		when matched then
+  		  update set recommend_date = sysdate
+	    where na.news_num = #{newsNum} 
+	      and member_id = #{memberId}
+	    delete where na.news_num = #{newsNum}  and member_Id = #{memberId}
+		when not matched then
+		   INSERT (news_num, member_id, recommend_date) 
+          VALUES (#{newsNum}, #{memberId}, sysdate)
+</update>
+
+<select id="newsAnalyzeSelect">
+	select recommend_date from news_analyze 
+	where news_num = #{newsNum} and member_Id = #{memberId}
+</select>
+
+<select id="newsAnalyzeCount">
+	select count(*) from news_analyze where news_num = #{newsNum}
+</select>
+
+<insert id="commentInsert" parameterType="newsCommentDTO">
+	insert into news_comment (COMMENT_NUM, MEMBER_ID, COMMENT_CONTENTS, COMMENT_DATE, NEWS_NUM)
+	values ((select nvl(max(comment_num),0)+1 from news_comment), #{memberId}, #{commentContents}, sysdate, #{newsNum})
+</insert>
+
+<select id="commentSelectAll" parameterType="string" resultType="newsCommentDTO">
+	select COMMENT_NUM, MEMBER_ID, COMMENT_CONTENTS, COMMENT_DATE, NEWS_NUM from news_comment
+	where news_num = #{newsNum}
+</select>
+
+<update id="newsSaveUpdate" parameterType="string">
+	 merge into save s
+		using (SELECT news_num FROM news WHERE news_num = #{newsNum} ) n
+		on (s.news_num = n.news_num and member_num = #{memberNum})
+		when matched then
+  		  update set save_date = sysdate
+	    where s.news_num =  #{newsNum}
+	      and member_num = #{memberNum}
+	    delete where s.news_num = #{newsNum}  and member_num = #{memberNum}
+		when not matched then
+		  insert (member_num, news_num, save_date)
+         values (#{memberNum}, #{newsNum}, sysdate)
+</update>
+<select id="newsSaveSelect">
+	select save_date from save 
+	where news_num = #{newsNum} and member_num = #{memberNum}
+</select>
 </mapper>

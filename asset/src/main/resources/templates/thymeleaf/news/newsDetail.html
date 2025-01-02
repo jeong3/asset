@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 <title>뉴스 상세 페이지</title>
 <style>
 body {
@@ -114,6 +116,188 @@ body {
     color: #777;
     margin-top: 5px;
 }
+.save-button-container {
+  text-align: center; /* 버튼을 가로로 중앙 정렬 */
+  position: absolute; /* 부모 요소에서 벗어나 왼쪽에 위치하도록 설정 */
+    top: 100px; /* 상단에 위치하도록 설정 (필요에 따라 조정) */
+    right: 290px; /* 왼쪽 끝에 위치하도록 설정 */
+}
+
+.save-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.save-button i {
+  margin-right: 8px; /* 아이콘과 텍스트 사이의 여백 */
+}
+
+.save-button:hover {
+  background-color: #45a049; /* 호버시 배경색 변경 */
+}
+
+
+
+.like-container {
+    position: absolute; /* 부모 요소에서 벗어나 왼쪽에 위치하도록 설정 */
+    top: 100px; /* 상단에 위치하도록 설정 (필요에 따라 조정) */
+    right: 200px; /* 왼쪽 끝에 위치하도록 설정 */
+}
+
+.like-btn {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.like-btn .heart {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    transform: rotate(-45deg);
+    transition: background-color 0.3s ease;
+}
+
+.like-btn .heart::before,
+.like-btn .heart::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    transition: background-color 0.3s ease;
+}
+
+.like-btn .heart::before {
+    top: -10px;
+    left: 0;
+}
+
+.like-btn .heart::after {
+    left: 10px;
+    top: 0;
+}
+
+.like-btn.clicked .heart {
+    background-color: #e63946; /* 클릭 후 하트 색상 */
+}
+
+.like-btn.clicked .heart::before,
+.like-btn.clicked .heart::after {
+    background-color: #e63946; /* 클릭 후 하트 색상 */
+}
+
+.like-btn .count {
+    font-weight: bold;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.comment-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-section {
+  width: 100%;
+  max-width: 1100px; /* 최대 너비 설정 */
+  margin: 0 auto;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.comment-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.comment-input textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.comment-input button {
+  width: 100px;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comment-input button:hover {
+  background-color: #0056b3;
+}
+
+.comment-list {
+  max-height: 300px; /* 댓글 리스트의 최대 높이 설정 */
+  overflow-y: auto;  /* 댓글이 많으면 세로 스크롤이 나타남 */
+  border-bottom: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.comment-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.comment-item p {
+  margin: 5px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.comment-item strong {
+  font-weight: bold;
+}
+
+.comment-item p:last-child {
+  font-style: italic;
+  color: #777;
+}
+
 </style>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
@@ -129,6 +313,68 @@ function newsDelete(element){
 	location.href="/news/newsDelete?newsNum="+newsNum;
 	}
 }
+$(document).ready(function() {
+	 var newsNum = "[[${dto.newsNum}]]";
+	 var recommend = $("#like-button").data("recommend");
+	 var save = $("#save-button").data("save");
+     if (recommend != null) {
+         $("#like-button").addClass("clicked");
+     }
+     if (save != null) {
+         $("#save-button").html('<i class="fas fa-save"></i> 저장됨');
+     }
+    $("#like-button").click(function() {
+        // 서버로 AJAX 요청 보내기
+        $.ajax({
+            url: "/news/updateLikeCount?newsNum="+newsNum, // 서버에서 처리할 URL
+            method: "get", // HTTP 메서드
+            success: function(result) {
+            	if(result != null){
+            		 var isLiked = $("#like-button").hasClass("clicked");
+                     if (isLiked) {
+                         // 좋아요 취소 시 (하트 색깔 원래대로)
+                         $("#like-button").removeClass("clicked");
+                     } else {
+                         // 좋아요 누를 때 (하트 색깔 변경)
+                         $("#like-button").addClass("clicked");
+                     }
+            	}
+            	window.location.reload();
+            },
+            error: function() {
+            	if (confirm("로그인이 필요합니다 로그인 창으로 이동하시겠습니까?")) {
+            		location.href="/login/login";
+            		}
+            }
+        });
+    });
+    
+    $("#save-button").click(function(){
+    	if (confirm("저장하시겠습니까?")) {
+        $.ajax({
+            url: "/news/newsSave?newsNum="+newsNum, // 서버에서 처리할 URL
+            method: "get", // HTTP 메서드
+            success: function(result) {
+            	if (result.save) {
+                    // 저장된 경우 버튼 텍스트 변경
+                    $("#save-button").html('<i class="fas fa-save"></i> 저장됨');
+                } else {
+                    // 저장 실패 시 다른 처리
+                    alert("저장에 실패했습니다.");
+                }
+            	
+            },
+            error: function() {
+            	if (confirm("로그인이 필요합니다 로그인 창으로 이동하시겠습니까?")) {
+            		location.href="/login/login";
+            		}
+            }
+        });
+    	}
+    });
+    
+});
+
 </script>
 </head>
 <body>
@@ -239,12 +485,49 @@ function newsDelete(element){
             <div class="news-content">
                  <p><div th:utext="${#strings.replace(newsContents, '\n', '<br>')}"></div></p>
             </div>
+			
+		    <form action="/news/comment" method="post">
+		    <input type="hidden" name="newsNum" th:value="${dto.newsNum}">
+		 	    <div class="comment-section">
+		 	    <div class="comment-list">
+				    <div class="comment-item" th:each="commentDTO : ${commentList}">
+				      <p><strong>[[${commentDTO.memberId}]]</strong> - [[${#dates.format(commentDTO.commentDate,'yyyy-MM-dd')}]]</p>
+				      <p>[[${commentDTO.commentContents}]]</p>
+				    </div>
+				  
+				    
+				    
+				    
+				    <!-- 댓글이 더 추가될 수 있음 -->
+				  </div>
+				  <h3>댓글</h3>
+				  <div class="comment-input">
+				    <textarea placeholder="댓글을 입력하세요..." rows="4" name="commentContents"></textarea>
+				    <button type="submit" class="comment-submit">작성</button>
+				  </div>
+				  
+				</div>
 
+			</form>
+		    <div class="like-container">
+		        <button id="like-button" class="like-btn"  th:data-recommend="${recommend}">
+		            <span class="heart"></span>
+		            <span class="count">[[${recommendCount}]]</span>
+		        </button>
+		    </div>
+		    <div class="save-button-container" th:data-save="${saveDate}" >
+			  <button id="save-button" class="save-button" >
+			    <i class="fas fa-save"></i> 저장
+			  </button>
+			</div>
+		    
             <!-- 돌아가기 버튼 -->
             <a href="javascript:history.back()" class="back-button">돌아가기</a>
             <a th:href="|/news/newsUpdate?newsNum=${dto.newsNum}|" class="back-button">수정</a>
             <a th:data-news-num="${dto.newsNum}" onclick="newsDelete(this);" class="back-button">삭제</a>
         </div>
+        
+        
 
         <!-- 오른쪽 사이드에 다른 기사 목록 -->
         <div class="side-content">

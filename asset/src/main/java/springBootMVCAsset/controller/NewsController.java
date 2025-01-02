@@ -6,15 +6,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.NewsCommand;
+import springBootMVCAsset.command.NewsCommentCommend;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.news.CommentRegistService;
 import springBootMVCAsset.service.news.NewsDeleteService;
 import springBootMVCAsset.service.news.NewsDetailService;
 import springBootMVCAsset.service.news.NewsListService;
 import springBootMVCAsset.service.news.NewsRegistService;
 import springBootMVCAsset.service.news.NewsUpdateService;
+import springBootMVCAsset.service.news.SaveRegistService;
 
 @Controller
 @RequestMapping("news")
@@ -31,6 +35,10 @@ public class NewsController {
 	NewsUpdateService newsUpdateService;
 	@Autowired
 	NewsDeleteService newsDeleteService;
+	@Autowired
+	CommentRegistService commentRegistService;
+	
+	
 	
 	@GetMapping("newsList")
 	public String newsList(Model model) {
@@ -70,5 +78,15 @@ public class NewsController {
 		newsDeleteService.execute(newsNum);
 		return "redirect:newsList";
 	}
+	
+	@RequestMapping("comment")
+	public String comment(NewsCommentCommend newsCommentCommend, HttpSession session) {
+		commentRegistService.execute(newsCommentCommend, session);
+		return "redirect:newsDetail?newsNum="+newsCommentCommend.getNewsNum();
+	}
+	
+	
+
+	
 	
 }

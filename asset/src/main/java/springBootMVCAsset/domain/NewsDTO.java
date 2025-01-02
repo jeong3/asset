@@ -17,5 +17,6 @@ public class NewsDTO {
 	    Date updateDate;  // UPDATE_DATE
 	    String empNum;            // EMP_NUM
 	    String updateEmpNum;      // UPDATE_EMP_NUM
+	    int visitCount;
 
 }
