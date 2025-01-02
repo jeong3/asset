@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import springBootMVCAsset.command.MemberCommand;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.budget.BudgetRegistService;
 import springBootMVCAsset.service.member.MemberDeleteService;
 import springBootMVCAsset.service.member.MemberDetailService;
 import springBootMVCAsset.service.member.MemberListService;
@@ -32,6 +33,8 @@ public class MemberController {
 	MemberUpdateService memberUpdateService;
 	@Autowired
 	MemberDeleteService memberDeleteService;
+	@Autowired
+	BudgetRegistService budgetRegistService;
 	
 	@GetMapping("memberRegist")
 	public String memberRegist(Model model) {
@@ -52,6 +55,9 @@ public class MemberController {
 			return "thymeleaf/member/memberForm";
 		}
 		memberRegistService.execute(memberCommand);
+		
+		String autoNum = autoNumService.execute("budget_", "budget_num", 8, "budget");
+		budgetRegistService.execute(memberCommand, autoNum);
 		return "redirect:memberList";
 	}
 	

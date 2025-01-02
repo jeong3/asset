@@ -21,4 +21,40 @@ values(#{dealNum}, #{memberNum}, #{dealPrice}
 	,#{dealMethod}, #{dealDate}
 	,#{categoryName}, #{categoryType})
 </insert>
+
+<select id="dealList" parameterType="searchDTO" resultType="dealDTO">
+select *
+from (select row_number() over(order by deal_num desc) as rn
+	, <include refid="BaseColums"/>
+	from deal
+<where>
+	<if test="searchWord != null">
+	(
+		CATEGORY_NAME like '%'||#{searchWord}||'%'
+		or CATEGORY_TYPE like '%'||#{searchWord}||'%'
+		or DEAL_METHOD like '%'||#{searchWord}||'%'
+		or DEAL_CONTENTS like '%'||#{searchWord}||'%'
+	)
+	</if>
+	<if test="categoryName != null and categoryName != '전체'">
+        AND CATEGORY_NAME = #{categoryName}
+    </if>
+    <if test="categoryType != null and categoryType != '전체'">
+        AND CATEGORY_TYPE = #{categoryType}
+    </if>
+    <if test="dealMethod != null and dealMethod != '전체'">
+        AND DEAL_METHOD = #{dealMethod}
+    </if>
+ 	<if test="dealStartDate != null and dealEndDate != null">
+        AND deal_date BETWEEN #{dealStartDate} AND #{dealEndDate}
+    </if>
+    AND MEMBER_NUM = #{memberNum}
+</where>
+)
+where rn between #{startRow} and #{endRow}
+</select>
+
+<select id="dealCount" resultType="integer">
+select count(*) from deal
+</select>
 </mapper>

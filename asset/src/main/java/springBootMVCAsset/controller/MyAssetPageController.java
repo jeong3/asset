@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.DealCommand;
+import springBootMVCAsset.domain.SearchDTO;
 import springBootMVCAsset.service.AutoNumService;
-import springBootMVCAsset.service.budget.BudgetRegistService;
-import springBootMVCAsset.service.budget.TotalBugetListService;
+import springBootMVCAsset.service.budget.BudgetDetailService;
+import springBootMVCAsset.service.budget.BudgetUpdateService;
+import springBootMVCAsset.service.deal.DealListService;
 import springBootMVCAsset.service.deal.DealRegistService;
 
 @Controller
@@ -25,13 +27,15 @@ public class MyAssetPageController {
 	@Autowired
 	DealRegistService dealRegistService;
 	@Autowired
-	BudgetRegistService budgetRegistService;
+	BudgetUpdateService budgetUpdateService;
 	@Autowired
-	TotalBugetListService totalBugetListService;
+	BudgetDetailService budgetDetailService;
+	@Autowired
+	DealListService dealListService;
 	
 	@GetMapping("myAssetPage")
 	public String myAssetPage(Model model, HttpSession session) {
-		totalBugetListService.execute(model, session);
+		budgetDetailService.execute(model, session);
 		return "thymeleaf/myAsset/myAssetPage";
 	}
 	
@@ -57,14 +61,14 @@ public class MyAssetPageController {
 			return "thymeleaf/myAsset/dealRegist";
 		}
 		dealRegistService.execute(dealCommand, session, categoryName);
-		
-		String autoNum = autoNumService.execute("budget_", "budget_num", 8, "budget");
-		budgetRegistService.execute(dealCommand, session, categoryName, autoNum);
+		budgetUpdateService.execute(session, dealCommand);
 		return "redirect:myAssetPage";
 	}
 	
 	@GetMapping("dealList")
-	public String dealList() {
+	public String dealList(@RequestParam(value="page", required = false, defaultValue="1") Integer page,
+			@RequestParam(value="searchDTO", required = false) SearchDTO searchDTO, Model model, HttpSession session) {
+		dealListService.execute(page, searchDTO, model, session);
 		return "thymeleaf/myAsset/dealList";
 	}
 }

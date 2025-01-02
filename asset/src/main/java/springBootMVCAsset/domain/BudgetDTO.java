@@ -9,8 +9,8 @@ import lombok.Data;
 public class BudgetDTO {
 	String budgetNum;
 	String memberNum;
-	Integer budgetPrice;
-	Integer remainPrice;
-	String categoryName;
-	String dealMethod;
+	Integer totalAsset;
+	Integer totalCheck;
+	Integer totalCash;
+	Integer totalCredit;
 }
