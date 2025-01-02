@@ -99,6 +99,32 @@ $(function(){
     $("#inquire").click(function(){
         inquire();
     });
+    $("#review").click(function(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/review/reviewList", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        var formData = JSON.stringify(
+                {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
+        );
+        xhr.onload = function(){
+            if(xhr.status == 200){
+                var result = JSON.parse(xhr.responseText);
+                var item='<table class="review-table">';
+                const reviewDetails = result.reviews.map(function(review){
+                    return `
+                        <tr><th>${review.memberId}</th><th>${review.purchaseNum}</th></tr>
+                        <tr><th colspan="2">${review.reviewContents}</th></tr>
+                    `;
+                });			
+                item += reviewDetails;
+                item += '</table>';
+                $("#content").html(item);
+            }else{
+                alert("서버오류!!!!");
+            }
+        }
+        xhr.send(formData);
+    });
     $("#cartBtn").click(function(){
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/item/addCart", true);
@@ -127,6 +153,7 @@ $(function(){
         })
         xhr.send(formData);
     });
+    
     function inquire(){
         $.ajax({
             type : "POST",
@@ -145,6 +172,7 @@ $(function(){
         var formData = JSON.stringify(
                 {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
         );
+        console.log("formData: ", formData);
         $.ajax({
             type : "post",
             url : "/corner/goodsDescript",
@@ -175,6 +203,7 @@ $(function(){
 
 </script>
 <style type="text/css">
+
 /* 리뷰 컨테이너 스타일 */
 .reviews-container {
     display: flex;               /* 리뷰를 가로로 나열하기 위해 flex 사용 */
@@ -259,8 +288,8 @@ $(function(){
           <ol class="breadcrumb-list">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="javascript:window.history.back()">back</a></li>
-            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsNum})}">update</a></li>
-         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsNum})}">delete</a></li>
+            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsDTO.goodsNum})}">update</a></li>
+         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsDTO.goodsNum})}">delete</a></li>
           </ol>
         </nav>
         </div>
@@ -319,7 +348,7 @@ $(function(){
 	</table>
 	<div class="column-xs-12 column-md-12" align="center">
 	 <button class="add-to-cart" id="descript">제품 상세 설명</button>
-       	<button class="add-to-cart" id="toggleReviewsBtn">리뷰 보기</button>
+       	<button class="add-to-cart" id="review">리뷰 보기</button>
        	<button class="add-to-cart" id="inquire">상품 문의</button>
 	</div>   	
 	<tr><td colspan="2"><div id="content"></div></td></tr>

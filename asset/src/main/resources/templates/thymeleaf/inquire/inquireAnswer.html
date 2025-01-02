@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의 답변</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f8f8;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        .submit-btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .submit-btn-container input {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn-container input:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        문의 답변
+    </header>
+
+    <div class="container">
+        <form action="inquireAnswer" method="post">
+            <div class="form-title">문의 답변</div>
+            <table>
+                <tr class="table-row">
+                    <th>문의 번호</th>
+                    <td><input type="text" th:value="${list[0].inquireNum}" name="inquireNum" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <th>질문자</th>
+                    <td>[[${list[0].memberNum}]]</td>
+                </tr>
+                <tr>
+                    <th>문의 제목</th>
+                    <td>[[${list[0].inquireSubject}]]</td>
+                </tr>
+                <tr>
+                    <th>문의 등록일</th>
+                    <td>[[${#dates.format(list[0].inquireDate,'yyyy-MM-dd') }]]</td>
+                </tr>
+                <tr>
+                    <th>문의 내용</th>
+                    <td><span th:utext="${#strings.replace(list[0].inquireContents, newLineChar, '<br />')}"></span></td>
+                </tr>
+                <tr>
+                    <th>답변한 사람</th>
+                    <td>[[${list[0].empNum}]]</td>
+                </tr>
+                <tr>
+                    <th>답변일</th>
+                    <td>[[${#dates.format(list[0].inquireAnswerDate,'yyyy-MM-dd') }]]</td>
+                </tr>
+                <tr>
+                    <th>문의 답변</th>
+                    <td><textarea rows="10" name="inquireAnswer">[[${list[0].inquireAnswer}]]</textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit-btn-container">
+                        <input type="submit" value="답변달기" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

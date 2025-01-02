@@ -7,7 +7,7 @@
 <insert id="inquireInsert" parameterType="inquire">
 insert into inquire(INQUIRE_NUM, MEMBER_NUM, INQUIRE_SUBJECT,INQUIRE_KIND
 					, INQUIRE_CONTENTS, INQUIRE_DATE )
-VALUES((select coalesce(max(inquire_num),0) + 1 from inquire)
+VALUES((select coalesce(max(to_number(inquire_num)), 0) + 1 from inquire)
 	   ,#{memberNum},#{inquireSubject},#{inquireKind}
 	   ,#{inquireContents},sysdate)
 </insert>
@@ -24,4 +24,22 @@ on i.member_num = m.member_num
 	</if>
 </trim> 
 </select>
+<update id="inquireUpdate" parameterType="inquire">
+update inquire
+set INQUIRE_SUBJECT = #{inquireSubject}
+   ,INQUIRE_CONTENTS = #{inquireContents}
+   ,INQUIRE_KIND = #{inquireKind}
+where  INQUIRE_NUM = #{inquireNum}
+</update>
+<delete id="inquireDelete" parameterType="integer">
+	delete from inquire
+	where  INQUIRE_NUM = #{inquireNum}
+</delete>
+<update id="inquireAnswerUpdate" parameterType="inquire">
+update inquire
+set EMP_NUM = #{empNum}, <!-- 답변한 직원 -->
+	INQUIRE_ANSWER = #{inquireAnswer}, <!-- 답변내용 -->
+	inquire_answer_date = sysdate <!-- 답변시간 -->
+where INQUIRE_NUM = #{inquireNum}
+</update>
 </mapper>

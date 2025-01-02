@@ -9,4 +9,7 @@ import springBootMVCAsset.domain.InquireDTO;
 public interface InquireMapper {
 	public List<InquireDTO> inquireList(String goodsNum, Integer inquireNum);
 	public Integer inquireInsert(InquireDTO dto);
+	public Integer inquireUpdate(InquireDTO dto);
+	public Integer inquireDelete(Integer inquireNum);
+	public Integer inquireAnswerUpdate(InquireDTO dto);
 }

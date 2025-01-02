@@ -1,8 +1,15 @@
 package springBootMVCAsset.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -55,5 +62,16 @@ public class ReviewController {
 	    }
 
 	    return "redirect:/purchase/orderList";
+	}
+	@PostMapping("reviewList")
+	public ResponseEntity<Map<String, Object>> reviewList(
+			@RequestBody Map<String, String> map
+			) {
+		String goodsNum = map.get("goodsNum");
+		System.out.println(goodsNum);
+		List<ReviewDTO> list  = reviewMapper.goodsReviewList(goodsNum);
+		Map<String, Object> response = new HashMap<>();
+		response.put("reviews", list);
+		return ResponseEntity.ok(response);
 	}
 }

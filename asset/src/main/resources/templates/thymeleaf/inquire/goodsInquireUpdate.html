@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>goodsInquireUpdate</title>
+<script type="text/javascript">
+    // 페이지가 로드된 후
+    window.onload = function() {
+        var form = document.querySelector("form");
+        form.onsubmit = function(event) {
+            event.preventDefault(); // 폼 제출을 막고, AJAX로 처리할 수 있도록 합니다.
+
+            // AJAX로 폼 데이터를 서버에 제출
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/inquire/inquireUpdate", true);
+
+            // 서버에서 응답을 받으면
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // 수정이 성공하면 창을 닫습니다.
+                    window.close();
+                } else {
+                    alert("수정 실패: " + xhr.responseText);
+                }
+            };
+
+            // 서버로 폼 데이터 전송
+            xhr.send(formData);
+        };
+    };
+</script>
+</head>
+<body>
+<div class="form-container">
+    <form method="post" action="/inquire/inquireUpdate">
+        <input type="hidden" name="inquireNum" th:value="${list[0].inquireNum}"/>
+        <table border="1">
+            <tr>
+                <td>
+                    <select name="inquireKind">
+                        <option th:selected="${list[0].inquireKind == '상품'}">상품(성능/사이즈)</option>
+                        <option th:selected="${list[0].inquireKind == '배송'}">배송</option>
+                        <option th:selected="${list[0].inquireKind == '교환'}">교환</option>
+                        <option th:selected="${list[0].inquireKind == '반품/취소/환불'}">반품/취소/환불</option>
+                        <option th:selected="${list[0].inquireKind == '기타'}">기타</option>
+                    </select>
+                </td>
+                <td align="right">
+                    <input type="submit" id="btnInsert" value="문의수정" />
+                </td>
+            </tr>
+            <tr>
+                <th>제목</th>
+                <td><input type="text" name="inquireSubject" th:value="${list[0].inquireSubject}"/></td>
+            </tr>
+            <tr>
+                <th>내용</th>
+                <td><textarea cols="50" rows="10" name="inquireContents">[[${list[0].inquireContents}]]</textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

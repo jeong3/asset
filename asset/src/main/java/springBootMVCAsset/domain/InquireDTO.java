@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 @Alias("inquire")
 public class InquireDTO {
-	   Integer inquireNum;
+	   String inquireNum;
 	   String memberNum;
-	   //String goodsNum;
+	   String goodsNum;
 	   String inquireKind;
 	   String inquireSubject;
 	   String inquireContents;
@@ -20,6 +20,6 @@ public class InquireDTO {
 	   Date inquireAnswerDate;
 	   String empNum;
 	   
-	   //String memberId;
-	   //String goodsName;
+	   String memberId;
+	   String goodsName;
 }

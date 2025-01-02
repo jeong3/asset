@@ -22,4 +22,9 @@ set REVIEW_SUBJECT = #{reviewSubject},
 	REGIST_DATE = sysdate
 where GOODS_NUM = #{goodsNum} and purchase_num = #{purchaseNum}
 </update>
+<select id="goodsReviewList" parameterType="string" resultType="review">
+	select GOODS_NUM, PURCHASE_NUM, REGIST_DATE, REVIEW_CONTENTS, MEMBER_ID
+	from review
+	where goods_num = #{goodsNum}
+</select>
 </mapper>
