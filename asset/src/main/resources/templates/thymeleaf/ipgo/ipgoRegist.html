@@ -2,6 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>Insert title here</title>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
@@ -12,8 +16,143 @@ $(function(){
 	});
 });
 </script>
+<style>
+form {
+    padding-top: 80px; /* 메뉴바 아래로 내릴 공간 */
+}
+/* 테이블 컨테이너 스타일 */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: separate;
+    border-spacing: 0 15px; /* 행 간 간격 */
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+}
+
+/* 테이블 헤더 스타일 */
+th {
+    text-align: left;
+    padding-bottom: 8px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding-left: 5px;
+}
+
+/* 테이블 데이터 셀 스타일 */
+td {
+    padding: 10px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 입력 필드 스타일 */
+input[type="text"], 
+input[type="number"], 
+input[type="date"] {
+    width: calc(100% - 10px); /* 패딩에 따른 크기 조정 */
+    padding: 8px;
+    margin: 0;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 8px 16px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    background-color: #f3f3f3;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05); /* 버튼이 약간 커짐 */
+    background-color: #ddd;
+}
+
+/* 제출 버튼 스타일 */
+input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #eaeaea;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+input[type="submit"]:hover {
+    transform: scale(1.03);
+    background-color: #d6d6d6;
+}
+</style>
 </head>
-<body>
+<body class="w3-content" style="max-width:1200px">
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+     <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+        <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+    </div>
+  </div>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+     <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+        <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
+    </div>
+  </div>
+ 
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+        <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
+  <div th:if="${session.auth != null}">
+     <th:block th:if="${session.auth.grade == 'mem'}">
+        <!-- 마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">마이페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+                 <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+            </div>
+        </div>
+        
+        <!-- 로그아웃 -->
+        
+     </th:block>
+     <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
+  </div>
+  <div th:if="${session.auth == null}">
+       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
 	<form action="ipgoRegist" method="post">
 		<div class="w3-container" align="center">
 			<h2>입고 등록</h2>

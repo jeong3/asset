@@ -83,19 +83,16 @@ h1 {letter-spacing: 6px}
 			<div class="w3-container">
 				<div class="w3-display-container">
 					<a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}"><img height= "200px", width= "200px"
-						th:src="|/static/images/${dto.mainStoreImage}|" style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)"></a> <span
-						class="w3-tag w3-display-topleft">New</span>
+						th:src="|/static/images/${dto.mainStoreImage}|" style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)"></a> <!--  <span
+						class="w3-tag w3-display-topleft">New</span>-->
 					<div class="w3-display-middle w3-display-hover">
-						<button class="w3-button w3-black">
+						<!--  <button class="w3-button w3-black">
 							Buy now<i class="fa fa-shopping-cart"></i>
-						</button>
+						</button>-->
 					</div>
 				</div>
 				<p>
 					[[${dto.goodsName}]]
-					<img style="width: 20px; height: 20px; float: right;"
-						th:goodsNum="${dto.goodsNum}" onclick="addWish(this)"
-						src="/static/images/hart1.jpg">
 					<br> <b>[[${dto.goodsPrice}]]</b>
 					<!-- 오른쪽 끝에 작은 이미지 추가 -->
 					
