@@ -9,10 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import springBootMVCAsset.domain.GoodsStockDTO;
 import springBootMVCAsset.domain.InquireDTO;
+import springBootMVCAsset.mapper.GoodsStockMapper;
 import springBootMVCAsset.mapper.InquireMapper;
 import springBootMVCAsset.service.goods.GoodsDetailViewService;
 
@@ -20,14 +23,18 @@ import springBootMVCAsset.service.goods.GoodsDetailViewService;
 @RequestMapping("corner")
 public class CornerController {
 	@Autowired
+	GoodsStockMapper goodsStockMapper;
+	@Autowired
 	InquireMapper inquireMapper;
 	@Autowired
 	GoodsDetailViewService goodsDetailViewService;
 	@RequestMapping("/goodsDescript")
-	public void goodsDescript(@RequestBody Map<String, String> map,
-			Model model, HttpServletResponse response, HttpSession session) {
-		goodsDetailViewService.execute(map.get("goodsNum"), model, response,session);
-		System.out.println("Response1: " + model.asMap());	
+	@ResponseBody
+	public GoodsStockDTO goodsDescript(@RequestBody Map<String, String> map,
+	                                   HttpServletResponse response, HttpSession session) {
+	    // 서비스에서 데이터 조회
+	    GoodsStockDTO dto = goodsStockMapper.goodsStockSelectOne(map.get("goodsNum"));
+	    return dto; // 자동으로 JSON 형식으로 변환되어 클라이언트로 반환됩니다.
 	}
 	@RequestMapping("inquireList")
 	public String inquireList(@ModelAttribute("goodsNum") String goodsNum

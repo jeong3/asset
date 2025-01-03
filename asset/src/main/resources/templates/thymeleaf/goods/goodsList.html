@@ -5,12 +5,80 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const slider = document.querySelector('.main-image-slider');
+    const totalItems = document.querySelectorAll('.main-image-item').length;
+    let currentIndex = 0;
+
+    const moveSlider = () => {
+        if (currentIndex < totalItems - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0; // 끝에 도달하면 처음으로 돌아갑니다.
+        }
+
+        const offset = -currentIndex * 100; // 100%씩 이동
+        slider.style.transform = `translateX(${offset}%)`; // 이동
+    };
+
+    setInterval(moveSlider, 3000); // 3초마다 슬라이드 이동
+});
+function buyNow(element){
+	var goodsNum = $(element).data('goodsNum');  // 상품 번호
+	var cartQty = "1";           // 수량
+
+	   $.ajax({
+	       type: "POST",
+	       url: "/item/addCart",  // 서버에서 처리할 URL
+	       contentType: "application/json",  // JSON 형식으로 데이터 전송
+	       data: JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
+	           "goodsNum": goodsNum,
+	           "cartQty": cartQty
+	       }),
+	       dataType: "html",  // 응답을 HTML 형식으로 처리
+	       success: function(result) {
+				purchaseRegist(result);
+	       },
+	       error: function() {
+	           alert("주문을 실패하였습니다.");
+	       }
+	   });
+}
+</script>
 <style>
+/* 메인 이미지 영역 */
+.main-image-container {
+    width: 100%;
+    overflow: hidden; /* 스크롤 숨기기 */
+    position: relative;
+}
+
+.main-image-slider {
+    display: flex;
+    transition: transform 1s ease-in-out; /* 부드러운 이동 효과 */
+}
+
+.main-image-item {
+    flex: 0 0 100%; /* 각 이미지는 전체 너비를 차지 */
+    text-align: center;
+}
+
+.main-image-item img {
+    width: 100%; /* 이미지 너비를 100%로 설정 */
+    height: 400px; /* 고정된 높이 설정 */
+    object-fit: contain; /* 이미지가 잘리지 않게 조정 */
+    object-position: center; /* 이미지가 잘리지 않도록 가운데 정렬 */
+}
+
+/* 추가적인 스타일 설정 */
 body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
+
 </style>
 </head>
 <div class="w3-top">
@@ -77,31 +145,48 @@ h1 {letter-spacing: 6px}
 	</div>
 
 	<!-- Product grid -->
+	<div class="main-image-container">
+    <div class="main-image-slider">
+        <th:block th:each="dto : ${list}">
+            <div class="main-image-item">
+                <a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">
+                    <img height="600px" width="1130px" th:src="|/static/images/${dto.mainStoreImage}|">
+                </a>
+            </div>
+        </th:block>
+    </div>
+</div>
+<div style="height: 50px;"></div>
+	<th:block th:each="dto, iterStat : ${list}">
+    <!-- 인덱스가 0이 아닐 경우에만 렌더링 -->
+    <div th:if="${iterStat.index != 0}" class="w3-col l3 s6">
+        <div class="w3-container">
+            <div class="w3-display-container">
+                <a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">
+                    <img height="200px" width="200px"
+                         th:src="|/static/images/${dto.mainStoreImage}|"
+                         style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)">
+                </a>
+                <!-- 'New' 태그 추가 -->
+                <span class="w3-tag w3-display-topleft">New</span>
+                <!-- 'Buy Now' 버튼 추가 -->
+                <div class="w3-display-middle w3-display-hover">
+                    <button class="w3-button w3-black" id="buyItem">
+                        Buy now <i class="fa fa-shopping-cart"></i>
+                    </button>
+                </div>
+            </div>
+            <p>
+                [[${dto.goodsName}]]
+                <br> 
+                <b>[[${dto.goodsPrice}]]</b>
+            </p>
+        </div>
+    </div>
+</th:block>
 
-	<th:block th:each="dto : ${list}">
-		<div class="w3-col l3 s6">
-			<div class="w3-container">
-				<div class="w3-display-container">
-					<a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}"><img height= "200px", width= "200px"
-						th:src="|/static/images/${dto.mainStoreImage}|" style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)"></a> <!--  <span
-						class="w3-tag w3-display-topleft">New</span>-->
-					<div class="w3-display-middle w3-display-hover">
-						<!--  <button class="w3-button w3-black">
-							Buy now<i class="fa fa-shopping-cart"></i>
-						</button>-->
-					</div>
-				</div>
-				<p>
-					[[${dto.goodsName}]]
-					<br> <b>[[${dto.goodsPrice}]]</b>
-					<!-- 오른쪽 끝에 작은 이미지 추가 -->
-					
-				</p>
-			</div>
-		</div>
-	</th:block>
   </div>
-  </div>	
+  </div>
 </body>
 
 </html>

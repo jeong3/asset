@@ -34,6 +34,7 @@ public class GoodsDetailViewService {
 			map.put("memberNum", memberNum);
 			model.addAttribute("map", map);
 		}
+		/*
 		ObjectMapper mapper = new ObjectMapper();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
@@ -41,6 +42,6 @@ public class GoodsDetailViewService {
 		try {
 			response.getWriter().print(mapper.writeValueAsString(dto));
 		}catch(Exception e) {}
-		
+		*/
 	}
 }

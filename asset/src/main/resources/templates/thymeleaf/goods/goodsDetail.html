@@ -1,390 +1,405 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="/static/css/goodsDetail.css">
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
-<script>
-$(document).ready(function () {
-    const goodsPrice = parseFloat($("#goodsPrice").text());
-    const totalPriceDisplay = $("#totalPrice");
-
-    // 수량 입력 값 변경 이벤트
-    $("#cartQty").on("input", function () {
-        const quantity = parseInt($(this).val()) || 1; // 수량이 없거나 잘못 입력되면 기본값 1로 설정
-
-        // AJAX 요청
-        $.ajax({
-            url: "/totalPrice", // 서버 요청 URL
-            type: "POST",
-            contentType: "application/json", // JSON 형식으로 데이터 전송
-            data: JSON.stringify({ goodsPrice: goodsPrice, quantity: quantity }), // 요청 데이터
-            success: function (response) {
-                // 성공 시 서버 응답 데이터로 총 금액 업데이트
-                totalPriceDisplay.text(response.totalPrice.toLocaleString());
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-            },
-        });
-    });
-});
-/*
-document.getElementById("toggleReviewsBtn").addEventListener("click", function() {
-    var reviews = document.getElementById("reviews");
-    if (reviews.style.display === "none" || reviews.style.display === "") {
-        reviews.style.display = "block";  // 리뷰 영역 보이기
-    } else {
-        reviews.style.display = "none";   // 리뷰 영역 숨기기
-    }
-});
-*/
-function addCart(element) {
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<link rel="stylesheet" href="/static/css/goodsDetail.css">
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+	<script>
+	$(document).ready(function () {
+	    const goodsPrice = parseFloat($("#goodsPrice").text());
+	    const totalPriceDisplay = $("#totalPrice");
 	
-    var goodsNum = $(element).data('goodsNum');  // 상품 번호
-    var cartQty = $('#cartQty').val();           // 수량
-    $.ajax({
-        type: "POST",
-        url: "/item/addCart",  // 서버에서 처리할 URL
-        contentType: "application/json",  // JSON 형식으로 데이터 전송
-        data: JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
-            "goodsNum": goodsNum,
-            "cartQty": cartQty
-        }),
-        dataType: "html",  // 응답을 HTML 형식으로 처리
-        success: function(result) {
-            if(result != null){
-               if (confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
-            	   window.location.href = "/item/cartList";
-				}
-            } else {
-                alert("장바구니 추가에 실패했습니다.");
-            }
-        },
-        error: function() {
-            alert("장바구니 추가에 실패했습니다.");
-        }
-    });
-}
-function buyNow(element){
-	var goodsNum = $(element).data('goodsNum');  // 상품 번호
-	var cartQty = "1";           // 수량
-
-	   $.ajax({
-	       type: "POST",
-	       url: "/item/addCart",  // 서버에서 처리할 URL
-	       contentType: "application/json",  // JSON 형식으로 데이터 전송
-	       data: JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
-	           "goodsNum": goodsNum,
-	           "cartQty": cartQty
-	       }),
-	       dataType: "html",  // 응답을 HTML 형식으로 처리
-	       success: function(result) {
-				purchaseRegist(result);
-	       },
-	       error: function() {
-	           alert("주문을 실패하였습니다.");
-	       }
-	   });
-}
-$(function(){
-	goodsDescript();
-    $("#descript").click(function(){
-        goodsDescript();
-    });
-    $("#buyItem").click(function(){
-        location.href = 
-            "/item/buyItem?goodsNum=[[${dto.goodsDTO.goodsNum}]]&cartQty="+$("#cartQty").val();
-    });
-    $("#inquire").click(function(){
-        inquire();
-    });
-    $("#review").click(function(){
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/review/reviewList", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        var formData = JSON.stringify(
-                {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
-        );
-        xhr.onload = function(){
-            if(xhr.status == 200){
-                var result = JSON.parse(xhr.responseText);
-                var item = '<table class="review-table" align="center">';
-                const reviewDetails = result.reviews.map(function(review){
-                    // reviewDate가 있으면 Date 객체로 변환 후 포맷
-                    var reviewDate = review.registDate ? new Date(review.registDate) : null;
-                    
-                    // Date 객체를 'yyyy-MM-dd' 형식으로 변환
-                    var formattedDate = reviewDate ? formatDate(reviewDate) : "날짜 정보 없음";
-
-                    return `
-                        <tr>
-                            <td colspan="2" class="review-meta">
-                                <strong>작성자:</strong> ${review.memberId} &nbsp;&nbsp; 
-                                <strong>등록 날짜:</strong> ${formattedDate}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="review-contents">${review.reviewContents}</td>
-                        </tr>
-                    `;
-                });
-                item += reviewDetails.join('');  // 배열을 문자열로 합침
-                item += '</table>';
-                $("#content").html(item);
-            }else{
-                alert("서버오류!!!!");
-            }
-        }
-        xhr.send(formData);
-    });
-
-    // 날짜 포맷 함수
-    function formatDate(date) {
-        var year = date.getFullYear();
-        var month = String(date.getMonth() + 1).padStart(2, '0');  // 월은 0부터 시작하므로 +1
-        var day = String(date.getDate()).padStart(2, '0');
-        return year + '-' + month + '-' + day;  // 'yyyy-MM-dd' 형식으로 반환
-    }
-
-
-    $("#cartBtn").click(function(){
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/item/addCart", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = function(){
-            if (xhr.status === 200) {
-                if(xhr.responseText == "200"){
-                    if(confirm("계속 쇼핑하려면 '취소'를 클릭하세요."))
-                        location.href="/item/cartList";
-                }else if(xhr.responseText == "900"){
-                    alert("관리자는 사용할 수 없는 페이지입니다.");
-                }else if(xhr.responseText == "000"){
-                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
-                    window.open("/login/item.login","login"
-                            ,"width=600, height=400,top = 100, left=100"); 
-                }
-            }else{
-                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
-                    window.open("/login/item.login","login"
-                            ,"width=315, height=200,top = 100, left=100"); 
-            }
-        }
-        var formData = JSON.stringify({
-            goodsNum: "[[${dto.goodsDTO.goodsNum}]]",
-            cartQty : $("#cartQty").val()
-        })
-        xhr.send(formData);
-    });
-    
-    function inquire(){
-        $.ajax({
-            type : "POST",
-            url: "/corner/inquireList",
-            dataType : "html",
-            data : {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"},
-            success : function(item){
-                $("#content").html(item);
-            },
-            error:function(){
-                alert("로그아웃되었습니다.");
-            }
-        });
-    }
-    function goodsDescript(){
-        var formData = JSON.stringify(
-                {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
-        );
-        console.log("formData: ", formData);
-        $.ajax({
-            type : "post",
-            url : "/corner/goodsDescript",
-            data : formData,
-            contentType: "application/json",
-            dataType : "json",
-            success : function(data){
-            	console.log("Response data:", data);
-                var item = "";
-                item += "<div class='product-details'>";
-                item += "<span style='cursor: default; text-decoration: none; color: black;'>상품 설명 : " + data.goodsDTO.goodsContents + "</span>";
-                item += "<br />";
-                if(data.goodsDTO.goodsDetailStoreImage != null){
-                    var imageParts = data.goodsDTO.goodsDetailStoreImage.split(/[\/,`]/);
-                    imageParts.forEach(function(image,index, array){
-                    	item += "<img src='/static/images/"+image+"' style='max-width: 500px; height: auto;' /><br />";
-                    });
-                }
-                item += "</div>";
-                $("#content").html(item);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", error);
-            }
-        });
-    }
-})
-
-</script>
-<style type="text/css">
-/* 전체 테이블 스타일 */
-.review-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-family: 'Arial', sans-serif;
-    text-align: center; /* 전체 텍스트를 가운데 정렬 */
-}
-
-/* 테이블 헤더 스타일 */
-.review-table th {
-    padding: 12px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ddd;
-}
-
-/* 테이블 셀 스타일 */
-.review-table td {
-    padding: 12px;
-    text-align: center;
-    font-size: 14px;
-    vertical-align: middle;
-    border-bottom: 1px solid #eee;
-}
-
-/* 테이블 셀의 내용이 길어질 때 줄바꿈 처리 */
-.review-table td span {
-    word-wrap: break-word;
-    word-break: break-word;
-}
-
-/* 리뷰 내용 스타일 */
-.review-table .review-contents {
-    text-align: center;
-    font-size: 14px;
-    line-height: 1.6;
+	    // 수량 입력 값 변경 이벤트
+	    $("#cartQty").on("input", function () {
+	        const quantity = parseInt($(this).val()) || 1; // 수량이 없거나 잘못 입력되면 기본값 1로 설정
+	
+	        // AJAX 요청
+	        $.ajax({
+	            url: "/totalPrice", // 서버 요청 URL
+	            type: "POST",
+	            contentType: "application/json", // JSON 형식으로 데이터 전송
+	            data: JSON.stringify({ goodsPrice: goodsPrice, quantity: quantity }), // 요청 데이터
+	            success: function (response) {
+	                // 성공 시 서버 응답 데이터로 총 금액 업데이트
+	                totalPriceDisplay.text(response.totalPrice.toLocaleString());
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Error:", error);
+	            },
+	        });
+	    });
+	});
+	/*
+	document.getElementById("toggleReviewsBtn").addEventListener("click", function() {
+	    var reviews = document.getElementById("reviews");
+	    if (reviews.style.display === "none" || reviews.style.display === "") {
+	        reviews.style.display = "block";  // 리뷰 영역 보이기
+	    } else {
+	        reviews.style.display = "none";   // 리뷰 영역 숨기기
+	    }
+	});
+	*/
+	function addCart(element) {
+		
+	    var goodsNum = $(element).data('goodsNum');  // 상품 번호
+	    var cartQty = $('#cartQty').val();           // 수량
+	    $.ajax({
+	        type: "POST",
+	        url: "/item/addCart",  // 서버에서 처리할 URL
+	        contentType: "application/json",  // JSON 형식으로 데이터 전송
+	        data: JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
+	            "goodsNum": goodsNum,
+	            "cartQty": cartQty
+	        }),
+	        dataType: "html",  // 응답을 HTML 형식으로 처리
+	        success: function(result) {
+	            if(result != null){
+	               if (confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
+	            	   window.location.href = "/item/cartList";
+					}
+	            } else {
+	                alert("장바구니 추가에 실패했습니다.");
+	            }
+	        },
+	        error: function() {
+	            alert("장바구니 추가에 실패했습니다.");
+	        }
+	    });
+	}
+	function buyNow(element){
+		var goodsNum = $(element).data('goodsNum');  // 상품 번호
+		var cartQty = "1";           // 수량
+	
+		   $.ajax({
+		       type: "POST",
+		       url: "/item/addCart",  // 서버에서 처리할 URL
+		       contentType: "application/json",  // JSON 형식으로 데이터 전송
+		       data: JSON.stringify({  // 데이터를 JSON 형식으로 변환하여 전송
+		           "goodsNum": goodsNum,
+		           "cartQty": cartQty
+		       }),
+		       dataType: "html",  // 응답을 HTML 형식으로 처리
+		       success: function(result) {
+					purchaseRegist(result);
+		       },
+		       error: function() {
+		           alert("주문을 실패하였습니다.");
+		       }
+		   });
+	}
+	$(function(){
+		goodsDescript();
+	    $("#descript").click(function(){
+	        goodsDescript();
+	    });
+	    $("#buyItem").click(function(){
+	        location.href = 
+	            "/item/buyItem?goodsNum=[[${dto.goodsDTO.goodsNum}]]&cartQty="+$("#cartQty").val();
+	    });
+	    $("#inquire").click(function(){
+	        inquire();
+	    });
+	    $("#review").click(function(){
+	        var xhr = new XMLHttpRequest();
+	        xhr.open("POST", "/review/reviewList", true);
+	        xhr.setRequestHeader("Content-Type", "application/json");
+	        var formData = JSON.stringify(
+	                {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
+	        );
+	        xhr.onload = function(){
+	            if(xhr.status == 200){
+	                var result = JSON.parse(xhr.responseText);
+	                var item = '<table class="review-table" align="center">';
+	                const reviewDetails = result.reviews.map(function(review){
+	                    // reviewDate가 있으면 Date 객체로 변환 후 포맷
+	                    var reviewDate = review.registDate ? new Date(review.registDate) : null;
+	                    
+	                    // Date 객체를 'yyyy-MM-dd' 형식으로 변환
+	                    var formattedDate = reviewDate ? formatDate(reviewDate) : "날짜 정보 없음";
+	
+	                    return `
+	                        <tr>
+	                            <td colspan="2" class="review-meta">
+	                                <strong>작성자:</strong> ${review.memberId} &nbsp;&nbsp; 
+	                                <strong>등록 날짜:</strong> ${formattedDate}
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td colspan="2" class="review-contents">${review.reviewContents}</td>
+	                        </tr>
+	                    `;
+	                });
+	                item += reviewDetails.join('');  // 배열을 문자열로 합침
+	                item += '</table>';
+	                $("#content").html(item);
+	            }else{
+	                alert("서버오류!!!!");
+	            }
+	        }
+	        xhr.send(formData);
+	    });
+	
+	    // 날짜 포맷 함수
+	    function formatDate(date) {
+	        var year = date.getFullYear();
+	        var month = String(date.getMonth() + 1).padStart(2, '0');  // 월은 0부터 시작하므로 +1
+	        var day = String(date.getDate()).padStart(2, '0');
+	        return year + '-' + month + '-' + day;  // 'yyyy-MM-dd' 형식으로 반환
+	    }
+	
+	
+	    $("#cartBtn").click(function(){
+	        var xhr = new XMLHttpRequest();
+	        xhr.open("POST", "/item/addCart", true);
+	        xhr.setRequestHeader("Content-Type", "application/json");
+	        xhr.onload = function(){
+	            if (xhr.status === 200) {
+	                if(xhr.responseText == "200"){
+	                    if(confirm("계속 쇼핑하려면 '취소'를 클릭하세요."))
+	                        location.href="/item/cartList";
+	                }else if(xhr.responseText == "900"){
+	                    alert("관리자는 사용할 수 없는 페이지입니다.");
+	                }else if(xhr.responseText == "000"){
+	                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+	                    window.open("/login/item.login","login"
+	                            ,"width=600, height=400,top = 100, left=100"); 
+	                }
+	            }else{
+	                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+	                    window.open("/login/item.login","login"
+	                            ,"width=315, height=200,top = 100, left=100"); 
+	            }
+	        }
+	        var formData = JSON.stringify({
+	            goodsNum: "[[${dto.goodsDTO.goodsNum}]]",
+	            cartQty : $("#cartQty").val()
+	        })
+	        xhr.send(formData);
+	    });
+	    
+	    function inquire(){
+	        $.ajax({
+	            type : "POST",
+	            url: "/corner/inquireList",
+	            dataType : "html",
+	            data : {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"},
+	            success : function(item){
+	                $("#content").html(item);
+	            },
+	            error:function(){
+	                alert("로그아웃되었습니다.");
+	            }
+	        });
+	    }
+	    function goodsDescript(){
+	        var formData = JSON.stringify(
+	                {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
+	        );
+	        console.log("formData: ", formData);
+	        $.ajax({
+	            type : "post",
+	            url : "/corner/goodsDescript",
+	            contentType: "application/json", 
+	            data: formData, 
+	            dataType : "json",
+	            success : function(data){
+	            	console.log("Response data:", data);
+	            	var item = "";
+	            	item += "<div class='product-details'>";
+	            	item += "<span class='product-description'>" + data.goodsDTO.goodsContents + "</span>";
+	            	item += "<br />";
+	            	if (data.goodsDTO.goodsDetailStoreImage != null) {
+	            	    var imageParts = data.goodsDTO.etailStoreImage.split(/[\/,`]/);
+	            	    imageParts.forEach(function(image, index, array) {
+	            	        item += "<img src='/static/images/" + image + "' class='product-image' /><br />";
+	            	    });
+	            	}
+	            	item += "</div>";
+	            	$("#content").html(item);
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error:", error);
+	            }
+	        });
+	    }
+	})
+	
+	</script>
+	<style type="text/css">
+	.product-details {
+    text-align: center; /* 중앙 정렬 */
     padding: 20px;
-    word-wrap: break-word;
 }
 
-/* 버튼 스타일 */
-button {
-    padding: 8px 16px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    background-color: transparent;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-right: 8px;
+.product-description {
+    display: block; /* 블록 요소로 만들기 */
+    margin: 0 auto; /* 중앙 배치 */
+    font-size: 16px; /* 글자 크기 */
+    color: #000; /* 글자 색 */
+    line-height: 1.5;
 }
 
-/* 버튼 호버 효과 */
-button:hover {
-    background-color: #f4f4f4;
-    transform: translateY(-2px);
-}
 
-/* 버튼 클릭 시 효과 */
-button:active {
-    transform: translateY(1px);
-}
-
-</style>
-
-
-</head>
-<body>
-<nav class="flex-nav">
-  <div class="container">
-    <div class="grid menu">
-      <div class="column-xs-8 column-md-6">
-        <p id="highlight"></p>
-      </div>
-      <div class="column-xs-4 column-md-6">
-        <a href="#" class="toggle-nav">Menu <i class="ion-navicon-round"></i></a>
-        <ul>
-          <li class="nav-item"><a href="#">Cart (0)</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
-<main>
-  <div class="container">
-    <div class="grid second-nav">
-      <div class="column-xs-12">
-        <nav>
-          <ol class="breadcrumb-list">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="javascript:window.history.back()">back</a></li>
-            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsDTO.goodsNum})}">update</a></li>
-         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsDTO.goodsNum})}">delete</a></li>
-          </ol>
-        </nav>
-        </div>
-      </div>
-    <div class="grid product">
-      <div class="column-xs-12 column-md-7">
-        <div class="product-gallery">
-          <div class="product-image">
-            <img class="active" th:src="|/static/images/${dto.goodsDTO.mainStoreImage}|">
-          </div>
-          <ul class="image-list">
-          <th:block th:each="image : ${#strings.arraySplit(dto.goodsDTO.detailStoreImage,'[`/]')}">
-				<li class="image-item"><img th:src="|/static/images/${image}|"></li>
-		 </th:block>
-          </ul>
-        </div>
-      </div>
-      <div class="column-xs-12 column-md-5">
-        <h1>상품명</h1>
-        <h5>상품내용</h5>
-        <h5>판매가  <span id="goodsPrice">[[${dto.goodsDTO.goodsPrice}]]</span></h5>
-        <tr>
-        	<h5>수량 <input type="number" min="1" step="1" value="1" id="cartQty"/></h5>
-        </tr>
-        <div class="description">
-        </div>
-        <tr>
-        <th:block th:if="${dto.stock > 0 and dto.stock != null}"> 
-        <button type="button" class="add-to-cart" id="cartBtn">장바구니</button>   | 
-        <button type="button" class="add-to-cart" id="buyItem">바로구매 </button>
-        </th:block>
-        <th:block th:if="${dto.stock <= 0 or dto.stock == null}">  
-                    품절입니다. 곧 입고될 예정입니다.
-        </th:block>
-        </tr>
-       </div> 
-     <div class="reviews-container" id="reviews" style="display: none"  align="center">
-	    <div class="review" th:each="reviewDTO : ${reviewList}" align="center">    	 
-	    	<span th:if=>별점: ★☆☆☆☆</span>
-	        <h3>리뷰제목</h3>
-	        <p>리뷰내용</p>
-	       
-	    </div>  
-	</div>
-      
-    <!-- 같은 카테고리에 있는 상품  -->
 	
-
-	<div class="column-xs-12 column-md-12" align="center">
-	 <button class="add-to-cart" id="descript">제품 상세 설명</button>
-       	<button class="add-to-cart" id="review">리뷰 보기</button>
-       	<button class="add-to-cart" id="inquire">상품 문의</button>
-	</div>   	
-	<tr><td colspan="2"><div id="content" class="column-xs-12 column-md-12"></div></td></tr>
-      </div>
-     </div>
-</main>
-<footer>
-  <div class="grid">
-    <div class="column-xs-12">
-      <p class="copyright">&copy; Copyright 2018 <a href="https://katherinekato.com" title="Katherine Kato"  target="_blank">Katherine Kato</a></p>
-    </div>
-  </div>
-</footer>
-</body>
-</html>
+	/* 전체 테이블 스타일 */
+	.review-table {
+	    width: 100%;
+	    border-collapse: collapse;
+	    margin-top: 20px;
+	    font-family: 'Arial', sans-serif;
+	    text-align: center; /* 전체 텍스트를 가운데 정렬 */
+	}
+	
+	/* 테이블 헤더 스타일 */
+	.review-table th {
+	    padding: 12px;
+	    text-align: center;
+	    font-size: 16px;
+	    font-weight: 600;
+	    background-color: #f4f4f4;
+	    border-bottom: 2px solid #ddd;
+	}
+	
+	/* 테이블 셀 스타일 */
+	.review-table td {
+	    padding: 12px;
+	    text-align: center;
+	    font-size: 14px;
+	    vertical-align: middle;
+	    border-bottom: 1px solid #eee;
+	}
+	
+	/* 테이블 셀의 내용이 길어질 때 줄바꿈 처리 */
+	.review-table td span {
+	    word-wrap: break-word;
+	    word-break: break-word;
+	}
+	
+	/* 리뷰 내용 스타일 */
+	.review-table .review-contents {
+	    text-align: center;
+	    font-size: 14px;
+	    line-height: 1.6;
+	    padding: 20px;
+	    word-wrap: break-word;
+	}
+	
+	/* 버튼 스타일 */
+	button {
+	    padding: 8px 16px;
+	    font-size: 14px;
+	    border: 1px solid #ddd;
+	    background-color: transparent;
+	    cursor: pointer;
+	    border-radius: 4px;
+	    transition: background-color 0.3s ease, transform 0.2s ease;
+	    margin-right: 8px;
+	}
+	
+	/* 버튼 호버 효과 */
+	button:hover {
+	    background-color: #f4f4f4;
+	    transform: translateY(-2px);
+	}
+	
+	/* 버튼 클릭 시 효과 */
+	button:active {
+	    transform: translateY(1px);
+	}
+	
+	</style>
+	
+	
+	</head>
+	<body>
+	<nav class="flex-nav">
+	  <div class="container">
+	    <div class="grid menu">
+	      <div class="column-xs-8 column-md-6">
+	        <p id="highlight"></p>
+	      </div>
+	      <div class="column-xs-4 column-md-6">
+	        <a href="#" class="toggle-nav">Menu <i class="ion-navicon-round"></i></a>
+	        <ul>
+	          <li class="nav-item"><a href="#">Cart (0)</a></li>
+	        </ul>
+	      </div>
+	    </div>
+	  </div>
+	</nav>
+	<main>
+	  <div class="container">
+	    <div class="grid second-nav">
+	      <div class="column-xs-12">
+	        <nav>
+	          <ol class="breadcrumb-list">
+	            <li class="breadcrumb-item"><a href="/">Home</a></li>
+	            <li class="breadcrumb-item"><a href="javascript:window.history.back()">back</a></li>
+	            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsDTO.goodsNum})}">update</a></li>
+	         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsDTO.goodsNum})}">delete</a></li>
+	          </ol>
+	        </nav>
+	        </div>
+	      </div>
+	    <div class="grid product">
+	      <div class="column-xs-12 column-md-7">
+	        <div class="product-gallery">
+	          <div class="product-image">
+	            <img class="active" th:src="|/static/images/${dto.goodsDTO.mainStoreImage}|">
+	          </div>
+	          <ul class="image-list">
+	          <th:block th:each="image : ${#strings.arraySplit(dto.goodsDTO.detailStoreImage,'[`/]')}">
+					<li class="image-item"><img th:src="|/static/images/${image}|"></li>
+			 </th:block>
+	          </ul>
+	        </div>
+	      </div>
+	      <div class="column-xs-12 column-md-5">
+	        <h1>상품명</h1>
+	        <h5>상품내용</h5>
+	        <h5>판매가  <span id="goodsPrice">[[${dto.goodsDTO.goodsPrice}]]</span></h5>
+	        <tr>
+	        	<h5>수량 <input type="number" min="1" step="1" value="1" id="cartQty"/></h5>
+	        </tr>
+	        <div class="description">
+	        </div>
+	        <tr>
+	        <th:block th:if="${dto.stock > 0 and dto.stock != null}"> 
+	        <button type="button" class="add-to-cart" id="cartBtn">장바구니</button>   | 
+	        <button type="button" class="add-to-cart" id="buyItem">바로구매 </button>
+	        </th:block>
+	        <th:block th:if="${dto.stock <= 0 or dto.stock == null}">  
+	                    품절입니다. 곧 입고될 예정입니다.
+	        </th:block>
+	        </tr>
+	       </div> 
+	     <div class="reviews-container" id="reviews" style="display: none"  align="center">
+		    <div class="review" th:each="reviewDTO : ${reviewList}" align="center">    	 
+		    	<span th:if=>별점: ★☆☆☆☆</span>
+		        <h3>리뷰제목</h3>
+		        <p>리뷰내용</p>
+		       
+		    </div>  
+		</div>
+	      
+	    <!-- 같은 카테고리에 있는 상품  -->
+		
+	
+		<div class="column-xs-12 column-md-12" align="center">
+		 <button class="add-to-cart" id="descript">제품 상세 설명</button>
+	       	<button class="add-to-cart" id="review">리뷰 보기</button>
+	       	<button class="add-to-cart" id="inquire">상품 문의</button>
+		</div>   	
+		<tr><td colspan="2"><div id="content" class="column-xs-12 column-md-12"></div></td></tr>
+	      </div>
+	     </div>
+	</main>
+	<footer>
+	  <div class="grid">
+	    <div class="column-xs-12">
+	      <p class="copyright">&copy; Copyright 2018 <a href="https://katherinekato.com" title="Katherine Kato"  target="_blank">Katherine Kato</a></p>
+	    </div>
+	  </div>
+	</footer>
+	</body>
+	</html>
