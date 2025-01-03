@@ -355,12 +355,12 @@ $(document).ready(function() {
             url: "/news/newsSave?newsNum="+newsNum, // 서버에서 처리할 URL
             method: "get", // HTTP 메서드
             success: function(result) {
-            	if (result.save) {
-                    // 저장된 경우 버튼 텍스트 변경
-                    $("#save-button").html('<i class="fas fa-save"></i> 저장됨');
+            	if (result) {
+                    
+                    alert("저장되었습니다.")
                 } else {
-                    // 저장 실패 시 다른 처리
-                    alert("저장에 실패했습니다.");
+                    
+                    alert("취소되었습니다.");
                 }
             	
             },
@@ -490,16 +490,19 @@ $(document).ready(function() {
 		    <input type="hidden" name="newsNum" th:value="${dto.newsNum}">
 		 	    <div class="comment-section">
 		 	    <div class="comment-list">
-				    <div class="comment-item" th:each="commentDTO : ${commentList}">
-				      <p><strong>[[${commentDTO.memberId}]]</strong> - [[${#dates.format(commentDTO.commentDate,'yyyy-MM-dd')}]]</p>
-				      <p>[[${commentDTO.commentContents}]]</p>
+				    <div class="comment-item" th:each="commentDTO : ${commentList}" >
+				      <p><strong>[[${commentDTO.memberId}]]</strong> - [[${#dates.format(commentDTO.commentDate,'yyyy-MM-dd')}]]  
+				      
+				      <th:block th:if = "${session.auth != null and session.auth.userId == commentDTO.memberId}">
+				      - <a th:href="|/news/commentDelete?newsNum=${commentDTO.newsNum}&commentNum=${commentDTO.commentNum}|">삭제</a>
+				      </th:block></p>
+				      <p>[[${commentDTO.commentContents}]] </p>
 				    </div>
-				  
-				    
-				    
-				    
-				    <!-- 댓글이 더 추가될 수 있음 -->
+				     <th:block th:if="${commentDTO == null}">
+					  <p><strong> 댓글이 아직 없습니다. 첫 댓글을 달아보세요 </strong></p>
+					  </th:block>
 				  </div>
+				 
 				  <h3>댓글</h3>
 				  <div class="comment-input">
 				    <textarea placeholder="댓글을 입력하세요..." rows="4" name="commentContents"></textarea>
@@ -523,8 +526,10 @@ $(document).ready(function() {
 		    
             <!-- 돌아가기 버튼 -->
             <a href="javascript:history.back()" class="back-button">돌아가기</a>
+            <th:block th:if="${session.auth != null and session.auth.grade == 'emp'}">
             <a th:href="|/news/newsUpdate?newsNum=${dto.newsNum}|" class="back-button">수정</a>
             <a th:data-news-num="${dto.newsNum}" onclick="newsDelete(this);" class="back-button">삭제</a>
+            </th:block>
         </div>
         
         

@@ -11,11 +11,12 @@ import springBootMVCAsset.mapper.NewsMapper;
 public class SaveRegistService {
 	@Autowired
 	NewsMapper newsMapper;
-	public void execute(String newsNum, HttpSession session) {
+	public String execute(String newsNum, HttpSession session) {
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
 		String memberNum = auth.getUserNum();
 		newsMapper.newsSaveUpdate(newsNum, memberNum);
-		
+		String saveDate = newsMapper.newsSaveSelect(newsNum, memberNum);
+		return saveDate;
 	}
 
 }

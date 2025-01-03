@@ -96,6 +96,78 @@
             font-size: 0.9em;
             color: #666;
         }
+        .search-bar-container {
+            position: relative;
+            width: 1160px;
+            top:-117px;
+            left:170px;
+        }
+
+        .search-bar {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input[type="text"] {
+            width: calc(100% - 40px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-bar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal {
+            cursor: pointer;
+            font-size: 20px;
+            background: none;
+            border: none;
+        }
+        .load-more {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 50px; /* 원하는 위치를 기준으로 조정 */
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
+    }
+
+    .load-more:hover {
+        background-color: #0056b3; /* hover 효과 */
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* hover 시 그림자 변경 */
+        transform: translate(-50%, -2px); /* 버튼 살짝 위로 올라감 */
+    }
+
+    .load-more:active {
+        background-color: #004080; /* active 상태 색상 */
+        transform: translate(-50%, 0); /* 클릭 시 원래 위치로 돌아옴 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 초기화 */
+    }
     </style>
 </head>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
@@ -104,6 +176,36 @@
 function newsDetail(element){
 	var newsNum = $(element).data('newsNum');
 	location.href="/news/newsDetail?newsNum="+newsNum;
+
+}
+$(document).ready(function () {
+    // 돋보기 버튼을 눌렀을 때 검색창 표시
+    $("#searchToggle").on("click", function () {
+        $("#searchBar").slideToggle(); // 열고 닫기를 토글로 처리
+    });
+});
+var page = 0;
+$(function(){
+	loadMoreItems();
+	$("#load-more").click(loadMoreItems);
+});
+function loadMoreItems(){
+	page++;
+	var maxPage = "[[${maxPage}]]";
+	$.ajax({
+		url : "/news/loadMoreNewsList",
+		type: "post",
+		data : {"page":page},
+		dataType : "html",
+		success : function(result){
+			$("#content").html(result);
+			if(maxPage <= page)$("#load-more").css("display","none");
+		},
+		error : function(){
+			alert("서버오류");
+		}
+		
+	});
 
 }
 </script>
@@ -187,9 +289,20 @@ function newsDetail(element){
   <div th:if="${session.auth == null}">
        <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
   </div>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+  <button  class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" id="searchToggle" title="Search"><i class="fa fa-search"></i></button>
  </div>
  <br /><br /><br />
+ 
+ 
+ 	<form action="/news/newsList">
+	 <div class="search-bar-container">
+        <div class="search-bar" id="searchBar">
+            <input type="text" name="searchWord" placeholder="검색어를 입력하세요..." style="width: 95%"> 
+            <button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" type="submit"><i class="fa fa-search"></i></button>
+           
+        </div>
+     </div>
+     </form>
     <div class="container">
         <!-- Main News Section -->
         <div class="main-news" th:data-news-num="${list[0].newsNum}" onclick="newsDetail(this)">
@@ -199,18 +312,16 @@ function newsDetail(element){
                 <p>[[${#strings.abbreviate(list[0].newsContents, 150)}]]</p>
             </div>
         </div>
-
+	
+	
         <!-- Recent News Section -->
-        <div class="recent-news" >
-            <div class="news-item" th:each="dto : ${list}" th:data-news-num="${dto.newsNum}" onclick="newsDetail(this)">
-                <img th:src="|/static/images/${dto.storeImage}|" alt="News 1">
-                <div class="content">
-                    <h3><b>[[${dto.newsTitle}]]</b></h3>
-                    <p>[[${#strings.abbreviate(dto.newsContents, 50)}]]</p>
-                </div>
-            </div>
-        </div>
+
+        <div id="content"></div>
+        
+
     </div>
+    
   </div>
+  <button type="button" class="load-more" id="load-more">더보기</button>
 </body>
 </html>

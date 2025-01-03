@@ -6,5 +6,6 @@ import lombok.Data;
 public class NewsCommentCommend {
 	String commentContents;
 	String newsNum;
+	String commentNum;
 	
 }

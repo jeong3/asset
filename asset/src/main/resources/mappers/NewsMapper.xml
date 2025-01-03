@@ -15,7 +15,30 @@
 </insert>
 
 <select id="newsSelectAll">
-	select <include refid="BaseColumns" /> from news order by news_num desc
+	select * from (select row_number() over(order by news_num desc)rn
+	, <include refid="BaseColumns" /> from news 
+	<where>
+			<if test="searchWord !=null">
+				NEWS_CONTENTS like '%'||#{searchWord}||'%' or
+				NEWS_TITLE like '%'||#{searchWord}||'%' or
+				IMAGE_TITLE like '%'||#{searchWord}||'%'
+			</if>
+		</where>
+	)  
+	where rn between #{startRow} and #{endRow}
+</select>
+
+<select id="newsLoadMoreSelect">
+	select * from(
+		select row_number() over(order by news_num desc) as rn
+		, NEWS_NUM, NEWS_CONTENTS, REGIST_DATE, UPDATE_DATE, NEWS_TITLE, IMAGE, STORE_IMAGE, EMP_NUM, UPDATE_EMP_NUM, IMAGE_TITLE, IMAGE_CONTENTS, visit_count
+		from news
+			) 
+		where rn between #{startRow} and #{endRow}
+</select>
+
+<select id="newsCount">
+	select count(*) from news
 </select>
 
 <select id="newsSelectOne">
@@ -97,4 +120,8 @@
 	select save_date from save 
 	where news_num = #{newsNum} and member_num = #{memberNum}
 </select>
+
+<delete id="commentDelete">
+	delete from news_comment where comment_num = #{commentNum}
+</delete>
 </mapper>

@@ -41,17 +41,11 @@ public class NewsDetailService {
 			String recommend = newsMapper.newsAnalyzeSelect(newsNum, memberId);
 			model.addAttribute("recommend", recommend);
 			
-			String memberNum = auth.getUserNum();
-			String saveDate = newsMapper.newsSaveSelect(newsNum, memberNum);
-			model.addAttribute("saveDate", saveDate);
+			
 		}
 
 		int recommendCount = newsMapper.newsAnalyzeCount(newsNum);
 		model.addAttribute("recommendCount", recommendCount);
-		
-		
-		
-		
 		
 		
 		String newsContents = dto.getNewsContents();

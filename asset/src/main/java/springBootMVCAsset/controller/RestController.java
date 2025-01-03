@@ -43,8 +43,8 @@ public class RestController {
 	}
 	@RequestMapping("/news/newsSave")
 	public String newsSave(@RequestParam("newsNum") String newsNum, HttpSession session) {
-		saveRegistService.execute(newsNum, session);
-		return "redirect:newsDetail?newsNum="+newsNum;
+		String saveDate = saveRegistService.execute(newsNum, session);
+		return saveDate;
 	}
 	
 	
