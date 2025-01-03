@@ -24,7 +24,7 @@ values(#{dealNum}, #{memberNum}, #{dealPrice}
 
 <select id="dealList" parameterType="searchDTO" resultType="dealDTO">
 select *
-from (select row_number() over(order by deal_num desc) as rn
+from (select row_number() over(order by DEAL_DATE desc) as rn
 	, <include refid="BaseColums"/>
 	from deal
 <where>

@@ -67,7 +67,7 @@ public class MyAssetPageController {
 	
 	@GetMapping("dealList")
 	public String dealList(@RequestParam(value="page", required = false, defaultValue="1") Integer page,
-			@RequestParam(value="searchDTO", required = false) SearchDTO searchDTO, Model model, HttpSession session) {
+			SearchDTO searchDTO, Model model, HttpSession session) {
 		dealListService.execute(page, searchDTO, model, session);
 		return "thymeleaf/myAsset/dealList";
 	}

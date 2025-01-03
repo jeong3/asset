@@ -23,7 +23,8 @@ public class DealListService {
 	@Autowired
 	DealSearchService dealSearchService;
 	public void execute(Integer page, SearchDTO searchDTO, Model model, HttpSession session) {
-		Integer limit = 10;
+		System.out.println("카테고리네임!!!!!!!!!!!!!!!!!!!!!!!!!"+ searchDTO.getCategoryName());
+		Integer limit = 5;
 		String categoryName = searchDTO.getCategoryName();
 		String categoryType = searchDTO.getCategoryType();
 		String dealMethod = searchDTO.getDealMethod();

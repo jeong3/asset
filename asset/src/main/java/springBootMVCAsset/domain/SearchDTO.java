@@ -3,6 +3,7 @@ package springBootMVCAsset.domain;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,10 @@ public class SearchDTO {
 	String categoryName;
 	String categoryType;
 	String dealMethod;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date dealStartDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date dealEndDate;
 	String searchWord;
 	String memberNum;

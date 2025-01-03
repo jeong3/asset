@@ -1,0 +1,132 @@
+.my-transaction {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 1000px;
+    font-size: 16px;
+}
+
+.my-transaction h1 {
+    margin-bottom: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.my-transaction .filter-section,
+.my-transaction .transaction-list {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-bottom: 30px;
+}
+
+.my-transaction table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.my-transaction table th {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    background-color: #f0f0f0;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.my-transaction table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    background-color: white;
+    font-size: 17px;
+}
+
+.my-transaction input[type="date"],
+.my-transaction input[type="search"],
+.my-transaction select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.my-transaction input[type="submit"],
+.my-transaction button {
+    padding: 10px 15px;
+    background-color: none;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.my-transaction input[type="submit"]:hover,
+.my-transaction button:hover {
+    background-color: #009688;
+}
+
+.date-and-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.date-and-search .date-inputs {
+    display: flex;
+    gap: 15px;
+}
+
+.date-and-search .date-inputs input {
+    width: 140px;
+}
+
+.date-and-search .search-input {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.filter-section table {
+    margin-bottom: 20px;
+}
+
+/* 페이지 네비게이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    gap: 10px; /* 간격 추가 */
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px 15px;
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+    background-color: transparent; /* 백그라운드 컬러 제거 */
+}
+
+.pagination a:hover {
+    background-color: #f9f9f9;
+}
+
+.pagination span {
+    font-size: 16px;
+    /* 색 적용 안함, 기본 색상 유지 */
+}
+a {
+  text-decoration-line: none;
+}
+a:hover {
+  text-decoration: underline;
+}

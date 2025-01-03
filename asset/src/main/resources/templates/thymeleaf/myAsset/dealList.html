@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="/static/css/totalAsset.css">
+<link rel="stylesheet" href="/static/css/dealList.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
@@ -17,32 +18,81 @@
         var categoryName = document.getElementById("categoryName").value;
 
         // 모든 카테고리 div 숨기기
-        document.getElementById("catecoryA").style.display = "none";
         document.getElementById("catecoryAA").style.display = "none";
-        document.getElementById("catecoryB").style.display = "none";
+        document.getElementById("catecoryAB").style.display = "none";
+        document.getElementById("catecoryAC").style.display = "none";
+        document.getElementById("catecoryAD").style.display = "none";
+        document.getElementById("catecoryAE").style.display = "none";
+        document.getElementById("catecoryAF").style.display = "none";
+        document.getElementById("catecoryAG").style.display = "none";
+        document.getElementById("catecoryAH").style.display = "none";
+        document.getElementById("catecoryAI").style.display = "none";
+        document.getElementById("catecoryAJ").style.display = "none";
+        
+        document.getElementById("catecoryBA").style.display = "none";
         document.getElementById("catecoryBB").style.display = "none";
-        document.getElementById("catecoryC").style.display = "none";
+        document.getElementById("catecoryBC").style.display = "none";
+        document.getElementById("catecoryBD").style.display = "none";
+        document.getElementById("catecoryBE").style.display = "none";
+        
+        document.getElementById("catecoryCA").style.display = "none";
+        document.getElementById("catecoryCB").style.display = "none";
         document.getElementById("catecoryCC").style.display = "none";
-        document.getElementById("catecoryD").style.display = "none";
+        
+        document.getElementById("catecoryDA").style.display = "none";
+        document.getElementById("catecoryDB").style.display = "none";
+        document.getElementById("catecoryDC").style.display = "none";
+        document.getElementById("catecoryDD").style.display = "none";
+        
+        document.getElementById("categoryCash").style.display = "none";
+        document.getElementById("categoryBank").style.display = "none";
+        document.getElementById("categoryCredit").style.display = "none";
+        document.getElementById("categoryCheck").style.display = "none";
 
         // 선택된 카테고리 이름에 맞는 div만 보이게 하기
         if (categoryName === "지출") {
-            document.getElementById("catecoryA").style.display = "block";
             document.getElementById("catecoryAA").style.display = "block";
+            document.getElementById("catecoryAB").style.display = "block";
+            document.getElementById("catecoryAC").style.display = "block";
+            document.getElementById("catecoryAD").style.display = "block";
+            document.getElementById("catecoryAE").style.display = "block";
+            document.getElementById("catecoryAF").style.display = "block";
+            document.getElementById("catecoryAG").style.display = "block";
+            document.getElementById("catecoryAH").style.display = "block";
+            document.getElementById("catecoryAI").style.display = "block";
+            document.getElementById("catecoryAJ").style.display = "block";
+            
+            document.getElementById("categoryCash").style.display = "block";
+            document.getElementById("categoryCredit").style.display = "block";
+            document.getElementById("categoryCheck").style.display = "block";
+            
         } else if (categoryName === "수입") {
-            document.getElementById("catecoryB").style.display = "block";
+            document.getElementById("catecoryBA").style.display = "block";
             document.getElementById("catecoryBB").style.display = "block";
+            document.getElementById("catecoryBC").style.display = "block";
+            document.getElementById("catecoryBD").style.display = "block";
+            document.getElementById("catecoryBE").style.display = "block";
+            
+            document.getElementById("categoryCash").style.display = "block";
+            document.getElementById("categoryBank").style.display = "block";
+            
         } else if (categoryName === "저축") {
-            document.getElementById("catecoryC").style.display = "block";
+            document.getElementById("catecoryCA").style.display = "block";
+            document.getElementById("catecoryCB").style.display = "block";
             document.getElementById("catecoryCC").style.display = "block";
+            
         } else if (categoryName === "재테크") {
-            document.getElementById("catecoryD").style.display = "block";
-            document.getElementById("catecoryCC").style.display = "block";
+            document.getElementById("catecoryDA").style.display = "block";
+            document.getElementById("catecoryDB").style.display = "block";
+            document.getElementById("catecoryDC").style.display = "block";
+            document.getElementById("catecoryDD").style.display = "block";
         }
     }
 
     // 페이지 로드 시 기본적으로 toggleCategory 호출
-    window.onload = toggleCategory;
+document.addEventListener('DOMContentLoaded', function () {
+    toggleCategory();
+});
 </script>
 <style>
 body,h1 {font-family: "Raleway", Arial, sans-serif}
@@ -55,47 +105,66 @@ h1 {letter-spacing: 6px}
 <div class="w3-content" style="max-width:1500px">
 	<div class="w3-top">
 	 <div class="w3-bar w3-theme-d2 w3-left-align">
-	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-	  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
-	  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
-	  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
-	  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
-	  
-	 <div class="w3-dropdown-hover w3-hide-small">
-	  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
-	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
-	   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <div th:if="${session.auth != null}">
+  	<th:block th:if="${session.auth.grade == 'emp'}">
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+	        <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
 	    </div>
 	  </div>
 	  
 	  <div class="w3-dropdown-hover w3-hide-small">
-	  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
-	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
-	   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	     <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+	        <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
 	    </div>
 	  </div>
-	 
-	  <div class="w3-dropdown-hover w3-hide-small">
-	    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
-	    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
-	   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
-	      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
-	      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
-	    </div>
-	  </div>
-	  
+  	</th:block>
+  </div>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+        <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+      	<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      	<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
+      	<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
+     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
+     	<!-- 마이자산페이지 -->
+     	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
+     	
         <!-- 마이페이지 -->
         <div class="w3-dropdown-hover w3-hide-small">
-           <button class="w3-button" title="Notifications">마이페이지 <i class="fa fa-caret-down"></i></button>     
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
               <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
               <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
-              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-buton">회원 탈퇴</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+       <th:block th:if="${session.auth.grade == 'emp'}">
+       <a href="/purchase/purchaseList" class="w3-bar-item w3-button">주문 내역</a>
+        <!-- 직원마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/empMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/empMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
             </div>
         </div>
        </th:block>
@@ -104,155 +173,155 @@ h1 {letter-spacing: 6px}
   <div th:if="${session.auth == null}">
        <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
   </div>
-	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
-	 </div>
-	 </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
  <br/> <br/> <br/>
-  <div align="center">
-    <h2>My 거래 내역/h2>
-    <p>이번달 거래 내역</p>
-	<i class="fa fa-search"></i>
-	
+<div class="my-transaction">
+    <h1>My 거래 내역</h1>
+    <br/>
     <!-- 필터링 기능 -->
     <form action="dealList" method="get">
-		<table border=2 width="600">
-			<thead>
-				<tr>
-					<th>유형</th>
-					<th>카테고리</th>
-					<th>수단</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						<select id="categoryName" name="categoryName" th:value="${searchDTO.categoryName}" onchange="toggleCategory()">
-							<option value="전체" selected="selected">전체</option>
-							<option value="지출">지출</option>
-							<option value="수입">수입</option>
-							<option value="저축">저축</option>
-							<option value="재테크">재테크</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div id="catecoryA" style="display:none;">
-							<select id="categoryType" name="categoryType" th:value="${searchDTO.categoryType}">
-								<option value="전체" selected="selected">전체</option>
-								<option value="이체">이체</option>
-			            		<option value="식비">식비</option>
-			            		<option value="교통비">교통비</option>
-			            		<option value="문화생활">문화생활</option>
-			            		<option value="생필품">생필품</option>
-			            		<option value="의류">의류</option>
-			            		<option value="미용">미용</option>
-			            		<option value="의료">의료</option>
-			            		<option value="교육">교육</option>
-			            		<option value="기타">기타</option>
-							</select>
-						</div>
-						<div id="catecoryB" style="display:none;">
-							<select id="categoryType" name="categoryType" th:value="${searchDTO.categoryType}">
-								<option value="전체">전체</option>
-								<option value="월급">월급</option>
-			            		<option value="용돈">용돈</option>
-			            		<option value="이월">이월</option>
-			            		<option value="이체">이체</option>
-			            		<option value="기타">기타</option>
-							</select>
-						</div>
-						<div id="catecoryC" style="display:none;">
-							<select id="categoryType" name="categoryType" th:value="${searchDTO.categoryType}">
-								<option value="전체">전체</option>
-								<option value="적금">적금</option>
-			            		<option value="예금">예금</option>
-			            		<option value="기타">기타</option>
-							</select>
-						</div>
-						<div id="catecoryD" style="display:none;">
-							<select id="categoryType" name="categoryType" th:value="${searchDTO.categoryType}">
-								<option value="전체">전체</option>
-								<option value="펀드">펀드</option>
-			            		<option value="투자">투자</option>
-			            		<option value="주식">주식</option>
-			            		<option value="기타">기타</option>
-							</select>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div id="catecoryAA" style="display:none;">
-							<select id="dealMethod" name="dealMethod" th:value="${searchDTO.dealMethod}">
-								<option value="전체">전체</option>
-								<option value="cash">현금</option>
-								<option value="checkCard">체크</option>
-								<option value="creditCard">신용</option>
-							</select>
-						</div>
-						<div id="catecoryBB" style="display:none;">
-							<select id="dealMethod" name="dealMethod" th:value="${searchDTO.dealMethod}">
-								<option value="전체">전체</option>
-								<option value="cash">현금</option>
-								<option value="checkCard">통장</option>
-							</select>
-						</div>
-						<div id="catecoryCC" style="display:none;">
-							<select id="dealMethod" name="dealMethod" th:value="${searchDTO.dealMethod}">
-								<option value="전체">전체</option>
-							</select>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<p>기간 선택</p>
-			<input type="date" name="dealStartDate" th:value="${#dates.format(searchDTO.dealStartDate,'yyyy-MM-dd')}">
-			~
-			<input type="date" name="dealEndDate" th:value="${#dates.format(searchDTO.dealEndDate,'yyyy-MM-dd')}">
-		<p>검색</p>
-			<input type="search" name="searchWord" size=60 th:value="${dto.searchWord}">
-		<input type="submit" value="조회하기">
-	</form>
-	<!-- 리스트 -->
-		<table border=2 width="600">
-			<form action="dealsDelete" method="post" id="frm">
-				<tr><td><input type="checkbox" id="checkBoxs"/></td>
-				<td>거래내용</td><td>날짜</td><td colspan="2">금액</td>
-				<td><button type="submit">선택 삭제</button></td>
-				</tr>
-				<a th:href="/myAsset/dealDetail">
-					<tr th:each="dto : ${list}">
-						<td>[[${dto.categoryType}]]</td>
-						<td>[[${#dates.format(dto.dealDate, 'yyyy-mm-dd')}]]</td>
-						<td>[[${dto.dealPrice}]]</td>
-						<td>이미지</td>
-						<td><button type="button" th:attr="onclick=|javascript:location.href='dealsDelete?nums=${dto.memberNum}'|">삭제</button></td>
-					</tr>
-				</a>
-			</form>
-		
-			<!-- 페이지 -->
-			<tr>
-				<th colspan="6">
-				<span th:if="${page <= 1}">[이전]</span>
-				<span th:if="${page > 1}">
-					<a th:href="|dealList?page=${page - 1}&searchDTO=${searchDTO}">[이전]</a>
-				</span>
-				<th:block th:each=" i : ${#numbers.sequence(startPageNum, endPageNum)} "> <!-- 1부터 10까지 -->
-					<a th:href="|dealList?page=${i}&searchDTO=${searchDTO}|">[[${i}]]</a>
-				</th:block>
-				<span th:if="${page < maxPage}">
-					<a th:href="@{dealList(page=${page + 1},searchDTO=${searchDTO})}">[다음]</a>
-				</span>
-				<span th:if="${page >= maxPage}">
-					[다음]
-				</span>
-				</th>
-			</tr>
-		</table>
-  </div>
+        <div class="filter-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>유형</th>
+                        <th>카테고리</th>
+                        <th>수단</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select id="categoryName" name="categoryName" th:value="${searchDTO.categoryName}" onchange="toggleCategory()">
+                                <option value="전체" selected="selected">전체</option>
+                                <option value="지출">지출</option>
+                                <option value="수입">수입</option>
+                                <option value="저축">저축</option>
+                                <option value="재테크">재테크</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="categoryType" name="categoryType">
+                                    <option value="전체" >전체</option>
+                                    <option value="이체" id="catecoryAA" style="display:none;">이체</option>
+                                    <option value="식비" id="catecoryAB" style="display:none;">식비</option>
+                                    <option value="교통비" id="catecoryAC" style="display:none;">교통비</option>
+                           			<option value="문화생활" id="catecoryAD" style="display:none;">문화생활</option>
+                           			<option value="생필품" id="catecoryAE" style="display:none;">생필품</option>
+                           			<option value="의류" id="catecoryAF" style="display:none;">의류</option>
+                           			<option value="미용" id="catecoryAG" style="display:none;">미용</option>
+                           			<option value="의료" id="catecoryAH" style="display:none;">의료</option>
+                           			<option value="교육" id="catecoryAI" style="display:none;">교육</option>
+                           			<option value="기타" id="catecoryAJ" style="display:none;">기타</option>
+
+                        			<option value="월급" id="catecoryBA" style="display:none;">월급</option>
+                           			<option value="용돈" id="catecoryBB" style="display:none;">용돈</option>
+                           			<option value="이월" id="catecoryBC" style="display:none;">이월</option>
+                           			<option value="이체" id="catecoryBD" style="display:none;">이체</option>
+                           			<option value="기타" id="catecoryBE" style="display:none;">기타</option>
+
+                        			<option value="적금" id="catecoryCA" style="display:none;">적금</option>
+                           			<option value="예금" id="catecoryCB" style="display:none;">예금</option>
+                           			<option value="기타" id="catecoryCC" style="display:none;">기타</option>
+                           			
+                       				<option value="펀드" id="catecoryDA" style="display:none;">펀드</option>
+                           			<option value="투자" id="catecoryDB" style="display:none;">투자</option>
+                           			<option value="주식" id="catecoryDC" style="display:none;">주식</option>
+                           			<option value="기타" id="catecoryDD" style="display:none;">기타</option>
+                     		</select>
+                        </td>
+                        <td>
+                            <select id="dealMethod" name="dealMethod">
+                            	<option value="전체">전체</option>
+                                <option value="cash" id="categoryCash" style="display:none;">현금</option>
+                                <option value="checkCard" id="categoryCheck" style="display:none;">체크카드</option>
+                                <option value="creditCard" id="categoryCredit" style="display:none;">신용카드</option>
+                        		<option value="checkCard" id="categoryBank" style="display:none;">통장</option>
+                     		</select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="date-and-search">
+                <div class="date-inputs">
+                    <input type="date" name="dealStartDate">
+                    <span>~</span>
+                    <input type="date" name="dealEndDate">
+                </div>
+                <div class="search-input">
+                    <input type="search" name="searchWord" size="60" placeholder="검색어 입력">
+                    <input type="submit" value="&#128269;">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- 거래 내역 리스트 -->
+    <div class="transaction-list">
+        <form action="dealsDelete" method="post" id="frm">
+            <table>
+                <thead>
+                    <tr>
+                    	<th><input type="checkbox" id="checkBoxs"/></th>
+                        <th>거래내용</th>
+                        <th>날짜</th>
+                        <th>금액</th>
+                        <th><button type="submit">선택 삭제</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dto : ${list}">
+                    	<td><input type="checkbox" name="nums" th:value="${dto.dealNum}"/></td>
+                        <td>[[${dto.categoryType}]]</td>
+                        <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
+                        <td><a href="/myAsset/dealDetail?dealNum=${dto.dealNum}">[[${dto.dealPrice}]]
+							<th:block th:if="${dto.dealMethod == 'cash'}">
+								&#128181;
+							</th:block>
+							<th:block th:if="${dto.dealMethod == 'creditCard'}">
+								&#128179;
+							</th:block>
+							<th:block th:if="${dto.dealMethod == 'checkCard'}">
+								<th:block th:if="${dto.categoryName == '지출'}">
+									&#128179;
+								</th:block>
+								<th:block th:if="${dto.categoryName == '수입'}">
+									&#128179;
+								</th:block>
+								<th:block th:if="${dto.categoryName == '저축'}">
+									&#128176;
+								</th:block>
+								<th:block th:if="${dto.categoryName == '재테크'}">
+									&#128176;
+								</th:block>
+							</th:block>
+                        	</a></td>
+                    	<td><button type="button" th:attr="onclick=|javascript:location.href='dealsDelete?nums=${dto.dealNum}'|">삭제</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!-- 페이지 네비게이션 -->
+    <div class="pagination">
+    <span th:if="${page <= 1}">[이전]</span>
+        <span th:if="${page > 1}">
+            <a th:href="|dealList?page=${page - 1}&searchDTO=${searchDTO}|">[이전]</a>
+        </span>
+        <span th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}">
+            <a th:href="|dealList?page=${i}&searchDTO=${searchDTO}|">[[${i}]]</a>
+        </span>
+        <span th:if="${page < maxPage}">
+            <a th:href="|dealList?page=${page + 1}&searchDTO=${searchDTO}|">[다음]</a>
+        </span>
+        <span th:if="${page >= maxPage}">
+               [다음]
+        </span>
+    </div>
+</div>
 </div>
 </body>
 </html>
