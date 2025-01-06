@@ -1,20 +1,22 @@
 package springBootMVCAsset.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import springBootMVCAsset.kafka.model.StockDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.service.FileDelService;
 import springBootMVCAsset.service.news.NewsAnalyzeUpdate;
 import springBootMVCAsset.service.news.SaveRegistService;
+import springBootMVCAsset.service.stock.StockListService;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -26,6 +28,8 @@ public class RestController {
 	NewsAnalyzeUpdate newsAnalyzeUpdate;
 	@Autowired
 	SaveRegistService saveRegistService;
+	@Autowired
+	StockListService stockListService;
 	
 	@PostMapping("/file/fileDel")
 	public int fileDel(String orgFile, String storeFile, HttpSession session) {
@@ -46,6 +50,6 @@ public class RestController {
 		String saveDate = saveRegistService.execute(newsNum, session);
 		return saveDate;
 	}
-	
+
 	
 }

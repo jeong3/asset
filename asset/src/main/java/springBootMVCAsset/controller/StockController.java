@@ -6,15 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import springBootMVCAsset.kafka.MultiThreadedUDPServer;
+import springBootMVCAsset.service.stock.StockListService;
 
 @Controller
 @RequestMapping("/stock")
 public class StockController {
-
-	@GetMapping("/stock")
+	@Autowired
+	StockListService stockListService;
+	@GetMapping("/stockList")
 	public String stock (Model model) {
-		
+		stockListService.execute(model);
 		return "thymeleaf/stock/stock";
 	}
 }

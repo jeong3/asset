@@ -1,5 +1,7 @@
 package springBootMVCAsset.kafka.model;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -10,5 +12,7 @@ public class StockDTO {
 	int executionPrice;
 	int dealVolume;
 	int cumulativeDealVolume;
+	
+	
 	
 }

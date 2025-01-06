@@ -1,10 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-time Stock Data</title>
+  <style>
+    .App {
+      text-align: center;
+      padding: 20px;
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+    }
+    table {
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background-color: #F4F4F4;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
 </head>
 <body>
-asdasd
+  <div class="App">
+    <h1>Real-time Stock Data</h1>
+    <h2 id="date"></h2>
+    <h2 id="cumulativeVolume"></h2>
+    <table id="stockTable">
+      <thead>
+        <tr>
+          <th>거래시간</th>
+          <th>종목코드</th>
+          <th>거래유형</th>
+          <th>체결가</th>
+          <th>거래량</th>
+          <th>누적 거래량</th>
+        </tr>
+      </thead>
+      <tbody id="stockTableBody">
+      	 <tr th:each="stock : ${stock}">
+       	  <td>[[${stock.dealTime}]]</td>
+          <td>[[${stock.itemCode}]]</td>
+          <td>[[${stock.dealType}]]</td>
+          <td>[[${stock.executionPrice}]]</td>
+          <td>[[${stock.dealVolume}]]</td>
+          <td>[[${stock.cumulativeDealVolume}]]</td>
+         </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const stockTableBody = document.getElementById('stockTableBody');
+      const cumulativeVolumeEl = document.getElementById('cumulativeVolume');
+
+      // 날짜 설정
+      const today = new Date();
+      const formatDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      document.getElementById('date').innerText = `날짜: ${formatDate}`;
+
+      // WebSocket 연결
+      const socket = new WebSocket('ws://localhost:8080');
+      socket.onopen = () => console.log('Connected to WebSocket server');
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        updateStockTable(data);
+        cumulativeVolumeEl.innerText = `누적 거래량: ${formatNumber(data.cumulativeDealVolume)}`;
+      };
+      socket.onclose = () => console.log('Disconnected from WebSocket server');
+      socket.onerror = (error) => console.error('WebSocket error:', error);
+
+      // 숫자 포맷 함수
+      function formatNumber(number) {
+        return number.toLocaleString();
+      }
+
+      // 주식 데이터 테이블에 추가
+      
+    });
+    function sendRequest() {
+        $.ajax({
+          url: '/your-endpoint', // 여기에 서버의 URL을 적어주세요.
+          type: 'GET',
+          success: function(response) {
+            console.log('서버 응답:', response);
+            // 응답 처리 로직 추가
+          },
+          error: function(xhr, status, error) {
+            console.error('에러 발생:', error);
+          }
+        });
+      }
+
+      $(document).ready(function() {
+        // 2초마다 sendRequest 함수 호출
+        setInterval(sendRequest, 2000);
+      });
+  </script>
 </body>
 </html>

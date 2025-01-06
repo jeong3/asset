@@ -31,18 +31,17 @@ public class NewsDetailService {
 		NewsDTO dto = newsMapper.newsSelectOne(newsNum);
 		newsMapper.countUpdate(newsNum);
 		model.addAttribute("dto", dto);
-		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
+		if(session != null) {
+			AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
+			String memberId = auth.getUserId();
+			String recommend = newsMapper.newsAnalyzeSelect(newsNum, memberId);
+			model.addAttribute("recommend", recommend);
+		}
+		
 		
 		List<NewsCommentDTO> commentList = newsMapper.commentSelectAll(newsNum);
 		model.addAttribute("commentList", commentList);
 		
-		if(auth != null) {
-			String memberId = auth.getUserId();
-			String recommend = newsMapper.newsAnalyzeSelect(newsNum, memberId);
-			model.addAttribute("recommend", recommend);
-			
-			
-		}
 
 		int recommendCount = newsMapper.newsAnalyzeCount(newsNum);
 		model.addAttribute("recommendCount", recommendCount);
