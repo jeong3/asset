@@ -16,8 +16,11 @@ import springBootMVCAsset.domain.SearchDTO;
 import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.budget.BudgetDetailService;
 import springBootMVCAsset.service.budget.BudgetUpdateService;
+import springBootMVCAsset.service.deal.DealDeleteService;
+import springBootMVCAsset.service.deal.DealDetailService;
 import springBootMVCAsset.service.deal.DealListService;
 import springBootMVCAsset.service.deal.DealRegistService;
+import springBootMVCAsset.service.deal.DealUpdateService;
 
 @Controller
 @RequestMapping("myAsset")
@@ -32,6 +35,12 @@ public class MyAssetPageController {
 	BudgetDetailService budgetDetailService;
 	@Autowired
 	DealListService dealListService;
+	@Autowired
+	DealDetailService dealDetailService;
+	@Autowired
+	DealUpdateService dealUpdateService;
+	@Autowired
+	DealDeleteService dealDeleteService;
 	
 	@GetMapping("myAssetPage")
 	public String myAssetPage(Model model, HttpSession session) {
@@ -61,7 +70,7 @@ public class MyAssetPageController {
 			return "thymeleaf/myAsset/dealRegist";
 		}
 		dealRegistService.execute(dealCommand, session, categoryName);
-		budgetUpdateService.execute(session, dealCommand);
+		budgetUpdateService.execute(session);
 		return "redirect:myAssetPage";
 	}
 	
@@ -70,5 +79,36 @@ public class MyAssetPageController {
 			SearchDTO searchDTO, Model model, HttpSession session) {
 		dealListService.execute(page, searchDTO, model, session);
 		return "thymeleaf/myAsset/dealList";
+	}
+	
+	@GetMapping("dealDetail")
+	public String dealDetail(@RequestParam("dealNum") String dealNum, Model model) {
+		dealDetailService.execute(dealNum, model);
+		return "thymeleaf/myAsset/dealDetail";
+	}
+	
+	@GetMapping("dealUpdate")
+	public String dealUpdate(@RequestParam("dealNum") String dealNum, Model model) {
+		dealDetailService.execute(dealNum, model);
+		return "thymeleaf/myAsset/dealUpdate";
+	}
+	
+	@PostMapping("dealUpdate")
+	public String dealUpdate(@Validated DealCommand dealCommand, BindingResult result
+			, HttpSession session, @RequestParam("categoryName") String categoryName) {
+		if(result.hasErrors()) {
+			return "thymeleaf/myAsset/dealUpdate";
+		}
+		dealUpdateService.execute(dealCommand, categoryName);
+		budgetUpdateService.execute(session);
+		
+		return "redirect:dealDetail?dealNum=" + dealCommand.getDealNum();
+	}
+	@PostMapping("dealDelete")
+	public String dealDelete(@RequestParam("dealNum") String dealNum
+			, HttpSession session) {
+		dealDeleteService.execute(dealNum);
+		budgetUpdateService.execute(session);
+		return "redirect:dealList";
 	}
 }

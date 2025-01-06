@@ -23,8 +23,10 @@ public class DealListService {
 	@Autowired
 	DealSearchService dealSearchService;
 	public void execute(Integer page, SearchDTO searchDTO, Model model, HttpSession session) {
-		System.out.println("카테고리네임!!!!!!!!!!!!!!!!!!!!!!!!!"+ searchDTO.getCategoryName());
+		
 		Integer limit = 5;
+		
+		// 필터링 값 가져옴
 		String categoryName = searchDTO.getCategoryName();
 		String categoryType = searchDTO.getCategoryType();
 		String dealMethod = searchDTO.getDealMethod();
@@ -43,6 +45,7 @@ public class DealListService {
 		dealSearchService.execute(page, limit, count, searchWord, model);
 		model.addAttribute("list", list);
 		
+		// 필터링 값 null일 때
 		if(searchWord == null) searchWord = "";
 		if(categoryName ==  null || categoryName == "전체") categoryName = "전체";
 		if(categoryType == null || categoryType == "전체") categoryType = "전체";
@@ -52,7 +55,7 @@ public class DealListService {
 			    calendar.set(Calendar.DAY_OF_MONTH, 1); // 이번 달 1일
 			    dealStartDate = calendar.getTime();
 		}
-		if(dealEndDate == null) {
+		if(dealEndDate == null) { // 이번 달 말일
 			LocalDate lastDayOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
 		    dealEndDate = Date.from(lastDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
@@ -63,5 +66,9 @@ public class DealListService {
 		dto.setDealMethod(dealMethod);
 		dto.setSearchWord(searchWord);
 		model.addAttribute("searchDTO", dto);
+		
+		// 멤버 아이디
+		String memberId = auth.getUserId();
+		model.addAttribute("memberId", memberId);
 	}
 }

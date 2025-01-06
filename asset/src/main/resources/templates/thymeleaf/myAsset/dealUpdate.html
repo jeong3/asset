@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="/static/css/dealDetail.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
@@ -15,53 +16,77 @@ body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
-<title>Deal Regist</title>
+<title>Member Detail</title>
 </head>
 <body>
 <div class="w3-content" style="max-width:1500px">
-	<div class="w3-top">
+		<div class="w3-top">
 	 <div class="w3-bar w3-theme-d2 w3-left-align">
-	  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-	  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
-	  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
-	  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
-	  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
-	  
-	 <div class="w3-dropdown-hover w3-hide-small">
-	  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
-	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
-	   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <div th:if="${session.auth != null}">
+  	<th:block th:if="${session.auth.grade == 'emp'}">
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+	        <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
 	    </div>
 	  </div>
 	  
 	  <div class="w3-dropdown-hover w3-hide-small">
-	  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
-	  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
-	   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	     <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+	        <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
 	    </div>
 	  </div>
-	 
-	  <div class="w3-dropdown-hover w3-hide-small">
-	    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
-	    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
-	   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
-	      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
-	      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
-	    </div>
-	  </div>
-	  
+  	</th:block>
+  </div>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+        <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+       
+     		
+      			<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      			<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
+      			<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+      			
+      		
+      	
+    </div>
+  </div>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
+     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
+     	<!-- 마이자산페이지 -->
+     	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
+     	
         <!-- 마이페이지 -->
         <div class="w3-dropdown-hover w3-hide-small">
-           <button class="w3-button" title="Notifications">마이페이지 <i class="fa fa-caret-down"></i></button>     
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
               <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
               <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
-              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-buton">회원 탈퇴</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+       <th:block th:if="${session.auth.grade == 'emp'}">
+       <a href="/purchase/purchaseList" class="w3-bar-item w3-button">주문 내역</a>
+        <!-- 직원마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/empMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/empMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
             </div>
         </div>
        </th:block>
@@ -70,26 +95,27 @@ h1 {letter-spacing: 6px}
   <div th:if="${session.auth == null}">
        <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
   </div>
-	  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
-	 </div>
-	 </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
  <br/> <br/> <br/>
-<form action="dealRegist" method="post" th:object="${dealCommand}">
+  <a>뒤로가기</a>
+  <form action="dealUpdate" method="post" th:object="${dealCommand}">
 	<div class="w3-container" align="center">
 		<div th:if="${dealCommand.categoryName == '지출'}">
-			<h2>지출입력</h2>
+			<h2>지출 내역 수정</h2>
 			<input type="text" name="categoryName" hidden="hidden" value="지출">
 		</div>
 		<div th:if="${dealCommand.categoryName == '수입'}">
-			<h2>수입입력</h2>
+			<h2>수입 내역 수정</h2>
 			<input type="text" name="categoryName" hidden="hidden" value="수입">
 		</div>
 		<div th:if="${dealCommand.categoryName == '저축'}">
-			<h2>저축입력</h2>
+			<h2>저축 내역 수정</h2>
 			<input type="text" name="categoryName" hidden="hidden" value="저축">
 		</div>
 		<div th:if="${dealCommand.categoryName == '재테크'}">
-			<h2>재테크입력</h2>
+			<h2>재테크 내역 수정</h2>
 			<input type="text" name="categoryName" hidden="hidden" value="재테크">
 		</div>
 	  	<p>dealRegist</p>
@@ -114,14 +140,14 @@ h1 {letter-spacing: 6px}
 		        <div class="w3-bar-item">
 		       		<!-- 지출일 때 method -->
 		        	<div th:if="${dealCommand.categoryName == '지출'}">
-						<input type="radio" name="dealMethod" value="cash" checked/> 현금 
-		          		<input type="radio" name="dealMethod" value="checkCard" /> 체크카드
-		          		<input type="radio" name="dealMethod" value="creditCard" /> 신용카드
+						<input type="radio" name="dealMethod" value="cash" th:checked="${dealCommand.dealMethod == 'cash'}"/> 현금 
+		          		<input type="radio" name="dealMethod" value="checkCard" th:checked="${dealCommand.dealMethod == 'checkCard'}"/> 체크카드
+		          		<input type="radio" name="dealMethod" value="creditCard" th:checked="${dealCommand.dealMethod == 'creditCard'}"/> 신용카드
 			  		</div>
 			  		<!-- 수입일 때 method -->
 		          	<div th:if="${dealCommand.categoryName == '수입'}">
-		          		<input type="radio" name="dealMethod" value="cash" checked/> 현금 
-		          		<input type="radio" name="dealMethod" value="checkCard" /> 통장
+		          		<input type="radio" name="dealMethod" value="cash" th:checked="${dealCommand.dealMethod == 'cash'}"/> 현금 
+		          		<input type="radio" name="dealMethod" value="checkCard" th:checked="${dealCommand.dealMethod == 'checkCard'}"/> 통장
 					</div>
 					<!-- 저축일 때 method -->
 					<div th:if="${dealCommand.categoryName == '저축'}">
@@ -215,7 +241,7 @@ h1 {letter-spacing: 6px}
 		    </tr>
 		    <tr class="w3-bar">
 		      <th colspan="2">
-		        	<input type="submit" value="거래등록" >
+		        	<input type="submit" value="수정완료" >
 		      </th>
 		    </tr>  
 		  </table>

@@ -12,7 +12,7 @@ import springBootMVCAsset.mapper.BudgetMapper;
 public class BudgetUpdateService {
 	@Autowired
 	BudgetMapper budgetMapper;
-	public void execute(HttpSession session, DealCommand dealCommand) {
+	public void execute(HttpSession session) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = auth.getUserNum();
 		budgetMapper.budgetUpdate(memberNum);

@@ -55,3 +55,6 @@
     vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
     padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
 }
+a{
+	text-decoration-line: none;
+}

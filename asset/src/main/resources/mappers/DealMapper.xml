@@ -57,4 +57,25 @@ where rn between #{startRow} and #{endRow}
 <select id="dealCount" resultType="integer">
 select count(*) from deal
 </select>
+
+<select id="dealDetail" parameterType="string" resultType="dealDTO">
+	select * from deal
+	where deal_num = #{dealNum}
+</select>
+
+<update id="dealUpdate" parameterType="dealDTO">
+update deal
+set DEAL_PRICE = #{dealPrice},
+	<if test="dealContents != null">
+	DEAL_CONTENTS = #{dealContents},
+	</if>
+	DEAL_METHOD = #{dealMethod},
+	DEAL_DATE = #{dealDate},
+	CATEGORY_TYPE = #{categoryType}
+where deal_num = #{dealNum}
+</update>
+
+<delete id="dealDelete" parameterType="string">
+delete from deal where deal_num = #{dealNum}
+</delete>
 </mapper>

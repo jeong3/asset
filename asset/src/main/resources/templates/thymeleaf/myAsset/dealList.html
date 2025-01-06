@@ -18,7 +18,6 @@
         var categoryName = document.getElementById("categoryName").value;
 
         // 모든 카테고리 div 숨기기
-        document.getElementById("catecoryAA").style.display = "none";
         document.getElementById("catecoryAB").style.display = "none";
         document.getElementById("catecoryAC").style.display = "none";
         document.getElementById("catecoryAD").style.display = "none";
@@ -32,7 +31,6 @@
         document.getElementById("catecoryBA").style.display = "none";
         document.getElementById("catecoryBB").style.display = "none";
         document.getElementById("catecoryBC").style.display = "none";
-        document.getElementById("catecoryBD").style.display = "none";
         document.getElementById("catecoryBE").style.display = "none";
         
         document.getElementById("catecoryCA").style.display = "none";
@@ -51,7 +49,6 @@
 
         // 선택된 카테고리 이름에 맞는 div만 보이게 하기
         if (categoryName === "지출") {
-            document.getElementById("catecoryAA").style.display = "block";
             document.getElementById("catecoryAB").style.display = "block";
             document.getElementById("catecoryAC").style.display = "block";
             document.getElementById("catecoryAD").style.display = "block";
@@ -70,7 +67,6 @@
             document.getElementById("catecoryBA").style.display = "block";
             document.getElementById("catecoryBB").style.display = "block";
             document.getElementById("catecoryBC").style.display = "block";
-            document.getElementById("catecoryBD").style.display = "block";
             document.getElementById("catecoryBE").style.display = "block";
             
             document.getElementById("categoryCash").style.display = "block";
@@ -184,7 +180,8 @@ h1 {letter-spacing: 6px}
     <form action="dealList" method="get">
         <div class="filter-section">
             <table>
-                <thead>
+            	&#128311; <b style="font-size :20px;">거래 조회</b>
+                <thead> 
                     <tr>
                         <th>유형</th>
                         <th>카테고리</th>
@@ -205,7 +202,6 @@ h1 {letter-spacing: 6px}
                         <td>
                             <select id="categoryType" name="categoryType">
                                     <option value="전체" >전체</option>
-                                    <option value="이체" id="catecoryAA" style="display:none;">이체</option>
                                     <option value="식비" id="catecoryAB" style="display:none;">식비</option>
                                     <option value="교통비" id="catecoryAC" style="display:none;">교통비</option>
                            			<option value="문화생활" id="catecoryAD" style="display:none;">문화생활</option>
@@ -219,7 +215,6 @@ h1 {letter-spacing: 6px}
                         			<option value="월급" id="catecoryBA" style="display:none;">월급</option>
                            			<option value="용돈" id="catecoryBB" style="display:none;">용돈</option>
                            			<option value="이월" id="catecoryBC" style="display:none;">이월</option>
-                           			<option value="이체" id="catecoryBD" style="display:none;">이체</option>
                            			<option value="기타" id="catecoryBE" style="display:none;">기타</option>
 
                         			<option value="적금" id="catecoryCA" style="display:none;">적금</option>
@@ -245,7 +240,8 @@ h1 {letter-spacing: 6px}
                 </tbody>
             </table>
             <div class="date-and-search">
-                <div class="date-inputs">
+            	<b>기간</b> &nbsp &nbsp
+                <div class="date-inputs"> 
                     <input type="date" name="dealStartDate">
                     <span>~</span>
                     <input type="date" name="dealEndDate">
@@ -262,6 +258,12 @@ h1 {letter-spacing: 6px}
     <div class="transaction-list">
         <form action="dealsDelete" method="post" id="frm">
             <table>
+                <p style="text-align: right">
+                	<a href="/myPage/memberMyDetail">
+                		<b style="text-decoration : underline;">[[${memberId}]]</b>
+                	</a>
+                	님의 거래내역 입니다
+                </p>
                 <thead>
                     <tr>
                     	<th><input type="checkbox" id="checkBoxs"/></th>
@@ -276,7 +278,10 @@ h1 {letter-spacing: 6px}
                     	<td><input type="checkbox" name="nums" th:value="${dto.dealNum}"/></td>
                         <td>[[${dto.categoryType}]]</td>
                         <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
-                        <td><a href="/myAsset/dealDetail?dealNum=${dto.dealNum}">[[${dto.dealPrice}]]
+                        <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">
+                        	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${dto.dealPrice}]]</span>
+            				<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${dto.dealPrice}]]</span>
+            				<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${dto.dealPrice}]]</span>
 							<th:block th:if="${dto.dealMethod == 'cash'}">
 								&#128181;
 							</th:block>
