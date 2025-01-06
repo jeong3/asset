@@ -11,8 +11,7 @@ import springBootMVCAsset.kafka.MultiThreadedUDPServer;
 @Controller
 @RequestMapping("/stock")
 public class StockController {
-	@Autowired
-	MultiThreadedUDPServer multiThreadedUDPServer;
+
 	@GetMapping("/stock")
 	public String stock (Model model) {
 		
