@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
-import springBootMVCAsset.domain.TotalBudgetDTO;
+//import springBootMVCAsset.domain.TotalBudgetDTO;
 import springBootMVCAsset.mapper.BudgetMapper;
 
 @Service
@@ -17,10 +17,10 @@ public class TotalBugetListService {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = auth.getUserNum();
 		System.out.println("memberNum!!!!!!!!!!!!!!!!!:" + memberNum);
-		TotalBudgetDTO dto = budgetMapper.totalBudgetList(memberNum);
+		/*TotalBudgetDTO dto = budgetMapper.totalBudgetList(memberNum);
 		model.addAttribute("totalAsset", dto.getTotalAsset());
 		model.addAttribute("totalCheck", dto.getTotalCheck());
 		model.addAttribute("totalCash", dto.getTotalCash());
-		model.addAttribute("totalCredit", dto.getTotalCredit());
+		model.addAttribute("totalCredit", dto.getTotalCredit()); */
 	}
 }
