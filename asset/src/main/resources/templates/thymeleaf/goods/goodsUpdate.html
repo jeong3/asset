@@ -27,7 +27,7 @@ function fileDel(btn, orgFile, storeFile, kind) {
 				$(btn).html("<span>삭제</span>");
 				if (kind == 'main') {
 					$("#main").css("display", "");
-					$("#mainFile").css("display", "none");
+					$("#mainFile").html("");
 				}
 			}
 
@@ -37,6 +37,14 @@ function fileDel(btn, orgFile, storeFile, kind) {
 		}
 	});
 }
+function fileChk() {
+    let fileInput = $("input[name='mainImage']");
+    // 파일 입력 필드가 있고 파일이 선택되지 않은 경우
+    if (fileInput.length > 0 && !fileInput[0].files.length) {
+      alert("파일을 선택해주세요.");
+      return false;  // 유효성 검사 실패 시 요청 중단
+    }
+  }
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>

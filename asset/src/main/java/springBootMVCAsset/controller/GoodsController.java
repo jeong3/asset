@@ -17,6 +17,7 @@ import springBootMVCAsset.service.goods.GoodsDeleteService;
 import springBootMVCAsset.service.goods.GoodsDetailService;
 import springBootMVCAsset.service.goods.GoodsDetailViewService;
 import springBootMVCAsset.service.goods.GoodsListService;
+import springBootMVCAsset.service.goods.GoodsLoadMoreListService;
 import springBootMVCAsset.service.goods.GoodsRegistService;
 import springBootMVCAsset.service.goods.GoodsUpdateService;
 
@@ -35,6 +36,8 @@ public class GoodsController {
 	GoodsUpdateService goodsUpdateService;
 	@Autowired
 	GoodsDeleteService goodsDeleteService;
+	@Autowired
+	GoodsLoadMoreListService goodsLoadMoreListService;
 	@GetMapping("goodsRegist")
 	public String bookRegist(Model model) {
 		String autoNum = autoNumService.execute("goods_", "goods_num", 7, "goods");
@@ -42,6 +45,11 @@ public class GoodsController {
 		goodsCommand.setGoodsNum(autoNum);
 		model.addAttribute("goodsCommand", goodsCommand);
 		return "thymeleaf/goods/goodsRegist";
+	}
+	@RequestMapping("loadMoreGoodsList")
+	public String loadMoreGoodsList(int page, Model model) {
+		goodsLoadMoreListService.execute(page, model);
+		return "thymeleaf/goods/goodsLoadMoreList";
 	}
 	@PostMapping("goodsRegist")
 	public String goodsRegist(GoodsCommand goodsCommand, HttpSession session) {

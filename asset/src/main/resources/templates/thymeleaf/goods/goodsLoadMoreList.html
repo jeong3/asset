@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ 		<div class="recent-goods" >
+            <div class="goods-item" th:each="dto,idx : ${list}" th:if="${idx.index > 0}"  th:data-goods-num="${dto.goodsNum}" onclick="goodsDetail(this)">
+                <img th:src="|/static/images/${dto.mainStoreImage}|" alt="goods 1">
+                <div class="content">
+                    <h3><b>[[${dto.goodsNum}]]</b></h3>
+                    <p>[[${#strings.abbreviate(dto.goodsContents, 50)}]]</p>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

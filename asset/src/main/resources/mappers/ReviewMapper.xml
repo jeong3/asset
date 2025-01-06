@@ -10,7 +10,7 @@ where GOODS_NUM = #{goodsNum} and purchase_num = #{purchaseNum}
 </select>
 
 <insert id="reviewInsert" parameterType="review">
-insert INTO review (REVIEW_NUM, GOODS_NUM, purchase_num, ,REVIEW_SUBJECT, REGIST_DATE, REVIEW_CONTENTS, member_id)
+insert INTO review (REVIEW_NUM, GOODS_NUM, purchase_num, REVIEW_SUBJECT, REGIST_DATE, REVIEW_CONTENTS, member_id)
 values((select COALESCE(TO_NUMBER(max(review_num)), 0) + 1 from review), #{goodsNum}, #{purchaseNum}, #{reviewSubject}, sysdate,  #{reviewContents}, #{memberId})
 </insert>
 

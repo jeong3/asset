@@ -57,6 +57,20 @@ where goods_num = #{goodsNum}
 <delete id="goodsDelete" parameterType="string">
 delete from goods
 where goods_num = #{goodsNum}
-</delete>
 
+</delete>
+<select id="goodsLoadMoreSelect">
+	select * from(
+		select row_number() over(order by goods_num desc) as rn
+		, goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+	  ,regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
+	  ,DETAIL_IMAGE ,DETAIL_STORE_IMAGE, goods_kind
+		from goods
+			) 
+		where rn between #{startRow} and #{endRow}
+</select>
+
+<select id="goodsCount">
+select count(*) from goods
+</select>
 </mapper>

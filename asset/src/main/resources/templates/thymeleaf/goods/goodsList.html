@@ -8,7 +8,33 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script>
+var page = 0;
+$(function(){
+	loadMoreItems();
+	$("#load-more").click(loadMoreItems);
+});
+function loadMoreItems(){
+	page++;
+	var maxPage = "[[${maxPage}]]";
+	$.ajax({
+		url : "/goods/loadMoreGoodsList",
+		type: "post",
+		data : {"page":page},
+		dataType : "html",
+		success : function(result){
+			$("#content").html(result);
+			if(maxPage <= page)$("#load-more").css("display","none");
+		},
+		error : function(){
+			alert("서버오류");
+		}
+		
+	});
+
+}
 document.addEventListener("DOMContentLoaded", function() {
     const slider = document.querySelector('.main-image-slider');
     const totalItems = document.querySelectorAll('.main-image-item').length;
@@ -158,8 +184,8 @@ h1 {letter-spacing: 6px}
 </div>
 <div style="height: 50px;"></div>
 	<th:block th:each="dto, iterStat : ${list}">
-    <!-- 인덱스가 0이 아닐 경우에만 렌더링 -->
-    <div th:if="${iterStat.index != 0}" class="w3-col l3 s6">
+
+    <div th:if="${iterStat}" class="w3-col l3 s6">
         <div class="w3-container">
             <div class="w3-display-container">
                 <a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">
@@ -171,9 +197,9 @@ h1 {letter-spacing: 6px}
                 <span class="w3-tag w3-display-topleft">New</span>
                 <!-- 'Buy Now' 버튼 추가 -->
                 <div class="w3-display-middle w3-display-hover">
-                    <button class="w3-button w3-black" id="buyItem">
-                        Buy now <i class="fa fa-shopping-cart"></i>
-                    </button>
+                    <button type="button" class="w3-button w3-black" id="buyItem" th:data-goodsNum="${dto.goodsNum}" onclick="buyNow(this)">
+					Buy now <i class="fa fa-shopping-cart"></i>
+					</button>
                 </div>
             </div>
             <p>
@@ -187,6 +213,8 @@ h1 {letter-spacing: 6px}
 
   </div>
   </div>
+  <div></div>
+  <button type="button" class="load-more" id="load-more">더보기</button>
 </body>
 
 </html>

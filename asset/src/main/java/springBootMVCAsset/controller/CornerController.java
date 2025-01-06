@@ -39,7 +39,7 @@ public class CornerController {
 	@RequestMapping("inquireList")
 	public String inquireList(@ModelAttribute("goodsNum") String goodsNum
 			,Model model) {
-		//model.addAttribute("goodsNum", goodsNum);
+		model.addAttribute("goodsNum", goodsNum);
 		List<InquireDTO> list = inquireMapper.inquireList(goodsNum, null);
 		model.addAttribute("list", list);
 		model.addAttribute("newLineChar", "\n");
