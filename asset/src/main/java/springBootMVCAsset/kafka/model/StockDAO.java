@@ -39,8 +39,8 @@ public class StockDAO  {
 			pstmt.setString(2, dto.getItemCode());
 			pstmt.setString(3, "S");
 			pstmt.setInt(4, dto.getExecutionPrice());
-			pstmt.setString(5, dto.getDealVolume());
-			pstmt.setString(6, dto.getCumulativeDealVolume());
+			pstmt.setInt(5, dto.getDealVolume());
+			pstmt.setInt(6, dto.getCumulativeDealVolume());
 			int i = pstmt.executeUpdate();
 			System.out.println(i + "행 삽입");
 		} catch (SQLException e) {

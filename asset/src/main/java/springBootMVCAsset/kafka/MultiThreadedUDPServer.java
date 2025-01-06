@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -16,8 +17,6 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.DatagramAcceptor;
 import org.apache.mina.transport.socket.DatagramSessionConfig;
 import org.apache.mina.transport.socket.nio.NioDatagramAcceptor;
-
-import springBootMVCAsset.kafka.StockA3;
 public class MultiThreadedUDPServer {
     private static final MultiThreadedUDPServer instance = new MultiThreadedUDPServer();
     private KafkaProducer<String, String> producer;
@@ -27,7 +26,9 @@ public class MultiThreadedUDPServer {
     private MultiThreadedUDPServer() {
         // Kafka Producer 초기화
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.16.108.148:9092");
+        //props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.16.110.141:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         this.producer = new KafkaProducer<>(props);
@@ -87,7 +88,7 @@ public class MultiThreadedUDPServer {
                 }
                 byte[] data = new byte[buffer.remaining()]; // 남은 데이터 크기만큼 배열 생성
                 buffer.get(data); // 버퍼 내용을 배열에 복사
-                //System.out.println("Buffer contents: " + new String(data, Charset.forName("UTF-8"))); // UTF-8로 변환하여 출력
+                System.out.println("Buffer contents: " + new String(data, Charset.forName("UTF-8"))); // UTF-8로 변환하여 출력
                 // 받은 메세지를 스레드가 코드별로 분류해서 처리
                 StockA3 transaction = stockA3.parseTransaction(buffer);
                 // 여기서부터는 transaction 객체를 이용하여 원하는 작업 수행

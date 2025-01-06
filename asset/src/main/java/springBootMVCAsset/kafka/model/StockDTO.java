@@ -7,8 +7,8 @@ public class StockDTO {
 	String dealTime;
 	String itemCode;
 	String dealType;
-	Integer executionPrice;
-	String dealVolume;
-	String cumulativeDealVolume;
+	int executionPrice;
+	int dealVolume;
+	int cumulativeDealVolume;
 	
 }
