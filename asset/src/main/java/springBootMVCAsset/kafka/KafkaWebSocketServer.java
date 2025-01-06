@@ -1,19 +1,23 @@
 package springBootMVCAsset.kafka;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.java_websocket.WebSocket;
-import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.server.WebSocketServer;
-import org.json.JSONObject;
 import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
+import org.json.JSONObject;
+
+import springBootMVCAsset.kafka.model.StockDAO;
+import springBootMVCAsset.kafka.model.StockDTO;
 public class KafkaWebSocketServer extends WebSocketServer {
     private Set<WebSocket> connections = ConcurrentHashMap.newKeySet();
     public KafkaWebSocketServer(InetSocketAddress address) {
@@ -48,7 +52,7 @@ public class KafkaWebSocketServer extends WebSocketServer {
         }
     }
     public static void main(String[] args) {
-        InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+        InetSocketAddress address = new InetSocketAddress("172.16.108.148", 8081);
         KafkaWebSocketServer server = new KafkaWebSocketServer(address);
         server.start();
         System.out.println("WebSocket server started on port: " + server.getPort());
@@ -57,19 +61,23 @@ public class KafkaWebSocketServer extends WebSocketServer {
     }
     public void startKafkaConsumer() {
         Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");  // Kafka 서버 주소
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.16.108.148:9092");  // Kafka 서버 주소
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "websocket-group");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Collections.singletonList("stock"));  // 읽고자 하는 Kafka 토픽명
+        StockDAO dao = new StockDAO();
+        StockDTO dto = new StockDTO();
         // Kafka 메시지 수신 및 WebSocket 전송 쓰레드 실행
         new Thread(() -> {
             try {
                 while (true) {
                     ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+                    System.out.println("qeqeqeq"  + records.count());
                     for (ConsumerRecord<String, String> record : records) {
+                    	
                         System.out.printf("Received message: key = %s, value = %s, topic = %s, partition = %d, offset = %d\n",
                                 record.key(), record.value(), record.topic(), record.partition(), record.offset());
                         // Kafka 메시지를 WebSocket 클라이언트들에게 브로드캐스트
@@ -107,6 +115,14 @@ public class KafkaWebSocketServer extends WebSocketServer {
                         System.out.println("stockData = " + stockData.toString());
                         // Kafka 메시지를 WebSocket 클라이언트들에게 브로드캐스트
                         broadcastMessage(stockData.toString());
+                        dto.setDealTime(stockData.getString("timestamp"));
+                        dto.setItemCode(stockData.getString("symbol"));
+                        dto.setExecutionPrice(stockData.getInt("price"));
+                        dto.setDealVolume(stockData.getString("volume"));
+                        dto.setCumulativeDealVolume(stockData.getString("cumulativeVolume"));
+                        System.out.println("asd"+dto);
+                        dao.saveToDatabase(dto);
+                        
                     }
                 }
             } catch (Exception e) {
