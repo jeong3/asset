@@ -12,7 +12,7 @@ public class StockDTO {
 	int executionPrice;
 	int dealVolume;
 	int cumulativeDealVolume;
-	
+	Date dealDate;
 	
 	
 }

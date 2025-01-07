@@ -3,80 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Real-time Stock Data</title>
   <style>
     .App {
       text-align: center;
       padding: 20px;
+      
     }
+    #realtime_chart_div {
+	  width: 80%;  /* 차트의 너비 */
+	  height: 500px;  /* 차트의 높이 */
+	  position: absolute;  /* 절대 위치 설정 */
+	  top: 52%;  /* 화면 높이의 50%에 위치 */
+	  left: 58%;  /* 화면 너비의 50%에 위치 */
+	  transform: translate(-50%, -50%);  /* 중앙으로 이동 */
+	}
+	#curve_chart {
+	  width: 60%;  /* 차트의 너비 */
+	  height: 500px;
+	  position: absolute;  /* 절대 위치 설정 */
+	  top: 150%;  /* 화면 높이의 50%에 위치 */
+	  left: 23%;
+	 
+	}
+	
     h1, h2 {
       margin-bottom: 20px;
     }
     table {
       width: 80%;
-      margin: 0 auto;
       border-collapse: collapse;
+      margin-top: 20px;
+       position: absolute;  /* 절대 위치 설정 */
+	  top: 80%;  /* 화면 높이의 50%에 위치 */
+	  left: 10%;  /* 화면 너비의 50%에 위치 */
     }
     th, td {
-      padding: 10px;
       border: 1px solid #ddd;
-      text-align: center;
+      padding: 8px;
     }
     th {
-      background-color: #F4F4F4;
+      background-color: #f2f2f2;
     }
     tr:hover {
       background-color: #f1f1f1;
     }
+    #realtime_chart_div {
+      width: 100%;
+      height: 500px;
+      margin-top: 20px;
+    }
   </style>
-</head>
-<body>
-  <div class="App">
-    <h1>Real-time Stock Data</h1>
-    <h2 id="date"></h2>
-    <h2 id="cumulativeVolume"></h2>
-    <table id="stockTable">
-      <thead>
-        <tr>
-          <th>거래시간</th>
-          <th>종목코드</th>
-          <th>거래유형</th>
-          <th>체결가</th>
-          <th>거래량</th>
-          <th>누적 거래량</th>
-        </tr>
-      </thead>
-      <tbody id="stockTableBody">
-      	 <tr th:each="stock : ${stock}">
-       	  <td>[[${stock.dealTime}]]</td>
-          <td>[[${stock.itemCode}]]</td>
-          <td>[[${stock.dealType}]]</td>
-          <td>[[${stock.executionPrice}]]</td>
-          <td>[[${stock.dealVolume}]]</td>
-          <td>[[${stock.cumulativeDealVolume}]]</td>
-         </tr>
-      </tbody>
-    </table>
-  </div>
-
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const stockTableBody = document.getElementById('stockTableBody');
+      const stockList = document.getElementById('stockList');
       const cumulativeVolumeEl = document.getElementById('cumulativeVolume');
+      const chartData = []; // 차트 데이터를 저장할 배열
 
       // 날짜 설정
       const today = new Date();
       const formatDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
       document.getElementById('date').innerText = `날짜: ${formatDate}`;
+	
+      // Google Charts 초기화
+      google.charts.load('current', { packages: ['corechart', 'line'] });
+      google.charts.setOnLoadCallback(drawChart);
 
       // WebSocket 연결
-      const socket = new WebSocket('ws://localhost:8080');
+      const socket = new WebSocket('ws://172.16.110.141:8888');
       socket.onopen = () => console.log('Connected to WebSocket server');
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        updateStockTable(data);
-        cumulativeVolumeEl.innerText = `누적 거래량: ${formatNumber(data.cumulativeDealVolume)}`;
+
+        // 데이터 업데이트 함수 호출
+        updateStockList(data);
+        updateCumulativeVolume();
+
+        // 차트 데이터 업데이트
+        updateChart(data.timestamp, data.price);
       };
+
       socket.onclose = () => console.log('Disconnected from WebSocket server');
       socket.onerror = (error) => console.error('WebSocket error:', error);
 
@@ -85,27 +98,266 @@
         return number.toLocaleString();
       }
 
-      // 주식 데이터 테이블에 추가
-      
-    });
-    function sendRequest() {
-        $.ajax({
-          url: '/your-endpoint', // 여기에 서버의 URL을 적어주세요.
-          type: 'GET',
-          success: function(response) {
-            console.log('서버 응답:', response);
-            // 응답 처리 로직 추가
-          },
-          error: function(xhr, status, error) {
-            console.error('에러 발생:', error);
-          }
-        });
+      // 시간 포맷 함수
+      function formatTime(timestamp) {
+        const hour = timestamp.slice(0, 2);
+        const minute = timestamp.slice(2, 4);
+        const second = timestamp.slice(4, 6);
+        
+        const today = new Date();
+        today.setHours(hour);
+        today.setMinutes(minute);
+        today.setSeconds(second);
+
+        return today.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       }
 
-      $(document).ready(function() {
-        // 2초마다 sendRequest 함수 호출
-        setInterval(sendRequest, 2000);
+      // 주식 데이터 업데이트
+      function updateStockList(stock) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${formatTime(stock.timestamp)}</td> <!-- 시간 포맷 적용 -->
+          <td>${stock.symbol}</td>
+          <td>${formatNumber(stock.price)}</td>
+          <td>${formatNumber(stock.volume)}</td>
+          <td>${formatNumber(stock.cumulativeVolume)}</td> <!-- 테이블에 누적 거래량 표시 -->
+        `;
+        stockList.insertBefore(tr, stockList.firstChild);
+
+        if (stockList.children.length > 10) {
+          stockList.removeChild(stockList.lastChild);
+        }
+      }
+
+      // 테이블에서 누적 거래량을 갱신하여 h2 태그 업데이트
+      function updateCumulativeVolume() {
+        const lastRow = stockList.querySelector('tr');
+        if (lastRow) {
+          const cumulativeVolume = lastRow.cells[4].innerText;
+          cumulativeVolumeEl.innerText = `누적 거래량: ${cumulativeVolume}`;
+        }
+      }
+
+      // 차트 데이터 업데이트
+      function updateChart(timestamp, price) {
+        const timeFormatted = formatTime(timestamp);
+        chartData.push([timeFormatted, price]);
+
+        // 차트에 최대 10개의 데이터만 유지
+        if (chartData.length > 10) {
+          chartData.shift();
+        }
+
+        // 차트 갱신
+        drawChart();
+      }
+
+   // 차트 그리기
+      function drawChart() {
+    	  const data = new google.visualization.DataTable();
+    	  data.addColumn('string', '시간');
+    	  data.addColumn('number', '체결가격');
+
+    	  // 차트 데이터 추가
+    	  data.addRows(chartData);
+
+    	  // 가격과 시간을 보다 넓은 범위로 설정
+    	  const options = {
+		  title: '실시간 차트',
+		  curveType: 'none',  // 부드러운 꺾은선 그래프
+		  legend: { position: 'bottom' },
+		  hAxis: {
+		    title: '시간',
+		    minValue: 10,  // 시간의 최소값 설정
+		    maxValue: 20,  // 시간의 최대값 설정
+		  },
+		  vAxis: {
+		    title: '체결가격',
+		    viewWindow: {
+		      min: Math.min(...chartData.map(d => d[1])) - 200,  // 가격 범위 하단을 최소값보다 약간 낮게 설정
+		      max: Math.max(...chartData.map(d => d[1])) + 200   // 가격 범위 상단을 최대값보다 약간 높게 설정
+		    },
+		    textPosition: 'out'  // 축 텍스트를 차트 영역 바깥에 표시
+		  },
+		  pointSize: 10,
+		    lineWidth: 3,
+		    chartArea: { left: 100, top: 50, width: '500px', height: '500px' },
+		};
+
+
+
+    	  const chart = new google.visualization.LineChart(document.getElementById('realtime_chart_div'));
+    	  chart.draw(data, options);
+    	}
+      fetchDailyData;
+
+    });
+    google.charts.load('current', {
+        packages: ['corechart', 'bar'] // 'bar' 패키지로 세로 막대그래프 사용
       });
+
+      google.charts.setOnLoadCallback(fetchDailyData);
+
+      function fetchDailyData() {
+    	  // AJAX로 데이터를 가져오기
+    	  $.ajax({
+    	    url: '/stock/stockData', // 서버에서 데이터 받을 URL
+    	    method: 'GET',
+    	    success: function(data) {
+    	      const formattedData = data.map(item => {
+    	        // 날짜 포맷
+    	        const date = new Date(item.date);
+    	        const formattedDate = date.getFullYear() + '-' +
+    	                              String(date.getMonth() + 1).padStart(2, '0') + '-' +
+    	                              String(date.getDate()).padStart(2, '0');
+    	        
+    	        return [
+    	          formattedDate,  // 포맷된 날짜
+    	          item.open,
+    	          `Open: ${item.open}, High: ${item.high}, Low: ${item.low}, Close: ${item.close}`
+    	        ];
+    	      });
+
+    	      var chartData = new google.visualization.DataTable();
+    	      chartData.addColumn('string', 'Date');
+    	      chartData.addColumn('number', 'Open');
+    	      chartData.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
+    	      chartData.addRows(formattedData);
+
+    	      // 차트 옵션 설정
+    	      var options = {
+    	        title: '일자별 차트',
+    	        chartArea: { width: '80%', height: '70%' },
+    	        hAxis: {
+    	          title: 'Date'
+    	        },
+    	        vAxis: {
+    	          title: 'Price'
+    	        },
+    	        tooltip: { isHtml: true },
+    	        legend: { position: 'none' },
+    	        pointSize: 10,
+    	        lineWidth: 3
+    	      };
+
+    	      // 세로 막대 그래프 그리기
+    	      var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
+    	      chart.draw(chartData, options);
+    	    },
+    	    error: function(xhr, status, error) {
+    	      console.error("AJAX error: " + status + ": " + error);
+    	    }
+    	  });
+    	}
+
+
   </script>
+</head>
+<body>
+<div class="w3-content" style="max-width:1500px">
+<div class="w3-top">
+
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <div th:if="${session.auth != null}">
+  	<th:block th:if="${session.auth.grade == 'emp'}">
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+	        <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+	    </div>
+	  </div>
+	  
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+	        <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
+	    </div>
+	  </div>
+  	</th:block>
+  </div>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+        <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+       
+     		
+      			<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      			<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
+      			<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+      			
+      		
+      	
+    </div>
+  </div>
+  <div th:if="${session.auth != null}">
+     <th:block th:if="${session.auth.grade == 'mem'}">
+     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
+     	<!-- 마이자산페이지 -->
+     	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
+     	
+        <!-- 마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+       <th:block th:if="${session.auth.grade == 'emp'}">
+       <a href="/purchase/purchaseList" class="w3-bar-item w3-button">주문 내역</a>
+        <!-- 직원마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/empMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/empMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+            </div>
+        </div>
+       </th:block>
+     <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
+  </div>
+  <div th:if="${session.auth == null}">
+       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
+       
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
+  <div class="App">
+  <br><br><br> 
+    <h1>Real-time Stock Data</h1>
+    <h2 id="date"></h2>
+    <h2 id="cumulativeVolume"></h2> <!-- 누적 거래량 표시 -->
+    
+	<!-- Google 차트 영역 -->
+    <div id="realtime_chart_div" ></div>
+   
+    <table>
+      <thead>
+        <tr>
+          <th>거래시간</th>
+          <th>종목코드</th>
+          <th>체결가격</th>
+          <th>거래량</th>
+          <th>누적 거래량</th>
+        </tr>
+      </thead>
+      <tbody id="stockList"></tbody>
+    </table>
+	<div id="curve_chart"></div>
+	</div>
+	</div>
 </body>
 </html>

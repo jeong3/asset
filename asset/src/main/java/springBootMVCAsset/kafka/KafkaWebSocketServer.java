@@ -118,7 +118,7 @@ public class KafkaWebSocketServer extends WebSocketServer {
                         // Kafka 메시지를 WebSocket 클라이언트들에게 브로드캐스트
                         broadcastMessage(stockData.toString());
                         System.out.println("데이터"+stockData);
-                        dto.setDealTime(stockData.getLong("timestamp"));
+                        dto.setDealTime(stockData.getString("timestamp"));
                         dto.setItemCode(stockData.getString("symbol"));
                         dto.setExecutionPrice(stockData.getInt("price"));
                         dto.setDealVolume(stockData.getInt("volume"));

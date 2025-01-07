@@ -70,6 +70,7 @@ public class NewsController {
 	public String newsDetail(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
 			@RequestParam(value = "searchWord", required = false) String searchWord, String newsNum, Model model, HttpSession session) {
 		newsListService.execute(page, searchWord, model);
+		if(session == null) session = null;
 		newsDetailService.execute(newsNum, model, session);
 		return "thymeleaf/news/newsDetail";
 	}

@@ -32,7 +32,7 @@ public class StockDAO  {
     }
 	public void saveToDatabase(StockDTO dto) {
 		con = getConnection();
-	    sql = "INSERT INTO stock_data (deal_time, item_code, deal_type, execution_price, deal_volume, cumulative_deal_volume) VALUES (?, ?, ?, ?, ?, ?)";
+	    sql = "INSERT INTO stock_data (deal_time, item_code, deal_type, execution_price, deal_volume, cumulative_deal_volume, deal_date) VALUES (?, ?, ?, ?, ?, ?, sysdate)";
 	    try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, dto.getDealTime());

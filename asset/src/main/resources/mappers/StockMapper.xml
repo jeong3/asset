@@ -3,15 +3,22 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.StockMapper">
-<select id="stockSelectAll">
-SELECT DEAL_TIME,ITEM_CODE,DEAL_TYPE,EXECUTION_PRICE,DEAL_VOLUME,CUMULATIVE_DEAL_VOLUME
+<select id="stockDataSelect" resultType="stockDataDTO">
+SELECT
+    "date","open","high","low","close"
 FROM (
-    SELECT 
-        DEAL_TIME,ITEM_CODE,DEAL_TYPE,EXECUTION_PRICE,DEAL_VOLUME,CUMULATIVE_DEAL_VOLUME, 
-        ROW_NUMBER() OVER (ORDER BY deal_time DESC) AS rn
-    FROM stock_data
-)
-WHERE rn between 1 and 15
+    SELECT
+        deal_date AS "date",  
+        FIRST_VALUE(execution_price) OVER (PARTITION BY deal_date ORDER BY deal_time ASC) AS "open", 
+        MAX(execution_price) OVER (PARTITION BY deal_date) AS "high",  
+        MIN(execution_price) OVER (PARTITION BY deal_date) AS "low",  
+        LAST_VALUE(execution_price) OVER (PARTITION BY deal_date ORDER BY deal_time ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS "close",
+        ROW_NUMBER() OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD') ORDER BY deal_time ASC) AS rn
+    FROM
+        stock_data
+) t
+WHERE t.rn = 1
+ORDER BY "date"
 </select>
 
 </mapper>
