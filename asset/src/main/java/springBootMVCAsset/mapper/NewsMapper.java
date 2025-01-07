@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import springBootMVCAsset.domain.MyNewsDTO;
 import springBootMVCAsset.domain.NewsAnalyzeDTO;
 import springBootMVCAsset.domain.NewsCommentDTO;
 import springBootMVCAsset.domain.NewsDTO;
@@ -45,5 +46,7 @@ public interface NewsMapper {
 	List<NewsDTO> newsLoadMoreSelect(int startRow, int endRow);
 
 	Integer newsCount();
+
+	List<MyNewsDTO> myNewsSelect(String memberNum);
 
 }

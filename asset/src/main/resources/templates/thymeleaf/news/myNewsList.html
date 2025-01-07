@@ -1,32 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body,h1 {font-family: "Raleway", Arial, sans-serif}
-h1 {letter-spacing: 6px}
-.w3-row-padding img {margin-bottom: 12px}
-</style>
+
+  <title>My News List</title>
+  <style>
+    /* Resetting some default browser styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+
+      color: black;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+    }
+
+    main {
+      width: 90%;
+      max-width: 1200px;
+      margin: 40px auto;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    section h2 {
+      font-size: 2em;
+      color: #333;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .news-list {
+      display: flex;
+      overflow-x: auto; /* Enable horizontal scrolling */
+      gap: 30px;
+      padding-bottom: 20px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .news-list::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .news-list::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 4px;
+    }
+
+    .news-item {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 300px; /* Fixed width for each card */
+      flex-shrink: 0; /* Prevent shrinking */
+      scroll-snap-align: start;
+    }
+
+    .news-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .news-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .news-item .content {
+      padding: 20px;
+    }
+
+    .news-item h3 {
+      font-size: 1.5em;
+      color: #333;
+      margin-bottom: 10px;
+      text-transform: capitalize;
+    }
+
+    .news-item p {
+      font-size: 1em;
+      color: #666;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .date {
+      font-size: 0.85em;
+      color: #aaa;
+      text-align: right;
+    }
+
+    footer {
+      background-color: #222;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    footer p {
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
-
-
-<!-- !PAGE CONTENT! -->
 <div class="w3-content" style="max-width:1500px">
-
-<!-- Header -->
-
-<header class="w3-panel w3-center w3-opacity" style="padding:128px 16px">
-  <h1 class="w3-xlarge">PHOTOGRAPHER</h1>
-  <h1>John Doe</h1>
-   <img class="w3-image" src="/static/images/main.jpg" alt="Hamburger Catering" width="1600" height="800">
-</header>
-
 <div class="w3-top">
 
  <div class="w3-bar w3-theme-d2 w3-left-align">
@@ -82,7 +188,6 @@ h1 {letter-spacing: 6px}
            <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
               <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
-              <a href="/news/myNewsList" class="w3-bar-item w3-button">내 뉴스 보기</a>
               <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
               <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
             </div>
@@ -108,60 +213,47 @@ h1 {letter-spacing: 6px}
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
+<br><br><br>
+  <header>
+    <h1>My News List</h1>
+  </header>
 
+  <main>
+    <section>
+      <h2>Saved News</h2>
+      <div class="news-list" id="savedNewsList">
+        <!-- Thymeleaf iteration for saved news -->
+         <div class="news-item" th:each="dto : ${list}">
+          <img th:src="|/static/images/${dto.newsDTO.storeImage}|" alt="News 1">
+          <div class="content">
+            <h4 >[[${dto.newsDTO.newsTitle}]]</h4>
+            <p >[[${#strings.abbreviate(dto.newsDTO.newsContents, 30)}]]</p>
+            <div class="date">저장일 : [[${#dates.format(dto.saveDate,'yyyy-MM-dd')}]]</div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
 
-<div class="w3-content w3-container w3-padding-64" id="portfolio">
-  <h3 class="w3-center">MY WORK</h3>
-  <p class="w3-center"><em>Here are some of my latest lorem work ipsum tipsum.<br> Click on the images to make them bigger</em></p><br>
+    <section>
+      <h2>Liked News</h2>
+      <div class="news-list" id="likedNewsList">
+        <!-- Thymeleaf iteration for liked news -->
+        <div class="news-item" >
+          <img th:src="news.image" alt="news image">
+          <div class="content">
+            <h3 >Breaking Tech Trends in 2025</h3>
+            <p >Breaking Tech Trends in 2025</p>
+            <div class="date">sdaasd</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
-  <div class="w3-row-padding w3-center">
-    <div class="w3-col m3">
-      <img src="/static/images/main.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="The mist over the mountains">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="/w3images/p2.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Coffee beans">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="/w3images/p3.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Bear closeup">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="/w3images/p4.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Quiet ocean">
-    </div>
-  </div>
-
-  <div class="w3-row-padding w3-center w3-section">
-    <div class="w3-col m3">
-      <img src="/w3images/p5.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="The mist">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="/w3images/p6.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="My beloved typewriter">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="/w3images/p7.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Empty ghost train">
-    </div>
-
-    <div class="w3-col m3">
-      <img src="/w3images/p8.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Sailing">
-    </div>
-    <button class="w3-button w3-padding-large w3-light-grey" style="margin-top:64px">LOAD MORE</button>
-  </div>
-</div>
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-light-grey w3-center w3-large"> 
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-</footer>
+  <footer>
+    <p>&copy; 2025 My News App</p>
+  </footer>
 </div>
 </body>
 </html>

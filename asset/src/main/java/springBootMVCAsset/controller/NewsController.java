@@ -14,6 +14,7 @@ import springBootMVCAsset.command.NewsCommentCommend;
 import springBootMVCAsset.mapper.NewsMapper;
 import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.news.CommentRegistService;
+import springBootMVCAsset.service.news.MyNewsListService;
 import springBootMVCAsset.service.news.NewsDeleteService;
 import springBootMVCAsset.service.news.NewsDetailService;
 import springBootMVCAsset.service.news.NewsListService;
@@ -42,6 +43,8 @@ public class NewsController {
 	NewsMapper newsMapper;
 	@Autowired
 	NewsLoadMoreList newsLoadMoreList;
+	@Autowired
+	MyNewsListService myNewsListService;
 	
 	@GetMapping("newsList")
 	public String newsList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
@@ -76,7 +79,7 @@ public class NewsController {
 	}
 	@GetMapping("newsUpdate")
 	public String newsUpdate(String newsNum, Model model, HttpSession session) {
-		newsDetailService.execute(newsNum, model, null);
+		newsDetailService.execute(newsNum, model, session);
 		return "thymeleaf/news/newsUpdate";
 	}
 	@PostMapping("newsUpdate")
@@ -100,6 +103,11 @@ public class NewsController {
 		System.out.println("코맨트커맨드"+newsCommentCommend);
 		newsMapper.commentDelete(newsCommentCommend.getCommentNum());
 		return "redirect:newsDetail?newsNum="+newsCommentCommend.getNewsNum();
+	}
+	@GetMapping("myNewsList")
+	public String myNewsList(Model model , HttpSession session) {
+		myNewsListService.execute(model, session);
+		return "thymeleaf/news/myNewsList";
 	}
 	
 	

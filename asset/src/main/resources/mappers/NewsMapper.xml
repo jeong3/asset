@@ -124,4 +124,30 @@
 <delete id="commentDelete">
 	delete from news_comment where comment_num = #{commentNum}
 </delete>
+
+<resultMap type="myNewsDTO" id="myNewsResultMap">
+	<result column=""/>
+</resultMap>
+
+
+
+<resultMap type="myNewsDTO" id="myNewsResultMap_">
+	<result column="member_num" jdbcType="VARCHAR" property="memberNum"/>
+    <result column="news_num" jdbcType="VARCHAR" property="newsNum"/>
+    <result column="save_date" jdbcType="DATE" property="saveDate"/>
+    <association property="newsDTO" javaType="newsDTO">
+        <result column="news_contents" jdbcType="VARCHAR" property="newsContents"/>
+        <result column="store_image" jdbcType="VARCHAR" property="storeImage"/>
+        <result column="news_title" jdbcType="VARCHAR" property="newsTitle"/>
+    </association>
+</resultMap>
+
+<select id="myNewsSelect" resultMap="myNewsResultMap_">
+    select member_num, save_date,
+           s.news_num, news_contents, store_image, news_title
+    from save s
+    join news n on s.news_num = n.news_num
+    where member_num = #{memberNum}
+</select>
+
 </mapper>
