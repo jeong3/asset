@@ -58,8 +58,10 @@ public class GoodsController {
 	}
 	@GetMapping("goodsList/{goodsKind}")
 	public String goodsList(@PathVariable String goodsKind, Model model) {
-		goodsListService.execute(goodsKind, model);
-		return "thymeleaf/goods/goodsList";
+	    System.out.println("Received goodsKind: " + goodsKind);  // 디버깅용
+	    model.addAttribute("goodsKind", goodsKind);
+	    goodsListService.execute(goodsKind, model);
+	    return "thymeleaf/goods/goodsList";
 	}
 	/*
 	@GetMapping("goodsDetail")

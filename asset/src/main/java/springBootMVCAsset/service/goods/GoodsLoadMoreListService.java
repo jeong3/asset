@@ -21,7 +21,6 @@ public class GoodsLoadMoreListService {
 		Integer count = goodsMapper.goodsCount();
 		int maxPage = (int)((double) count / limit + 0.95);
 		model.addAttribute("maxPage", maxPage);
-		model.addAttribute("list", list);
-		
+		model.addAttribute("list", list);	
 	}
 }

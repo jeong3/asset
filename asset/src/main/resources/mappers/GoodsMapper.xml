@@ -69,6 +69,35 @@ where goods_num = #{goodsNum}
 			) 
 		where rn between #{startRow} and #{endRow}
 </select>
+<resultMap type="goodsDTO" id="goodsResultMap">
+	<constructor>
+		<idArg column="goods_Num" jdbcType="VARCHAR" javaType="string"/>
+		<arg column="goods_Name" jdbcType="VARCHAR" javaType="string" />
+		<arg column="goods_Contents" javaType="string" jdbcType="VARCHAR" />
+		<arg column="GOODS_PRICE" jdbcType="BIGINT" javaType="integer" />
+		<arg column="emp_Num" javaType="string" jdbcType="VARCHAR" />
+		<arg column="goods_kind" javaType="string" jdbcType="VARCHAR" />
+		<arg column="Regist_date" javaType="java.util.Date" jdbcType="DATE" />
+		<arg column="MAIN_IMAGE" javaType="string" jdbcType="VARCHAR" />
+		<arg column="MAIN_STORE_IMAGE" javaType="string" jdbcType="VARCHAR" />
+		<arg column="DETAIL_IMAGE" javaType="string" jdbcType="VARCHAR" />
+		<arg column="DETAIL_STORE_IMAGE" javaType="string" jdbcType="VARCHAR" />		
+	</constructor>
+</resultMap>	
+<select id="allSelect" resultMap="goodsResultMap">
+select * from (
+	select ROW_NUMBER() over (order by goods_num desc) as rn,
+			<include refid="BaseColumns" />
+	from goods
+	<where>
+		<if test="searchWord != null">
+			goods_name like '%' || #{searchWord} || '%'
+			or goods_num like '%' || #{searchWord} || '%'
+		</if>
+	</where>
+)
+where rn between #{startRow}  and #{endRow}
+</select>
 
 <select id="goodsCount">
 select count(*) from goods

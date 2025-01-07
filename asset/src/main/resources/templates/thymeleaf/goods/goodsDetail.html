@@ -161,13 +161,11 @@
 	                    alert("관리자는 사용할 수 없는 페이지입니다.");
 	                }else if(xhr.responseText == "000"){
 	                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
-	                    window.open("/login/item.login","login"
-	                            ,"width=600, height=400,top = 100, left=100"); 
+	                    window.location.href = "/login/login";
 	                }
 	            }else{
 	                    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
-	                    window.open("/login/item.login","login"
-	                            ,"width=315, height=200,top = 100, left=100"); 
+	                    window.location.href = "/login/login";
 	            }
 	        }
 	        var formData = JSON.stringify({
