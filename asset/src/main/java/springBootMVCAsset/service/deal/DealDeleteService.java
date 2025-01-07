@@ -7,9 +7,9 @@ import springBootMVCAsset.mapper.DealMapper;
 
 @Service
 public class DealDeleteService {
-	@Autowired 
+	@Autowired
 	DealMapper dealMapper;
 	public void execute(String dealNum) {
-		//dealMapper.dealDelete(dealNum);
+		dealMapper.dealDelete(dealNum);
 	}
 }

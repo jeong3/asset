@@ -6,13 +6,13 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="/static/css/totalAsset.css">
+<link rel="stylesheet" href="/static/css/assetLink.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
 <script type="text/javascript" src="/static/js/checkbox.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <style>
-body,h1 {font-family: "Raleway", Arial, sans-serif}
+body,h1 {font-family: "Raleway", Arial, sans-serif;
+background-color: #f6fef0;}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
@@ -101,10 +101,52 @@ h1 {letter-spacing: 6px}
  <br/> <br/> <br/>
   <div align="center">
     <h2>My 자산 페이지</h2>
-  	<div>거래 등록 <a href="/myAsset/dealChoose">+</a></div>
-    <div>거래 내역 조회 <a href="/myAsset/dealList"><i class="fa fa-search"></i></a></div>
-    <!-- 총자산 내역 -->
+    <br/>
+    <!-- 각 페이지 바로가기-->
+	<table class="link-table">
+	  <tr>
+	    <td>
+	      <a href="/myAsset/dealRegist">
+	        <span style="color:black;">&#128393;</span>
+	        입력
+	      </a>
+	    </td>
+	    <td>
+	      <a href="/myAsset/dealList">
+	        <span>&#128269;</span>
+	        거래 조회
+	      </a>
+	    </td>
+	    <td>
+	      <a href="/myAsset/dealData">
+	        <span>&#128202;</span>
+	        통계
+	      </a>
+	    </td>
+	    <td>
+	      <a href="/myAsset/assetGoal">
+	        <span>&#127919;</span>
+	        목표
+	      </a>
+	    </td>
+	    <td>
+	      <a href="/myAsset/assetList">
+	        <span>&#128184;</span>
+	        내 자산
+	      </a>
+	    </td>
+	  </tr>
+	</table>
+    
+    <!-- 총자산 테이블 -->
     <table class="financial-table">
+    	<thead>
+    		<tr>
+    			<td id="memberId" colspan="2">
+    			<a href="/myPage/memberMyDetail"><b>[[${memberId}]]</b></a> 님의 총 자산 내역입니다
+    			</td>
+    		</tr>
+    	</thead>
         <tbody>
             <tr>
                 <td>총 자산</td>
@@ -119,6 +161,10 @@ h1 {letter-spacing: 6px}
                 <td>[[${dto.totalCash}]]원</td>
             </tr>
             <tr>
+                <td>저축 & 재테크</td>
+                <td style="color: #cec13b">[[${dto.totalSave}]]원</td>
+            </tr>
+            <tr>
                 <td>카드 대금</td>
                 <td style="color: red">[[${dto.totalCredit}]]원</td>
             </tr>
@@ -128,3 +174,4 @@ h1 {letter-spacing: 6px}
 </div>
 </body>
 </html>
+		

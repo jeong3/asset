@@ -13,4 +13,5 @@ public class BudgetDTO {
 	Integer totalCheck;
 	Integer totalCash;
 	Integer totalCredit;
+	Integer totalSave;
 }

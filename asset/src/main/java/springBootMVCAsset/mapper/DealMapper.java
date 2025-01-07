@@ -14,4 +14,5 @@ public interface DealMapper {
 	public Integer dealCount();
 	public DealDTO dealDetail(String dealNum);
 	public void dealUpdate(DealDTO dto);
+	public void dealDelete(String dealNum);
 }

@@ -21,6 +21,7 @@ import springBootMVCAsset.service.deal.DealDetailService;
 import springBootMVCAsset.service.deal.DealListService;
 import springBootMVCAsset.service.deal.DealRegistService;
 import springBootMVCAsset.service.deal.DealUpdateService;
+import springBootMVCAsset.service.deal.DealsDeleteService;
 
 @Controller
 @RequestMapping("myAsset")
@@ -39,6 +40,8 @@ public class MyAssetPageController {
 	DealDetailService dealDetailService;
 	@Autowired
 	DealUpdateService dealUpdateService;
+	@Autowired
+	DealsDeleteService dealsDeleteService;
 	@Autowired
 	DealDeleteService dealDeleteService;
 	
@@ -104,7 +107,19 @@ public class MyAssetPageController {
 		
 		return "redirect:dealDetail?dealNum=" + dealCommand.getDealNum();
 	}
-	@PostMapping("dealDelete")
+	@RequestMapping("dealsDelete")
+	public String dealDelete(@RequestParam(value = "dealNums", required = false) String dealNums[]
+			, HttpSession session) {
+		if (dealNums == null || dealNums.length == 0) {
+            // 파라미터가 없으면 "dealList" 페이지 반환
+            return "redirect:dealList";
+        }
+		dealsDeleteService.execute(dealNums);
+		budgetUpdateService.execute(session);
+		return "redirect:dealList";
+	}
+	
+	@GetMapping("dealDelete")
 	public String dealDelete(@RequestParam("dealNum") String dealNum
 			, HttpSession session) {
 		dealDeleteService.execute(dealNum);

@@ -5,11 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="/static/css/totalAsset.css">
 <link rel="stylesheet" href="/static/css/dealList.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
 <script type="text/javascript" src="/static/js/checkbox.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script>
@@ -275,7 +272,7 @@ h1 {letter-spacing: 6px}
                 </thead>
                 <tbody>
                     <tr th:each="dto : ${list}">
-                    	<td><input type="checkbox" name="nums" th:value="${dto.dealNum}"/></td>
+                    	<td><input type="checkbox" name="dealNums" th:value="${dto.dealNum}"/></td>
                         <td>[[${dto.categoryType}]]</td>
                         <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
                         <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">
@@ -303,7 +300,7 @@ h1 {letter-spacing: 6px}
 								</th:block>
 							</th:block>
                         	</a></td>
-                    	<td><button type="button" th:attr="onclick=|javascript:location.href='dealsDelete?nums=${dto.dealNum}'|">삭제</button></td>
+                    	<td><button type="button" th:attr="onclick=|javascript:location.href='dealsDelete?dealNums=${dto.dealNum}'|">삭제</button></td>
                     </tr>
                 </tbody>
             </table>

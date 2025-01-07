@@ -141,7 +141,11 @@ h1 {letter-spacing: 6px}
             
             <tr>
                 <td>금액</td>
-                <td>[[${dto.dealPrice}]]원</td>
+                <td style="font-size: 20px;">
+                	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${dto.dealPrice}]]원</span>
+                	<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${dto.dealPrice}]]원</span>
+                	<span th:if="${dto.categoryName == '저축' || dto.categoryName == '재테크'}">[[${dto.dealPrice}]]원</span>
+                </td>
             </tr>
             <tr>
                 <td>거래날짜</td>
@@ -163,7 +167,7 @@ h1 {letter-spacing: 6px}
             <tr>
                 <td colspan="2" style="text-align:center; font-size:25px;">
                 <a th:href="|/myAsset/dealUpdate?dealNum=${dto.dealNum}|">&#128393;</a> &nbsp
-                <a th:href="|/myAsset/dealUpdate?dealNum=${dto.dealNum}|">&#128473;</a>
+                <a th:href="|/myAsset/dealDelete?dealNum=${dto.dealNum}|">&#128473;</a>
                 </td>
             </tr>
         </tbody>

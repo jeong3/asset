@@ -18,5 +18,9 @@ public class BudgetDetailService {
 		String memberNum = auth.getUserNum();
 		BudgetDTO dto = budgetMapper.budgetDetail(memberNum);
 		model.addAttribute("dto", dto);
+		
+		// 멤버 아이디
+		String memberId = auth.getUserId();
+		model.addAttribute("memberId", memberId);
 	}
 }

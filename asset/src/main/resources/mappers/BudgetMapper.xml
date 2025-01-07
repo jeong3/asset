@@ -6,8 +6,8 @@
 
 <insert id="budgetRegist" parameterType="budgetDTO">
 insert into budget (BUDGET_NUM, MEMBER_NUM, TOTAL_ASSET
-					,TOTAL_CASH ,TOTAL_CREDIT, TOTAL_CHECK, UPDATE_DATE)
-values (#{budgetNum}, #{memberNum}, 0, 0, 0, 0, null)
+					,TOTAL_CASH ,TOTAL_CREDIT, TOTAL_CHECK, TOTAL_SAVE, UPDATE_DATE)
+values (#{budgetNum}, #{memberNum}, 0, 0, 0, 0, 0, null)
 </insert>
 
 <update id="budgetUpdate" parameterType="string">
@@ -15,7 +15,7 @@ values (#{budgetNum}, #{memberNum}, 0, 0, 0, 0, null)
     SET TOTAL_ASSET = (
 	        SELECT SUM(
 	            CASE
-	                WHEN CATEGORY_NAME IN ('수입', '저축', '재테크') THEN deal_price
+	                WHEN CATEGORY_NAME IN ('수입') THEN deal_price
 	                WHEN CATEGORY_NAME = '지출' AND DEAL_METHOD != 'creditCard' THEN -deal_price
 	                ELSE 0
 	            END
@@ -26,8 +26,8 @@ values (#{budgetNum}, #{memberNum}, 0, 0, 0, 0, null)
     	TOTAL_CHECK = (
 	    	nvl((SELECT SUM(
 	            CASE
-	                WHEN CATEGORY_NAME IN ('수입', '저축', '재테크') THEN deal_price
-	                WHEN CATEGORY_NAME = '지출' THEN -deal_price
+	                WHEN CATEGORY_NAME IN ('수입') THEN deal_price
+	                WHEN CATEGORY_NAME IN ('지출', '저축', '재테크') THEN -deal_price
 	                ELSE 0
 	            END
 	        )
@@ -44,6 +44,11 @@ values (#{budgetNum}, #{memberNum}, 0, 0, 0, 0, null)
 	        )
 	        FROM deal d
 	        WHERE d.member_num = #{memberNum} and DEAL_METHOD = 'cash'),0)									
+    	),
+    	TOTAL_SAVE = (
+    		nvl((SELECT SUM(deal_price)
+	        FROM deal d
+	        WHERE d.member_num = #{memberNum} and CATEGORY_NAME IN ('저축', '재테크')),0)
     	),
     	TOTAL_CREDIT = (
     		nvl((SELECT SUM(deal_price)
