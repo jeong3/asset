@@ -43,7 +43,7 @@ public interface NewsMapper {
 
 	int commentDelete(String commentNum);
 
-	List<NewsDTO> newsLoadMoreSelect(int startRow, int endRow);
+	List<NewsDTO> newsLoadMoreSelect(int startRow, String searchWord, int endRow);
 
 	Integer newsCount();
 

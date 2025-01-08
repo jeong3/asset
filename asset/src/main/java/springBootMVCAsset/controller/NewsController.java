@@ -53,8 +53,9 @@ public class NewsController {
 		return "thymeleaf/news/newsList";
 	}
 	@RequestMapping("loadMoreNewsList")
-	public String loadMoreNewsList(int page, Model model) {
-		newsLoadMoreList.execute(page, model);
+	public String loadMoreNewsList(int page, String searchWord, Model model) {
+		System.out.println("검색"+page + searchWord);
+		newsLoadMoreList.execute(page,searchWord, model);
 		return "thymeleaf/news/loadMoreNewsList";
 	}
 	@GetMapping("newsRegist")

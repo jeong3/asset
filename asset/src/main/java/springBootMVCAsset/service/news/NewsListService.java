@@ -19,10 +19,11 @@ public class NewsListService {
 	StartEndPageService startEndPageService;
 	public void execute(Integer page, String searchWord, Model model) {
 		Integer limit = 4;
-		
+		model.addAttribute("searchWord", searchWord);
 		StartEndPageDTO sepDTO = startEndPageService.execute(page, searchWord, limit);
 		
 		List<NewsDTO> list = newsMapper.newsSelectAll(sepDTO);
+	
 		model.addAttribute("list", list);
 		Integer count = newsMapper.newsCount();
 		startEndPageService.execute(page, limit, count, searchWord, list, model);

@@ -191,11 +191,13 @@ $(function(){
 });
 function loadMoreItems(){
 	page++;
+	var searchWord = "[[${searchWord}]]";
+	alert(searchWord);
 	var maxPage = "[[${maxPage}]]";
 	$.ajax({
 		url : "/news/loadMoreNewsList",
 		type: "post",
-		data : {"page":page},
+		data : {"page":page, "searchWord":searchWord },
 		dataType : "html",
 		success : function(result){
 			$("#content").html(result);
@@ -297,7 +299,7 @@ function loadMoreItems(){
  	<form action="/news/newsList">
 	 <div class="search-bar-container">
         <div class="search-bar" id="searchBar">
-            <input type="text" name="searchWord" placeholder="검색어를 입력하세요..." style="width: 95%"> 
+            <input type="text" name="searchWord" id="searchWord" placeholder="검색어를 입력하세요..." style="width: 95%"> 
             <button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" type="submit"><i class="fa fa-search"></i></button>
            
         </div>
@@ -305,13 +307,15 @@ function loadMoreItems(){
      </form>
     <div class="container">
         <!-- Main News Section -->
-        <div class="main-news" th:data-news-num="${list[0].newsNum}" onclick="newsDetail(this)">
+       
+        <div class="main-news"  th:data-news-num="${list[0].newsNum}" onclick="newsDetail(this)">
             <img  th:src="|/static/images/${list[0].storeImage}|" alt="Main News" >
             <div class="headline">
                 <h1><b>[[${list[0].newsTitle}]]</b></h1>
                 <p>[[${#strings.abbreviate(list[0].newsContents, 150)}]]</p>
             </div>
         </div>
+       
 	
 	
         <!-- Recent News Section -->

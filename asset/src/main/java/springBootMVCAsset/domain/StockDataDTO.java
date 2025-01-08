@@ -14,4 +14,6 @@ public class StockDataDTO {
     double high;
     double low;
     double close;
+    double cumulativeVolume;
+    double sum;
 }
