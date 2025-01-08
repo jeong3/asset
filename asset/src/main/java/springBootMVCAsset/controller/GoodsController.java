@@ -47,8 +47,9 @@ public class GoodsController {
 		return "thymeleaf/goods/goodsRegist";
 	}
 	@RequestMapping("loadMoreGoodsList")
-	public String loadMoreGoodsList(int page, Model model) {
-		goodsLoadMoreListService.execute(page, model);
+	public String loadMoreGoodsList(String goodsKind, int page, String searchWord, Model model) {
+		goodsLoadMoreListService.execute(goodsKind, page, searchWord, model);
+		System.out.println("검색 : " + searchWord);
 		return "thymeleaf/goods/goodsLoadMoreList";
 	}
 	@PostMapping("goodsRegist")
@@ -57,10 +58,12 @@ public class GoodsController {
 		return "redirect:/";
 	}
 	@GetMapping("goodsList/{goodsKind}")
-	public String goodsList(@PathVariable String goodsKind, Model model) {
+	public String goodsList(@PathVariable String goodsKind, @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+			@RequestParam(value = "searchWord", required = false) String searchWord, Model model) {
 	    System.out.println("Received goodsKind: " + goodsKind);  // 디버깅용
 	    model.addAttribute("goodsKind", goodsKind);
-	    goodsListService.execute(goodsKind, model);
+	    System.out.println("searchWord1 : " + searchWord);
+	    goodsListService.execute(goodsKind, page, searchWord, model);
 	    return "thymeleaf/goods/goodsList";
 	}
 	/*

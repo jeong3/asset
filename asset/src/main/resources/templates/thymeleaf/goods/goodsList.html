@@ -18,6 +18,7 @@ $(document).ready(function () {
     });
 });
 var page = 0;
+var searchWord = "";
 $(function(){
 	loadMoreItems();
 	$("#load-more").click(loadMoreItems);
@@ -25,10 +26,16 @@ $(function(){
 function loadMoreItems(){
 	page++;
 	var maxPage = "[[${maxPage}]]";
+	var goodsKind = "[[${goodsKind}]]";
+	var searchWord = "[[${searchWord}]]";
 	$.ajax({
 		url : "/goods/loadMoreGoodsList",
 		type: "post",
-		data : {"page":page},
+		data : {
+            "page": page,
+            "goodsKind": goodsKind,
+            "searchWord" : searchWord
+        },
 		dataType : "html",
 		success : function(result){
 			$("#content").html(result);
@@ -37,10 +44,27 @@ function loadMoreItems(){
 		error : function(){
 			alert("서버오류");
 		}
-		
 	});
 
 }
+document.addEventListener("DOMContentLoaded", function() {
+    // 현재 URL에서 goodsKind 값을 추출
+    const pathSegments = window.location.pathname.split('/'); // URL을 '/' 기준으로 분리
+    const goodsKind = pathSegments[pathSegments.length - 1]; // 마지막 부분이 goodsKind
+
+    // 폼 제출 시 action 속성을 동적으로 변경
+    const form = document.getElementById('searchForm');
+    form.action = `/goods/goodsList/${goodsKind}`;
+
+    // searchWord가 비어있지 않다면 searchWord만 쿼리 파라미터로 추가
+    form.onsubmit = function() {
+        const searchInput = document.getElementById('searchInput').value;
+        if (searchInput) {
+            form.action = `/goods/goodsList/${goodsKind}?searchWord=${encodeURIComponent(searchInput)}`;
+        }
+    };
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     const slider = document.querySelector('.main-image-slider');
     const totalItems = document.querySelectorAll('.main-image-item').length;
@@ -96,8 +120,13 @@ function buyItem(element) {
 
 </script>
 <style>
+
+#searchBar {
+    display: none;
+}
 /* 메인 이미지 영역 */
 .main-image-container {
+	margin-top: 100px;
     width: 100%;
     overflow: hidden; /* 스크롤 숨기기 */
     position: relative;
@@ -106,11 +135,14 @@ function buyItem(element) {
 .main-image-slider {
     display: flex;
     transition: transform 1s ease-in-out; /* 부드러운 이동 효과 */
+    
 }
 
 .main-image-item {
     flex: 0 0 100%; /* 각 이미지는 전체 너비를 차지 */
     text-align: center;
+    
+    
 }
 
 .main-image-item img {
@@ -118,14 +150,15 @@ function buyItem(element) {
     height: 400px; /* 고정된 높이 설정 */
     object-fit: contain; /* 이미지가 잘리지 않게 조정 */
     object-position: center; /* 이미지가 잘리지 않도록 가운데 정렬 */
+    
 }
 .search-bar-container {
             position: relative;
             width: 1160px;
-            top:-117px;
-            left:170px;
+            top:-11px;
+            left:0px;
         }
-.search-bar {
+		.search-bar {
           
             position: absolute;
             top: 50px;
@@ -135,6 +168,8 @@ function buyItem(element) {
             background-color: #fff;
             border: 1px solid #ddd;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+           
         }
 
         .search-bar input[type="text"] {
@@ -143,6 +178,8 @@ function buyItem(element) {
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            z-index: 11;
+           
         }
 
         .search-bar .close-btn {
@@ -154,6 +191,7 @@ function buyItem(element) {
             font-size: 20px;
             cursor: pointer;
         }
+        
 
 /* 추가적인 스타일 설정 */
 body,h1 {font-family: "Raleway", Arial, sans-serif}
@@ -162,7 +200,7 @@ h1 {letter-spacing: 6px}
 
 </style>
 </head>
-<div class="w3-top">
+<div class="w3-top" style="max-width:1500px">
  <div class="w3-bar w3-theme-d2 w3-left-align">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
@@ -218,14 +256,16 @@ h1 {letter-spacing: 6px}
   <button  class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" id="searchToggle" title="Search"><i class="fa fa-search"></i></button>
  </div>
 </div>
-<form action="/goods/goodsList">
-	 <div class="search-bar-container">
+<form action="/goods/goodsList" method="get" id="searchForm">
+    <div class="search-bar-container">
         <div class="search-bar" id="searchBar">
-            <input type="text" name="searchWord" placeholder="검색어를 입력하세요..." style="width: 95%"> 
-            <button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" type="submit"><i class="fa fa-search"></i></button>
-           
+            <input type="text" name="searchWord" placeholder="검색어를 입력하세요..." style="width: 95%" id="searchInput">
+            <button class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
         </div>
-     </div>
+    </div>
+</form>	
      </form>
 <body class="w3-content" style="max-width: 1200px">
 <div id="searchResult">
@@ -247,40 +287,13 @@ h1 {letter-spacing: 6px}
     </div>
 </div>
 <div style="height: 50px;"></div>
-	<th:block th:each="dto, iterStat : ${list}">
+	
 
-    <div th:if="${iterStat}" class="w3-col l3 s6">
-        <div class="w3-container">
-            <div class="w3-display-container">
-                <a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">
-                    <img height="200px" width="200px"
-                         th:src="|/static/images/${dto.mainStoreImage}|"
-                         style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)">
-                </a>
-                <!-- 'New' 태그 추가 -->
-                <span class="w3-tag w3-display-topleft">New</span>
-                <!-- 'Buy Now' 버튼 추가 -->
-                <div class="w3-display-middle w3-display-hover">
-                    <button type="button" class="w3-button w3-black" id="buyItem" 
-        				th:data-goodsNum="${dto.goodsNum}" 
-        				th:data-goodskind="${goodsKind}" 
-        				onclick="buyItem(this)">
-    					Buy now <i class="fa fa-shopping-cart"></i>
-					</button>
 
-                </div>
-            </div>
-            <p>
-                [[${dto.goodsName}]]
-                <br> 
-                <b>[[${dto.goodsPrice}]]</b>
-            </p>
-        </div>
-    </div>
-</th:block>
 
   </div>
   </div>
+  <div id="content"></div>
   <button type="button" class="load-more" id="load-more">더보기</button>
 </body>
 

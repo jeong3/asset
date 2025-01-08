@@ -59,16 +59,7 @@ delete from goods
 where goods_num = #{goodsNum}
 
 </delete>
-<select id="goodsLoadMoreSelect">
-	select * from(
-		select row_number() over(order by goods_num desc) as rn
-		, goods_Num , goods_name , goods_price ,goods_contents , emp_num  
-	  ,regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
-	  ,DETAIL_IMAGE ,DETAIL_STORE_IMAGE, goods_kind
-		from goods
-			) 
-		where rn between #{startRow} and #{endRow}
-</select>
+
 <resultMap type="goodsDTO" id="goodsResultMap">
 	<constructor>
 		<idArg column="goods_Num" jdbcType="VARCHAR" javaType="string"/>
@@ -85,21 +76,71 @@ where goods_num = #{goodsNum}
 	</constructor>
 </resultMap>	
 <select id="allSelect" resultMap="goodsResultMap">
-select * from (
-	select ROW_NUMBER() over (order by goods_num desc) as rn,
-			<include refid="BaseColumns" />
-	from goods
-	<where>
-		<if test="searchWord != null">
-			goods_name like '%' || #{searchWord} || '%'
-			or goods_num like '%' || #{searchWord} || '%'
-		</if>
-	</where>
-)
-where rn between #{startRow}  and #{endRow}
+    select * from (
+        select ROW_NUMBER() over (order by goods_num desc) as rn,
+               <include refid="BaseColumns" />
+        from goods
+        <where>
+            <if test="goodsKind != null and goodsKind != ''">
+                and goods_kind = #{goodsKind}
+            </if>
+            <if test="searchWord != null and searchWord != ''">
+                and (goods_name like '%' || #{searchWord} || '%'
+                or goods_contents like '%' || #{searchWord} || '%')
+            </if>
+        </where>
+    )
+    where rn between #{startRow} and #{endRow}
+</select>
+
+<select id="goodsLoadMoreSelect">
+	select * from (
+        select ROW_NUMBER() over (order by goods_num desc) as rn,
+               <include refid="BaseColumns" />
+        from goods
+        <where>
+            <if test="goodsKind != null and goodsKind != ''">
+                and goods_kind = #{goodsKind}
+            </if>
+            <if test="searchWord != null and searchWord != ''">
+                and (goods_name like '%' || #{searchWord} || '%'
+                or goods_contents like '%' || #{searchWord} || '%')
+            </if>
+        </where>
+    )
+    where rn between #{startRow} and #{endRow}
+</select>
+
+<select id="goodsKindSearchCount" resultType="int">
+    select count(*) 
+    from goods
+    <where>
+        <if test="goodsKind != null and goodsKind != ''">
+            goods_kind = #{goodsKind}
+        </if>
+        <if test="searchWord != null and searchWord != ''">
+            and (goods_name like '%' || #{searchWord} || '%'
+            or goods_contents like '%' || #{searchWord} || '%')
+        </if>
+    </where>
+</select>
+
+<select id="goodsKindCount">
+select count(*) from goods where goods_kind = #{goodsKind} 
 </select>
 
 <select id="goodsCount">
 select count(*) from goods
+</select>
+
+<select id="selectEndPrice">
+select close
+from (
+        select LAST_VALUE(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD') ORDER BY deal_time ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS close
+        ,ROW_NUMBER() OVER (ORDER BY deal_time ASC) AS rn
+        FROM
+        stock_data
+) t
+WHERE t.rn = 1
 </select>
 </mapper>

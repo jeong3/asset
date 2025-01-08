@@ -2,17 +2,43 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
 </head>
 <body>
- 		<div class="recent-goods" >
-            <div class="goods-item" th:each="dto,idx : ${list}" th:if="${idx.index > 0}"  th:data-goods-num="${dto.goodsNum}" onclick="goodsDetail(this)">
-                <img th:src="|/static/images/${dto.mainStoreImage}|" alt="goods 1">
-                <div class="content">
-                    <h3><b>[[${dto.goodsNum}]]</b></h3>
-                    <p>[[${#strings.abbreviate(dto.goodsContents, 50)}]]</p>
+ 		<div  class="w3-col l3 s6" th:each="dto : ${list}">
+        <div class="w3-container" >
+            <div class="w3-display-container"  >
+                <a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">
+                    <img height="200px" width="200px"
+                         th:src="|/static/images/${dto.mainStoreImage}|"
+                         style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)">
+                </a>
+                <!-- 'New' 태그 추가 -->
+                <span class="w3-tag w3-display-topleft">New</span>
+                <!-- 'Buy Now' 버튼 추가 -->
+                <div class="w3-display-middle w3-display-hover">
+                    <button type="button" class="w3-button w3-black" id="buyItem" 
+        				th:data-goodsNum="${dto.goodsNum}" 
+        				th:data-goodskind="${goodsKind}" 
+        				onclick="buyItem(this)">
+    					Buy now <i class="fa fa-shopping-cart"></i>
+					</button>
+
                 </div>
             </div>
+            <p>
+    [[${dto.goodsName}]]
+    <br> 
+    <!-- 원래 가격은 항상 표시 -->
+    <span th:if="${sale != 1.0}" style="text-decoration: line-through;">
+        [[${dto.goodsPrice}]]
+    </span>
+    <br>
+    <!-- sale 값이 1.0이 아닌 경우에만 세일 가격 표시 -->
+    <span th:if="${sale != 1.0}" style = "color: red;">[[${dto.goodsPrice * sale}]]</span>
+</p>
         </div>
+    </div>
 </body>
 </html>

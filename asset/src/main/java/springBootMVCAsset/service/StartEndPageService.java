@@ -25,6 +25,8 @@ public class StartEndPageService {
 	      if(endPageNum > maxPage) endPageNum = maxPage;
 	      if(searchWord == null) searchWord="";
 	      
+	      System.out.println("리스트 : " + list);
+			
 	      model.addAttribute("list", list);
 	      model.addAttribute("searchWord", searchWord);
 	      model.addAttribute("page", page);

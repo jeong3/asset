@@ -15,7 +15,11 @@ public interface GoodsMapper {
 	public GoodsDTO goodsSelectOne(String goodsNum);
 	public int goodsUpdate(GoodsDTO dto);
 	public int goodsDelete(String goodsNum);
-	public List<GoodsDTO> goodsLoadMoreSelect(int startRow, int endRow);
+	public List<GoodsDTO> goodsLoadMoreSelect(int startRow, int endRow, String searchWord, String goodsKind);
 	public int goodsCount();
-	public List<GoodsDTO> allSelect(StartEndPageDTO sepDTO);
+	public int goodsKindCount(String goodsKind);
+	public int goodsKindSearchCount(String searchWord, String goodsKind);
+	//public List<GoodsDTO> allSelect(StartEndPageDTO sepDTO, String goodsKind);
+	public List<GoodsDTO> allSelect(int startRow, int endRow, String searchWord, String goodsKind);
+	public int selectEndPrice();
 }
