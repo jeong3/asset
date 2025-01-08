@@ -18,9 +18,10 @@ public class NewsLoadMoreList {
 		int startRow = ((page - 1) * limit) + 1; //1
 		int endRow = startRow + limit - 1; //6
 		List<NewsDTO> list = newsMapper.newsLoadMoreSelect(1,searchWord, endRow);
-		Integer count = newsMapper.newsCount();
+		Integer count = newsMapper.newsCount(searchWord);
 		int maxPage = (int)((double) count / limit + 0.95);
 		model.addAttribute("maxPage", maxPage);
+		model.addAttribute("count", count);
 		model.addAttribute("list", list);
 		
 	}

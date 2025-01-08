@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.StockDataDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
+import springBootMVCAsset.mapper.NewsMapper;
 import springBootMVCAsset.service.FileDelService;
 import springBootMVCAsset.service.news.NewsAnalyzeUpdate;
 import springBootMVCAsset.service.news.SaveRegistService;
@@ -31,6 +33,8 @@ public class RestController {
 	SaveRegistService saveRegistService;
 	@Autowired
 	StockListService stockListService;
+	@Autowired
+	NewsMapper newsMapper;
 	
 	@PostMapping("/file/fileDel")
 	public int fileDel(String orgFile, String storeFile, HttpSession session) {
@@ -57,5 +61,18 @@ public class RestController {
         List<StockDataDTO> stockData = stockListService.execute();
         return stockData;
     }
+	@RequestMapping("/news/deleteSave")
+	public int deleteSave(String newsNum, HttpSession session) {
+		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
+		//newsMapper.deleteSave(auth.get)
+		return 200;
+	}
+	@RequestMapping("/news/deleteLike")
+	public int deleteLike(String newsNum, HttpSession session) {
+		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
+		//newsMapper.deleteLike(auth.get)q
+		return 200;
+	}
+	
 	
 }

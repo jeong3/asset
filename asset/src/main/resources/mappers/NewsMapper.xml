@@ -44,6 +44,13 @@
 
 <select id="newsCount">
 	select count(*) from news
+	<where>
+			<if test="searchWord !=null">
+				NEWS_CONTENTS like '%'||#{searchWord}||'%' or
+				NEWS_TITLE like '%'||#{searchWord}||'%' or
+				IMAGE_TITLE like '%'||#{searchWord}||'%'
+			</if>
+		</where>
 </select>
 
 <select id="newsSelectOne">
@@ -153,6 +160,26 @@
     from save s
     join news n on s.news_num = n.news_num
     where member_num = #{memberNum}
+</select>
+
+<resultMap type="myNewsLikeDTO" id="myNewsLikeResultMap">
+	<result column="member_id" jdbcType="VARCHAR" property="memberId"/>
+    <result column="news_num" jdbcType="VARCHAR" property="newsNum"/>
+    <result column="recommend_date" jdbcType="DATE" property="recommendDate"/>
+    <association property="newsDTO" javaType="newsDTO">
+        <result column="news_contents" jdbcType="VARCHAR" property="newsContents"/>
+        <result column="store_image" jdbcType="VARCHAR" property="storeImage"/>
+        <result column="news_title" jdbcType="VARCHAR" property="newsTitle"/>
+    </association>
+
+</resultMap>
+
+<select id="myNewsSelect_Like" resultMap="myNewsLikeResultMap">
+	select member_id, recommend_date,
+           na.news_num, news_contents, store_image, news_title
+    from news_analyze na
+    join news n on na.news_num = n.news_num
+    where member_id = #{memberId}
 </select>
 
 </mapper>

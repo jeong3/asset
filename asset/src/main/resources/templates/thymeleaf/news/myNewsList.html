@@ -52,6 +52,38 @@
       font-weight: bold;
       letter-spacing: 1px;
     }
+    .news-item {
+    position: relative; /* 추가: .delete-button이 이 요소를 기준으로 위치 */
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.delete-button {
+    width: 100%;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: #e60000;
+}
+
+.content {
+    padding-bottom: 50px; /* 삭제 버튼 공간 확보를 위해 추가 */
+}
+
 
     .news-list {
       display: flex;
@@ -130,6 +162,55 @@
       font-size: 0.9em;
     }
   </style>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+  <script type="text/javascript">
+  function newsDetail(element){
+		var newsNum = $(element).data('newsNum');
+		location.href="/news/newsDetail?newsNum="+newsNum;
+
+	}
+  function deleteLike(element){
+	  var newsNum = $(element).data('newsNum');
+	  if (confirm("정말 삭제하시겠습니까?")) {
+		  $.ajax({
+				type: "post",
+				url: "/news/deleteLike",
+				data: { "newsNum": newsNum },
+				dataType: "json",
+				success: function(result) {
+					if(result == 200){
+						alert("저장된 뉴스가 삭제되었습니다.");
+					}
+				},
+				error: function() {
+					alert("삭제를 실패하였습니다. 다시 시도 후 문의해주세요.");
+				},
+				
+			});
+	  }
+  }
+  function deleteSave(element){
+	  var newsNum = $(element).data('newsNum');
+	  if (confirm("정말 삭제하시겠습니까?")) {
+		  $.ajax({
+				type: "post",
+				url: "/news/deleteSave",
+				data: { "newsNum": newsNum },
+				dataType: "json",
+				success: function(result) {
+					if(result == 200){
+						alert("저장된 뉴스가 삭제되었습니다.");
+					}
+				},
+				error: function() {
+					alert("삭제를 실패하였습니다. 다시 시도 후 문의해주세요.");
+				},
+				
+			});
+	  }
+  }
+  </script>
 </head>
 <body>
 <div class="w3-content" style="max-width:1500px">
@@ -223,12 +304,13 @@
       <h2>Saved News</h2>
       <div class="news-list" id="savedNewsList">
         <!-- Thymeleaf iteration for saved news -->
-         <div class="news-item" th:each="dto : ${list}">
+         <div class="news-item" th:each="dto : ${list}" th:data-news-num="${dto.newsNum}" onclick="newsDetail(this)">
           <img th:src="|/static/images/${dto.newsDTO.storeImage}|" alt="News 1">
           <div class="content">
             <h4 >[[${dto.newsDTO.newsTitle}]]</h4>
             <p >[[${#strings.abbreviate(dto.newsDTO.newsContents, 30)}]]</p>
             <div class="date">저장일 : [[${#dates.format(dto.saveDate,'yyyy-MM-dd')}]]</div>
+            <button type="button" th:data-news-num="${dto.newsNum}" onclick="deleteSave(this)" class="delete-button">삭제</button>
           </div>
         </div>
         
@@ -239,12 +321,13 @@
       <h2>Liked News</h2>
       <div class="news-list" id="likedNewsList">
         <!-- Thymeleaf iteration for liked news -->
-        <div class="news-item" >
-          <img th:src="news.image" alt="news image">
+        <div class="news-item" th:each="LikeDTO : ${likeList}" th:data-news-num="${LikeDTO.newsNum}" onclick="newsDetail(this)">
+          <img th:src="|/static/images/${LikeDTO.newsDTO.storeImage}|" alt="news image">
           <div class="content">
-            <h3 >Breaking Tech Trends in 2025</h3>
-            <p >Breaking Tech Trends in 2025</p>
-            <div class="date">sdaasd</div>
+            <h4 >[[${LikeDTO.newsDTO.newsTitle}]]</h4>
+            <p >[[${#strings.abbreviate(LikeDTO.newsDTO.newsContents, 30)}]]</p>
+            <div class="date">추천저장일 : [[${#dates.format(LikeDTO.recommendDate,'yyyy-MM-dd')}]]</div>
+            <button type="button" th:data-news-num="${LikeDTO.newsNum}" onclick="deleteLike(this)" class="delete-button">삭제</button>
           </div>
         </div>
       </div>

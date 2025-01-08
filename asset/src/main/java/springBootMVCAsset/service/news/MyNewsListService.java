@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.MyNewsDTO;
+import springBootMVCAsset.domain.MyNewsLikeDTO;
 import springBootMVCAsset.mapper.NewsMapper;
 
 @Service
@@ -20,7 +21,8 @@ public class MyNewsListService {
 		String memberNum = auth.getUserNum();
 		List<MyNewsDTO> list = newsMapper.myNewsSelect(memberNum);
 		model.addAttribute("list", list);
-		
+		List<MyNewsLikeDTO> likeList = newsMapper.myNewsSelect_Like(auth.getUserId());
+		model.addAttribute("likeList", likeList);
 	}
 
 }

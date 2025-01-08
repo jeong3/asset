@@ -33,7 +33,11 @@
             height: auto;
             border-radius: 8px;
         }
-
+		.EmptyNews {
+			text-align: center;
+		 	
+           
+		}
         .main-news .headline {
             flex: 1;
             display: flex;
@@ -143,7 +147,23 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 50px; /* 원하는 위치를 기준으로 조정 */
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
+    }
+    .loadNews {
+      position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 220px; /* 원하는 위치를 기준으로 조정 */
         padding: 10px 20px;
         font-size: 16px;
         font-weight: bold;
@@ -192,7 +212,6 @@ $(function(){
 function loadMoreItems(){
 	page++;
 	var searchWord = "[[${searchWord}]]";
-	alert(searchWord);
 	var maxPage = "[[${maxPage}]]";
 	$.ajax({
 		url : "/news/loadMoreNewsList",
@@ -202,6 +221,7 @@ function loadMoreItems(){
 		success : function(result){
 			$("#content").html(result);
 			if(maxPage <= page)$("#load-more").css("display","none");
+			
 		},
 		error : function(){
 			alert("서버오류");
@@ -306,15 +326,22 @@ function loadMoreItems(){
      </div>
      </form>
     <div class="container">
+ 
         <!-- Main News Section -->
-       
-        <div class="main-news"  th:data-news-num="${list[0].newsNum}" onclick="newsDetail(this)">
-            <img  th:src="|/static/images/${list[0].storeImage}|" alt="Main News" >
-            <div class="headline">
-                <h1><b>[[${list[0].newsTitle}]]</b></h1>
-                <p>[[${#strings.abbreviate(list[0].newsContents, 150)}]]</p>
-            </div>
-        </div>
+       <div th:if="${count == 0}" class="EmptyNews">
+   		 <h1 >No news available.</h1> <a class="loadNews" href="/news/newsList" style="text-decoration: none;">뉴스</a>
+		</div>
+		<div th:if="${count != 0}" class="EmptyNews">
+   		 <h1>뉴스 페이지</h1>
+		</div>
+		<br><br><br><br><br><br>
+        <div th:if="${list != null and !list.isEmpty()}" class="main-news" th:data-news-num="${list[0].newsNum}" onclick="newsDetail(this)">
+    <img th:src="|/static/images/${list[0].storeImage}|" alt="Main News">
+    <div class="headline">
+        <h1><b>[[${list[0].newsTitle}]]</b></h1>
+        <p>[[${#strings.abbreviate(list[0].newsContents, 150)}]]</p>
+    </div>
+</div>
        
 	
 	
