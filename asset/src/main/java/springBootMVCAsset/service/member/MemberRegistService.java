@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import springBootMVCAsset.command.MemberCommand;
 import springBootMVCAsset.domain.MemberDTO;
+import springBootMVCAsset.mapper.CouponMapper;
 import springBootMVCAsset.mapper.MemberMapper;
 
 @Service
@@ -14,6 +15,8 @@ public class MemberRegistService {
 	MemberMapper memberMapper;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	CouponMapper couponMapper; 
 	public void execute(MemberCommand memberCommand) {
 		MemberDTO dto = new MemberDTO();
 		dto.setMemberGender(memberCommand.getMemberGender());
@@ -30,5 +33,7 @@ public class MemberRegistService {
 		String encodePw = passwordEncoder.encode(memberCommand.getMemberPw());
 		dto.setMemberPw(encodePw);
 		memberMapper.memberinsert(dto);
+		// 회원가입시 쿠폰 지금
+		couponMapper.couponInsert(memberCommand.getMemberNum());
 	}
 }

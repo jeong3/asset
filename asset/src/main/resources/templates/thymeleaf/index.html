@@ -34,6 +34,7 @@ h1 {letter-spacing: 6px}
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <a href="/volunteer/volunteerDetail" class="w3-bar-item w3-button w3-hide-small">공고</a>
   <div th:if="${session.auth != null}">
   	<th:block th:if="${session.auth.grade == 'emp'}">
 	  <div class="w3-dropdown-hover w3-hide-small">
@@ -62,6 +63,12 @@ h1 {letter-spacing: 6px}
 		<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
     </div>
   </div>
+  	<div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">지원자관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/volunteer/volunteerList" class="w3-bar-item w3-button">지원자목록</a>
+	    </div>
+	  </div>
   	</th:block>
   </div>
   <th:block th:if="${session.auth == null or session.auth.grade == 'mem'}">

@@ -29,6 +29,8 @@ public class PurchaseDTO {
 	String deliveryName;
 	String purchaseName;
 	
+	//CouponDTO couponDTO;
+	
 	public PurchaseDTO(String purchaseNum, Date purchaseDate, BigDecimal purchasePrice, String deliveryAddr, String deliveryAddrDetail, Integer deliveryPost, String deliveryTel, String message, String purchaseStatus, String memberNum, String deliveryName, String purchaseName) {
 	    this.purchaseNum = purchaseNum;
 	    this.purchaseDate = purchaseDate;
@@ -42,5 +44,6 @@ public class PurchaseDTO {
 	    this.memberNum = memberNum;
 	    this.deliveryName = deliveryName;
 	    this.purchaseName = purchaseName;
+	    //this.couponDTO = couponDTO;
 	}
 }

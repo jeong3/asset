@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
+import springBootMVCAsset.domain.CouponDTO;
 import springBootMVCAsset.domain.GoodsCartDTO;
 import springBootMVCAsset.mapper.CartMapper;
+import springBootMVCAsset.mapper.CouponMapper;
 import springBootMVCAsset.mapper.MemberMapper;
 
 @Service	
@@ -22,11 +24,17 @@ public class GoodsBuyService {
     @Autowired
     CartMapper cartMapper;
 
+    @Autowired
+    CouponMapper couponMapper;
     public void execute(String[] nums, HttpSession session, Model model) {
         AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
         String memberNum = memberMapper.memberNumSelect(auth.getUserId());
         List<GoodsCartDTO> list = cartMapper.cartSelectList(memberNum, nums);
         model.addAttribute("list", list);
+        System.out.println("리스트 : " + list);
+        List<CouponDTO> couponList = couponMapper.couponSelect(memberNum);
+        System.out.println("쿠폰 : " + couponList);
+        model.addAttribute("couponList", couponList);
         
         BigDecimal sumPrice = BigDecimal.ZERO;  // 결제 금액을 BigDecimal로 처리
         BigDecimal deliveryCost = BigDecimal.ONE;  // 배송비 합계금액을 BigDecimal로 처리
