@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.AnnounceMapper">
+<sql id="BaseColumns">
+	ANNOUNCE_NUM, ANNOUNCE_NAME, ANNOUNCE_DATE, START_DATE, END_DATE,
+	ANNOUNCE_CONTENTS, RESULT_DATE, INTERVIEW_DATE, INTERVIEW_ADDR, DEPARTMENT_NUM
+</sql>
+
+<insert id="announceInsert" parameterType="announceDTO">
+insert into announce ( <include refid="BaseColumns" /> )
+values (#{announceNum}, #{announceName}, #{announceDate}, #{startDate}, #{endDate},
+		#{announceContents}, #{resultDate}, #{interviewDate}, #{interviewAddr}, #{departmentNum})
+</insert>
+</mapper>
