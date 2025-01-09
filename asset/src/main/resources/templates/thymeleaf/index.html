@@ -52,23 +52,27 @@ h1 {letter-spacing: 6px}
 	        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
 	    </div>
 	  </div>
-  	</th:block>
-  </div>
-  <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+	  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품관리<i class="fa fa-caret-down"></i></button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-        <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+    	<a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
         <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
-       
-     		
-      			<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
-      			<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
-      			<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
-      			
-      		
-      	
+		<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+		<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
+		<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
     </div>
   </div>
+  	</th:block>
+  </div>
+  <th:block th:if="${session.auth == null or session.auth.grade == 'mem'}">
+    <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-button" title="Notifications">상품<i class="fa fa-caret-down"></i></button>
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+            <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+            <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+        </div>
+    </div>
+</th:block>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
      	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
