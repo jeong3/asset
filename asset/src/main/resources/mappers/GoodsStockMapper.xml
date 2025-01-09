@@ -17,15 +17,13 @@
 		<result column="MAIN_STORE_IMAGE" jdbcType="VARCHAR" property="mainStoreImage"/>
 		<result column="DETAIL_IMAGE" jdbcType="VARCHAR" property="detailImage"/>
 		<result column="DETAIL_STORE_IMAGE" jdbcType="VARCHAR" property="detailStoreImage"/>
-		
-		
-		
+		<result column="SALE" jdbcType="DECIMAL" property="sale"/>
 	</association>
 </resultMap>
 <select id="goodsStockSelectOne" parameterType="string" resultMap="goodsStockResultMap">
 	select 	g.goods_Num , goods_name , goods_price ,goods_contents , emp_num  
 	  ,regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
-	  , DETAIL_IMAGE ,DETAIL_STORE_IMAGE , stock
+	  , DETAIL_IMAGE ,DETAIL_STORE_IMAGE , sale, stock
 	from goods g left outer join 
 	(select ip.goods_num , COALESCE(iqty,0) - COALESCE(pqty, 0) stock
 	from (select goods_num, sum(IPGO_QTY)  iqty

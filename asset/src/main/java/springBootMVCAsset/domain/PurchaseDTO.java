@@ -1,5 +1,6 @@
 package springBootMVCAsset.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class PurchaseDTO {
 	String purchaseNum;
 	Date purchaseDate;
-	Integer purchasePrice;
+	BigDecimal purchasePrice;
 	Integer discountPrice;
 	Integer purchaseSale;
 	String deliveryAddr;
@@ -28,7 +29,7 @@ public class PurchaseDTO {
 	String deliveryName;
 	String purchaseName;
 	
-	public PurchaseDTO(String purchaseNum, Date purchaseDate, Integer purchasePrice, String deliveryAddr, String deliveryAddrDetail, Integer deliveryPost, String deliveryTel, String message, String purchaseStatus, String memberNum, String deliveryName, String purchaseName) {
+	public PurchaseDTO(String purchaseNum, Date purchaseDate, BigDecimal purchasePrice, String deliveryAddr, String deliveryAddrDetail, Integer deliveryPost, String deliveryTel, String message, String purchaseStatus, String memberNum, String deliveryName, String purchaseName) {
 	    this.purchaseNum = purchaseNum;
 	    this.purchaseDate = purchaseDate;
 	    this.purchasePrice = purchasePrice;

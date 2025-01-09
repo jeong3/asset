@@ -19,7 +19,7 @@ WHEN NOT MATCHED THEN
 <sql id="goodsColumnsBase">
 	   goods_Num , goods_name , goods_price ,goods_contents , emp_num  
 	  ,goods_kind, regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
-	  , DETAIL_IMAGE ,DETAIL_STORE_IMAGE
+	  , DETAIL_IMAGE ,DETAIL_STORE_IMAGE, sale
 </sql>
 
 <resultMap type="cartDTO" id="cartResultMap">
@@ -60,7 +60,8 @@ WHEN NOT MATCHED THEN
 	<result column="MAIN_IMAGE"  			jdbcType="VARCHAR"  property="mainImage" />
 	<result column="MAIN_STORE_IMAGE"  	jdbcType="VARCHAR"  property="mainStoreImage" />
 	<result column="DETAIL_IMAGE"  		jdbcType="VARCHAR"  property="detailImage" />
-	<result column="DETAIL_STORE_IMAGE"  	jdbcType="VARCHAR"  property="detailStoreImage" />		
+	<result column="DETAIL_STORE_IMAGE"  	jdbcType="VARCHAR"  property="detailStoreImage" />	
+	<result column="SALE" 					jdbcType="DECIMAL" property="sale"/>	
 </resultMap>
 
 <select id="cartSelectList" resultMap="cartGoodsResultMap" >

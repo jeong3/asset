@@ -25,7 +25,7 @@ function setGoods(element) {
 			<th id="goodsNum">[[${dto.goodsNum }]]</th>
 			<th>[[${dto.goodsKind}]]</th>
 			<th>[[${dto.goodsName}]]</th>
-			<th>[[${dto.goodsPrice }]]</th>
+			<th>[[${#numbers.formatDecimal(dto.goodsPrice * (1 - dto.sale), 0, 0)}]]</th>
 			<th><button type="button" th:data-goods-num="${dto.goodsNum}" onclick="setGoods(this);">상품 선택</button></th>
 		</tr>
 	

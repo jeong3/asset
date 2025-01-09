@@ -114,8 +114,8 @@
 		<td><img th:src="|/static/images/${dto.goodsDTO.mainStoreImage}|" width="30"/></td>
 			<td>[[${dto.goodsDTO.goodsName}]]</td>
 			<td>[[${dto.cartDTO.cartQty}]]/
-				[[${dto.goodsDTO.goodsPrice}]]</td>
-			<td>[[${dto.goodsDTO.goodsPrice * dto.cartDTO.cartQty}]]</td>
+				[[${#numbers.formatDecimal(dto.goodsDTO.goodsPrice * (1 - dto.goodsDTO.sale), 0, 0)}]]
+			<td>[[${#numbers.formatDecimal(dto.goodsDTO.goodsPrice * (1 - dto.goodsDTO.sale) * dto.cartDTO.cartQty, 0, 0)}]]</td>
 	</tr>
 </table>
 <form action="goodsOrder" method="post">

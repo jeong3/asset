@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 
 <title>Insert title here</title>
+<style>
+.sale-tag {
+        position: absolute; /* 절대 위치로 설정 */
+        top: 10px;           /* 이미지 상단에서 10px 떨어지게 설정 */
+        left: 10px;          /* 이미지 왼쪽에서 10px 떨어지게 설정 */
+        background-color: #ff0000;
+        color: #fff;
+        padding: 5px 10px;
+        font-size: 0.9em;
+        font-weight: bold;
+        border-radius: 5px;
+    }
+</style>
 </head>
 <body>
  		<div  class="w3-col l3 s6" th:each="dto : ${list}">
@@ -14,8 +27,10 @@
                          th:src="|/static/images/${dto.mainStoreImage}|"
                          style="cursor: pointer;" th:goodsNum="${dto.goodsNum}" onclick="goodsDetail(this)">
                 </a>
-                <!-- 'New' 태그 추가 -->
-                <span class="w3-tag w3-display-topleft">New</span>
+                <!-- 'New' 태그 추가 
+                <span class="w3-tag w3-display-topleft">New</span>-->
+                
+                <span class="sale-tag" th:if="${dto.sale != 0}">Sale</span>
                 <!-- 'Buy Now' 버튼 추가 -->
                 <div class="w3-display-middle w3-display-hover">
                     <button type="button" class="w3-button w3-black" id="buyItem" 
@@ -30,14 +45,22 @@
             <p>
     [[${dto.goodsName}]]
     <br> 
-    <!-- 원래 가격은 항상 표시 -->
-    <span th:if="${sale != 1.0}" style="text-decoration: line-through;">
-        [[${dto.goodsPrice}]]
+    <!-- sale이 0인 경우에는 원래 가격만 표시 -->
+    <span th:if="${dto.sale == 0}">
+        [[${dto.goodsPrice}]]원
     </span>
     <br>
-    <!-- sale 값이 1.0이 아닌 경우에만 세일 가격 표시 -->
-    <span th:if="${sale != 1.0}" style = "color: red;">[[${dto.goodsPrice * sale}]]</span>
+    <!-- sale이 0이 아닌 경우에만 원래 가격에 라인 추가 -->
+    <span th:if="${dto.sale != 0}" style="text-decoration: line-through;">
+        [[${dto.goodsPrice}]]원
+    </span>
+    <br>
+    <!-- sale 값이 0이 아닌 경우에만 세일 가격 표시 -->
+    <span th:if="${dto.sale != 0}" style="color: red;">
+        [[${#numbers.formatDecimal(dto.goodsPrice * (1 - dto.sale), 0, 0)}]]원
+    </span>
 </p>
+
         </div>
     </div>
 </body>

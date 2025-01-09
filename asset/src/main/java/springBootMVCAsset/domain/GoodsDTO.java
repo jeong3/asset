@@ -1,5 +1,6 @@
 package springBootMVCAsset.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
@@ -24,4 +25,5 @@ public class GoodsDTO {
 	String mainStoreImage;
 	String detailImage;
 	String detailStoreImage;
+	BigDecimal sale;
 }
