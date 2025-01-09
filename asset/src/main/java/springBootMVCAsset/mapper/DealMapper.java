@@ -3,6 +3,7 @@ package springBootMVCAsset.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import springBootMVCAsset.domain.DealDTO;
 import springBootMVCAsset.domain.SearchDTO;
@@ -15,4 +16,13 @@ public interface DealMapper {
 	public DealDTO dealDetail(String dealNum);
 	public void dealUpdate(DealDTO dto);
 	public void dealDelete(String dealNum);
+	public List <DealDTO> assetDealList(
+			@Param("dealMethodValue") String dealMethodValue
+			, @Param("memberNum") String memberNum);
+	public Integer totalSavePrice(
+			@Param("categoryTypeValue") String dealMethodValue
+			, @Param("memberNum") String memberNum);
+	public Integer totalJaetechPrice(
+			@Param("categoryTypeValue") String dealMethodValue
+			, @Param("memberNum") String memberNum);
 }

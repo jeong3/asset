@@ -1,0 +1,288 @@
+/* 테이블들을 2열로 배치 */
+.all-container{
+	border-radius: 20px; /* 테이블 모서리를 둥글게 */
+  	overflow: hidden; 
+  	margin: 0 auto; /* 테이블을 가운데 정렬 */
+  	background-color: #e3f5d5;
+  	width: 70%;
+}
+
+.total-asset {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* 테이블들을 가로로 배치 */
+.table-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px; /* 테이블 간 간격 */
+    flex-wrap: wrap; /* 화면 크기에 맞게 줄 바꿈 */
+}
+
+/* 각 테이블의 스타일 */
+.table1, .table2, .table3, .table4 {
+    width: 48%; /* 테이블 너비 설정 (2개씩 한 줄) */
+    border-radius: 8px; /* 테이블 경계선 둥글게 */
+    padding: 10px;
+}
+
+
+/* 테이블 전체 스타일 */
+.cash-table {
+    width: 350px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-collapse: separate; /* border-collapse: separate로 변경 */
+    border-spacing: 0; /* 셀 간 간격 제거 */
+    border-radius: 12px; /* 테두리를 둥글게 설정 */
+    margin: 20px auto;
+    overflow: hidden; /* 둥근 모서리가 잘리도록 설정 */
+}
+
+/* Thead 부분 스타일 */
+.cash-table thead {
+    background-color: #a0d986;
+    font-size: 20px;
+    color: black;
+}
+
+.cash-table thead td {
+    border: none; /* thead 내부 셀 경계선 제거 */
+    padding: 15px; /* 여백 추가 */
+}
+
+/* Tbody 부분 */
+.cash-table tbody {
+    background-color: white;
+    color: black;
+    font-size: 17px;
+}
+
+.cash-table td {
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 셀 경계선 */
+}
+
+/* 둥근 테두리 적용: 첫 번째와 마지막 줄 */
+.cash-table thead td:first-child {
+    border-top-left-radius: 12px; /* 좌상단 둥글게 */
+}
+
+.cash-table thead td:last-child {
+    border-top-right-radius: 12px; /* 우상단 둥글게 */
+    text-align: right;
+}
+
+.cash-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px; /* 좌하단 둥글게 */
+}
+
+.cash-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px; /* 우하단 둥글게 */
+}
+
+.cash-table tbody td:last-child{
+	text-align: right;
+}
+
+
+/*bank*/
+.bank-table {
+    width: 350px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-collapse: separate; /* border-collapse: separate로 변경 */
+    border-spacing: 0; /* 셀 간 간격 제거 */
+    border-radius: 12px; /* 테두리를 둥글게 설정 */
+    margin: 20px auto;
+    overflow: hidden; /* 둥근 모서리가 잘리도록 설정 */
+}
+
+/* Thead 부분 스타일 */
+.bank-table thead {
+    background-color: #90d0e3;
+    font-size: 20px;
+    color: black;
+}
+
+.bank-table thead td {
+    border: none; /* thead 내부 셀 경계선 제거 */
+    padding: 15px; /* 여백 추가 */
+}
+
+/* Tbody 부분 */
+.bank-table tbody {
+    background-color: white;
+    color: black;
+    font-size: 17px;
+}
+
+.bank-table td {
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 셀 경계선 */
+}
+
+/* 둥근 테두리 적용: 첫 번째와 마지막 줄 */
+.bank-table thead td:first-child {
+    border-top-left-radius: 12px; /* 좌상단 둥글게 */
+}
+
+.bank-table thead td:last-child {
+    border-top-right-radius: 12px; /* 우상단 둥글게 */
+    text-align: right;
+}
+
+.bank-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px; /* 좌하단 둥글게 */
+}
+
+.bank-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px; /* 우하단 둥글게 */
+}
+
+.bank-table tbody td:last-child{
+	text-align: right;
+}
+
+
+/*저축*/
+.save-table {
+    width: 350px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-collapse: separate; /* border-collapse: separate로 변경 */
+    border-spacing: 0; /* 셀 간 간격 제거 */
+    border-radius: 12px; /* 테두리를 둥글게 설정 */
+    margin: 20px auto;
+    overflow: hidden; /* 둥근 모서리가 잘리도록 설정 */
+}
+
+/* Thead 부분 스타일 */
+.save-table thead {
+    background-color: #f6e07e;
+    font-size: 20px;
+    color: black;
+}
+
+.save-table thead td {
+    border: none; /* thead 내부 셀 경계선 제거 */
+    padding: 15px; /* 여백 추가 */
+}
+
+.save-table tbody td {
+    border-left: none;  /* 왼쪽 경계선 제거 */
+    border-right: none; /* 오른쪽 경계선 제거 */
+    border-top: 1px solid #ccc; /* 상단 경계선 추가 */
+    border-bottom: 1px solid #ccc; /* 하단 경계선 추가 */
+    padding: 15px; /* 여백 추가 */
+}
+
+/* Tbody 부분 */
+.save-table tbody {
+    background-color: white;
+    color: black;
+    font-size: 17px;
+}
+
+.save-table td {
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 셀 경계선 */
+}
+
+/* 둥근 테두리 적용: 첫 번째와 마지막 줄 */
+.save-table thead td:first-child {
+    border-top-left-radius: 12px; /* 좌상단 둥글게 */
+}
+
+.save-table thead td:last-child {
+    border-top-right-radius: 12px; /* 우상단 둥글게 */
+    text-align: right;
+}
+
+.save-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px; /* 좌하단 둥글게 */
+}
+
+.save-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px; /* 우하단 둥글게 */
+}
+
+.save-table tbody td:last-child{
+	text-align: right;
+}
+
+
+
+/*재태크*/
+.jtc-table {
+    width: 350px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-collapse: separate; /* border-collapse: separate로 변경 */
+    border-spacing: 0; /* 셀 간 간격 제거 */
+    border-radius: 12px; /* 테두리를 둥글게 설정 */
+    margin: 20px auto;
+    overflow: hidden; /* 둥근 모서리가 잘리도록 설정 */
+}
+
+/* Thead 부분 스타일 */
+.jtc-table thead {
+    background-color: #e2b8f8;
+    font-size: 20px;
+    color: black;
+}
+
+.jtc-table thead td {
+    border: none; /* thead 내부 셀 경계선 제거 */
+    padding: 15px; /* 여백 추가 */
+}
+
+.jtc-table tbody td {
+    border-left: none;  /* 왼쪽 경계선 제거 */
+    border-right: none; /* 오른쪽 경계선 제거 */
+    border-top: 1px solid #ccc; /* 상단 경계선 추가 */
+    border-bottom: 1px solid #ccc; /* 하단 경계선 추가 */
+    padding: 15px; /* 여백 추가 */
+}
+
+/* Tbody 부분 */
+.jtc-table tbody {
+    background-color: white;
+    color: black;
+    font-size: 17px;
+}
+
+.jtc-table td {
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 셀 경계선 */
+}
+
+/* 둥근 테두리 적용: 첫 번째와 마지막 줄 */
+.jtc-table thead td:first-child {
+    border-top-left-radius: 12px; /* 좌상단 둥글게 */
+}
+
+.jtc-table thead td:last-child {
+    border-top-right-radius: 12px; /* 우상단 둥글게 */
+    text-align: right;
+}
+
+.jtc-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px; /* 좌하단 둥글게 */
+}
+
+.jtc-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px; /* 우하단 둥글게 */
+}
+
+.jtc-table tbody td:last-child{
+	text-align: right;
+}
+
+
+

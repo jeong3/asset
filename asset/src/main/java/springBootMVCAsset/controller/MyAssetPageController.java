@@ -11,17 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import retrofit2.http.GET;
 import springBootMVCAsset.command.DealCommand;
 import springBootMVCAsset.domain.SearchDTO;
 import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.budget.BudgetDetailService;
 import springBootMVCAsset.service.budget.BudgetUpdateService;
+import springBootMVCAsset.service.deal.BankDealListService;
+import springBootMVCAsset.service.deal.CashDealListService;
 import springBootMVCAsset.service.deal.DealDeleteService;
 import springBootMVCAsset.service.deal.DealDetailService;
 import springBootMVCAsset.service.deal.DealListService;
 import springBootMVCAsset.service.deal.DealRegistService;
 import springBootMVCAsset.service.deal.DealUpdateService;
 import springBootMVCAsset.service.deal.DealsDeleteService;
+import springBootMVCAsset.service.deal.JaeTechDealListService;
+import springBootMVCAsset.service.deal.SaveDealListService;
 
 @Controller
 @RequestMapping("myAsset")
@@ -45,12 +50,21 @@ public class MyAssetPageController {
 	@Autowired
 	DealDeleteService dealDeleteService;
 	
+	@Autowired
+	CashDealListService cashDealListService;
+	@Autowired
+	BankDealListService bankDealListService;
+	@Autowired
+	SaveDealListService saveDealListService;
+	@Autowired
+	JaeTechDealListService jaeTechDealListService;
+	
 	@GetMapping("myAssetPage")
 	public String myAssetPage(Model model, HttpSession session) {
 		budgetDetailService.execute(model, session);
 		return "thymeleaf/myAsset/myAssetPage";
 	}
-	
+	// 거래 등록
 	@GetMapping("dealChoose")
 	public String dealChoose() {
 		return "thymeleaf/myAsset/dealChoose";
@@ -76,14 +90,14 @@ public class MyAssetPageController {
 		budgetUpdateService.execute(session);
 		return "redirect:myAssetPage";
 	}
-	
+	// 거래 내역 조회
 	@GetMapping("dealList")
 	public String dealList(@RequestParam(value="page", required = false, defaultValue="1") Integer page,
 			SearchDTO searchDTO, Model model, HttpSession session) {
 		dealListService.execute(page, searchDTO, model, session);
 		return "thymeleaf/myAsset/dealList";
 	}
-	
+	// 거래 영수증
 	@GetMapping("dealDetail")
 	public String dealDetail(@RequestParam("dealNum") String dealNum, Model model) {
 		dealDetailService.execute(dealNum, model);
@@ -125,5 +139,22 @@ public class MyAssetPageController {
 		dealDeleteService.execute(dealNum);
 		budgetUpdateService.execute(session);
 		return "redirect:dealList";
+	}
+	
+	// 내 자산 리스트
+	@GetMapping("assetList")
+	public String assetList(HttpSession session, Model model) {
+		cashDealListService.execute("cash", session, model);
+		bankDealListService.execute("checkCard", session, model);
+		budgetDetailService.execute(model, session);
+		saveDealListService.execute(session, model);
+		jaeTechDealListService.execute(session, model);
+		return "thymeleaf/myAsset/assetList";
+	}
+	
+	@GetMapping("cashList")
+	public String cashList(String searchWord, Integer page, HttpSession session, Model model) {
+		cashDealListService.execute2(searchWord, page, "cash", session, model);
+		return "thymeleaf/myAsset/cashList";
 	}
 }

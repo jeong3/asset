@@ -52,6 +52,7 @@ from (select row_number() over(order by DEAL_DATE desc) as rn
 </where>
 )
 where rn between #{startRow} and #{endRow}
+order by deal_num desc
 </select>
 
 <select id="dealCount" resultType="integer">
@@ -78,4 +79,39 @@ where deal_num = #{dealNum}
 <delete id="dealDelete" parameterType="string">
 delete from deal where deal_num = #{dealNum}
 </delete>
+
+<select id="assetDealList" resultType="dealDTO">
+select * from deal
+where
+	<if test="dealMethodValue == 'checkCard'">
+		deal_method = #{dealMethodValue} 
+		and 
+		CATEGORY_NAME NOT IN ('저축', '재태크')
+	</if>
+	<if test="dealMethodValue == 'cash'">
+		deal_method = #{dealMethodValue}
+	</if>
+and member_num = #{memberNum}
+order by deal_num desc
+</select>
+
+<select id="totalSavePrice" resultType="integer">
+select nvl(sum(deal_price),0)
+from deal
+where member_num = #{memberNum} 
+and CATEGORY_NAME = '저축'
+<if test="categoryTypeValue != null">
+and CATEGORY_TYPE = #{categoryTypeValue} 
+</if>
+</select>
+
+<select id="totalJaetechPrice" resultType="integer">
+select nvl(sum(deal_price),0)
+from deal
+where member_num = #{memberNum} 
+and CATEGORY_NAME = '재태크'
+<if test="categoryTypeValue != null">
+and CATEGORY_TYPE = #{categoryTypeValue} 
+</if>
+</select>
 </mapper>

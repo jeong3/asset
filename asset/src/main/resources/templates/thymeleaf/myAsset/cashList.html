@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="/static/css/totalAsset.css">
-<link rel="stylesheet" href="/static/css/assetLink.css">
+<link rel="stylesheet" href="/static/css/dealList.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript" src="/static/js/checkbox.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+
 <style>
 body,h1 {font-family: "Raleway", Arial, sans-serif;
 background-color: #f6fef0;}
@@ -20,7 +20,7 @@ h1 {letter-spacing: 6px}
 </head>
 <body>
 <div class="w3-content" style="max-width:1500px">
-		<div class="w3-top">
+	<div class="w3-top">
 	 <div class="w3-bar w3-theme-d2 w3-left-align">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
@@ -51,14 +51,9 @@ h1 {letter-spacing: 6px}
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
         <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
         <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
-       
-     		
-      			<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
-      			<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
-      			<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
-      			
-      		
-      	
+      	<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      	<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
+      	<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
     </div>
   </div>
   <div th:if="${session.auth != null}">
@@ -99,83 +94,98 @@ h1 {letter-spacing: 6px}
  </div>
 </div>
  <br/> <br/> <br/>
-  <div align="center">
-    <h2>My 자산 페이지</h2>
+<div class="my-transaction">
+    <h1>현금</h1>
     <br/>
-    <!-- 각 페이지 바로가기-->
-	<table class="link-table">
-	  <tr>
-	    <td>
-	      <a href="/myAsset/dealChoose">
-	        <span style="color:black;">&#128393;</span>
-	        입력
-	      </a>
-	    </td>
-	    <td>
-	      <a href="/myAsset/dealList">
-	        <span>&#128269;</span>
-	        거래 조회
-	      </a>
-	    </td>
-	    <td>
-	      <a href="/myAsset/dealData">
-	        <span>&#128202;</span>
-	        통계
-	      </a>
-	    </td>
-	    <td>
-	      <a href="/myAsset/assetGoal">
-	        <span>&#127919;</span>
-	        목표
-	      </a>
-	    </td>
-	    <td>
-	      <a href="/myAsset/assetList">
-	        <span>&#128184;</span>
-	        내 자산
-	      </a>
-	    </td>
-	  </tr>
-	</table>
-    
-    <!-- 총자산 테이블 -->
-    <table class="financial-table">
-    	<thead>
-    		<tr>
-    			<td id="memberId" colspan="2">
-    			<a href="/myPage/memberMyDetail"><b>[[${memberId}]]</b></a> 님의 총 자산 내역입니다
-    			</td>
-    		</tr>
-    	</thead>
-        <tbody>
-            <tr>
-                <td>총 자산</td>
-                <td>[[${dto.totalAsset}]]원 &nbsp
-                <a><i class="fa fa-angle-double-right" style="font-size:20px; color: grey;"></i></a></td>
-            </tr>
-            <tr>
-                <td>통장</td>
-                <td>[[${dto.totalCheck}]]원 &nbsp
-                <a><i class="fa fa-angle-right" style="font-size:20px;color: grey;"></i></a></td>
-            </tr>
-            <tr>
-                <td>현금</td>
-                <td>[[${dto.totalCash}]]원 &nbsp
-                <a></a></td>
-            </tr>
-            <tr>
-                <td>저축 & 재테크</td>
-                <td><span style="color: #cec13b">[[${dto.totalSave}]]원</span> &nbsp
-                <a><i class="fa fa-chevron-circle-right" style="font-size:20px;color: grey;"></i></a></td>
-            </tr>
-            <tr>
-                <td>카드 대금</td>
-                <td style="color: red">[[${dto.totalCredit}]]원</td>
-            </tr>
-        </tbody>
-    </table>
-  </div>
+    <!-- 거래 내역 리스트 -->
+    <div class="transaction-list">
+        <form action="dealsDelete" method="post" id="frm">
+            <table>
+                <p style="text-align: right">
+                	<a href="/myPage/memberMyDetail">
+                		<b style="text-decoration : underline;">[[${memberId}]]</b>
+                	</a>
+                	님의 거래내역 입니다
+                </p>
+                <thead>
+                    <tr>
+                    	<th><input type="checkbox" id="checkBoxs"/></th>
+                        <th>거래내용</th>
+                        <th>날짜</th>
+                        <th>금액</th>
+                        <th><button type="submit">선택 삭제</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dto : ${list}">
+                    	<td><input type="checkbox" name="dealNums" th:value="${dto.dealNum}"/></td>
+                        <td>
+	                        <span th:if="${dto.categoryType == '식비'}">&#127869;</span>
+			            	<span th:if="${dto.categoryType == '교통비'}">&#128647;</span>
+			            	<span th:if="${dto.categoryType == '문화생활'}">&#127925;</span>
+			            	<span th:if="${dto.categoryType == '생필품'}">&#128722;</span>
+			            	<span th:if="${dto.categoryType == '의류'}">&#128090;</span>
+			            	<span th:if="${dto.categoryType == '미용'}">&#128135;</span>
+			            	<span th:if="${dto.categoryType == '의료'}">&#127973;</span>
+			            	<span th:if="${dto.categoryType == '교육'}">&#128214;</span>
+			            	
+			            	<!-- 수입 타입 이모지 -->
+			            	<span th:if="${dto.categoryType == '월급'}">&#128233;</span>
+			            	<span th:if="${dto.categoryType == '용돈'}">&#128093;</span>
+			            	<span th:if="${dto.categoryType == '이월'}"></span>
+			            	<span th:if="${dto.categoryType == '기타'}">&#128172;</span>
+	                        [[${dto.categoryType}]]
+	                   	</td>
+                        <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
+                        <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">
+                        	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${dto.dealPrice}]]</span>
+            				<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${dto.dealPrice}]]</span>
+            				<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${dto.dealPrice}]]</span>
+							<th:block th:if="${dto.dealMethod == 'cash'}">
+								&#128181;
+							</th:block>
+							<th:block th:if="${dto.dealMethod == 'creditCard'}">
+								&#128179;
+							</th:block>
+							<th:block th:if="${dto.dealMethod == 'checkCard'}">
+								<th:block th:if="${dto.categoryName == '지출'}">
+									&#128179;
+								</th:block>
+								<th:block th:if="${dto.categoryName == '수입'}">
+									&#128179;
+								</th:block>
+								<th:block th:if="${dto.categoryName == '저축'}">
+									&#128176;
+								</th:block>
+								<th:block th:if="${dto.categoryName == '재테크'}">
+									&#128176;
+								</th:block>
+							</th:block>
+                        	</a></td>
+                    	<td><button type="button" th:attr="onclick=|javascript:location.href='dealsDelete?dealNums=${dto.dealNum}'|">삭제</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!-- 페이지 네비게이션 -->
+    <div class="pagination">
+    <span th:if="${page <= 1}">[이전]</span>
+        <span th:if="${page > 1}">
+            <a th:href="|dealList?page=${page - 1}&searchDTO=${searchDTO}|">[이전]</a>
+        </span>
+        <span th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}">
+            <a th:href="|dealList?page=${i}&searchDTO=${searchDTO}|">[[${i}]]</a>
+        </span>
+        <span th:if="${page < maxPage}">
+            <a th:href="|dealList?page=${page + 1}&searchDTO=${searchDTO}|">[다음]</a>
+        </span>
+        <span th:if="${page >= maxPage}">
+               [다음]
+        </span>
+    </div>
+</div>
 </div>
 </body>
 </html>
-		

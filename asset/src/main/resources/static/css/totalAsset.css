@@ -28,7 +28,7 @@
 }
 
 .financial-table td:first-child {
-    background-color: #f4f4f4; /* 연한 회색 */
+    background-color: #e3f5d5; 
     font-weight: bold;
     width: 35%; /* 왼쪽 열을 더 좁게 설정 */
 }
