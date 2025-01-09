@@ -5,16 +5,16 @@
 <mapper namespace="springBootMVCAsset.mapper.StockMapper">
 <select id="stockDataSelect" resultType="stockDataDTO">
 SELECT
-    "date","open","high","low","close","cumulativeVolume","sum"
+    "date","open","high","low","close","cumulativeVolume", round(("avg" * "cumulativeVolume"),0) as "sum"
 FROM (
     SELECT
         deal_date AS "date",  
         FIRST_VALUE(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD') ORDER BY deal_time ASC) AS "open", 
         MAX(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD')) AS "high",  
         MIN(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD')) AS "low",  
+        avg(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD')) AS "avg", 
         LAST_VALUE(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD') ORDER BY deal_time ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS "close",
         max(to_number(CUMULATIVE_DEAL_VOLUME)) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD') ORDER BY deal_time ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS "cumulativeVolume",
-        SUM(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD')) AS "sum",  
         ROW_NUMBER() OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD') ORDER BY deal_time ASC) AS rn
     FROM
         stock_data
@@ -22,5 +22,21 @@ FROM (
 WHERE t.rn = 1
 ORDER BY "date"
 </select>
+
+<select id="closeSelect">
+select "close"
+from (
+        select LAST_VALUE(execution_price) OVER (PARTITION BY TO_CHAR(deal_date, 'YYYY-MM-DD') ORDER BY deal_time ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS "close"
+        ,ROW_NUMBER() OVER (ORDER BY deal_time ASC) AS rn
+        FROM
+        stock_data
+) t
+WHERE t.rn = 1
+</select>
+
+<update id="saleInsert">
+	update goods set
+	sale = #{sale}
+</update>
 
 </mapper>

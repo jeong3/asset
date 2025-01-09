@@ -182,4 +182,12 @@
     where member_id = #{memberId}
 </select>
 
+<delete id="deleteSave">
+	delete from save where news_num = #{newsNum} and member_num = #{memberNum} 	
+</delete>
+
+<delete id="deleteLike">
+	delete from news_analyze where news_num = #{newsNum} and member_id = #{memberId} 	
+</delete>
+
 </mapper>

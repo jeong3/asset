@@ -12,4 +12,8 @@ public interface StockMapper {
 	
     List<StockDataDTO> stockDataSelect();
 
+	double closeSelect();
+
+	int saleInsert(double sale);
+
 }

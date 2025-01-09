@@ -52,4 +52,8 @@ public interface NewsMapper {
 
 	List<MyNewsLikeDTO> myNewsSelect_Like(String memberId);
 
+	int deleteSave(String newsNum, String memberNum);
+
+	int deleteLike(String newsNum, String memberId);
+
 }

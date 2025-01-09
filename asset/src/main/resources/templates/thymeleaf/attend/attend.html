@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>근태 기록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #attendanceButton {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #attendanceButton:hover {
+            background-color: #45a049;
+        }
+        #statusMessage {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+        table {
+            margin: 20px auto;
+            width: 80%;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <script type="text/javascript">
+    // 회사 위치 (예: 위도와 경도)
+    const latitude_company = 37.3722008; // 회사의 위도 설정 (예: 서울의 위도)
+    const longitude_company = 126.9393177; // 회사의 경도 설정 (예: 서울의 경도)
+    let isAtWork = false; // 사용자가 출근했는지 여부를 나타내는 변수, 초기값은 false (출근하지 않음)
+
+
+
+   
+
+    // 두 지점 사이의 거리를 계산하는 함수 (Haversine formula 사용)
+    function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+        const R = 6371; // 지구 반지름 (km)
+        const dLat = deg2rad(lat2 - lat1); // 위도의 차이를 라디안으로 변환
+        const dLon = deg2rad(lon2 - lon1); // 경도의 차이를 라디안으로 변환
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) + // 위도 차이의 반각 사인을 제곱
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * // 위도의 코사인 곱
+            Math.sin(dLon / 2) * Math.sin(dLon / 2); // 경도 차이의 반각 사인을 제곱
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); // 아크탄젠트 계산
+        const distance = R * c * 1000; // 거리 (m) 계산
+        return distance; // 계산된 거리 반환
+    }
+
+    // 각도를 라디안으로 변환하는 함수
+    function deg2rad(deg) {
+        return deg * (Math.PI / 180); // 각도를 라디안으로 변환하여 반환
+    }
+	
+    // 출퇴근 버튼 클릭 시 실행되는 함수
+    function handleAttendance() {
+        if (navigator.geolocation) { // 브라우저가 Geolocation API를 지원하는지 확인
+            navigator.geolocation.getCurrentPosition(function(position) { // 현재 위치를 가져옴
+                const latitude_user = position.coords.latitude; // 사용자의 위도
+                const longitude_user = position.coords.longitude; // 사용자의 경도
+                const distance = getDistanceFromLatLonInMeters(latitude_company, longitude_company, latitude_user, longitude_user); // 회사와 사용자 사이의 거리 계산
+                const allowedRadius = 1000; // 허용 반경 (100m)
+				var empNum = "[[${empNum}]]";
+				
+				
+                
+              
+                
+                if (distance <= allowedRadius) { // 사용자가 허용 반경 내에 있는지 확인
+                    if (!isAtWork) { // 사용자가 출근하지 않은 상태라면
+                        // 출근 상태를 DB에 저장하는 AJAX 요청
+                        $.ajax({
+                            type: 'POST',
+                            url: '/attend/attendStart',
+                            data: { "empNum": empNum },
+                            success: function(result) {
+                            	if(result == "200"){
+                            		
+                                    document.getElementById('attendanceButton').textContent = '퇴근'; // 버튼 텍스트를 '퇴근'으로 변경
+                                    document.getElementById('statusMessage').textContent = '출근이 기록되었습니다.'; // 상태 메시지 변경
+                                    isAtWork = true; // 출근 상태로 변경
+                            	}
+                            },
+                            error: function(error) {
+                                console.error('출근 기록 저장 실패:', error);
+                            }
+                        });
+                    } else { // 사용자가 이미 출근한 상태라면
+                        // 퇴근 상태를 DB에 업데이트하는 AJAX 요청
+                    	function attendEnd(){
+                   		 $.ajax({
+                                type: 'POST',
+                                url: '/attend/attendEnd',
+                                data: { "empNum": empNum, "attendNum":attendNum },
+                                success: function(result) {
+                                	if(result == "200"){
+                                		
+                                        document.getElementById('attendanceButton').textContent = '출근'; // 버튼 텍스트를 '출근'으로 변경
+                                        document.getElementById('statusMessage').textContent = '퇴근이 기록되었습니다.'; // 상태 메시지 변경
+                                        isAtWork = false; // 출근 상태 해제
+                                	}
+                                },
+                                error: function(error) {
+                                    console.error('퇴근 기록 업데이트 실패:', error);
+                                }
+                            });
+                  	 	}
+                    }
+                } else { // 사용자가 허용 반경 밖에 있을 때
+                    document.getElementById('statusMessage').textContent = '회사 밖에 있습니다. 위치를 확인하세요.'; // 경고 메시지 출력
+                }
+            }, function(error) { // 위치 정보를 가져오는 중 오류가 발생했을 때
+                console.error("위치 정보를 가져오는 중 오류 발생", error); // 오류 메시지 출력
+            });
+        } else { // 브라우저가 Geolocation API를 지원하지 않을 때
+            console.log("이 브라우저는 Geolocation을 지원하지 않습니다."); // 지원하지 않는다는 메시지 출력
+        }
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude_user = position.coords.latitude; // 사용자의 위도
+            const longitude_user = position.coords.longitude; // 사용자의 경도
+            console.log('Current Latitude:', latitude_user); // 위도를 콘솔에 출력
+            console.log('Current Longitude:', longitude_user); // 경도를 콘솔에 출력
+        }, function(error) {
+            console.error("위치 정보를 가져오는 중 오류 발생", error); // 오류 발생 시 메시지 출력
+        });
+    }
+	
+    </script>
+</head>
+<body>
+    <h1>근태 기록</h1>
+    <button id="attendanceButton" onclick="handleAttendance()">출근</button>
+    <p id="statusMessage"></p>
+	
+    <table>
+        <tr>
+            <th>날짜</th>
+            <th>출근 시간</th>
+            <th>퇴근 시간</th>
+            <th>지각 여부</th>
+            <th>결근 여부</th>
+        </tr>
+        <tr th:each="dto : ${list}">
+            <td>[[${#dates.format(dto.startTime , 'yyyy-MM-dd')}]]</td>
+            <td>[[${#dates.format(dto.startTime , 'HH:mm')}]]</td>
+            <td th:if="${dto.endTime == null}">퇴근 전</td>
+            <td th:if="${dto.endTime != null}">[[${#dates.format(dto.endTime , 'HH:mm')}]]</td>
+            <td>[[${dto.rateWhether}]]</td>
+            <td>[[${dto.absenceWhether}]]</td>
+        </tr>
+    </table>
+	
+</body>
+</html>

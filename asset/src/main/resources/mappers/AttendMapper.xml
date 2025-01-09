@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.AttendMapper">
+<sql id="BaseColumns">
+ATTEND_NUM, EMP_NUM, START_TIME, END_TIME, RATE_WHETHER, ABSENCE_WHETHER
+</sql>
+
+<insert id="AttendInsert">
+	insert into attend ( <include refid="BaseColumns" /> )
+	values (( select nvl(max(attend_num),0)+1 from attend ), #{empNum}, #{startTime}, null, #{rateWhether}, #{absenceWhether} )
+</insert>
+<update id="AttendUpdate">
+	update attend set
+	END_TIME = #{endTime}
+	,ABSENCE_WHETHER = #{absenceWhether}
+	where emp_num = #{empNum} and attend_num = #{attendNum}
+</update>
+
+<select id="AttendSelectOne">
+	select <include refid="BaseColumns" /> from attend
+	where emp_num = #{empNum} 
+	order by attend_num desc
+</select>
+
+
+</mapper>
+
+

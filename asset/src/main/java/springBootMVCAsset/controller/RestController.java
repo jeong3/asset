@@ -17,6 +17,9 @@ import springBootMVCAsset.domain.StockDataDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.mapper.NewsMapper;
 import springBootMVCAsset.service.FileDelService;
+import springBootMVCAsset.service.attend.AttendEndService;
+import springBootMVCAsset.service.attend.AttendStartService;
+import springBootMVCAsset.service.goods.SaleRegistService;
 import springBootMVCAsset.service.news.NewsAnalyzeUpdate;
 import springBootMVCAsset.service.news.SaveRegistService;
 import springBootMVCAsset.service.stock.StockListService;
@@ -35,6 +38,12 @@ public class RestController {
 	StockListService stockListService;
 	@Autowired
 	NewsMapper newsMapper;
+	@Autowired
+	SaleRegistService saleRegistService;
+	@Autowired
+	AttendStartService attendStartService;
+	@Autowired
+	AttendEndService attendEndService;
 	
 	@PostMapping("/file/fileDel")
 	public int fileDel(String orgFile, String storeFile, HttpSession session) {
@@ -55,23 +64,39 @@ public class RestController {
 		String saveDate = saveRegistService.execute(newsNum, session);
 		return saveDate;
 	}
-
-	@GetMapping("/stock/stockData")
-    public List<StockDataDTO> getStockData() {
-        List<StockDataDTO> stockData = stockListService.execute();
-        return stockData;
-    }
 	@RequestMapping("/news/deleteSave")
 	public int deleteSave(String newsNum, HttpSession session) {
+		System.out.println("뉴스번호"+newsNum);
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
-		//newsMapper.deleteSave(auth.get)
+		newsMapper.deleteSave(newsNum, auth.getUserNum());
 		return 200;
 	}
 	@RequestMapping("/news/deleteLike")
 	public int deleteLike(String newsNum, HttpSession session) {
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
-		//newsMapper.deleteLike(auth.get)q
+		newsMapper.deleteLike(newsNum, auth.getUserId());
 		return 200;
+	}
+	@GetMapping("/stock/stockData")
+    public List<StockDataDTO> getStockData() {
+        List<StockDataDTO> stockData = stockListService.execute();
+        return stockData;
+    }
+	@GetMapping("/stock/saleRegist")
+	public String saleRegist() {
+		saleRegistService.execute();
+		return "200";
+	}
+	@RequestMapping("/attend/attendStart")
+	public String attendStart(String empNum) {
+		attendStartService.execute(empNum);
+		return "200";
+	}
+	@RequestMapping("/attend/attendEnd")
+	public String attendEnd(String empNum, String attendNum) {
+	
+		attendEndService.execute(empNum, attendNum);
+		return "200";
 	}
 	
 	

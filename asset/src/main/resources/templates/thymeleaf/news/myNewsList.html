@@ -304,8 +304,8 @@
       <h2>Saved News</h2>
       <div class="news-list" id="savedNewsList">
         <!-- Thymeleaf iteration for saved news -->
-         <div class="news-item" th:each="dto : ${list}" th:data-news-num="${dto.newsNum}" onclick="newsDetail(this)">
-          <img th:src="|/static/images/${dto.newsDTO.storeImage}|" alt="News 1">
+         <div class="news-item" th:each="dto : ${list}">
+          <img th:src="|/static/images/${dto.newsDTO.storeImage}|" alt="News 1"  th:data-news-num="${dto.newsNum}" onclick="newsDetail(this)">
           <div class="content">
             <h4 >[[${dto.newsDTO.newsTitle}]]</h4>
             <p >[[${#strings.abbreviate(dto.newsDTO.newsContents, 30)}]]</p>
@@ -321,8 +321,8 @@
       <h2>Liked News</h2>
       <div class="news-list" id="likedNewsList">
         <!-- Thymeleaf iteration for liked news -->
-        <div class="news-item" th:each="LikeDTO : ${likeList}" th:data-news-num="${LikeDTO.newsNum}" onclick="newsDetail(this)">
-          <img th:src="|/static/images/${LikeDTO.newsDTO.storeImage}|" alt="news image">
+        <div class="news-item" th:each="LikeDTO : ${likeList}" >
+          <img th:src="|/static/images/${LikeDTO.newsDTO.storeImage}|" alt="news image" th:data-news-num="${LikeDTO.newsNum}" onclick="newsDetail(this)">
           <div class="content">
             <h4 >[[${LikeDTO.newsDTO.newsTitle}]]</h4>
             <p >[[${#strings.abbreviate(LikeDTO.newsDTO.newsContents, 30)}]]</p>

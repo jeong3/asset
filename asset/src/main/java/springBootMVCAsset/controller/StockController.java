@@ -16,7 +16,6 @@ public class StockController {
 
 	@GetMapping("/stockList")
 	public String stock (Model model) {
-		//stockListService.execute(model);
 		
 		return "thymeleaf/stock/stock";
 	}

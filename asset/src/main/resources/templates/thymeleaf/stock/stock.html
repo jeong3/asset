@@ -100,6 +100,7 @@
         if (!this.fetchInterval) {
             this.fetchInterval = setInterval(fetchDailyData, 1000);
             this.fetchInterval = setInterval(fetchDailyData1, 1000);
+            this.fetchInterval = setInterval(saleRegist, 10000);
           }
       };
 
@@ -310,6 +311,20 @@
     	    }
     	  });
     	}
+    function saleRegist(){
+    	 $.ajax({
+     	    url: '/stock/saleRegist', // 서버에서 데이터 받을 URL
+     	    type: 'GET',
+     	    success: function(result) {
+     	    	if(result == "200"){
+     	    		console.log("세일등록");
+     	    	}
+     	    }, 
+     	    error: function(){
+     	    	alert("서버오류");
+     	    }
+    	 });
+    }
 
 
   </script>
