@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
+import springBootMVCAsset.domain.AssetListDTO;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.DealDTO;
 import springBootMVCAsset.domain.StartEndPageDTO;
@@ -18,7 +19,7 @@ public class CashDealListService {
 	@Autowired
 	DealMapper dealMapper;
 	@Autowired
-	StartEndPageService startEndPageService;
+	AssetListService assetListService;
 	// 현금 내역 3개까지만
 	public void execute(String dealMethodValue, HttpSession session, Model model) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
@@ -35,15 +36,27 @@ public class CashDealListService {
 	}
 	
 	// 현금 전체 내역
-	public void execute2(String searchWord, Integer page, String dealMethodValue, HttpSession session, Model model) {
+	public void execute2(Integer page, AssetListDTO assetListDTO, HttpSession session, Model model) {
 		Integer limit = 5;
-		StartEndPageDTO sepDTO = startEndPageService.execute(page, searchWord, limit);
 		
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = auth.getUserNum();
+		String searchWord = assetListDTO.getSearchWord();
+		AssetListDTO dto = assetListService.execute(page, limit, searchWord, memberNum);
+		List <DealDTO> list = dealMapper.cashList(dto);
 		
-		//List <DealDTO> list = dealMapper.assetAllDealList(searchWord, page, dealMethodValue, memberNum, searchWord);
+		Integer count = dealMapper.dealCount();
+		assetListService.execute(page, limit, count, searchWord, model);
 		
+		model.addAttribute("list", list);
 		
+		if(searchWord == null) searchWord = "";
+		dto.setSearchWord(searchWord);
+		
+		model.addAttribute("assetListDTO", dto);
+		
+		// 멤버 아이디
+		String memberId = auth.getUserId();
+		model.addAttribute("memberId", memberId);
 	}
 }

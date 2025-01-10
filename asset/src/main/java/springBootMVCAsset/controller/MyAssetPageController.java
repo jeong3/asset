@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
-import retrofit2.http.GET;
 import springBootMVCAsset.command.DealCommand;
+import springBootMVCAsset.domain.AssetListDTO;
 import springBootMVCAsset.domain.SearchDTO;
 import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.budget.BudgetDetailService;
@@ -153,8 +153,31 @@ public class MyAssetPageController {
 	}
 	
 	@GetMapping("cashList")
-	public String cashList(String searchWord, Integer page, HttpSession session, Model model) {
-		cashDealListService.execute2(searchWord, page, "cash", session, model);
+	public String cashList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
+			, AssetListDTO assetListDTO
+			, HttpSession session, Model model) {
+		cashDealListService.execute2(page, assetListDTO, session, model);
+		budgetDetailService.execute(model, session);
 		return "thymeleaf/myAsset/cashList";
 	}
+	
+	@GetMapping("bankList")
+	public String bankList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
+			, AssetListDTO assetListDTO
+			, HttpSession session, Model model) {
+		bankDealListService.execute2(page, assetListDTO, session, model);
+		budgetDetailService.execute(model, session);
+		return "thymeleaf/myAsset/bankList";
+	}
+	
+	@GetMapping("saveList")
+	public String saveList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
+			, @RequestParam(required = false) String categoryType
+			, AssetListDTO assetListDTO
+			, HttpSession session, Model model) {
+		saveDealListService.execute2(categoryType, page, assetListDTO, session, model);
+		budgetDetailService.execute(model, session);
+		return "thymeleaf/myAsset/saveList";
+	}
+	
 }

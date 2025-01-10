@@ -99,7 +99,7 @@ h1 {letter-spacing: 6px}
     <h1>현금</h1>
     <br/>
     <!-- 검색 -->
-    <form action="cashList" method="get">
+    <form action="saveList" method="get">
 	    <div class="search-input" style="text-align:right;">
 	    	<input type="search" name="searchWord" size="40" placeholder="검색어 입력">
 	        <input type="submit" value="&#128269;">
@@ -184,13 +184,13 @@ h1 {letter-spacing: 6px}
     <div class="pagination">
     <span th:if="${page <= 1}">[이전]</span>
         <span th:if="${page > 1}">
-            <a th:href="|cashList?page=${page - 1}&assetListDTO=${assetListDTO}|">[이전]</a>
+            <a th:href="|saveList?page=${page - 1}&assetListDTO=${assetListDTO}|">[이전]</a>
         </span>
         <span th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}">
-            <a th:href="|cashList?page=${i}&assetListDTO=${assetListDTO}|">[[${i}]]</a>
+            <a th:href="|saveList?page=${i}&assetListDTO=${assetListDTO}|">[[${i}]]</a>
         </span>
         <span th:if="${page < maxPage}">
-            <a th:href="|cashList?page=${page + 1}&assetListDTO=${assetListDTO}|">[다음]</a>
+            <a th:href="|saveList?page=${page + 1}&assetListDTO=${assetListDTO}|">[다음]</a>
         </span>
         <span th:if="${page >= maxPage}">
                [다음]

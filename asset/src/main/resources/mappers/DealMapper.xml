@@ -3,7 +3,7 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.DealMapper">
-<sql id="BaseColums">
+<sql id="BaseColumns">
 	DEAL_NUM, MEMBER_NUM, DEAL_PRICE, DEAL_CONTENTS
 	, DEAL_METHOD, DEAL_DATE, CATEGORY_NAME, CATEGORY_TYPE
 </sql>
@@ -25,7 +25,7 @@ values(#{dealNum}, #{memberNum}, #{dealPrice}
 <select id="dealList" parameterType="searchDTO" resultType="dealDTO">
 select *
 from (select row_number() over(order by DEAL_DATE desc) as rn
-	, <include refid="BaseColums"/>
+	, <include refid="BaseColumns"/>
 	from deal
 <where>
 	<if test="searchWord != null">
@@ -92,7 +92,7 @@ where
 		deal_method = #{dealMethodValue}
 	</if>
 and member_num = #{memberNum}
-order by deal_num desc
+order by deal_date desc
 </select>
 
 <select id="totalSavePrice" resultType="integer">
@@ -113,5 +113,64 @@ and CATEGORY_NAME = '재태크'
 <if test="categoryTypeValue != null">
 and CATEGORY_TYPE = #{categoryTypeValue} 
 </if>
+</select>
+
+<select id="cashList" parameterType="assetListDTO" resultType="dealDTO">
+select *
+from (select row_number() over(order by DEAL_DATE desc) as rn
+	,<include refid="BaseColumns"/>
+	from deal
+<where>
+	<if test="searchWord != null">
+		(DEAL_PRICE like '%'||#{searchWord}||'%'
+		or CATEGORY_TYPE like '%'||#{searchWord}||'%'
+		or DEAL_CONTENTS like '%'||#{searchWord}||'%')
+	</if>
+		and member_num = #{memberNum}
+		and deal_method = 'cash'
+</where>
+)
+where rn between #{startRow} and #{endRow} 
+</select>
+
+<select id="bankList" parameterType="assetListDTO" resultType="dealDTO">
+select *
+from (select row_number() over(order by DEAL_DATE desc) as rn
+	,<include refid="BaseColumns"/>
+	from deal
+<where>
+	<if test="searchWord != null">
+		(DEAL_PRICE like '%'||#{searchWord}||'%'
+		or CATEGORY_TYPE like '%'||#{searchWord}||'%'
+		or DEAL_CONTENTS like '%'||#{searchWord}||'%')
+	</if>
+		and member_num = #{memberNum}
+		and deal_method = 'checkCard'
+		and CATEGORY_NAME NOT IN ('저축', '재태크')
+</where>
+)
+where rn between #{startRow} and #{endRow} 
+</select>
+
+<select id="saveList" parameterType="assetListDTO" resultType="dealDTO">
+select *
+from (select row_number() over(order by DEAL_DATE desc) as rn
+	,<include refid="BaseColumns"/>
+	from deal
+<where>
+	<if test="searchWord != null">
+		(DEAL_PRICE like '%'||#{searchWord}||'%'
+		or CATEGORY_TYPE like '%'||#{searchWord}||'%'
+		or DEAL_CONTENTS like '%'||#{searchWord}||'%')
+	</if>
+		and member_num = #{memberNum}
+		and deal_method = 'checkCard'
+		and CATEGORY_NAME = '저축'
+	<if test="categoryType != null">
+		and CATEGORY_TYPE = #{categoryType}
+	</if>
+</where>
+)
+where rn between #{startRow} and #{endRow} 
 </select>
 </mapper>

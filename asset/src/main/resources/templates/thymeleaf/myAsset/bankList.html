@@ -96,7 +96,7 @@ h1 {letter-spacing: 6px}
 </div>
  <br/> <br/> <br/>
 <div class="my-transaction">
-    <h1>현금</h1>
+    <h1>통장</h1>
     <br/>
     <!-- 검색 -->
     <form action="cashList" method="get">
@@ -110,8 +110,8 @@ h1 {letter-spacing: 6px}
     <div class="transaction-list">
         <form action="dealsDelete" method="post" id="frm">
             <table>
-             	<div style="text-align: left;">
-    				<b>총 금액:  [[${dto.totalCash}]]원</b>
+            	<div style="text-align: left;">
+    				<b>총 금액:  [[${dto.totalCheck}]]원</b>
     			</div>
                  <div style="text-align: right;">
     				<a href="/myPage/memberMyDetail">
@@ -120,11 +120,11 @@ h1 {letter-spacing: 6px}
     			 </div>
                 <thead>
                     <tr>
-                    	<th style="background-color: #a0d986;"><input type="checkbox" id="dealCheckBoxs"/></th>
-                        <th style="background-color: #a0d986;">거래내용</th>
-                        <th style="background-color: #a0d986;">날짜</th>
-                        <th style="background-color: #a0d986;">금액</th>
-                        <th style="background-color: #a0d986;"><button type="submit">선택 삭제</button></th>
+                    	<th style="background-color: #90d0e3;"><input type="checkbox" id="dealCheckBoxs"/></th>
+                        <th style="background-color: #90d0e3;">거래내용</th>
+                        <th style="background-color: #90d0e3;">날짜</th>
+                        <th style="background-color: #90d0e3;">금액</th>
+                        <th style="background-color: #90d0e3;"><button type="submit">선택 삭제</button></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -184,13 +184,13 @@ h1 {letter-spacing: 6px}
     <div class="pagination">
     <span th:if="${page <= 1}">[이전]</span>
         <span th:if="${page > 1}">
-            <a th:href="|cashList?page=${page - 1}&assetListDTO=${assetListDTO}|">[이전]</a>
+            <a th:href="|bankList?page=${page - 1}&assetListDTO=${assetListDTO}|">[이전]</a>
         </span>
         <span th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}">
-            <a th:href="|cashList?page=${i}&assetListDTO=${assetListDTO}|">[[${i}]]</a>
+            <a th:href="|bankList?page=${i}&assetListDTO=${assetListDTO}|">[[${i}]]</a>
         </span>
         <span th:if="${page < maxPage}">
-            <a th:href="|cashList?page=${page + 1}&assetListDTO=${assetListDTO}|">[다음]</a>
+            <a th:href="|bankList?page=${page + 1}&assetListDTO=${assetListDTO}|">[다음]</a>
         </span>
         <span th:if="${page >= maxPage}">
                [다음]

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import springBootMVCAsset.domain.AssetListDTO;
 import springBootMVCAsset.domain.DealDTO;
 import springBootMVCAsset.domain.SearchDTO;
 
@@ -25,4 +26,9 @@ public interface DealMapper {
 	public Integer totalJaetechPrice(
 			@Param("categoryTypeValue") String dealMethodValue
 			, @Param("memberNum") String memberNum);
+	public List <DealDTO> cashList(AssetListDTO assetListDTO);
+	public List <DealDTO> bankList(AssetListDTO assetListDTO);
+	public List <DealDTO> saveList(
+			@Param("categoryType") String categoryType
+			,AssetListDTO assetListDTO);
 }
