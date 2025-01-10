@@ -15,5 +15,6 @@ public class AttendDTO {
 	Date endTime;
 	String rateWhether;
 	String absenceWhether;
+	Date attendDate;
 	
 }

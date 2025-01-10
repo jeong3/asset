@@ -4,24 +4,37 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.AttendMapper">
 <sql id="BaseColumns">
-ATTEND_NUM, EMP_NUM, START_TIME, END_TIME, RATE_WHETHER, ABSENCE_WHETHER
+ATTEND_NUM, EMP_NUM, START_TIME, END_TIME, RATE_WHETHER, ABSENCE_WHETHER, attend_date
 </sql>
 
 <insert id="AttendInsert">
 	insert into attend ( <include refid="BaseColumns" /> )
-	values (( select nvl(max(attend_num),0)+1 from attend ), #{empNum}, #{startTime}, null, #{rateWhether}, #{absenceWhether} )
+	values (( select nvl(max(attend_num),0)+1 from attend ), #{empNum}, #{startTime}, null, #{rateWhether}, #{absenceWhether}, sysdate )
 </insert>
+
 <update id="AttendUpdate">
-	update attend set
-	END_TIME = #{endTime}
-	,ABSENCE_WHETHER = #{absenceWhether}
-	where emp_num = #{empNum} and attend_num = #{attendNum}
+	UPDATE attend 
+SET END_TIME = #{endTime}, 
+    ABSENCE_WHETHER = #{absenceWhether}
+WHERE emp_num = #{empNum} 
+  AND attend_num = (
+      SELECT attend_num 
+      FROM attend 
+      WHERE TRUNC(attend_date) = TRUNC(SYSDATE)
+      AND emp_num = #{empNum}
+  )
 </update>
 
 <select id="AttendSelectOne">
 	select <include refid="BaseColumns" /> from attend
 	where emp_num = #{empNum} 
 	order by attend_num desc
+</select>
+
+<select id="atWorkSelect">
+ SELECT count(*) 
+FROM attend 
+WHERE TRUNC(attend_date) = TRUNC(SYSDATE)
 </select>
 
 

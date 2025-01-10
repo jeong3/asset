@@ -1,5 +1,6 @@
 package springBootMVCAsset.service.attend;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ public class AttendListService {
 	AttendMapper attendMapper;
 	public void execute(String empNum, Model model) {
 		List<AttendDTO> list = attendMapper.AttendSelectOne(empNum);
+		int count = attendMapper.atWorkSelect(empNum);
 		model.addAttribute("list", list);
+		model.addAttribute("count", count);
 		
 	}
 

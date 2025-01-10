@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>근태 기록</title>
     <style>
         body {
@@ -56,11 +59,16 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
     <script type="text/javascript">
+$(document).ready(function() {
     // 회사 위치 (예: 위도와 경도)
     const latitude_company = 37.3722008; // 회사의 위도 설정 (예: 서울의 위도)
     const longitude_company = 126.9393177; // 회사의 경도 설정 (예: 서울의 경도)
-    let isAtWork = false; // 사용자가 출근했는지 여부를 나타내는 변수, 초기값은 false (출근하지 않음)
-
+    var count = "[[${count}]]";
+    var empNum = "[[${empNum}]]";
+    
+	if(count != 0){
+		document.getElementById('attendanceButton').textContent = '퇴근'; // 버튼 텍스트를 '퇴근'으로 변경
+	} 
 
 
    
@@ -85,21 +93,19 @@
     }
 	
     // 출퇴근 버튼 클릭 시 실행되는 함수
-    function handleAttendance() {
+     window.handleAttendance = function() {
+        // 함수 내용은 기존과 동일
+    
         if (navigator.geolocation) { // 브라우저가 Geolocation API를 지원하는지 확인
             navigator.geolocation.getCurrentPosition(function(position) { // 현재 위치를 가져옴
                 const latitude_user = position.coords.latitude; // 사용자의 위도
                 const longitude_user = position.coords.longitude; // 사용자의 경도
                 const distance = getDistanceFromLatLonInMeters(latitude_company, longitude_company, latitude_user, longitude_user); // 회사와 사용자 사이의 거리 계산
                 const allowedRadius = 1000; // 허용 반경 (100m)
-				var empNum = "[[${empNum}]]";
-				
-				
-                
-              
-                
+      
+           
                 if (distance <= allowedRadius) { // 사용자가 허용 반경 내에 있는지 확인
-                    if (!isAtWork) { // 사용자가 출근하지 않은 상태라면
+                    if (count == 0) { // 사용자가 출근하지 않은 상태라면
                         // 출근 상태를 DB에 저장하는 AJAX 요청
                         $.ajax({
                             type: 'POST',
@@ -107,10 +113,8 @@
                             data: { "empNum": empNum },
                             success: function(result) {
                             	if(result == "200"){
-                            		
-                                    document.getElementById('attendanceButton').textContent = '퇴근'; // 버튼 텍스트를 '퇴근'으로 변경
-                                    document.getElementById('statusMessage').textContent = '출근이 기록되었습니다.'; // 상태 메시지 변경
-                                    isAtWork = true; // 출근 상태로 변경
+                                    alert('출근이 기록되었습니다.'); // 상태 메시지 변경
+                                    window.location.reload();
                             	}
                             },
                             error: function(error) {
@@ -119,17 +123,15 @@
                         });
                     } else { // 사용자가 이미 출근한 상태라면
                         // 퇴근 상태를 DB에 업데이트하는 AJAX 요청
-                    	function attendEnd(){
                    		 $.ajax({
                                 type: 'POST',
                                 url: '/attend/attendEnd',
-                                data: { "empNum": empNum, "attendNum":attendNum },
+                                data: { "empNum": empNum },
                                 success: function(result) {
                                 	if(result == "200"){
-                                		
-                                        document.getElementById('attendanceButton').textContent = '출근'; // 버튼 텍스트를 '출근'으로 변경
-                                        document.getElementById('statusMessage').textContent = '퇴근이 기록되었습니다.'; // 상태 메시지 변경
-                                        isAtWork = false; // 출근 상태 해제
+                                        alert('퇴근이 기록되었습니다.'); // 상태 메시지 변경
+                                       
+                                        window.location.reload();
                                 	}
                                 },
                                 error: function(error) {
@@ -137,7 +139,7 @@
                                 }
                             });
                   	 	}
-                    }
+                    
                 } else { // 사용자가 허용 반경 밖에 있을 때
                     document.getElementById('statusMessage').textContent = '회사 밖에 있습니다. 위치를 확인하세요.'; // 경고 메시지 출력
                 }
@@ -156,11 +158,109 @@
             console.error("위치 정보를 가져오는 중 오류 발생", error); // 오류 발생 시 메시지 출력
         });
     }
+});
 	
     </script>
 </head>
 <body>
-    <h1>근태 기록</h1>
+<div class="w3-content" style="max-width:1500px">
+
+<!-- Header -->
+
+<div class="w3-top">
+
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+  <div th:if="${session.auth != null}">
+  	<th:block th:if="${session.auth.grade == 'emp'}">
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+	        <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+	    </div>
+	  </div>
+	  
+	  <div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+	        <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+	        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
+	    </div>
+	  </div>
+	  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품관리<i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+    	<a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+        <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+		<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+		<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
+		<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
+  	<div class="w3-dropdown-hover w3-hide-small">
+	     <button class="w3-button" title="Notifications">지원자관리 <i class="fa fa-caret-down"></i></button>
+	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	        <a href="/volunteer/volunteerList" class="w3-bar-item w3-button">지원자목록</a>
+	    </div>
+	  </div>
+  	</th:block>
+  </div>
+  <th:block th:if="${session.auth == null or session.auth.grade == 'mem'}">
+    <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-button" title="Notifications">상품<i class="fa fa-caret-down"></i></button>
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+            <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+            <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+        </div>
+    </div>
+</th:block>
+  <div th:if="${session.auth != null}">
+     <th:block th:if="${session.auth.grade == 'mem'}">
+     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
+     	<!-- 마이자산페이지 -->
+     	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
+     	
+        <!-- 마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/memberMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/news/myNewsList" class="w3-bar-item w3-button">내 뉴스 보기</a>
+              <a href="/myPage/memberMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+              <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
+            </div>
+        </div>
+       </th:block>
+       <th:block th:if="${session.auth.grade == 'emp'}">
+       <a href="/purchase/purchaseList" class="w3-bar-item w3-button">주문 내역</a>
+        <!-- 직원마이페이지 -->
+        <div class="w3-dropdown-hover w3-hide-small">
+           <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
+           <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+              <a href="/myPage/empMyDetail" class="w3-bar-item w3-button">내 정보 보기</a>
+              <a href="/myPage/empMyPwUpdate" class="w3-bar-item w3-button">비밀번호 변경</a>
+            </div>
+        </div>
+       </th:block>
+     <a href="/login/logout" class="w3-bar-item w3-button w3-hide-small" title="Search">로그아웃</a>
+  </div>
+  <div th:if="${session.auth == null}">
+       <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
+       
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+</div>
+<br><br><br><br><br><br>
+    <h1>근태 기록</h1><br><br>
     <button id="attendanceButton" onclick="handleAttendance()">출근</button>
     <p id="statusMessage"></p>
 	
@@ -181,6 +281,6 @@
             <td>[[${dto.absenceWhether}]]</td>
         </tr>
     </table>
-	
+	</div>
 </body>
 </html>

@@ -30,6 +30,7 @@ public class AttendStartService {
 		dto.setRateWhether(rateWhether);
 		dto.setAbsenceWhether(absenceWhether);
 		dto.setStartTime(startTime);
+		System.out.println("디티오"+dto);
 		attendMapper.AttendInsert(dto);
 		
 		
