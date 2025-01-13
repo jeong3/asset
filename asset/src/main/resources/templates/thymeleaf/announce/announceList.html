@@ -7,6 +7,43 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script>
+function applyForJob(button) {
+    var announceNum = button.getAttribute('data-announceNum'); 
+    window.location.href = '/announce/volunteerRegist?announceNum=' + announceNum; 
+}
+</script>
+<style>
+table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+</style>
 </head>
 <body>
 <div class="w3-content" style="max-width:1500px">
@@ -104,5 +141,32 @@
 </div>
 <h1 align="center">공고 리스트</h1>
 <button type="button" onclick="location.href='announceRegist'">공고등록</button>
+<table>
+        <thead>
+            <tr>
+                <th>공고명</th>
+                <th>종료 날짜</th>
+                <th>면접 날짜</th>
+                <th>면접 장소</th>
+                <th>지원</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Thymeleaf를 사용한 반복문 -->
+            <tr th:each="announce : ${list}">
+                <td th:text="${announce.announceName}">공고명</td>
+                <td th:text="${#dates.format(announce.endDate, 'yyyy-MM-dd')}">종료 날짜</td>
+                <td th:text="${#dates.format(announce.interviewDate, 'yyyy-MM-dd')}">면접 날짜</td>
+                <td th:text="${announce.interviewAddr}">면접 장소</td>
+                <td>
+                    <!-- 지원하기 버튼 -->
+                    <button 
+                        type="button" 
+                        th:attr="data-announceNum=${announce.announceNum}" 
+                        onclick="applyForJob(this)">지원하기</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

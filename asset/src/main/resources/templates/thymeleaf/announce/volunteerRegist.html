@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>지원자 정보 입력</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+    <style>
+        form {
+            width: 50%;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h2 align="center">지원자 정보 입력</h2>
+
+<form action="/announce/volunteerRegist" method="post">
+    <div class="form-group">
+        <label for="receiptNum">지원자번호</label>
+        <input type="text" id="receiptNum" name="receiptNum" th:value="${volunteerCommand.receiptNum}" readonly="readonly">
+    </div>
+    <div class="form-group">
+        <label for="receiptNum">지원자번호</label>
+        <input type="text" id="announceNum" name="announceNum" th:value="${volunteerCommand.announceNum}" readonly="readonly">
+    </div>
+    <div class="form-group">
+        <label for="volunteerName">이름</label>
+        <input type="text" id="volunteerName" name="volunteerName" required placeholder="이름을 입력하세요">
+    </div>
+
+    <div class="form-group">
+        <label for="volunteerEngname">영문 이름</label>
+        <input type="text" id="volunteerEngname" name="volunteerEngname" required placeholder="영문 이름을 입력하세요">
+    </div>
+
+    <div class="form-group">
+        <label for="volunteerPhone">전화번호</label>
+        <input type="text" id="volunteerPhone" name="volunteerPhone" required placeholder="전화번호를 입력하세요">
+    </div>
+
+    <div class="form-group">
+        <label for="volunteerEmail">이메일</label>
+        <input type="email" id="volunteerEmail" name="volunteerEmail" required placeholder="이메일을 입력하세요">
+    </div>
+
+    <div class="form-group">
+        <label for="volunteerBirth">생년월일</label>
+        <input type="date" id="volunteerBirth" name="volunteerBirth" required>
+    </div>
+	<div class="form-group">
+        <label for="volunteerName">아이디</label>
+        <input type="text" id="volunteerId" name="volunteerId" required placeholder="아이디를 입력하세요">
+    </div>
+    <div class="form-group">
+        <label for="volunteerPw">비밀번호</label>
+        <input type="password" id="volunteerPw" name="volunteerPw" required placeholder="비밀번호를 입력하세요">
+    </div>
+
+    <div class="form-group">
+        <button type="submit">지원하기</button>
+    </div>
+</form>
+
+</body>
+</html>

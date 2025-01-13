@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.VolunteerMapper">
+<sql id="BaseColumns">
+	RECEIPT_NUM, ANNOUNCE_NUM, VOLUNTEER_ID, VOLUNTEER_PW, VOLUNTEER_NAME, 
+	VOLUNTEER_ENGNAME, VOLUNTEER_PHONE, VOLUNTEER_EMAIL, VOLUNTEER_BIRTH
+</sql>
+
+<insert id="volunteerInsert" parameterType="volunteerDTO">
+insert into volunteer ( <include refid="BaseColumns" /> )
+values (#{receiptNum}, #{announceNum, jdbcType=VARCHAR}, #{volunteerId}, #{volunteerPw}, #{volunteerName}
+		,#{volunteerEngname}, #{volunteerPhone}, #{volunteerEmail}, #{volunteerBirth})
+</insert>
+</mapper>

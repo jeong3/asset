@@ -8,14 +8,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.AnnounceCommand;
+import springBootMVCAsset.command.VolunteerCommand;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.DepartmentDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.announce.AnnounceListService;
 import springBootMVCAsset.service.announce.AnnounceRegistService;
+import springBootMVCAsset.service.volunteer.VolunteerRegistService;
 
 @Controller
 @RequestMapping("announce")
@@ -26,8 +30,13 @@ public class AnnounceController {
 	AutoNumService autoNumService;
 	@Autowired
 	AnnounceRegistService announceRegistService;
+	@Autowired
+	AnnounceListService announceListService;
+	@Autowired
+	VolunteerRegistService volunteerRegistService;
 	@GetMapping("announceList")
-	public String announceList() {
+	public String announceList(Model model) {
+		announceListService.execute(model);
 		return "thymeleaf/announce/announceList";
 	}
 	@GetMapping("announceRegist") 
@@ -52,5 +61,21 @@ public class AnnounceController {
 	    List<DepartmentDTO> list = employeeMapper.departmentEmployeeSelectAll();
 	    model.addAttribute("list", list);
 	    return "thymeleaf/announce/announceDepartmentItem";
+	}
+	@GetMapping("volunteerRegist")
+	public String volunteerRegist(@RequestParam("announceNum") String announceNum, Model model) {
+		String autoNum = autoNumService.execute("receipt_", "receipt_num", 9, "volunteer");
+		VolunteerCommand  volunteerCommand = new VolunteerCommand();
+		volunteerCommand.setReceiptNum(autoNum);
+		volunteerCommand.setAnnounceNum(announceNum);
+		model.addAttribute("announceNum", announceNum);
+		model.addAttribute("volunteerCommand", volunteerCommand);
+		System.out.println("커맨드: " + volunteerCommand);
+		return "thymeleaf/announce/volunteerRegist";
+	}
+	@PostMapping("volunteerRegist")
+	public String volunteerRegist(VolunteerCommand volunteerCommand, HttpSession session) {
+		volunteerRegistService.execute(volunteerCommand, session);
+		return "redirect:announceList";
 	}
 }

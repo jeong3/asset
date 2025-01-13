@@ -13,4 +13,8 @@ insert into announce ( <include refid="BaseColumns" /> )
 values (#{announceNum}, #{announceName}, #{announceDate}, #{startDate}, #{endDate},
 		#{announceContents}, #{resultDate}, #{interviewDate}, #{interviewAddr}, #{departmentNum})
 </insert>
+
+<select id="announceSelectAll">
+select * from announce
+</select>
 </mapper>
