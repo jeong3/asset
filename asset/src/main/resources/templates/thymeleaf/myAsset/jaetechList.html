@@ -96,13 +96,14 @@ h1 {letter-spacing: 6px}
 </div>
  <br/> <br/> <br/>
 <div class="my-transaction">
-	<span th:if="${categoryType == null}"><h1>저축</h1></span>
-    <span th:if="${categoryType == '예금'}"><h1>예금</h1></span>
-    <span th:if="${categoryType == '적금'}"><h1>적금</h1></span>
-    <span th:if="${categoryType == '기타'}"><h1>기타 저축</h1></span>
+	<span th:if="${categoryType == null}"><h1>재태크</h1></span>
+    <span th:if="${categoryType == '펀드'}"><h1>예금</h1></span>
+    <span th:if="${categoryType == '투자'}"><h1>적금</h1></span>
+    <span th:if="${categoryType == '주식'}"><h1>주식</h1></span>
+    <span th:if="${categoryType == '기타'}"><h1>기타 재태크</h1></span>
     <br/>
     <!-- 검색 -->
-    <form action="saveList" method="get">
+    <form action="jaetechList" method="get">
 	    <div class="search-input" style="text-align:right;">
 	    	<input type="text" name="categoryType" th:value="${categoryType}" hidden="hidden">
 	    	<input type="search" name="searchWord" size="40" placeholder="검색어 입력">
@@ -116,36 +117,39 @@ h1 {letter-spacing: 6px}
             <table>
              	<div style="text-align: left;">
     				<b>총 금액:  
-    					<span th:if="${categoryType == null}">[[${totalSave}]]원</span>
-    					<span th:if="${categoryType == '예금'}">[[${totalYegeumPrice}]]원</span>
-    					<span th:if="${categoryType == '적금'}">[[${totalJuckgeumPrice}]]원</span>
-    					<span th:if="${categoryType == '기타'}">[[${totalSaveGitaPrice}]]원</span>
+    					<span th:if="${categoryType == null}">[[${totalJaeTech}]]원</span>
+    					<span th:if="${categoryType == '펀드'}">[[${totalFundPrice}]]원</span>
+    					<span th:if="${categoryType == '투자'}">[[${totalToojaPrice}]]원</span>
+    					<span th:if="${categoryType == '주식'}">[[${totalJusickPrice}]]원</span>
+    					<span th:if="${categoryType == '기타'}">[[${totalJaeTechGitaPrice}]]원</span>
     				</b>
     			</div>
                  <div style="text-align: right;">
     				<a href="/myPage/memberMyDetail">
         				<b style="text-decoration : underline;">[[${memberId}]]</b>
         			</a>님의 
-        			<span th:if="${categoryType == null}"><b>총 저축</b> 내역 입니다</span>
-    				<span th:if="${categoryType == '예금'}"><b>예금 저축</b> 내역 입니다</span>
-    				<span th:if="${categoryType == '적금'}"><b>적금 저축</b> 내역 입니다</span>
+        			<span th:if="${categoryType == null}"><b>총 재태크</b> 내역 입니다</span>
+    				<span th:if="${categoryType == '펀드'}"><b>펀드</b> 내역 입니다</span>
+    				<span th:if="${categoryType == '투자'}"><b>투자</b> 내역 입니다</span>
+    				<span th:if="${categoryType == '주식'}"><b>주식</b> 내역 입니다</span>
     				<span th:if="${categoryType == '기타'}"><b>기타 저축</b> 내역 입니다</span>
     			 </div>
                 <thead>
                     <tr>
-                    	<th style="background-color: #f6e07e;"><input type="checkbox" id="dealCheckBoxs"/></th>
-                        <th style="background-color: #f6e07e;">거래내용</th>
-                        <th style="background-color: #f6e07e;">날짜</th>
-                        <th style="background-color: #f6e07e;">금액</th>
-                        <th style="background-color: #f6e07e;"><button type="submit">선택 삭제</button></th>
+                    	<th style="background-color: #e2b8f8;"><input type="checkbox" id="dealCheckBoxs"/></th>
+                        <th style="background-color: #e2b8f8;">거래내용</th>
+                        <th style="background-color: #e2b8f8;">날짜</th>
+                        <th style="background-color: #e2b8f8;">금액</th>
+                        <th style="background-color: #e2b8f8;"><button type="submit">선택 삭제</button></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="dto : ${list}">
                     	<td><input type="checkbox" name="dealNums" th:value="${dto.dealNum}"/></td>
                         <td>
-	                        <span th:if="${dto.categoryType == '예금'}" style="color: #f29602;"><i class="fa fa-circle" style="font-size:15px"></i></span>
-			            	<span th:if="${dto.categoryType == '적금'}" style="color: #e910e2;"><i class="fa fa-circle" style="font-size:15px"></i></span>
+	                        <span th:if="${dto.categoryType == '펀드'}" style="color: #36e2d6;"><i class="fa fa-circle" style="font-size:15px"></i></span>
+			            	<span th:if="${dto.categoryType == '투자'}" style="color: #3661e2;"><i class="fa fa-circle" style="font-size:15px"></i></span>
+			            	<span th:if="${dto.categoryType == '주식'}" style="color: #6f36e2;"><i class="fa fa-circle" style="font-size:15px"></i></span>
 			            	<span th:if="${dto.categoryType == '기타'}" style="color: #aaaaaa;"><i class="fa fa-circle" style="font-size:15px"></i></span>
 	                        [[${dto.categoryType}]]
 	                   	</td>

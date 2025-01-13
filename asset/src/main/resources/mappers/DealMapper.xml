@@ -152,25 +152,47 @@ from (select row_number() over(order by DEAL_DATE desc) as rn
 where rn between #{startRow} and #{endRow} 
 </select>
 
-<select id="saveList" parameterType="assetListDTO" resultType="dealDTO">
+<select id="saveList" resultType="dealDTO">
 select *
 from (select row_number() over(order by DEAL_DATE desc) as rn
 	,<include refid="BaseColumns"/>
 	from deal
 <where>
-	<if test="searchWord != null">
-		(DEAL_PRICE like '%'||#{searchWord}||'%'
-		or CATEGORY_TYPE like '%'||#{searchWord}||'%'
-		or DEAL_CONTENTS like '%'||#{searchWord}||'%')
+	<if test="assetListDTO.searchWord != null">
+		(DEAL_PRICE like '%'||#{assetListDTO.searchWord}||'%'
+		or CATEGORY_TYPE like '%'||#{assetListDTO.searchWord}||'%'
+		or DEAL_CONTENTS like '%'||#{assetListDTO.searchWord}||'%')
 	</if>
-		and member_num = #{memberNum}
-		and deal_method = 'checkCard'
-		and CATEGORY_NAME = '저축'
 	<if test="categoryType != null">
 		and CATEGORY_TYPE = #{categoryType}
 	</if>
+	and member_num = #{assetListDTO.memberNum}
+	and deal_method = 'checkCard'
+	and CATEGORY_NAME = '저축'
 </where>
 )
-where rn between #{startRow} and #{endRow} 
+where rn between #{assetListDTO.startRow} and #{assetListDTO.endRow} 
+</select>
+
+<select id="jaetechList" resultType="dealDTO">
+select *
+from (select row_number() over(order by DEAL_DATE desc) as rn
+	,<include refid="BaseColumns"/>
+	from deal
+<where>
+	<if test="assetListDTO.searchWord != null">
+		(DEAL_PRICE like '%'||#{assetListDTO.searchWord}||'%'
+		or CATEGORY_TYPE like '%'||#{assetListDTO.searchWord}||'%'
+		or DEAL_CONTENTS like '%'||#{assetListDTO.searchWord}||'%')
+	</if>
+	<if test="categoryType != null">
+		and CATEGORY_TYPE = #{categoryType}
+	</if>
+	and member_num = #{assetListDTO.memberNum}
+	and deal_method = 'checkCard'
+	and CATEGORY_NAME = '재태크'
+</where>
+)
+where rn between #{assetListDTO.startRow} and #{assetListDTO.endRow} 
 </select>
 </mapper>

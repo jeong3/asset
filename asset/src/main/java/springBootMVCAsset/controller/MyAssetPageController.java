@@ -1,5 +1,8 @@
 package springBootMVCAsset.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -147,8 +150,8 @@ public class MyAssetPageController {
 		cashDealListService.execute("cash", session, model);
 		bankDealListService.execute("checkCard", session, model);
 		budgetDetailService.execute(model, session);
-		saveDealListService.execute(session, model);
-		jaeTechDealListService.execute(session, model);
+		saveDealListService.execute(session, model, null);
+		jaeTechDealListService.execute(session, model, null);
 		return "thymeleaf/myAsset/assetList";
 	}
 	
@@ -170,14 +173,25 @@ public class MyAssetPageController {
 		return "thymeleaf/myAsset/bankList";
 	}
 	
-	@GetMapping("saveList")
+	@RequestMapping("saveList")
 	public String saveList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
 			, @RequestParam(required = false) String categoryType
 			, AssetListDTO assetListDTO
 			, HttpSession session, Model model) {
 		saveDealListService.execute2(categoryType, page, assetListDTO, session, model);
-		budgetDetailService.execute(model, session);
+		saveDealListService.execute(session, model, categoryType);
+		
 		return "thymeleaf/myAsset/saveList";
+	}
+	
+	@RequestMapping("jaetechList")
+	public String jaetechList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
+			, @RequestParam(required = false) String categoryType
+			, AssetListDTO assetListDTO
+			, HttpSession session, Model model) {
+		jaeTechDealListService.execute2(categoryType, page, assetListDTO, session, model);
+		jaeTechDealListService.execute(session, model, categoryType);
+		return "thymeleaf/myAsset/jaetechList";
 	}
 	
 }

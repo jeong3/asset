@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.method.P;
 
 import springBootMVCAsset.domain.AssetListDTO;
 import springBootMVCAsset.domain.DealDTO;
@@ -30,5 +31,8 @@ public interface DealMapper {
 	public List <DealDTO> bankList(AssetListDTO assetListDTO);
 	public List <DealDTO> saveList(
 			@Param("categoryType") String categoryType
-			,AssetListDTO assetListDTO);
+			,@Param("assetListDTO") AssetListDTO assetListDTO);
+	public List <DealDTO> jaetechList(
+			@Param("categoryType") String categoryType
+			,@Param("assetListDTO") AssetListDTO assetListDTO);
 }

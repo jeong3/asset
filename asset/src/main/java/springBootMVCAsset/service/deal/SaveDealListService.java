@@ -18,7 +18,7 @@ public class SaveDealListService {
 	DealMapper dealMapper;
 	@Autowired
 	AssetListService assetListService;
-	public void execute(HttpSession session, Model model) {
+	public void execute(HttpSession session, Model model, String categoryType) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = auth.getUserNum();
 		//List <DealDTO> list = dealMapper.assetDealList(memberNum);
@@ -31,6 +31,7 @@ public class SaveDealListService {
 		model.addAttribute("totalYegeumPrice", totalYegeumPrice);
 		model.addAttribute("totalJuckgeumPrice", totalJuckgeumPrice);
 		model.addAttribute("totalSaveGitaPrice", totalSaveGitaPrice);
+		model.addAttribute("categoryType", categoryType);
 	}
 	public void execute2(String categoryType, Integer page, AssetListDTO assetListDTO, HttpSession session, Model model) {
 		Integer limit = 5;
