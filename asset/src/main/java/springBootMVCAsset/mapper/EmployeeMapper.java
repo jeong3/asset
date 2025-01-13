@@ -28,7 +28,6 @@ public interface EmployeeMapper {
 
 	int departmentUpdate(DepartmentDTO dto);
 
-
 	void setDepartmentNumUpdate(String departmentNum, String empNum);
 
 }

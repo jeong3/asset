@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.StockDataDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
+import springBootMVCAsset.mapper.EvalMapper;
 import springBootMVCAsset.mapper.NewsMapper;
 import springBootMVCAsset.service.FileDelService;
 import springBootMVCAsset.service.attend.AttendEndService;
@@ -44,6 +45,8 @@ public class RestController {
 	AttendStartService attendStartService;
 	@Autowired
 	AttendEndService attendEndService;
+	@Autowired
+	EvalMapper evalMapper;
 	
 	@PostMapping("/file/fileDel")
 	public int fileDel(String orgFile, String storeFile, HttpSession session) {
@@ -97,6 +100,11 @@ public class RestController {
 	
 		attendEndService.execute(empNum, attendNum);
 		return "200";
+	}
+	@RequestMapping("/eval/checkCount")
+	public int checkCount(String empNum) {
+		
+		return evalMapper.checkCount(empNum); 
 	}
 	
 	

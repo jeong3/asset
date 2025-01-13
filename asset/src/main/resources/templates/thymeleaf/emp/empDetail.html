@@ -71,9 +71,12 @@ $(function(){
   
     <h2>Employee Detail</h2>
     <p>[[${employeeCommand.empName}]]님의 상세정보입니다.</p>
+     <a th:href="|/attend/attend?empNum=${employeeCommand.empNum}|">출퇴근</a> |
+     <a th:href="|/employee/salary?empNum=${employeeCommand.empNum}|">급여명세서</a> |
     <a th:href="|/employee/employeeUpdate?empNum=${employeeCommand.empNum}|">직원정보수정 및 부서변경</a> |
     <a href="#" onclick="empPwUpdate('${employeeCommand.empNum}')" style="text-decoration: underline;">비밀번호변경</a> |
     <a th:href="|/employee/employeeDelete?empNum=${employeeCommand.empNum}|" style="text-decoration: underline;">삭제</a>
+    
     <hr />
 
     <table border="1" cellpadding="5" cellspacing="0" style="width: 70%; text-align: left;">
@@ -123,7 +126,7 @@ $(function(){
       </tr>
       
     </table>
-    <a th:href="|/attend/attend?empNum=${employeeCommand.empNum}|">출퇴근</a>
+   
   </div>
 </div> 
 </body>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>직원 인사평가</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin: 20px 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>직원 인사평가</h1>
+
+    <form action="/employee/evalUpdate" method="post" >
+        <label for="empNum">직원 번호:</label>
+        <input type="text" id="empNum" name="empNum" th:value="${dto.employeeDTO.empNum}" required>
+
+        <label for="startDate">평가 시작 날짜:</label>
+        <input type="date" id="startDate" name="startDate" th:value="${#dates.format(dto.evalDTO.startDate,'yyyy-MM-dd')}" required>
+
+        <label for="endDate">평가 종료 날짜:</label>
+        <input type="date" id="endDate" name="endDate" th:value="${#dates.format(dto.evalDTO.endDate, 'yyyy-MM-dd')}" required>
+
+        <label for="workPerformance">업무 수행 능력 (1-10):</label>
+        <input type="number" id="workPerformance" name="workPerformanceAbility" th:value="${dto.evalDTO.workPerformanceAbility}" min="1" max="10" required>
+
+        <label for="workAttitude">업무 태도 (1-10):</label>
+        <input type="number" id="workAttitude" name="workAttitude" th:value="${dto.evalDTO.workAttitude}" min="1" max="10" required>
+
+        <label for="attendStatus">근무 상태 (1-10):</label>
+        <input type="number" id="attendStatus" name="attendStatus" th:value="${dto.evalDTO.attendStatus}" min="1" max="10" required>
+
+        <label for="generalOpinion">종합 의견:</label>
+        <textarea id="generalOpinion" name="generalOpinion" rows="4" required>[[${dto.evalDTO.generalOpinion}]]</textarea>
+
+        <button type="submit">제출</button>
+    </form>
+
+</body>
+</html>

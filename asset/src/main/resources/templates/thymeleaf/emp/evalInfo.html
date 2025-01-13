@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>직원 인사평가 상세 페이지</title>
+   <style>
+    /* 기존 스타일 유지 */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+    }
+    h3 {
+        text-align: center;
+    }
+    .employee-info, .evaluation-table {
+        max-width: 600px;
+        margin: 0 auto 20px;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .employee-info td, .evaluation-table td, .evaluation-table th, .employee-info th {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+    .employee-info td {
+        font-weight: bold;
+    }
+    .evaluation-table th, .employee-info th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+    .evaluation-table th, .evaluation-table td , .employee-info th {
+        text-align: center;
+    }
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    /* 수정 및 삭제 버튼 스타일링 */
+    .button-container .edit-btn, .button-container .delete-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        color: white;
+    }
+    .button-container .edit-btn {
+        background-color: #4CAF50;
+    }
+    .button-container .delete-btn {
+        background-color: #f44336;
+    }
+    .button-container .edit-btn:hover, .button-container .delete-btn:hover {
+        opacity: 0.8;
+    }
+</style>
+
+</head>
+<body>
+<div class="w3-content" style="max-width:1500px">
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
+  <a href="/goods/goodsList" class="w3-bar-item w3-button w3-hide-small">쇼핑몰</a>
+  <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
+  <a href="/stocks" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+   	  <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+    </div>
+  </div>
+  
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+  	<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+   	  <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+    </div>
+  </div>
+ 
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">상품 <i class="fa fa-caret-down"></i></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+   	  <a href="/goods/bookList" class="w3-bar-item w3-button">강의</a>
+   	  <a href="/goods/studyList" class="w3-bar-item w3-button">도서</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+    </div>
+  </div>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div>
+
+</div>
+<br><br><br>
+
+<h3>인사평가기록</h3> <br>
+    <table class="employee-info">
+   		 <tr>
+            <th colspan="2">직원정보</th>
+        </tr>
+        <tr>
+            <td>직원 번호</td>
+            <td id="empNum">[[${dto.employeeDTO.empNum}]]</td>
+        </tr>
+        <tr>
+            <td>직원 이름</td>
+            <td id="empName">[[${dto.employeeDTO.empName}]]</td>
+        </tr>
+        <tr>
+            <td>부서</td>
+            <td id="department">[[${dto.employeeDTO.departmentNum}]]</td>
+        </tr>
+        
+    </table>
+
+    <table class="evaluation-table">
+        <thead>
+            <tr>
+                <th>평가 항목</th>
+                <th>평가 점수</th>
+            </tr>
+        </thead>
+        <tbody>
+       		<tr>
+                <td>평가기간</td>
+                <td>[[${#dates.format(dto.evalDTO.startDate,'yyyy-MM-dd')}]] ~ [[${#dates.format(dto.evalDTO.endDate,'yyyy-MM-dd')}]]</td>
+            </tr>
+            <tr>
+                <td>업무 수행 능력</td>
+                <td id="workPerformanceAbility">[[${dto.evalDTO.workPerformanceAbility}]]</td>
+            </tr>
+            <tr>
+                <td>업무 태도</td>
+                <td id="workAttitude">[[${dto.evalDTO.workAttitude}]]</td>
+            </tr>
+            <tr>
+                <td>출석 상태</td>
+                <td id="attendStatus">[[${dto.evalDTO.attendStatus}]]</td>
+            </tr>
+            <tr>
+                <td>종합 의견</td>
+                <td id="generalOpinion">[[${dto.evalDTO.generalOpinion}]]</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a class="edit-btn" th:href="|/employee/evalUpdate?empNum=${dto.employeeDTO.empNum}|">수정</a>
+        <a class="delete-btn" th:href="|/employee/evalDelete?empNum=${dto.employeeDTO.empNum}|">삭제</a>
+    </div>
+</div>
+</body>
+</html>

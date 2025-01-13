@@ -9,10 +9,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCAsset.command.DepartmentCommand;
 import springBootMVCAsset.command.EmployeeCommand;
+import springBootMVCAsset.command.EvalCommand;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.service.AutoNumService;
 import springBootMVCAsset.service.department.DepartmentDetailService;
@@ -23,6 +23,11 @@ import springBootMVCAsset.service.employee.EmployeeDetailService;
 import springBootMVCAsset.service.employee.EmployeeListService;
 import springBootMVCAsset.service.employee.EmployeeRegistService;
 import springBootMVCAsset.service.employee.EmployeeUpdateService;
+import springBootMVCAsset.service.eval.EvalDeleteService;
+import springBootMVCAsset.service.eval.EvalInfoService;
+import springBootMVCAsset.service.eval.EvalRegistService;
+import springBootMVCAsset.service.eval.EvalUpdateService;
+import springBootMVCAsset.service.eval.SalarySelectService;
 
 @Controller
 @RequestMapping("employee")
@@ -49,6 +54,16 @@ public class EmployeeController {
 	DepartmentDetailService departmentDetailService;
 	@Autowired
 	DepartmentUpdateService departmentUpdateService;
+	@Autowired
+	EvalRegistService evalRegistService;
+	@Autowired
+	EvalInfoService evalInfoService;
+	@Autowired
+	EvalUpdateService evalUpdateService;
+	@Autowired
+	EvalDeleteService evalDeleteService;
+	@Autowired
+	SalarySelectService salarySelectService;
 	
 	@GetMapping("employeeList")
 	public String employeeList(Model model) {
@@ -132,7 +147,47 @@ public class EmployeeController {
 		model.addAttribute("empNum", empNum);
 		return "thymeleaf/department/departmentItem";
 	}
-	
+	@GetMapping("eval")
+	public String eval(String empNum, Model model) {
+		model.addAttribute("empNum", empNum);
+		return "thymeleaf/emp/eval";
+	}
+	@RequestMapping("eval")
+	public String eval(@Validated EvalCommand evalCommand, BindingResult result) {
+		if(result.hasErrors()) {
+			return "thymeleaf/emp/eval";
+		}
+		evalRegistService.execute(evalCommand);
+		return "redirect:employeeList";
+	}
+	@GetMapping("evalInfo")
+	public String evalInfo(String empNum, Model model) {
+		evalInfoService.execute(empNum, model);
+		return "thymeleaf/emp/evalInfo";
+	}
+	@GetMapping("evalUpdate")
+	public String evalUpdate(String empNum, Model model) {
+		evalInfoService.execute(empNum, model);
+		return "thymeleaf/emp/evalUpdate";
+	}
+	@PostMapping("evalUpdate")
+	public String evalUpdate(@Validated EvalCommand evalCommand, BindingResult result) {
+			if(result.hasErrors()) {
+				return "thymeleaf/emp/evalUpdate";
+			}
+			evalUpdateService.execute(evalCommand);
+			return "redirect:evalInfo?empNum="+evalCommand.getEmpNum();
+	}
+	@GetMapping("evalDelete")
+	public String evalDelete(String empNum) {
+		evalDeleteService.execute(empNum);	
+		return "redirect:employeeList";
+	}
+	@GetMapping("salary")
+	public String salary(String empNum, Model model) {
+		salarySelectService.execute(empNum, model);
+		return "thymeleaf/emp/salary";
+	}
 	
 		
 		

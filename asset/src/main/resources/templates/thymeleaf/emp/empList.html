@@ -12,6 +12,33 @@ h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
 <title>Employee List</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script type="text/javascript">
+	function checkCount(element){
+		var empNum = $(element).data('empNum');
+		$.ajax({
+			type: "post",
+			url: "/eval/checkCount",
+			data: { "empNum": empNum },
+			dataType: "json",
+			success: function(result) {
+				if(result == 1){
+					window.location.href="/employee/evalInfo?empNum="+empNum;
+				}else{
+					alert("인사평가가 아직 없습니다.");
+					window.location.reload();
+				}
+				
+			},
+			error: function() {
+				alert("서버오류");
+				
+			}
+		});
+		
+	}
+</script>
 </head>
 <body >
 <div class="w3-content" style="max-width:1500px">
@@ -63,7 +90,7 @@ h1 {letter-spacing: 6px}
     <table border="1" cellpadding="5" cellspacing="0" style="width: 40%; text-align: center;">
       <thead>
         <tr>
-          <th>사진</th>
+          <th>인사평가</th>
           <th>직원번호</th>
           <th>직원이름</th>
           <th>삭제</th>
@@ -71,12 +98,10 @@ h1 {letter-spacing: 6px}
       </thead>
       <tbody>
         <tr th:each="dto : ${list}">
-          <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"><img src="/static/images/hart.jpg" style="width:60px;"></a></td>
-          <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"  style="text-decoration: none;">[[${dto.empNum}]]</a></td>
-          <td><a th:href="|/employee/employeeDetail?empNum=${dto.empNum}|"  style="text-decoration: none;">[[${dto.empName}]]</a></td>
-          <td>
-            <a th:href="|/employee/employeeDelete?empNum=${dto.empNum}|" style="text-decoration: none; cursor:pointer;">×</a>
-          </td>
+          <td><a th:href="|/employee/eval?empNum=${dto.empNum}|">평가하기</a></td>
+          <td><a th:data-emp-num="${dto.empNum}" onclick="checkCount(this)" style="text-decoration: none; cursor:pointer;">[[${dto.empNum}]]</a></td>
+          <td><a th:data-emp-num="${dto.empNum}" onclick="checkCount(this)" style="text-decoration: none; cursor:pointer;">[[${dto.empName}]]</a></td>
+          <td><a th:href="|/employee/employeeDelete?empNum=${dto.empNum}|" style="text-decoration: none; cursor:pointer;">×</a></td>
           
         </tr>
       </tbody>

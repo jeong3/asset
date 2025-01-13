@@ -14,7 +14,7 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 </insert>
 
 <select id="employeeSelectAll">
-	select <include refid="BaseColumns" /> from employees
+	select <include refid="BaseColumns" /> from employees order by emp_num
 </select>
 
 <select id="employeeSelectOne">
@@ -93,5 +93,6 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 	DEPARTMENT_NAME = #{departmentName},DEPARTMENT_TEL = #{departmentTel}, DEPARTMENT_CONTENTS = #{departmentContents}, JOB_TITLE = #{jobTitle}
 	where DEPARTMENT_NUM = #{departmentNum}
 </update>
+
 
 </mapper>

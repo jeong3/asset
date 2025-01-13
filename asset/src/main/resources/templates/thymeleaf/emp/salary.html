@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>급여명세서</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        h3 {
+            text-align: center;
+        }
+        .salary-slip {
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .salary-slip td, .salary-slip th {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .salary-slip th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        .salary-slip td {
+            text-align: right;
+        }
+        .salary-slip .label {
+            text-align: left;
+            font-weight: bold;
+        }
+        .total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<br><br><br>
+<h3>급여명세서( [[${#dates.format(dto.salaryDate,'yyyy-MM-dd')}]] )</h3>
+<table class="salary-slip">
+    <tr>
+        <th colspan="2">직원 정보</th>
+    </tr>
+    <tr>
+        <td class="label">직원 번호</td>
+        <td id="empNum">[[${dto.empNum}]]</td>
+    </tr>
+    <tr>
+        <td class="label">직원 이름</td>
+        <td id="empName">[[${dto.empName}]]</td>
+    </tr>
+    <tr>
+        <td class="label">부서</td>
+        <td id="department">[[${dto.departmentNum}]]</td>
+    </tr>
+    </table >
+    <br>
+    <table class="salary-slip">
+    <tr>
+        <th colspan="2">급여 정보</th>
+    </tr>
+    <tr>
+        <td class="label">기본급</td>
+        <td id="basicSalary">[[${dto.salary}]] 원</td>
+    </tr>
+    <tr>
+        <td class="label">상여금</td>
+        <td id="bonus"> 원</td>
+    </tr>
+    <tr>
+        <td class="label">근로장려금</td>
+        <td id="deductions"> 원</td>
+    </tr>
+    <tr>
+        <td class="label total">실수령액</td>
+        <td id="netSalary"> 원</td>
+    </tr>
+</table>
+
+</body>
+</html>

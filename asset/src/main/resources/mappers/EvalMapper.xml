@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.EvalMapper">
+<sql id="BaseColumns">
+EVAL_NUM, EMP_NUM, START_DATE, END_DATE, WORK_PERFORMANCE_ABILITY, WORK_ATTITUDE, ATTEND_STATUS, GENERAL_OPINION
+</sql>
+
+<insert id="EvalInsert">
+	insert into eval ( <include refid="BaseColumns" /> )
+	values (( select nvl(max(eval_num),0) + 1 from eval ), #{empNum}, #{startDate}, #{endDate}, #{workPerformanceAbility}
+	, #{workAttitude}, #{attendStatus}, #{generalOpinion})
+</insert>
+
+<resultMap type="evalEmployeeDTO" id="evalEmployeeResultMap">
+	<association property="employeeDTO">
+		<id column="EMP_NUM" property="empNum"/>
+	    <result column="EMP_NAME" property="empName"/>
+	    <result column="department_num" property="departmentNum"/>
+	</association>
+	<association property="evalDTO">
+		<id property="evalNum" column="EVAL_NUM"/>
+	    <result property="startDate" column="START_DATE"/>
+	    <result property="endDate" column="END_DATE"/>
+	    <result property="workPerformanceAbility" column="WORK_PERFORMANCE_ABILITY"/>
+	    <result property="workAttitude" column="WORK_ATTITUDE"/>
+	    <result property="attendStatus" column="ATTEND_STATUS"/>
+	    <result property="generalOpinion" column="GENERAL_OPINION"/>
+	</association>
+</resultMap>
+
+<select id="EvalSelectOne" resultMap="evalEmployeeResultMap" parameterType="string">
+	select e.emp_num, emp_name, department_num
+	, eval_num, start_Date, end_date, WORK_PERFORMANCE_ABILITY, WORK_ATTITUDE, ATTEND_STATUS, GENERAL_OPINION
+	from employees e join eval ev
+	on e.emp_num = ev.emp_num
+</select>
+
+<update id="EvalUpdate">
+	update eval set
+	START_DATE = #{startDate}
+	, END_DATE = #{endDate}
+	, WORK_PERFORMANCE_ABILITY = #{workPerformanceAbility}
+	, WORK_ATTITUDE =  #{workAttitude}
+	, ATTEND_STATUS = #{attendStatus}
+	, GENERAL_OPINION = #{generalOpinion}
+	where emp_num = #{empNum}
+</update>
+
+<delete id="EvalDelete">
+	delete from eval
+	where emp_num = #{empNum}
+</delete>
+
+<select id="checkCount">
+	select count(*) from eval where emp_num = #{empNum}
+</select>
+
+<insert id="salaryInsert">
+	insert into employees_salary (EMP_NUM, SALARY, ALLOWANCES, BONUS, SALARY_DATE)
+	values (#{empNum}, '5300000','0','0',sysdate);
+</insert>
+
+<resultMap id="EmpSalaryResultMap" type="empSalaryDTO">
+    <id property="empNum" column="emp_num"/>
+    <result property="empName" column="emp_name"/>
+    <result property="departmentNum" column="department_num"/>
+    <result property="salary" column="SALARY" />
+    <result property="salaryDate" column="SALARY_DATE" />
+    <result property="attendCount" column="attend_count"/>
+    <result property="workPerformanceAbility" column="WORK_PERFORMANCE_ABILITY"/>
+    <result property="workAttitude" column="WORK_ATTITUDE"/>
+    <result property="attendStatus" column="ATTEND_STATUS"/>
+</resultMap>
+
+<select id="salarySelectOne" resultMap="EmpSalaryResultMap" parameterType="string">
+    SELECT e.emp_num, e.emp_name, e.department_num,
+           s.SALARY , s.SALARY_DATE
+           ,COUNT(a.attend_date) as attend_count,
+           ev.WORK_PERFORMANCE_ABILITY, ev.WORK_ATTITUDE, ev.ATTEND_STATUS   
+    FROM employees e
+    LEFT JOIN employees_salary s ON e.emp_num = s.emp_num
+    LEFT JOIN attend a ON e.emp_num = a.emp_num
+    LEFT JOIN eval ev ON e.emp_num = ev.emp_num   
+    WHERE e.emp_num = #{empNum}
+    GROUP BY e.emp_num, e.emp_name, e.department_num, s.salary, 
+             ev.WORK_PERFORMANCE_ABILITY, ev.WORK_ATTITUDE, ev.ATTEND_STATUS, s.SALARY_DATE
+</select>
+
+</mapper>
