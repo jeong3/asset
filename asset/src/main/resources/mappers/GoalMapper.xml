@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.GoalMapper">
+
+<insert id="goalRegist1" parameterType="goalDTO">
+    INSERT INTO goal (
+        GOAL_NUM, GOAL_NAME, GOAL_CONTENTS, GOAL_PRICE, CURRENT_PRICE, 
+        GOAL_RATE, START_DATE, END_DATE, MEMBER_NUM
+    )
+    VALUES (
+        #{goalNum}, #{goalName}, #{goalContents}, #{goalPrice},
+        CASE 
+            WHEN SYSDATE > #{startDate} THEN (
+                SELECT NVL(SUM(deal_price), 0)
+                FROM deal
+                WHERE member_num = #{memberNum}
+                AND category_name = '저축'
+                AND deal_date BETWEEN #{startDate} AND SYSDATE
+            )
+            ELSE 0
+        END,
+       	CASE 
+		    WHEN SYSDATE > #{startDate} THEN 
+		        CASE 
+		            WHEN NVL((
+		                SELECT SUM(deal_price)
+		                FROM deal
+		                WHERE member_num = #{memberNum}
+		                AND category_name = '저축'
+		                AND deal_date BETWEEN #{startDate} AND SYSDATE
+		            ), 0) = 0 THEN 0
+		            ELSE 
+		            	NVL((
+		                	SELECT SUM(deal_price)
+		                    FROM deal
+		                    WHERE member_num = #{memberNum}
+		                    AND category_name = '저축'
+		                    AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                ), 1) / #{goalPrice} * 100
+		        END
+    		ELSE 0
+		END,
+        #{startDate}, #{endDate}, #{memberNum})
+</insert>
+
+<insert id="goalRegist2">
+ INSERT INTO goal (
+        GOAL_NUM, GOAL_NAME, GOAL_CONTENTS, GOAL_PRICE, CURRENT_PRICE, 
+        GOAL_RATE, START_DATE, END_DATE, MEMBER_NUM
+    )
+    values(
+    	#{goalNum}, #{goalName}, #{goalContents}, #{goalPrice},
+    	CASE 
+            WHEN SYSDATE > #{startDate} THEN (
+                SELECT NVL(SUM(deal_price), 0)
+                FROM deal
+                WHERE member_num = #{memberNum}
+                AND category_name = '지출'
+                AND deal_date BETWEEN #{startDate} AND SYSDATE
+            )
+            ELSE 0
+        END,
+        CASE 
+		    WHEN SYSDATE > #{startDate} THEN 
+		        CASE 
+		            WHEN NVL((
+		                SELECT SUM(deal_price)
+		                FROM deal
+		                WHERE member_num = #{memberNum}
+		                AND category_name = '지출'
+		                AND deal_date BETWEEN #{startDate} AND SYSDATE
+		            ), 0) = 0 THEN 100
+		            ELSE 
+		            	(1 - 
+		                NVL((
+		                    SELECT SUM(deal_price)
+		                    FROM deal
+		                    WHERE member_num = #{memberNum}
+		                    AND category_name = '지출'
+		                    AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                ), 1) / #{goalPrice}) * 100
+		        END
+    		ELSE 100
+		END,
+		#{startDate}, #{endDate}, #{memberNum})
+</insert>
+</mapper>

@@ -13,6 +13,21 @@ body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
+<script type="text/javascript">
+
+const today = new Date(); // 현재 날짜
+
+// ! 시작 날짜 !
+const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+const formattedFirstDay = firstDayOfMonth.toISOString().split('T')[0];
+document.getElementById("startDate").setAttribute("min", formattedFirstDay);
+
+// ! 종료 날짜 !
+const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
+const formattedTomorrow = tomorrow.toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식으로 변환
+document.getElementById("endDate").setAttribute("min", formattedTomorrow);
+</script>
 <title>Deal Regist</title>
 </head>
 <body>
@@ -114,7 +129,7 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="date" name="startDate" th:value="${#dates.format(goalCommand.startDate,'yyyy-MM-dd')}"   />
+		          <input type="date" name="startDate" id="startDate" th:value="${#dates.format(goalCommand.startDate,'yyyy-MM-dd')}"   />
 		          <span style = "color : red" th:if="${#fields.hasErrors('startDate')}" th:errors="${goalCommand.startDate}"></span> 
 		        </div>
 		      </th>
@@ -125,7 +140,7 @@ h1 {letter-spacing: 6px}
 		      </th>
 		      <th>
 		        <div class="w3-bar-item">
-		          <input type="date" name="endDate" th:value="${#dates.format(goalCommand.endDate,'yyyy-MM-dd')}"   />
+		          <input type="date" name="endDate" id="endDate" th:value="${#dates.format(goalCommand.endDate,'yyyy-MM-dd')}"   />
 		          <span style = "color : red" th:if="${#fields.hasErrors('endDate')}" th:errors="${goalCommand.endDate}"></span> 
 		        </div>
 		      </th>

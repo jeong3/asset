@@ -11,12 +11,12 @@
 <script type="text/javascript" src="/static/js/checkbox.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <style>
-body,h1 {font-family: "Raleway", Arial, sans-serif}
+body,h1 {font-family: "Raleway", Arial, sans-serif; background-color: #f6fef0;}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
        .large-button {
-            width: 200px;
-            height: 100px;
+            width: 150px;
+            height: 70px;
             font-size: 20px;
             font-weight: bold;
             border: none;
@@ -29,7 +29,7 @@ h1 {letter-spacing: 6px}
         }
 
         .large-button:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -37,17 +37,18 @@ h1 {letter-spacing: 6px}
             background: linear-gradient(to bottom, #f4a9a8, #e88d8d); /* 차분한 살구색 느낌 */
         }
 
-        .income-button {
-            background: linear-gradient(to bottom, #b5d8b5, #9fc49f); /* 부드러운 세이지 그린 */
-        }
-
         .save-button {
             background: linear-gradient(to bottom, #f9e3b4, #f7cc84); /* 은은한 머스터드 톤 */
         }
-        
-        .finance-button {
-        background: linear-gradient(to bottom, #d3a7f7, #b288f3); /* 은은한 보라색 */
-    }
+
+		#goalButton {
+		    display: flex;
+    		flex-direction: column;
+    		gap: 20px; /* 버튼 간격 */
+    		width: 200px;
+    		height: 300px;
+    		margin: 50px;
+		}
 </style>
 <title>Member Detail</title>
 </head>
@@ -109,9 +110,13 @@ h1 {letter-spacing: 6px}
 	 </div>
  <br/> <br/> <br/>
 	<div align="center">
-	    <h2>내 목표 설정</h2>
-	    <button class="large-button save-button" onclick="location.href='/goal/goalRegist?goalName=저축'">저축</button>
-	    <button class="large-button finance-button" onclick="location.href='/goal/goalRegist?goalName=지출'">소비</button>
+	    <h2>My 자산 목표</h2>
+	    <br/>
+	</div>
+	<div id="goalButton">
+		<div align="center">목표 등록</div>
+		<button class="large-button save-button" onclick="location.href='/goal/goalRegist?goalName=저축'">저축</button>
+		<button class="large-button spend-button" onclick="location.href='/goal/goalRegist?goalName=지출'">소비</button>
 	</div>
 </div>
 </body>

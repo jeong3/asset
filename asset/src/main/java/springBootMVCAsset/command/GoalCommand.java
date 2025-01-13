@@ -17,7 +17,7 @@ public class GoalCommand {
 	@NotEmpty(message = "목표 내용을 입력해주세요.")
 	String goalContents;
 	
-	@NotBlank(message = "목표 금액을 입력해주세요")
+	@NotNull(message = "목표 금액을 입력해주세요")
 	Integer goalPrice;
 	
 	Integer currentPrice;

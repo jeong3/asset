@@ -1,0 +1,9 @@
+diff a/asset/src/main/resources/application.properties b/asset/src/main/resources/application.properties	(rejected hunks)
+@@ -34,7 +34,6 @@
+ # 유휴 커넥션이 10분 이상이면 닫음
+ #oracle
+ spring.datasource.driver-class-name=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+-spring.datasource.url=jdbc:log4jdbc:oracle:thin:@172.16.110.141:1521:XE
+ spring.datasource.url=jdbc:log4jdbc:oracle:thin:@172.20.10.3:1521:XE
+ #spring.datasource.url=jdbc:oracle:thin:@localhost:1521:xe
+ spring.datasource.username=asset2
