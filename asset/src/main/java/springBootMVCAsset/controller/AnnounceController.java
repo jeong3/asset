@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,18 +14,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.AnnounceCommand;
+import springBootMVCAsset.command.MemberCommand;
 import springBootMVCAsset.command.VolunteerCommand;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.DepartmentDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.announce.AnnounceDetailService;
 import springBootMVCAsset.service.announce.AnnounceListService;
 import springBootMVCAsset.service.announce.AnnounceRegistService;
+import springBootMVCAsset.service.announce.AnnounceUpdateService;
 import springBootMVCAsset.service.volunteer.VolunteerRegistService;
 
 @Controller
 @RequestMapping("announce")
 public class AnnounceController {
+	@Autowired
+	AnnounceUpdateService announceUpdateService;
+	@Autowired
+	AnnounceDetailService announceDetailService;
 	@Autowired
 	EmployeeMapper employeeMapper;
 	@Autowired
@@ -74,8 +83,21 @@ public class AnnounceController {
 		return "thymeleaf/announce/volunteerRegist";
 	}
 	@PostMapping("volunteerRegist")
-	public String volunteerRegist(VolunteerCommand volunteerCommand, HttpSession session) {
+	public String volunteerRegist(@Validated VolunteerCommand volunteerCommand, BindingResult result, HttpSession session) {
+		if(result.hasErrors()) {
+			return "thymeleaf/announce/volunteerRegist";
+		}
 		volunteerRegistService.execute(volunteerCommand, session);
+		return "redirect:announceList";
+	}
+	@GetMapping("announceUpdate")
+	public String announceUpdate(@RequestParam("announceNum") String announceNum, Model model, HttpSession session) {
+		announceDetailService.execute(announceNum, model, session);
+		return "thymeleaf/announce/announceUpdate";
+	}
+	@PostMapping("announceUpdate")
+	public String announceUpdate(AnnounceCommand announceCommand, Model model, HttpSession session) {
+		announceUpdateService.execute(announceCommand, model, session);
 		return "redirect:announceList";
 	}
 }

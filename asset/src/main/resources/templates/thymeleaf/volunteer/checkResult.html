@@ -1,124 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Insert title here</title>
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
-<script>
-function applyForJob(button) {
-    var announceNum = button.getAttribute('data-announceNum'); 
-    window.location.href = '/announce/volunteerRegist?announceNum=' + announceNum; 
-}
-function editJob(button) {
-    var announceNum = button.getAttribute('data-announceNum'); 
-    window.location.href = '/announce/announceUpdate?announceNum=' + announceNum; 
-}
-</script>
+<title>결과 확인</title>
 <style>
-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        button {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        body {
-    font-family: 'Raleway', sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-}
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #333;
-}
-.container {
+  /* 전체 화면을 flexbox로 설정하여 중앙 정렬 */
+  body {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    margin: 20px;
-}
-.card {
-    background: #fff;
-    min-height: 400px;
-    width: 300px;
-    margin: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    transition: transform 0.2s;
-    display: flex;
-    flex-direction: column; /* 요소를 세로로 정렬 */
-    justify-content: space-between; /* 내용이 적어도 하단에 버튼 위치 */
-}
-.card:hover {
-    transform: scale(1.05);
-}
-.card-header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
-}
-.card-content {
-    padding: 15px;
-    line-height: 1.6;
-    color: #555;
-    white-space: pre-line;
-    flex-grow: 1; /* 콘텐츠가 적더라도 버튼을 하단에 고정 */
-}
-.card-content span {
-    display: block;
-    font-weight: bold;
+    align-items: center;
+    height: 100vh; /* 화면 높이를 100%로 설정 */
+    margin: 0;
+    background-color: #f4f4f9;
     color: #333;
-    margin-bottom: 5px;
-}
-.card-footer {
-    padding: 10px 15px;
+  }
+  .container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
     text-align: center;
-    background-color: #f4f4f4;
-}
-
+    color: #333;
+  }
+  .result {
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+  .pass {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  .fail {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  .pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+  }
+  .final-pass {
+    background-color: #c3e6cb;
+    color: #155724;
+    border: 1px solid #28a745;
+  }
 </style>
 </head>
 <body>
-<div class="w3-content" style="max-width:1500px">
 <div class="w3-top">
 
- <div class="w3-bar w3-theme-d2 w3-left-align">
+ <div class="w3-bar w3-theme-d2 w3-left-align" style="margin-left: 202px;">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
-  <a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
+		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	    	<a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+	    	<a href="/volunteer/receiptCheck" class="w3-bar-item w3-button w3-hide-small">접수확인</a>
+	    </div>
+  </div>
+  
   <div th:if="${session.auth != null}">
   	<th:block th:if="${session.auth.grade == 'emp'}">
 	  <div class="w3-dropdown-hover w3-hide-small">
@@ -203,37 +158,36 @@ h1 {
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
-<h1>공고 리스트</h1>
-<div class="container">
+<div class="container" align="center">
+  <h1>결과 확인</h1>
 
-    <!-- Thymeleaf 반복문 -->
-    <div class="card" th:each="announce : ${list}">
-        <div class="card-header" th:text="${announce.announceName}">공고명</div>
-        <div class="card-content">
-            <span>공고 내용</span>
-            <p th:text="${announce.announceContents}">공고내용</p>
-            <span>기간</span>
-            <p th:text="${#dates.format(announce.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(announce.endDate, 'yyyy-MM-dd')}">기간</p>
-            <span>면접 날짜</span>
-            <p th:text="${#dates.format(announce.interviewDate, 'yyyy-MM-dd')}">면접 날짜</p>
-            <span>면접 장소</span>
-            <p th:text="${announce.interviewAddr}">면접 장소</p>
-        </div>
-        <div class="card-footer">
-    <button 
-    type="button" 
-    th:attr="data-announceNum=${announce.announceNum}" 
-    th:if="${session.auth == null or session.auth.grade != 'emp'}"
-    onclick="applyForJob(this)">지원하기</button>
-
-    <button 
-    type="button" 
-    th:attr="data-announceNum=${announce.announceNum}" 
-    th:if="${session.auth != null and session.auth.grade == 'emp'}"
-    onclick="editJob(this)">수정하기</button>
-
+  <!-- 서류결과가 불합격인 경우 -->
+  <div th:if="${dto.documentResult == '불합격'}" class="result fail">
+    <strong>서류결과: 불합격</strong><br>
+    안타깝게도 서류전형에서 불합격되었습니다. <br/>다음 기회에 더 좋은 성과가 있기를 바랍니다.
+  </div>
+  
+  <!-- 서류결과가 합격이고 면접결과가 null인 경우 -->
+  <div th:if="${dto.documentResult == '합격' and dto.interviewResult == null}" class="result pending">
+    <strong>서류결과: 합격</strong><br>
+    축하합니다! 서류전형을 통과하셨습니다.<br/>
+    면접 장소와 날짜는 
+    <span th:text="${#dates.format(announce.interviewDate, 'yyyy-MM-dd')}"></span>
+    [[${announce.interviewAddr}]]입니다.<br/>
 </div>
-    </div>
+  
+  <!-- 서류결과가 합격이고 면접결과가 불합격인 경우 -->
+  <div th:if="${dto.documentResult == '합격' and dto.interviewResult == '불합격'}" class="result fail">
+    <strong>면접결과: 불합격</strong><br>
+    면접에서 불합격되었습니다. <br/>아쉽지만, 추후 더 좋은 기회가 있기를 바랍니다.
+  </div>
+  
+  <!-- 서류결과와 면접결과가 모두 합격인 경우 -->
+  <div th:if="${dto.documentResult == '합격' and dto.interviewResult == '합격'}" class="result final-pass">
+    <strong>최종합격</strong><br>
+    축하합니다! 최종 합격하셨습니다. <br/>자세한 내용은 전화로 말씀드리겠습니다.
+  </div>
 </div>
+
 </body>
 </html>

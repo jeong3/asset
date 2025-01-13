@@ -1,124 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Insert title here</title>
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
-<script>
-function applyForJob(button) {
-    var announceNum = button.getAttribute('data-announceNum'); 
-    window.location.href = '/announce/volunteerRegist?announceNum=' + announceNum; 
-}
-function editJob(button) {
-    var announceNum = button.getAttribute('data-announceNum'); 
-    window.location.href = '/announce/announceUpdate?announceNum=' + announceNum; 
-}
-</script>
-<style>
-table {
-            width: 100%;
-            border-collapse: collapse;
+    <title>합격 결과 확인</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 400px;
+        }
+
+        h2 {
             text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-        th {
-            background-color: #f4f4f4;
-            font-weight: bold;
+
+        table {
+            width: 100%;
         }
-        tr:hover {
-            background-color: #f1f1f1;
+
+        td {
+            padding: 8px;
         }
-        button {
-            padding: 5px 10px;
-            background-color: #007bff;
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background: linear-gradient(45deg, #6a5acd, #00bfff);
             color: white;
             border: none;
+            padding: 12px 20px;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
         }
-        button:hover {
-            background-color: #0056b3;
-        }
-        body {
-    font-family: 'Raleway', sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-}
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #333;
-}
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px;
-}
-.card {
-    background: #fff;
-    min-height: 400px;
-    width: 300px;
-    margin: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    transition: transform 0.2s;
-    display: flex;
-    flex-direction: column; /* 요소를 세로로 정렬 */
-    justify-content: space-between; /* 내용이 적어도 하단에 버튼 위치 */
-}
-.card:hover {
-    transform: scale(1.05);
-}
-.card-header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
-}
-.card-content {
-    padding: 15px;
-    line-height: 1.6;
-    color: #555;
-    white-space: pre-line;
-    flex-grow: 1; /* 콘텐츠가 적더라도 버튼을 하단에 고정 */
-}
-.card-content span {
-    display: block;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-}
-.card-footer {
-    padding: 10px 15px;
-    text-align: center;
-    background-color: #f4f4f4;
-}
 
-</style>
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="submit"]:active {
+            background-color: #388e3c;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 480px) {
+            .login-container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="w3-content" style="max-width:1500px">
+
 <div class="w3-top">
 
- <div class="w3-bar w3-theme-d2 w3-left-align">
+ <div class="w3-bar w3-theme-d2 w3-left-align" style="margin-left: 202px;">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
-  <a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
+		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	    	<a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+	    	<a href="/volunteer/receiptCheck" class="w3-bar-item w3-button w3-hide-small">접수확인</a>
+	    </div>
+  </div>
+  
   <div th:if="${session.auth != null}">
   	<th:block th:if="${session.auth.grade == 'emp'}">
 	  <div class="w3-dropdown-hover w3-hide-small">
@@ -203,37 +184,21 @@ h1 {
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
-<h1>공고 리스트</h1>
-<div class="container">
-
-    <!-- Thymeleaf 반복문 -->
-    <div class="card" th:each="announce : ${list}">
-        <div class="card-header" th:text="${announce.announceName}">공고명</div>
-        <div class="card-content">
-            <span>공고 내용</span>
-            <p th:text="${announce.announceContents}">공고내용</p>
-            <span>기간</span>
-            <p th:text="${#dates.format(announce.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(announce.endDate, 'yyyy-MM-dd')}">기간</p>
-            <span>면접 날짜</span>
-            <p th:text="${#dates.format(announce.interviewDate, 'yyyy-MM-dd')}">면접 날짜</p>
-            <span>면접 장소</span>
-            <p th:text="${announce.interviewAddr}">면접 장소</p>
-        </div>
-        <div class="card-footer">
-    <button 
-    type="button" 
-    th:attr="data-announceNum=${announce.announceNum}" 
-    th:if="${session.auth == null or session.auth.grade != 'emp'}"
-    onclick="applyForJob(this)">지원하기</button>
-
-    <button 
-    type="button" 
-    th:attr="data-announceNum=${announce.announceNum}" 
-    th:if="${session.auth != null and session.auth.grade == 'emp'}"
-    onclick="editJob(this)">수정하기</button>
-
-</div>
+    <div class="login-container">
+        <form action="checkResult" name="frm" id="frm" method="post">
+            <h2>합격 결과 확인</h2>
+            <table>
+                <tr>
+                    <td>아이디:</td>
+                    <td><input type="text" name="volunteerId" placeholder="아이디 입력" required /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="결과 확인" class="login-btn" />
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
-</div>
 </body>
 </html>

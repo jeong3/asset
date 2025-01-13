@@ -34,7 +34,14 @@ h1 {letter-spacing: 6px}
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
-  <a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
+		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	    	<a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+	    	<a href="/volunteer/receiptCheck" class="w3-bar-item w3-button w3-hide-small">접수확인</a>
+	    </div>
+  </div>
+  
   <div th:if="${session.auth != null}">
   	<th:block th:if="${session.auth.grade == 'emp'}">
 	  <div class="w3-dropdown-hover w3-hide-small">

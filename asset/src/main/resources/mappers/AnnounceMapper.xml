@@ -17,4 +17,16 @@ values (#{announceNum}, #{announceName}, #{announceDate}, #{startDate}, #{endDat
 <select id="announceSelectAll">
 select * from announce
 </select>
+
+<select id="announceSelectOne" parameterType="String" resultType="announceDTO">
+select * from announce where announce_num = #{announceNum}
+</select>
+
+<update id="announceUpdate" parameterType="announceDTO">
+update announce
+set announce_num = #{announceNum}, announce_name = #{announceName}, announce_date = #{announceDate},
+start_date = #{startDate}, end_date = #{endDate}, announce_contents = #{announceContents}, result_date = #{resultDate},
+interview_date = #{interviewDate}, interview_addr = #{interviewAddr}, department_num = #{departmentNum}
+where announce_num = #{announceNum}
+</update>
 </mapper>

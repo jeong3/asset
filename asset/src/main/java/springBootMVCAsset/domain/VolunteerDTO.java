@@ -18,4 +18,6 @@ public class VolunteerDTO {
 	String volunteerPhone;
 	String volunteerEmail;
 	Date volunteerBirth;
+	String documentResult;
+	String interviewResult;
 }

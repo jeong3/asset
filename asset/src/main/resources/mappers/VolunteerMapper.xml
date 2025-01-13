@@ -5,12 +5,46 @@
 <mapper namespace="springBootMVCAsset.mapper.VolunteerMapper">
 <sql id="BaseColumns">
 	RECEIPT_NUM, ANNOUNCE_NUM, VOLUNTEER_ID, VOLUNTEER_PW, VOLUNTEER_NAME, 
-	VOLUNTEER_ENGNAME, VOLUNTEER_PHONE, VOLUNTEER_EMAIL, VOLUNTEER_BIRTH
+	VOLUNTEER_ENGNAME, VOLUNTEER_PHONE, VOLUNTEER_EMAIL, VOLUNTEER_BIRTH, DOCUMENT_RESULT, INTERVIEW_RESULT
 </sql>
 
 <insert id="volunteerInsert" parameterType="volunteerDTO">
 insert into volunteer ( <include refid="BaseColumns" /> )
 values (#{receiptNum}, #{announceNum, jdbcType=VARCHAR}, #{volunteerId}, #{volunteerPw}, #{volunteerName}
-		,#{volunteerEngname}, #{volunteerPhone}, #{volunteerEmail}, #{volunteerBirth})
+		,#{volunteerEngname}, #{volunteerPhone}, #{volunteerEmail}, #{volunteerBirth}, null, null)
 </insert>
+
+<select id="volunteerSelectAll" resultType="volunteerDTO">
+select * from volunteer
+</select>
+
+<update id="updateResult">
+        update volunteer 
+        set DOCUMENT_RESULT = #{documentResult} 
+        where RECEIPT_NUM = #{receiptNum}
+</update>
+
+<update id="updateInterviewResult">
+        update volunteer 
+        set INTERVIEW_RESULT = #{interviewResult} 
+        where RECEIPT_NUM = #{receiptNum}
+</update>
+
+<select id="findByReceiptNum" resultType="volunteerDTO">
+    select *
+    from volunteer
+    where RECEIPT_NUM = #{receiptNum}
+</select>
+
+<select id="findByVolunteerId" parameterType="String" resultType="volunteerDTO">
+    SELECT * FROM volunteer WHERE volunteer_id = #{volunteerId}
+</select>
+
+<select id="idCheckSelectOne" parameterType="string" resultType="integer">
+	select 1 from volunteer where volunteer_id = #{volunteerId}
+</select>
+
+<select id="selectAnnounceNum" parameterType="String">
+select announce_num from volunteer where volunteer_id = #{volunteerId}
+</select>
 </mapper>

@@ -16,6 +16,7 @@ public class VolunteerRegistService {
 		VolunteerDTO dto = new VolunteerDTO();
 		dto.setReceiptNum(volunteerCommand.getReceiptNum());
 		dto.setVolunteerBirth(volunteerCommand.getVolunteerBirth());
+		dto.setAnnounceNum(volunteerCommand.getAnnounceNum());
 		dto.setVolunteerEmail(volunteerCommand.getVolunteerEmail());
 		dto.setVolunteerEngname(volunteerCommand.getVolunteerEngname());
 		dto.setVolunteerId(volunteerCommand.getVolunteerId());
