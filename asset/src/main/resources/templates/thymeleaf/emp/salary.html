@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>급여명세서</title>
     <style>
+        /* 스타일 정의 */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -25,7 +26,7 @@
         }
         .salary-slip th {
             background-color: #f2f2f2;
-            text-align: left;
+            text-align: center;
         }
         .salary-slip td {
             text-align: right;
@@ -37,50 +38,106 @@
         .total {
             font-weight: bold;
         }
+         .confirm-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .confirm-button:hover {
+            background-color: #0056b3;
+        }
     </style>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const formatter = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' });
+
+            // 기본급, 상여금, 근로장려금을 숫자로 변환
+            const basicSalary = parseFloat($("#basicSalary").text().replace(/[^\d.-]/g, ""));
+            const bonus = parseFloat($("#bonus").text().replace(/[^\d.-]/g, ""));
+            const deductions = parseFloat($("#deductions").text().replace(/[^\d.-]/g, ""));
+
+            // 실수령액 계산
+            const netSalary = basicSalary + bonus + deductions;
+
+            // 실수령액 출력
+            $("#netSalary").text(formatter.format(netSalary));
+        });
+        function moneyCheck(){
+            const bonus = parseFloat($("#bonus").text().replace(/[^\d.-]/g, ""));
+            const deductions = parseFloat($("#deductions").text().replace(/[^\d.-]/g, ""));
+        	var empNum = $("#empNum").text();
+        
+        	var formData = JSON.stringify({
+    		    "bonus": bonus,
+    		    "deductions": deductions,
+    		    "empNum": empNum
+    		});
+        	$.ajax({
+        		type:"post",
+        		url:"/eval/moneyCheck",
+        		data: formData,
+				contentType: "application/json",
+				dataType: "json",
+				success:function(result){
+					if(result == "200") window.history.back();
+				},
+				error:function(){
+					alert("서버오류")
+				}
+        	});
+        }
+    </script>
 </head>
 <body>
-<br><br><br>
-<h3>급여명세서( [[${#dates.format(dto.salaryDate,'yyyy-MM-dd')}]] )</h3>
-<table class="salary-slip">
-    <tr>
-        <th colspan="2">직원 정보</th>
-    </tr>
-    <tr>
-        <td class="label">직원 번호</td>
-        <td id="empNum">[[${dto.empNum}]]</td>
-    </tr>
-    <tr>
-        <td class="label">직원 이름</td>
-        <td id="empName">[[${dto.empName}]]</td>
-    </tr>
-    <tr>
-        <td class="label">부서</td>
-        <td id="department">[[${dto.departmentNum}]]</td>
-    </tr>
-    </table >
+    <br><br><br>
+    <h3>급여명세서( [[${#dates.format(dto.salaryDate,'yyyy-MM-dd')}]] )</h3>
+    <table class="salary-slip">
+        <tr>
+            <th colspan="2">직원 정보</th>
+        </tr>
+        <tr>
+            <td class="label">직원 번호</td>
+            <td id="empNum" width="30%">[[${dto.empNum}]]</td>
+        </tr>
+        <tr>
+            <td class="label">직원 이름</td>
+            <td id="empName">[[${dto.empName}]]</td>
+        </tr>
+        <tr>
+            <td class="label">부서</td>
+            <td id="department">[[${dto.departmentNum}]]</td>
+        </tr>
+    </table>
     <br>
     <table class="salary-slip">
-    <tr>
-        <th colspan="2">급여 정보</th>
-    </tr>
-    <tr>
-        <td class="label">기본급</td>
-        <td id="basicSalary">[[${dto.salary}]] 원</td>
-    </tr>
-    <tr>
-        <td class="label">상여금</td>
-        <td id="bonus"> 원</td>
-    </tr>
-    <tr>
-        <td class="label">근로장려금</td>
-        <td id="deductions"> 원</td>
-    </tr>
-    <tr>
-        <td class="label total">실수령액</td>
-        <td id="netSalary"> 원</td>
-    </tr>
-</table>
-
+        <tr>
+            <th colspan="2">급여 정보</th>
+        </tr>
+        <tr>
+            <td class="label">기본급</td>
+            <td id="basicSalary" width="30%">[[${#numbers.formatCurrency(dto.salary)}]]</td>
+        </tr>
+        <tr>
+            <td class="label">상여금</td>
+            <td id="bonus">[[${#numbers.formatCurrency(allowances)}]]</td>
+        </tr>
+        <tr>
+            <td class="label">근로장려금</td>
+            <td id="deductions">[[${#numbers.formatCurrency(dto.attendCount * 10000)}]]</td>
+        </tr>
+        <tr>
+            <td class="label total">실수령액</td>
+            <td id="netSalary"></td> 
+        </tr>
+    </table>
+    <button class="confirm-button" onclick="moneyCheck();">확인</button>
 </body>
 </html>

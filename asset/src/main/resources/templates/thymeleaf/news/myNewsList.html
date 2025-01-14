@@ -181,6 +181,7 @@
 				success: function(result) {
 					if(result == 200){
 						alert("저장된 뉴스가 삭제되었습니다.");
+						location.reload(true);
 					}
 				},
 				error: function() {
@@ -188,7 +189,9 @@
 				},
 				
 			});
+		 
 	  }
+	  
   }
   function deleteSave(element){
 	  var newsNum = $(element).data('newsNum');
@@ -201,6 +204,7 @@
 				success: function(result) {
 					if(result == 200){
 						alert("저장된 뉴스가 삭제되었습니다.");
+						location.reload(true);
 					}
 				},
 				error: function() {

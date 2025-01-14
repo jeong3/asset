@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
+import springBootMVCAsset.domain.SalaryDTO;
 import springBootMVCAsset.domain.StockDataDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.mapper.EvalMapper;
@@ -103,8 +104,13 @@ public class RestController {
 	}
 	@RequestMapping("/eval/checkCount")
 	public int checkCount(String empNum) {
-		
 		return evalMapper.checkCount(empNum); 
+	}
+	@RequestMapping("/eval/moneyCheck")
+	public String moneyCheck(@RequestBody SalaryDTO dto) {
+		System.out.println(dto);
+		evalMapper.moneyCheck(dto);
+		return "200"; 
 	}
 	
 	

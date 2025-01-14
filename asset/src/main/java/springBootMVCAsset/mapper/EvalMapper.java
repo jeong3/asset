@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import springBootMVCAsset.domain.EmpSalaryDTO;
 import springBootMVCAsset.domain.EvalDTO;
 import springBootMVCAsset.domain.EvalEmployeeDTO;
+import springBootMVCAsset.domain.SalaryDTO;
 
 @Mapper
 public interface EvalMapper {
@@ -22,5 +23,7 @@ public interface EvalMapper {
 	int salaryInsert(String empNum);
 
 	EmpSalaryDTO salarySelectOne(String empNum);
+
+	int moneyCheck(SalaryDTO dto);
 	
 }

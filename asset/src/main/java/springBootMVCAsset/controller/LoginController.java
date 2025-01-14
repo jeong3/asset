@@ -42,7 +42,7 @@ public class LoginController {
 	public String login(@Validated LoginCommand loginCommand, BindingResult result ,HttpSession session, HttpServletResponse response) {
 		userLoginService.execute(loginCommand, result, session, response);
 		if(result.hasErrors()) {
-			return "thymeleaf/index";
+			return "thymeleaf/login";
 		}
 		return "redirect:/";
 	}

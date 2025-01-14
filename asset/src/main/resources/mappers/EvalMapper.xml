@@ -58,7 +58,7 @@ EVAL_NUM, EMP_NUM, START_DATE, END_DATE, WORK_PERFORMANCE_ABILITY, WORK_ATTITUDE
 </select>
 
 <insert id="salaryInsert">
-	insert into employees_salary (EMP_NUM, SALARY, ALLOWANCES, BONUS, SALARY_DATE)
+	insert into employees_salary (EMP_NUM, SALARY, ALLOWANCES, deductions, SALARY_DATE)
 	values (#{empNum}, '5300000','0','0',sysdate);
 </insert>
 
@@ -87,5 +87,13 @@ EVAL_NUM, EMP_NUM, START_DATE, END_DATE, WORK_PERFORMANCE_ABILITY, WORK_ATTITUDE
     GROUP BY e.emp_num, e.emp_name, e.department_num, s.salary, 
              ev.WORK_PERFORMANCE_ABILITY, ev.WORK_ATTITUDE, ev.ATTEND_STATUS, s.SALARY_DATE
 </select>
+
+<update id="moneyCheck">
+	update employees_salary set
+	deductions = #{deductions}
+	, bonus = #{bonus}
+	, salary_date = sysdate
+	where emp_num = #{empNum}	
+</update>
 
 </mapper>

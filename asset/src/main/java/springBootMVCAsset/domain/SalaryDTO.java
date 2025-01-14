@@ -11,7 +11,7 @@ import lombok.Data;
 public class SalaryDTO {
 	String empNum;
 	int salary;
-	int allowances;
+	int deductions;
 	int bonus;
 	Date salaryDate;
 }

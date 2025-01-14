@@ -13,6 +13,51 @@ body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script>
+  
+//카카오 SDK 초기화
+  Kakao.init('7031de59305fd3478286494c20377e94');  // 'YOUR_JAVASCRIPT_KEY'는 실제 카카오에서 발급받은 JavaScript 키로 변경
+
+  // 로그인 함수
+  function kakaoLogin() {
+    Kakao.Auth.login({
+      success: function(authObj) {
+        // 로그인 성공 시 처리 (access_token을 얻을 수 있음)
+        console.log(authObj);
+        // 예: 로그인 성공 후 서버로 access_token 전송
+        // 서버에서 유효성 검사 후 사용자 정보 가져오기
+      },
+      fail: function(err) {
+        // 로그인 실패 시 처리
+        console.log(err);
+      }
+    });
+  }
+  function kakaoLogin() {
+	  Kakao.Auth.login({
+	    success: function(authObj) {
+	      console.log(authObj);  // 로그인 성공 시 authObj에 토큰 포함
+
+	      // 사용자 정보 요청
+	      Kakao.API.request({
+	        url: '/v2/user/me',
+	        success: function(response) {
+	          console.log(response);  // 사용자 정보(response) 출력
+	          // 예: 서버로 사용자 정보를 전달하여 로그인 처리
+	        },
+	        fail: function(error) {
+	          console.log(error);  // 에러 처리
+	        }
+	      });
+	    },
+	    fail: function(err) {
+	      console.log(err);
+	    }
+	  });
+	}
+
+</script>
 </head>
 <body>
 
@@ -66,26 +111,27 @@ h1 {letter-spacing: 6px}
         <td><h2>로그인</h2></td>
     </tr>
     <tr>
-        <td><input id="userId" type="text" placeholder="ID" th:field="*{userId}" required="required"></td>
-        <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span>
+        <td><input id="userId" type="text" placeholder="ID" th:field="*{userId}" required="required"> <br>
+        <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color: red;"></span></td>
+        
     </tr>
     <tr>
-        <td><input id="userPw" type="password" placeholder="Password" th:field="*{userPw}" required="required" ></td>
-        <span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}"></span>
+        <td><input id="userPw" type="password" placeholder="Password" th:field="*{userPw}" required="required" ><br>
+        <span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}" style="color: red;"></span></td>
+        
     </tr>
     <tr>
-       <td><input type="checkbox" name="autoLogin" th:checked="${loginCommand.autoLogin}">자동로그인</td>
+       <td><input type="checkbox" name="autoLogin" th:checked="${loginCommand.autoLogin}">자동로그인  | <input type="checkbox" name="idStore" th:checked="${loginCommand.userId != null}" >아이디저장</td>
     </tr>
-    <tr>
-       <td><input type="checkbox" name="idStore" th:checked="${loginCommand.userId != null}" >아이디저장</td>
-    </tr>
+   
     <tr>
        <td><input type="submit" value="로그인" class="btn"></td>
     </tr>
     <tr>
-        <td class="join"><a href="/member/memberRegist">회원가입</a></td>
+        <td class="join"><a href="/member/memberRegist" >회원가입</a></td>
     </tr>
 </table>
+<button onclick="kakaoLogin()">카카오 로그인</button>
 </form>
 </body>
 </html>

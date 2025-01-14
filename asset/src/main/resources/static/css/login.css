@@ -1,13 +1,14 @@
 table {
-    width: 300px;
-    margin: 20px auto;
+    width: 400px;
+    height: 300px;
+    margin: 30px auto;
     font-size: 15px;
     border-collapse: collapse;
     background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     text-align: center;
-    padding: 20px;
+    padding: 30px;
 }
 
 h2 {

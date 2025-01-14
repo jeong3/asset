@@ -14,6 +14,17 @@ public class SalarySelectService {
 	public void execute(String empNum, Model model) {
 		EmpSalaryDTO dto = evalMapper.salarySelectOne(empNum);
 		model.addAttribute("dto", dto);
+		int sum = dto.getWorkPerformanceAbility() + dto.getWorkAttitude() + dto.getAttendStatus();
+		int allowances = 0;
+		
+		if(sum > 20 ) {
+			allowances = 500000;
+		} else if(sum > 15) {
+			allowances = 250000;
+		} else {
+			allowances = 70000;
+		}
+		model.addAttribute("allowances", allowances);
 		
 	}
 

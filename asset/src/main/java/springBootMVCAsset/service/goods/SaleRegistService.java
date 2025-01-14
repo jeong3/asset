@@ -11,7 +11,7 @@ public class SaleRegistService {
 	StockMapper stockMapper;
 	public void execute() {
 		double close = stockMapper.closeSelect();
-		double sale = 1;
+		double sale = 0;
 		if(close > 57000) {
 			sale = 0.2;
 		} else if(close > 55000) {
