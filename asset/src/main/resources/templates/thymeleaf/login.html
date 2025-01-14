@@ -13,49 +13,48 @@ body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
   
 //카카오 SDK 초기화
   Kakao.init('7031de59305fd3478286494c20377e94');  // 'YOUR_JAVASCRIPT_KEY'는 실제 카카오에서 발급받은 JavaScript 키로 변경
 
-  // 로그인 함수
-  function kakaoLogin() {
-    Kakao.Auth.login({
-      success: function(authObj) {
-        // 로그인 성공 시 처리 (access_token을 얻을 수 있음)
-        console.log(authObj);
-        // 예: 로그인 성공 후 서버로 access_token 전송
-        // 서버에서 유효성 검사 후 사용자 정보 가져오기
-      },
-      fail: function(err) {
-        // 로그인 실패 시 처리
-        console.log(err);
-      }
-    });
-  }
-  function kakaoLogin() {
-	  Kakao.Auth.login({
-	    success: function(authObj) {
-	      console.log(authObj);  // 로그인 성공 시 authObj에 토큰 포함
 
-	      // 사용자 정보 요청
-	      Kakao.API.request({
-	        url: '/v2/user/me',
-	        success: function(response) {
-	          console.log(response);  // 사용자 정보(response) 출력
-	          // 예: 서버로 사용자 정보를 전달하여 로그인 처리
+  function kakaoLogin() {
+	    Kakao.Auth.login({
+	        success: function(authObj) {
+	            console.log("로그인 성공: " + authObj);
+	            // access_token을 서버로 전송
+	            $.ajax({
+	                url: '/kakao-login',  // 서버에서 처리할 URL
+	                type: 'POST',  // HTTP 메서드
+	                headers: {
+	                    'Authorization': 'Bearer ' + authObj.access_token  // access_token을 Authorization 헤더로 전달
+	                },
+	                contentType: 'application/json;charset=utf-8',  // JSON 형식의 데이터 전송
+	                data: JSON.stringify({
+	                    accessToken: authObj.access_token
+	                }),
+	                success: function(response) {
+	                    console.log('서버 응답:', response);
+	                    window.location.href="/";
+	                    // 서버 응답에 따라 사용자 안내 또는 리다이렉트 처리
+	                },
+	                error: function(xhr, status, error) {
+	                    console.error('AJAX 요청 실패:', error);
+	                }
+	            });
 	        },
-	        fail: function(error) {
-	          console.log(error);  // 에러 처리
+	        fail: function(err) {
+	            console.log('로그인 실패:', err);
 	        }
-	      });
-	    },
-	    fail: function(err) {
-	      console.log(err);
-	    }
-	  });
+	    });
 	}
+
+
+
 
 </script>
 </head>

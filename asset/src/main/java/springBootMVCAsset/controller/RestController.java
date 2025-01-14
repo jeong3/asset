@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
+import springBootMVCAsset.domain.KakaoUser;
+import springBootMVCAsset.domain.MemberDTO;
 import springBootMVCAsset.domain.SalaryDTO;
 import springBootMVCAsset.domain.StockDataDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.mapper.EvalMapper;
 import springBootMVCAsset.mapper.NewsMapper;
 import springBootMVCAsset.service.FileDelService;
+import springBootMVCAsset.service.KakaoService;
+import springBootMVCAsset.service.MemberService;
 import springBootMVCAsset.service.attend.AttendEndService;
 import springBootMVCAsset.service.attend.AttendStartService;
 import springBootMVCAsset.service.goods.SaleRegistService;
@@ -48,6 +53,10 @@ public class RestController {
 	AttendEndService attendEndService;
 	@Autowired
 	EvalMapper evalMapper;
+	@Autowired
+	KakaoService kakaoService;
+	@Autowired
+	MemberService memberService;
 	
 	@PostMapping("/file/fileDel")
 	public int fileDel(String orgFile, String storeFile, HttpSession session) {
@@ -112,6 +121,22 @@ public class RestController {
 		evalMapper.moneyCheck(dto);
 		return "200"; 
 	}
+	@PostMapping("/kakao-login")
+	public ResponseEntity<?> kakaoLogin(@RequestBody Map<String, String> requestBody, HttpSession session) {
+	    String accessToken = requestBody.get("accessToken");
+
+	    // 카카오 API를 통해 사용자 정보 요청
+	    KakaoUser kakaoUser = kakaoService.getKakaoUserInfo(accessToken);
+	    
+	    // 사용자 정보를 기반으로 회원가입 또는 로그인 처리
+	    AuthInfoDTO auth = memberService.findOrCreateMember(kakaoUser);
+	    System.out.println("디티오:"+auth);
+	    // 세션에 사용자 정보 저장 또는 로그인 처리
+	    session.setAttribute("auth", auth);
+
+	    return ResponseEntity.ok(auth);
+	}
+
 	
 	
 }

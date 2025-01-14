@@ -56,4 +56,19 @@ where MEMBER_NUM = #{memberNum}
 <select id="memberNumSelect" parameterType="string" resultType="string">
 	select member_num from members where member_id = #{memberId}
 </select>
+
+<select id="findByKakaoId">
+	select member_Num as userNum, member_id as userId, member_pw as userPw
+	, member_name as userName, member_email as userEmail, 'mem' as grade
+	from members
+	where member_Id = #{memberId} 
+</select>
+
+<sql id="memberNum">
+select concat('mem_' , nvl(max(substr( member_num , 5 )),100000)+ 1) from members
+</sql>
+<insert id="KakaoAuthSave">
+	insert into members (<include refid="BaseColumns"/>)
+	values ( ( <include refid="memberNum" />), '카카오이용자', #{userId},'임시비밀번호', '카카오주소', '주소디테일', '0000', sysdate, 'M', '01000000000','00@naver.com', sysdate  )
+</insert>
 </mapper>

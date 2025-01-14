@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.MemberDTO;
 
 @Mapper
@@ -14,4 +15,6 @@ public interface MemberMapper {
 	public void memberUpdate(MemberDTO dto);
 	public void memberDelete(String memberNum);
 	public String memberNumSelect(String memberId);
+	public AuthInfoDTO findByKakaoId(String memberId);
+	public void KakaoAuthSave(AuthInfoDTO newAuth);
 }
