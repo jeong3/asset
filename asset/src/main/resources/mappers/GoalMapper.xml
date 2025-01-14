@@ -15,7 +15,7 @@
     VALUES (
         #{goalNum}, #{goalName}, #{goalContents}, #{goalPrice},
         CASE 
-            WHEN SYSDATE > #{startDate} THEN (
+            WHEN SYSDATE >= #{startDate} THEN (
                 SELECT NVL(SUM(deal_price), 0)
                 FROM deal
                 WHERE member_num = #{memberNum}
@@ -25,7 +25,7 @@
             ELSE 0
         END,
        	CASE 
-		    WHEN SYSDATE > #{startDate} THEN 
+		    WHEN SYSDATE >= #{startDate} THEN 
 		        CASE 
 		            WHEN NVL((
 		                SELECT SUM(deal_price)
@@ -56,7 +56,7 @@
     values(
     	#{goalNum}, #{goalName}, #{goalContents}, #{goalPrice},
     	CASE 
-            WHEN SYSDATE > #{startDate} THEN (
+            WHEN SYSDATE >= #{startDate} THEN (
                 SELECT NVL(SUM(deal_price), 0)
                 FROM deal
                 WHERE member_num = #{memberNum}
@@ -66,7 +66,7 @@
             ELSE 0
         END,
         CASE 
-		    WHEN SYSDATE > #{startDate} THEN 
+		    WHEN SYSDATE >= #{startDate} THEN 
 		        CASE 
 		            WHEN NVL((
 		                SELECT SUM(deal_price)
@@ -102,5 +102,27 @@ from goal
 select count(*) from goal
 where member_num = #{memberNum}
 and end_date >= sysdate
+</select>
+
+<select id="goalFinishList" parameterType="string" resultType="goalDTO">
+select row_number() over(order by end_date) as myGoalNum,
+	<include refid="BaseColumns"/>
+from goal
+	where member_num = #{memberNum}
+	and sysdate > end_date 
+</select>
+
+<select id="goalFinishCount" parameterType="string" resultType="Integer">
+select count(*) from goal
+where member_num = #{memberNum}
+and end_date >= sysdate
+</select>
+
+<select id="goalDetail" parameterType="string" resultType="goalDTO">
+select <include refid="BaseColumns"/>
+	, (GOAL_PRICE - CURRENT_PRICE) as remainPrice
+	, round(end_date - sysdate) as remainDate
+from goal
+where goal_num = #{goalNum}
 </select>
 </mapper>

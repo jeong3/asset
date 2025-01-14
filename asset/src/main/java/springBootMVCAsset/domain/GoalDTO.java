@@ -20,4 +20,6 @@ public class GoalDTO {
 	Date endDate;
 	Integer myGoalNum;
 	Integer goalRunCount;
+	Integer remainPrice;
+	Date remainDate;
 }

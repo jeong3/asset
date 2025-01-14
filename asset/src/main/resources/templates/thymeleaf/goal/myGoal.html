@@ -48,6 +48,7 @@ h1 {letter-spacing: 6px}
     		gap: 20px; /* 버튼 간격 */
     		width: 200px;
     		height: 300px;
+    		border: 1px;
 		}
 </style>
 <title>Member Detail</title>
@@ -150,7 +151,7 @@ h1 {letter-spacing: 6px}
                     <tr th:each="dto : ${runlist}">
                     	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
                         <td>[[${dto.myGoalNum}]]</td>
-                        <td><a th:href="|/myGoal/goalDetail?goalNum=${dto.goalNum}|">
+                        <td><a th:href="|/goal/goalDetail?goalNum=${dto.goalNum}|">
                         	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
 							<span th:if="${dto.goalName == '지출'}" style="color: #c06a24;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
                         	</a>
@@ -165,8 +166,10 @@ h1 {letter-spacing: 6px}
             </table>
         </form>
     </div>
+    </div>
     
     <!-- 완료된 목표 리스트 -->
+    <div class="my-finishGoal">
     <div class="goal-finish-list">
         <form action="goalsDelete" method="post" id="frm">
             <table>
@@ -192,7 +195,7 @@ h1 {letter-spacing: 6px}
                     <tr th:each="dto : ${finishlist}">
                     	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
                         <td>[[${dto.myGoalNum}]]</td>
-                        <td><a th:href="|/myGoal/goalDetail?goalNum=${dto.goalNum}|">
+                        <td><a th:href="|/goal/goalDetail?goalNum=${dto.goalNum}|">
                         	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
 							<span th:if="${dto.goalName == '지출'}" style="color: #c06a24;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
                         	</a>
@@ -209,10 +212,10 @@ h1 {letter-spacing: 6px}
 							</span>
 							<span th:if="${dto.goalName == '지출'}">
 								<span th:if="${dto.goalRate <= 0}">
-									<i class="fa fa-close" style="font-size:20px;color:grey;"></i>
+									<i class="fa fa-close" style="font-size:25px;color:#da0101;"></i>
 								</span>
 								<span th:if="${dto.goalRate > 0}">
-									<i class="fa fa-check-circle-o" style="font-size:20px;color:blue;"></i>
+									<i class="fa fa-check-circle" style="font-size:25px;color:green;"></i>
 								</span>
 							</span>
 						</td>
@@ -221,7 +224,6 @@ h1 {letter-spacing: 6px}
                 </tbody>
             </table>
         </form>
-    </div>
     </div>
 </div>
 </body>

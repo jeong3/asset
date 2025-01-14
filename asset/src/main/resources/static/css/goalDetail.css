@@ -1,7 +1,8 @@
-.financial-table {
+@charset "UTF-8";
+.price-table {
     border-collapse: collapse;
     width: 50%;
-    max-width: 480px;
+    max-width: 300px;
     background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -10,51 +11,52 @@
     margin: 20px auto;
     table-layout: auto; /* 셀 크기를 데이터에 따라 조정 */
 }
+#memberId{
+	text-align: left;
+	font-weight: normal;
+}
 
-.financial-table th,
-.financial-table td {
+.price-table th,
+.price-table td {
     padding: 12px 15px;
-    text-align: center;
+    text-align: left;
     border: 1px solid #ddd; /* 셀 경계선 */
 }
 
-.financial-table th {
+.price-table th {
     background-color: #4CAF50;
     color: white;
 }
 
-.financial-table td:first-child {
-    background-color: #e3f5d5; /* 연한 회색 */
+.price-table td:first-child {
+    background-color: #e3f5d5; 
     font-weight: bold;
-    width: 35%; /* 왼쪽 열을 더 좁게 설정 */
+    width: 40%; /* 왼쪽 열을 더 좁게 설정 */
 }
 
-.financial-table td:last-child {
+.price-table td:last-child {
     background-color: white;
-    width: 65%; /* 오른쪽 열을 더 넓게 설정 */
+    width: 60%; /* 오른쪽 열을 더 넓게 설정 */
     text-align: right;
 }
 
 /* 테이블 행 구분 줄 */
-.financial-table tr {
+.price-table tr {
     border-bottom: 1px solid #ddd;
     height: auto; /* 행 높이를 자동으로 조정 */
 }
 
-.financial-table tr:hover {
+.price-table tr:hover {
     background-color: #f1f1f1;
 }
 
 /* 둥근 모서리 */
-.financial-table {
+.price-table {
     border-radius: 12px;
 }
 
 /* rowspan 관련 문제 해결 */
-.financial-table td[rowspan] {
+.price-table td[rowspan] {
     vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
     padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
-}
-a{
-	text-decoration-line: none;
 }

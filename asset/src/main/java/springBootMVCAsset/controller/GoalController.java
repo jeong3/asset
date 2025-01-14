@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.GoalCommand;
-import springBootMVCAsset.service.goal.GoalFinishService;
+import springBootMVCAsset.service.goal.GoalDetailService;
+import springBootMVCAsset.service.goal.GoalFinishListService;
 import springBootMVCAsset.service.goal.GoalRegistService;
 import springBootMVCAsset.service.goal.GoalRunListService;
 
@@ -24,11 +25,14 @@ public class GoalController {
 	@Autowired
 	GoalRunListService goalRunListService;
 	@Autowired
-	GoalFinishService goalFinishService;
+	GoalFinishListService goalFinishListService;
+	@Autowired
+	GoalDetailService goalDetailService;
 	
 	@GetMapping("myGoal")
 	public String myGoal(HttpSession session, Model model) {
 		goalRunListService.execute(session, model);
+		goalFinishListService.execute(session, model);
 		return "thymeleaf/goal/myGoal";
 	}
 	
@@ -48,7 +52,13 @@ public class GoalController {
 			return "thymeleaf/goal/goalRegist";
 		}
 		goalRegistService.execute(goalCommand, session, goalName);
-		return "redirect:/myAsset/myAssetPage";
+		return "redirect:/goal/myGoal";
+	}
+	
+	@GetMapping("goalDetail")
+	public String goalDetail(@RequestParam("goalNum") String goalNum, Model model) {
+		goalDetailService.execute(goalNum, model);
+		return "thymeleaf/goal/goalDetail";
 	}
 	
 }
