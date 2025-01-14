@@ -11,12 +11,17 @@ public class SaleRegistService {
 	StockMapper stockMapper;
 	public void execute() {
 		double close = stockMapper.closeSelect();
+		
+		
 		double sale = 0;
 		if(close > 57000) {
 			sale = 0.2;
 		} else if(close > 55000) {
 			sale = 0.1;
+		} else {
+			sale = 0;
 		}
+		System.out.println("sale:"+sale);
 		stockMapper.saleInsert(sale);
 		
 	}
