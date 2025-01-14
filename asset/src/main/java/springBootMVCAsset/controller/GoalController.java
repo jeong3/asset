@@ -12,31 +12,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.GoalCommand;
-import springBootMVCAsset.service.AutoNumService;
-import springBootMVCAsset.service.goal.GoalListService;
+import springBootMVCAsset.service.goal.GoalFinishService;
 import springBootMVCAsset.service.goal.GoalRegistService;
+import springBootMVCAsset.service.goal.GoalRunListService;
 
 @Controller
 @RequestMapping("goal")
 public class GoalController {
 	@Autowired
-	AutoNumService autoNumService;
-	@Autowired
 	GoalRegistService goalRegistService;
 	@Autowired
-	GoalListService goalListService;
+	GoalRunListService goalRunListService;
+	@Autowired
+	GoalFinishService goalFinishService;
 	
 	@GetMapping("myGoal")
-	public String myGoal() {
+	public String myGoal(HttpSession session, Model model) {
+		goalRunListService.execute(session, model);
 		return "thymeleaf/goal/myGoal";
 	}
 	
 	@GetMapping("goalRegist")
 	public String goalRegist(@RequestParam(value="goalName", required = false) String goalName
 			, Model model) {
-		String autoNum = autoNumService.execute("goal_", "goal_num", 6, "goal");
 		GoalCommand goalCommand = new GoalCommand();
-		goalCommand.setGoalNum(autoNum);
 		goalCommand.setGoalName(goalName);
 		model.addAttribute("goalCommand", goalCommand);
 		return "thymeleaf/goal/goalRegist";

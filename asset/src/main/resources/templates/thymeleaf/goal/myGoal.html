@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="/static/css/goalList.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
@@ -15,7 +16,7 @@ body,h1 {font-family: "Raleway", Arial, sans-serif; background-color: #f6fef0;}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
        .large-button {
-            width: 150px;
+            width: 100px;
             height: 70px;
             font-size: 20px;
             font-weight: bold;
@@ -34,11 +35,11 @@ h1 {letter-spacing: 6px}
         }
 
         .spend-button {
-            background: linear-gradient(to bottom, #f4a9a8, #e88d8d); /* 차분한 살구색 느낌 */
+            background: linear-gradient(to bottom, #fbe7da, #fac2a2); /* 차분한 살구색 느낌 */
         }
 
         .save-button {
-            background: linear-gradient(to bottom, #f9e3b4, #f7cc84); /* 은은한 머스터드 톤 */
+            background: linear-gradient(to bottom, #fbf4cf, #f7e6af); /* 은은한 머스터드 톤 */
         }
 
 		#goalButton {
@@ -47,7 +48,6 @@ h1 {letter-spacing: 6px}
     		gap: 20px; /* 버튼 간격 */
     		width: 200px;
     		height: 300px;
-    		margin: 50px;
 		}
 </style>
 <title>Member Detail</title>
@@ -109,6 +109,7 @@ h1 {letter-spacing: 6px}
 	 </div>
 	 </div>
  <br/> <br/> <br/>
+ <div class="my-runGoal">
 	<div align="center">
 	    <h2>My 자산 목표</h2>
 	    <br/>
@@ -116,8 +117,112 @@ h1 {letter-spacing: 6px}
 	<div id="goalButton">
 		<div align="center">목표 등록</div>
 		<button class="large-button save-button" onclick="location.href='/goal/goalRegist?goalName=저축'">저축</button>
+		100% 달성시 성공!
 		<button class="large-button spend-button" onclick="location.href='/goal/goalRegist?goalName=지출'">소비</button>
+		0% 초과 일시 성공!
 	</div>
+	
+	<!-- 진행중인 목표 리스트 -->
+    <div class="goal-run-list">
+        <form action="goalsDelete" method="post" id="frm">
+            <table>
+             	<div style="text-align: left;">
+    				<b>목표수: [[${goalRunCount}]]개</b>
+    			</div>
+                 <div style="text-align: right;">
+    				<a href="/myPage/memberMyDetail">
+        				<b style="text-decoration : underline;">[[${memberId}]]</b>
+        			</a>님의 <b>진행중인 목표</b> 리스트 입니다
+    			 </div>
+                <thead>
+                    <tr>
+                    	<th><input type="checkbox" id="dealCheckBoxs"/></th>
+                        <th>번호</th>
+                        <th>내용</th>
+                        <th>기간</th>
+                        <th>현재 금액</th>
+                        <th>목표 금액</th>
+                        <th>달성율</th>
+                        <th><button type="submit">선택 삭제</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dto : ${runlist}">
+                    	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
+                        <td>[[${dto.myGoalNum}]]</td>
+                        <td><a th:href="|/myGoal/goalDetail?goalNum=${dto.goalNum}|">
+                        	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
+							<span th:if="${dto.goalName == '지출'}" style="color: #c06a24;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
+                        	</a>
+                        </td>
+                        <td>[[${#dates.format(dto.startDate, 'yy/MM/dd')}]] <br/>~ [[${#dates.format(dto.endDate, 'yy/MM/dd')}]]</td>
+						<td>[[${dto.currentPrice}]]원</td>
+						<td>[[${dto.goalPrice}]]원</td>
+						<td style="color:#da0101;font-weight: bold;">[[${dto.goalRate}]]%</td>
+                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalsDelete?goalNums=${dto.goalNum}'|">삭제</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    
+    <!-- 완료된 목표 리스트 -->
+    <div class="goal-finish-list">
+        <form action="goalsDelete" method="post" id="frm">
+            <table>
+             	<div style="text-align: left;">
+    				<b>목표수: [[${goalFinishCount}]]개</b>
+    			</div>
+                 <div style="text-align: right;">
+    				<a href="/myPage/memberMyDetail">
+        				<b style="text-decoration : underline;">[[${memberId}]]</b>
+        			</a>님의 <b>완료된 목표</b> 리스트 입니다
+    			 </div>
+                <thead>
+                    <tr>
+                    	<th><input type="checkbox" id="dealCheckBoxs"/></th>
+                        <th>번호</th>
+                        <th>내용</th>
+                        <th>기간</th>
+                        <th>달성 여부</th>
+                        <th><button type="submit">선택 삭제</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dto : ${finishlist}">
+                    	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
+                        <td>[[${dto.myGoalNum}]]</td>
+                        <td><a th:href="|/myGoal/goalDetail?goalNum=${dto.goalNum}|">
+                        	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
+							<span th:if="${dto.goalName == '지출'}" style="color: #c06a24;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
+                        	</a>
+                        </td>
+                        <td>[[${#dates.format(dto.startDate, 'yy/MM/dd')}]] <br/>~ [[${#dates.format(dto.endDate, 'yy/MM/dd')}]]</td>
+						<td style="color:#da0101;font-weight: bold;">
+							<span th:if="${dto.goalName == '저축'}">
+								<span th:if="${dto.goalRate >= 100}">
+									<i class="fa fa-check-circle-o" style="font-size:20px;color:blue;"></i>
+								</span>
+								<span th:if="${dto.goalRate < 100}">
+									<i class="fa fa-close" style="font-size:20px;color:grey;"></i>
+								</span>			
+							</span>
+							<span th:if="${dto.goalName == '지출'}">
+								<span th:if="${dto.goalRate <= 0}">
+									<i class="fa fa-close" style="font-size:20px;color:grey;"></i>
+								</span>
+								<span th:if="${dto.goalRate > 0}">
+									<i class="fa fa-check-circle-o" style="font-size:20px;color:blue;"></i>
+								</span>
+							</span>
+						</td>
+                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalsDelete?goalNums=${dto.goalNum}'|">삭제</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    </div>
 </div>
 </body>
 </html>

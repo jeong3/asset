@@ -8,11 +8,14 @@ import springBootMVCAsset.command.GoalCommand;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.GoalDTO;
 import springBootMVCAsset.mapper.GoalMapper;
+import springBootMVCAsset.service.AutoNumService;
 
 @Service
 public class GoalRegistService {
 	@Autowired
 	GoalMapper goalMapper;
+	@Autowired
+	AutoNumService autoNumService;
 	
 	public void execute(GoalCommand goalCommand
 			, HttpSession session, String goalName) {
@@ -27,6 +30,10 @@ public class GoalRegistService {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = auth.getUserNum();
 		dto.setMemberNum(memberNum);
+		
+		String autoNum = autoNumService.execute("goal_", "goal_num", 6, "goal");
+		dto.setGoalNum(autoNum);
+		
 		if(dto.getGoalName().equals("저축")){
 			goalMapper.goalRegist1(dto);
 		}else{

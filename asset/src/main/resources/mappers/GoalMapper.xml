@@ -3,7 +3,10 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCAsset.mapper.GoalMapper">
-
+<sql id="BaseColumns">
+ 		GOAL_NUM, GOAL_NAME, GOAL_CONTENTS, GOAL_PRICE, CURRENT_PRICE, 
+        GOAL_RATE, START_DATE, END_DATE, MEMBER_NUM
+</sql>
 <insert id="goalRegist1" parameterType="goalDTO">
     INSERT INTO goal (
         GOAL_NUM, GOAL_NAME, GOAL_CONTENTS, GOAL_PRICE, CURRENT_PRICE, 
@@ -86,4 +89,18 @@
 		END,
 		#{startDate}, #{endDate}, #{memberNum})
 </insert>
+
+<select id="goalRunList" parameterType="string" resultType="goalDTO">
+select row_number() over(order by end_date) as myGoalNum,
+	<include refid="BaseColumns"/>
+from goal
+	where member_num = #{memberNum}
+	and end_date >= sysdate
+</select>
+
+<select id="goalRunCount" parameterType="string" resultType="Integer">
+select count(*) from goal
+where member_num = #{memberNum}
+and end_date >= sysdate
+</select>
 </mapper>

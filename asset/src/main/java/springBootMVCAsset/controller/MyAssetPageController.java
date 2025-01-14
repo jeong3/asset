@@ -193,5 +193,4 @@ public class MyAssetPageController {
 		jaeTechDealListService.execute(session, model, categoryType);
 		return "thymeleaf/myAsset/jaetechList";
 	}
-	
 }
