@@ -8,8 +8,8 @@
 $(function(){
     $("#inquire1").click(function(){
         if([[${#strings.isEmpty(session.auth)}]]){
-            popupWindow  = window.open("/login/item.login","login"
-                    ,"width=315, height=200,top = 100, left=100");
+            popupWindow  = window.open("/login/login","login"
+                    ,"width=400, height=400,top = 300, left=750");
             popupWindow.onbeforeunload = function(){ // 팝업창이 닫힌때
                 window.location.reload();
             }
@@ -19,7 +19,7 @@ $(function(){
             let popupCheckInterval = setInterval(function(){
                 if (popupWindow.closed) {
                     clearInterval(popupCheckInterval); 
-                    inquire(); 
+                    window.location.reload(true); 
                 }
             }, 500);
         }    
@@ -27,8 +27,11 @@ $(function(){
 });
 
 function inquireUpdate(inquireNum){
-    window.open("/inquire/inquireUpdate?inquireNum="+inquireNum,
+	popupWindow = window.open("/inquire/inquireUpdate?inquireNum="+inquireNum,
             "","width=900, height=600, top = 100, left=100");
+	popupWindow.onbeforeunload = function() {
+	    window.location.reload(); // 부모 창 리로드
+	};
 }
 
 function inquireDelete(inquireNum){
@@ -37,7 +40,7 @@ function inquireDelete(inquireNum){
         url:'/inquire/inquireDelete',
         data: {'inquireNum':inquireNum},
         success:function(){
-            inquire();
+        	window.location.reload(true); 
         }
     });
 }
@@ -51,6 +54,7 @@ function contentOpen(id){
         $("#"+id).text("답변열기"); 
     }
 }
+
 </script>
 <style>
 /* 테이블 기본 스타일 */
@@ -73,8 +77,8 @@ td {
     text-align: center;
     vertical-align: middle;
 }
+/*
 
-/* 문의하기 버튼 스타일 */
 #inquire1 {
     padding: 8px 12px;
     font-size: 14px;
@@ -84,11 +88,12 @@ td {
     transition: background-color 0.3s ease;
     margin-right: 10px;
 }
-
-/* 문의하기 버튼 hover 효과 */
 #inquire1:hover {
     background-color: #f4f4f4;
 }
+
+*/
+/* 문의하기 버튼 hover 효과 */
 
 /* 답변 열기 버튼 */
 button {

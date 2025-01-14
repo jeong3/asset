@@ -53,7 +53,9 @@ values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultm
         <constructor>
             <idArg column="purchase_num" javaType="string" />
             <arg column="purchase_date" javaType="java.util.Date" />
-            <arg column="purchase_price" javaType="integer" />
+            <arg column="purchase_price" javaType="java.math.BigDecimal" />
+            <arg column="discount_price" javaType="integer" />
+            <arg column="purchase_sale" javaType="integer" />
             <arg column="delivery_addr" javaType="string" />
             <arg column="delivery_addr_detail" javaType="string" />
             <arg column="delivery_post" javaType="integer" />
@@ -112,7 +114,7 @@ values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultm
     SELECT
         g.goods_num, g.goods_name, g.main_store_image, g.goods_contents,
         pl.goods_unit_price, pl.purchase_qty,
-        p.purchase_num, p.purchase_date, p.purchase_price, p.delivery_addr,
+        p.purchase_num, p.purchase_date, p.purchase_price, p.discount_price, p.purchase_sale, p.delivery_addr,
         p.delivery_addr_detail, p.delivery_post, p.delivery_tel, p.message,
         p.purchase_status, p.delivery_name, p.member_num, p.purchase_name,
         pm.confirmnumber, pm.cardnum, pm.appldate, pm.apptime, pm.totalprice,
@@ -145,4 +147,7 @@ values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultm
 	where purchase_num = #{purchaseNum}
 </delete>
 
+<select id="paymentSelectOne" parameterType="String" resultType="payment">
+select * from payment where purchase_num = #{purchaseNum}
+</select>
 </mapper>

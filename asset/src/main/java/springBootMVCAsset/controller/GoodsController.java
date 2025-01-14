@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.GoodsCommand;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.goods.CouponListService;
 import springBootMVCAsset.service.goods.GoodsDeleteService;
 import springBootMVCAsset.service.goods.GoodsDetailService;
 import springBootMVCAsset.service.goods.GoodsDetailViewService;
@@ -24,6 +25,8 @@ import springBootMVCAsset.service.goods.GoodsUpdateService;
 @Controller
 @RequestMapping("goods")
 public class GoodsController {
+	@Autowired
+	CouponListService couponListService;
 	@Autowired
 	AutoNumService autoNumService;
 	@Autowired
@@ -99,5 +102,10 @@ public class GoodsController {
 			, HttpServletResponse response, HttpSession session) {	
 		goodsDetailViewService.execute(goodsNum, model, response, session);
 		return "thymeleaf/goods/goodsDetail";
+	}
+	@GetMapping("couponList")
+	public String couponList(HttpSession session, Model model) {
+		couponListService.execute(session, model);
+		return "thymeleaf/goods/couponList";
 	}
 }

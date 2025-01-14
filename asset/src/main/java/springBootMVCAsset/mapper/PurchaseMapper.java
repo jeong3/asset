@@ -19,4 +19,5 @@ public interface PurchaseMapper {
 	public List<OrderListDTO> orderList(Map<String , String> map);
 	public int paymentStatusUpdate(String purchaseNum);
 	public int paymentDel(String purchaseNum);
+	public PaymentDTO paymentSelectOne(String purchaseNum);
 }

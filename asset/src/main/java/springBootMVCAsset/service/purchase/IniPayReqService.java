@@ -16,7 +16,7 @@ import springBootMVCAsset.mapper.PurchaseMapper;
 public class IniPayReqService {
 	@Autowired
 	PurchaseMapper purchaseMapper;
-	public void execute(String purchaseNum,Model model) throws Exception{
+	public void execute(String purchaseNum,String couponNum, Model model) throws Exception{
 		PurchaseDTO dto =  purchaseMapper.purchaseSelectOne(purchaseNum);
 		String mid					= "INIpayTest";		                    // 상점아이디					
 		String signKey			    = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS";	// 웹 결제 signkey
@@ -44,6 +44,8 @@ public class IniPayReqService {
 		model.addAttribute("mKey", mKey);
 		model.addAttribute("purchaseName", dto.getPurchaseName());
 		model.addAttribute("deliveryTel", dto.getDeliveryTel());
+		model.addAttribute("purchaseNum", purchaseNum);
+		model.addAttribute("couponNum", couponNum);
 	}
 }
 

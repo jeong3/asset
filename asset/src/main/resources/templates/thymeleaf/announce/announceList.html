@@ -204,6 +204,7 @@ h1 {
  </div>
 </div>
 <h1>공고 리스트</h1>
+<a href="/announce/announceRegist" class="w3-button w3-teal">등록하기</a>
 <div class="container">
 
     <!-- Thymeleaf 반복문 -->
@@ -220,20 +221,16 @@ h1 {
             <p th:text="${announce.interviewAddr}">면접 장소</p>
         </div>
         <div class="card-footer">
-    <button 
-    type="button" 
-    th:attr="data-announceNum=${announce.announceNum}" 
-    th:if="${session.auth == null or session.auth.grade != 'emp'}"
-    onclick="applyForJob(this)">지원하기</button>
+    <button type="button" th:attr="data-announceNum=${announce.announceNum}" th:if="${session.auth == null or session.auth.grade != 'emp'}"onclick="applyForJob(this)">지원하기</button>
 
     <button 
     type="button" 
     th:attr="data-announceNum=${announce.announceNum}" 
     th:if="${session.auth != null and session.auth.grade == 'emp'}"
     onclick="editJob(this)">수정하기</button>
+		</div>
+	</div>
+</div>
 
-</div>
-    </div>
-</div>
 </body>
 </html>

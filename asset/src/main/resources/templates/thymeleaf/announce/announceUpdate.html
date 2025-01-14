@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#btn3").click(function(){
+	$("#btn").click(function(){
 		window.open("/employee/departmentItem","부서검색","width=700, height=500, top=500, left=60")
 	});
 });
@@ -165,7 +165,7 @@ $(function(){
       <td><label for="departmentNum">부서 번호</label></td>
       <td>
         <input class="w3-input w3-border" type="text" name="departmentNum" th:value="${dto.departmentNum}" id="departmentNum" />
-        <!-- <button type="button" id="btn3" >부서 검색</button> -->
+        <button type="button" id="btn" >부서 선택</button>
       </td>
     </tr>
   </table>

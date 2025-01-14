@@ -55,13 +55,16 @@ public class GoodsBuyService {
             
             // 상품 번호 추가
             goodsNums += dto.getGoodsDTO().getGoodsNum() + "-";
+            System.out.println("값" + itemPrice);
         }
         
         // 결제 금액이 30,000 이상일 경우 배송비는 0
         if (sumPrice.compareTo(BigDecimal.valueOf(30000)) >= 0) {
             deliveryCost = BigDecimal.ZERO;
         }
+        System.out.println("값" + sumPrice);
         
+        System.out.println("값" + sumPrice);
         // 모델에 값 추가
         System.out.println();
         model.addAttribute("sumPrice", sumPrice);

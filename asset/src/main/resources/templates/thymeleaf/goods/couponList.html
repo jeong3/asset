@@ -1,32 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠폰 리스트</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
-<script type="text/javascript">
-$(function(){
-
-	$("#btn").click(function(){
-		window.open("/employee/departmentItem","부서검색","width=600, height=500, top=500, left=60")
-	});
-});
-</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
 </head>
 <body>
-<div class="w3-content" style="max-width:1500px">
 <div class="w3-top">
 
- <div class="w3-bar w3-theme-d2 w3-left-align">
+ <div class="w3-bar w3-theme-d2 w3-left-align" style="margin-left: 202px;">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
-  <a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
+		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	    	<a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+	    	<a href="/volunteer/receiptCheck" class="w3-bar-item w3-button w3-hide-small">접수확인</a>
+	    </div>
+  </div>
+  
   <div th:if="${session.auth != null}">
   	<th:block th:if="${session.auth.grade == 'emp'}">
 	  <div class="w3-dropdown-hover w3-hide-small">
@@ -69,13 +67,15 @@ $(function(){
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
             <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
             <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+            <a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     		<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     		<a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
         </div>
     </div>
 </th:block>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
-     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
-     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
      	
      	<!-- 마이자산페이지 -->
      	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
@@ -111,67 +111,37 @@ $(function(){
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
-<h1 align="center">공고 등록 페이지입니다.</h1>
+<br/>
+<br/>
+<br/>
+    <div class="container mt-5">
+        <h2 align="center">쿠폰 리스트</h2>
+        <br/>  
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">쿠폰 번호</th>
+                    <th scope="col">쿠폰 이름</th>
+                    <th scope="col">쿠폰 가격</th>
+                    <th scope="col">쿠폰 내용</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 리스트가 비어 있으면 안내 메시지를 출력 -->
+                <tr th:each="coupon : ${list}">
+                    <td th:text="${coupon.couponNum}"></td>
+                    <td th:text="${coupon.couponName}"></td>
+                    <td th:text="${coupon.couponPrice}"></td>
+                    <td th:text="${coupon.couponContents}"></td>
+                </tr>
+                <!-- 리스트가 없으면 표시될 메시지 -->
+                <tr th:if="${#lists.isEmpty(list)}">
+                    <td colspan="6" class="text-center">현재 쿠폰이 없습니다.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<form action="/announce/announceRegist" method="POST">
-  <table align ="center" class="w3-table w3-bordered w3-margin-top">
-    <tr>
-      <td><label for="announceNum">공고 번호</label></td>
-      <td><input class="w3-input w3-border" type="text" id="announceNum" name="announceNum" th:value="${announceCommand.announceNum}" readonly= "readonly" required></td>
-    </tr>
-    
-    <tr>
-      <td><label for="announceName">공고명</label></td>
-      <td><input class="w3-input w3-border" type="text" id="announceName" name="announceName" required></td>
-    </tr>
-    
-    <tr>
-      <td><label for="announceDate">공고 날짜</label></td>
-      <td><input class="w3-input w3-border" type="date" id="announceDate" name="announceDate" required></td>
-    </tr>
-    
-    <tr>
-      <td><label for="startDate">시작 날짜</label></td>
-      <td><input class="w3-input w3-border" type="date" id="startDate" name="startDate" required></td>
-    </tr>
-    
-    <tr>
-      <td><label for="endDate">종료 날짜</label></td>
-      <td><input class="w3-input w3-border" type="date" id="endDate" name="endDate" required></td>
-    </tr>
-    
-    <tr>
-      <td><label for="announceContents">공고 내용</label></td>
-      <td><textarea class="w3-input w3-border" id="announceContents" name="announceContents" rows="5" required></textarea></td>
-    </tr>
-    
-    <tr>
-      <td><label for="resultDate">결과 발표일</label></td>
-      <td><input class="w3-input w3-border" type="date" id="resultDate" name="resultDate" required></td>
-    </tr>
-    
-    <tr>
-      <td><label for="interviewDate">면접 날짜</label></td>
-      <td><input class="w3-input w3-border" type="date" id="interviewDate" name="interviewDate" required></td>
-    </tr>
-    
-    <tr>
-      <td><label for="interviewAddr">면접 장소</label></td>
-      <td><input class="w3-input w3-border" type="text" id="interviewAddr" name="interviewAddr" required></td>
-    </tr>
-    
-    <!-- 부서번호 select 추가 -->
-    <tr>
-      <td><label for="departmentNum">부서 번호</label></td>
-      <td>
-        <input class="w3-input w3-border" type="text" name="departmentNum" id="departmentNum" />
-        <button type="button" id="btn" >부서 선택</button>
-      </td>
-    </tr>
-  </table>
-  <div class="w3-container w3-margin-top" style="text-align: center;">
-    <button type="submit" class="w3-button w3-teal">등록</button>
-  </div>
-</form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

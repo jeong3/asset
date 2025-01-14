@@ -41,7 +41,8 @@ public class INIstdpayPcReturn {
 			}
 			
 			System.out.println("paramMap : "+ paramMap.toString());
-			
+			String orderNumber = paramMap.get("orderNumber");
+            request.setAttribute("orderNumber", orderNumber);
 			
 			if("0000".equals(paramMap.get("resultCode"))){
 

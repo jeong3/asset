@@ -6,24 +6,41 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/static/js/daumAddressScript.js"></script>
 <script>
+function updateCouponId() {
+    // 쿠폰 선택된 값 가져오기
+    var selectedCoupon = document.getElementById("couponId").selectedOptions[0];
+    var couponNum = selectedCoupon.value;  // 선택된 쿠폰 번호
+
+    // 쿠폰 번호를 hidden 필드에 설정
+    document.getElementById("couponIdInput").value = couponNum;
+}
 function updateDiscount() {
     var sumPrice = [[${sumPrice}]];  // 원래 금액
     var deliveryCost = [[${deliveryCost}]];  // 배송비
     var discountPrice = 0;  // 쿠폰 할인액
-
+    
     // 선택된 쿠폰 정보를 가져옴
     var selectedCoupon = document.getElementById("couponId").selectedOptions[0];
-    var couponPrice = selectedCoupon ? parseInt(selectedCoupon.getAttribute("data-price")) : 0;  // 쿠폰 할인액
+
+    // 쿠폰 선택이 없으면 discountPrice는 0, 선택된 쿠폰이 있으면 할인액 적용
+    if (selectedCoupon.value) {
+        var couponPrice = parseInt(selectedCoupon.getAttribute("data-price")) || 0;  // 쿠폰 할인액
+        discountPrice = couponPrice;
+    }
 
     // 할인된 가격 계산
-    discountPrice = couponPrice;
     var totalAmount = sumPrice + deliveryCost - discountPrice;
+    
+    console.log(sumPrice);
+    console.log(deliveryCost);
+    console.log(discountPrice);
 
     // 결과를 화면에 표시
     document.getElementById("discountPrice").textContent = discountPrice > 0 ? discountPrice.toLocaleString() : '0';  // 할인가격
     document.getElementById("totalAmount").textContent = totalAmount > 0 ? totalAmount.toLocaleString() : sumPrice.toLocaleString();  // 총 결제 금액
     document.getElementsByName("totalPaymentPrice")[0].value = totalAmount;  // 총 결제 금액을 hidden input에 저장
 }
+
 
 
     // 페이지가 로드될 때 초기 계산을 수행하려면 이 함수를 호출할 수 있습니다.
@@ -173,6 +190,7 @@ function updateDiscount() {
 <input type="hidden" name="goodsNums" th:value="${goodsNums}" />
 <input type="hidden" name="totalPaymentPrice" th:value="${sumPrice + deliveryCost}" />
 <input type="hidden" name="purchaseName"  th:value= "${list[0].goodsDTO.goodsName + ' 외' + (list.size() - 1) + '개' }" />
+<input type="hidden" name="couponNum" id="couponIdInput" />
 <table width="700"  align="center" >
 	<tr><td align="left">
 		<table width="350">
@@ -194,32 +212,37 @@ function updateDiscount() {
 		</table>
 	</td>
 	<td align="right">
-		<table width="350">
-			<tr><td colspan=2>3. 결제정보</td></tr>
-			<tr><td> 총 금액 </td><td>[[${#numbers.formatCurrency(sumPrice)}]]원</td></tr>
-			<tr>
-                        <td>할인쿠폰</td>
-                        <td>
-                            <select name="couponId" id="couponId" onchange="updateDiscount()">
-                                <option value="" selected>-- 쿠폰 선택 --</option>
-                                <!-- 쿠폰 목록을 순회하여 옵션 추가 -->
-                                <th:block th:each="dto : ${couponList}">
-                                    <option th:value="${dto.couponName}" th:text="${dto.couponName}" th:data-price="${dto.couponPrice}"></option>
-                                </th:block>
-                            </select>
-                        </td>
-                    </tr>
-			<tr><td> 할인가격</td><td><span id="discountPrice">0</span>원</td></tr>
-			<tr><td> 총 배송비</td><td>
-					<span th:if="${deliveryCost == 0}">무료배송</span>
-					<span th:if="${deliveryCost != 0}">[[${#numbers.formatCurrency(deliveryCost)}]]원</span>
-				</td></tr>
-			<tr><td> 총 결제 금액 </td><td><span id="totalAmount"></span>원</td></tr>
-			<tr><td align="center"  colspan=2>
-				<input type="submit" value="구매하기"/>
-			</td></tr>
-		</table>
-	</td></tr>
+    <table width="350">
+        <tr><td colspan=2>3. 결제정보</td></tr>
+        <tr><td> 총 금액 </td><td>[[${#numbers.formatCurrency(sumPrice)}]]원</td></tr>
+        <tr>
+            <td>할인쿠폰</td>
+            <td>
+                    <select name="couponId" id="couponId" onchange="updateCouponId(); updateDiscount();">
+                        <option value="" selected>-- 쿠폰 선택 --</option>
+                        <!-- 쿠폰 목록을 순회하여 옵션 추가 -->
+                        <th:block th:each="dto : ${couponList}">
+                        	<option>사용안함</option>
+                            <option th:value="${dto.couponNum}" th:text="${dto.couponName}" th:data-price="${dto.couponPrice}" >
+                           
+                            </option>
+                        </th:block>
+                    </select>
+            </td>
+        </tr>
+        <tr><td> 할인가격</td><td><span id="discountPrice">0</span>원</td></tr>
+        <tr><td> 총 배송비</td><td>
+            <span th:if="${deliveryCost == 0}">무료배송</span>
+            <span th:if="${deliveryCost != 0}">[[${#numbers.formatCurrency(deliveryCost)}]]원</span>
+        </td></tr>
+        <tr><td> 총 결제 금액 </td><td><span id="totalAmount"></span>원</td></tr>
+        <tr><td align="center" colspan=2>
+            <input type="submit" value="구매하기"/>
+        </td></tr>
+    </table>
+</td>
+
+</tr>
 </table>
 </form>
 </body>

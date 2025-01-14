@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.PurchaseCommand;
@@ -34,18 +35,21 @@ public class PurchaseController {
 		return "thymeleaf/purchase/goodsOrder";
 	}
 	@PostMapping("goodsOrder")
-	public String goodsOrder(PurchaseCommand purchaseCommand, HttpSession session,
+	public String goodsOrder(@RequestParam String couponNum, PurchaseCommand purchaseCommand, HttpSession session,
 			Model model) {
 		String purchaseNum = goodsOrderService.execute(purchaseCommand, session, model);
-		return "redirect:paymentOk?purchaseNum="+purchaseNum;
+		System.out.println("쿠폰번호 : " + couponNum);	
+		model.addAttribute("couponNum", couponNum);
+		return "redirect:paymentOk?purchaseNum=" + purchaseNum + "&couponNum=" + couponNum;
 	}
 	@GetMapping("paymentOk")
-	public String paymentOk(String purchaseNum,Model model) {
+	public String paymentOk(String purchaseNum, String couponNum, Model model) {
 		try {
-			iniPayReqService.execute(purchaseNum, model);
+			iniPayReqService.execute(purchaseNum,couponNum, model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return "thymeleaf/purchase/payment";
 	}
 	@GetMapping("orderList")

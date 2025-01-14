@@ -1,5 +1,6 @@
 package springBootMVCAsset.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.AnnounceCommand;
-import springBootMVCAsset.command.MemberCommand;
 import springBootMVCAsset.command.VolunteerCommand;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.DepartmentDTO;
@@ -45,6 +45,8 @@ public class AnnounceController {
 	VolunteerRegistService volunteerRegistService;
 	@GetMapping("announceList")
 	public String announceList(Model model) {
+		LocalDate sysdate = LocalDate.now();
+		model.addAttribute("sysdate", sysdate);
 		announceListService.execute(model);
 		return "thymeleaf/announce/announceList";
 	}

@@ -14,19 +14,6 @@ public class GoodsLoadMoreListService {
 	@Autowired
 	GoodsMapper goodsMapper;
 	public void execute(String goodsKind, Integer page, String searchWord, Model model) {
-		/*
-		int endPrice = goodsMapper.selectEndPrice();
-		double sale = 1.0;
-		if(endPrice > 55000) {
-			sale = 0.95;
-		} else if(endPrice > 60000) {
-			sale = 0.9;
-		} else {
-			sale = 1.0;
-		}
-		System.out.println("세일 : " + sale);
-		model.addAttribute("sale", sale);
-		*/
 		int limit = 4; 
 		int startRow = ((page - 1) * limit) + 1; 
 		int endRow = startRow + limit - 1; 

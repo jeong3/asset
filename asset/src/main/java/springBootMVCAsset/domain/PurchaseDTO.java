@@ -31,10 +31,12 @@ public class PurchaseDTO {
 	
 	//CouponDTO couponDTO;
 	
-	public PurchaseDTO(String purchaseNum, Date purchaseDate, BigDecimal purchasePrice, String deliveryAddr, String deliveryAddrDetail, Integer deliveryPost, String deliveryTel, String message, String purchaseStatus, String memberNum, String deliveryName, String purchaseName) {
+	public PurchaseDTO(String purchaseNum, Date purchaseDate, Integer discountPrice, Integer purchaseSale, BigDecimal purchasePrice, String deliveryAddr, String deliveryAddrDetail, Integer deliveryPost, String deliveryTel, String message, String purchaseStatus, String memberNum, String deliveryName, String purchaseName) {
 	    this.purchaseNum = purchaseNum;
 	    this.purchaseDate = purchaseDate;
 	    this.purchasePrice = purchasePrice;
+	    this.discountPrice = discountPrice;
+	    this.purchaseSale = purchaseSale;
 	    this.deliveryAddr = deliveryAddr;
 	    this.deliveryAddrDetail = deliveryAddrDetail;
 	    this.deliveryPost = deliveryPost;

@@ -84,13 +84,15 @@ h1 {letter-spacing: 6px}
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
             <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
             <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+            <a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     		<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     		<a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
         </div>
     </div>
 </th:block>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
-     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
-     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
      	
      	<!-- 마이자산페이지 -->
      	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>

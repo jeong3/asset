@@ -10,4 +10,5 @@ import springBootMVCAsset.domain.CouponDTO;
 public interface CouponMapper {
 	public void couponInsert(String memberNum);
 	public List<CouponDTO> couponSelect(String memberNum);
+	public void couponDelete(String couponNum);
 }

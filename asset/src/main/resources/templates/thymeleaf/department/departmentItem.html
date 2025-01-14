@@ -131,6 +131,11 @@ function setDepartment(element) {
 		});
 	
 	}
+function setDepartment1(element) {
+	var departmentNum = $(element).data('departmentNum');
+    $("#departmentNum").val($(opener.document).find("#departmentNum").val(departmentNum));
+    window.close();
+}
    
 
 </script>
@@ -161,7 +166,7 @@ function setDepartment(element) {
              	    <td id="departmentNum">[[${dto.departmentNum}]]</td>
               	    <td>[[${dto.departmentName}]] </td>
                     <td>[[${dto.jobTitle}]]</td>
-                    <td><button type="button" th:data-department-num="${dto.departmentNum}" onclick="setDepartment(this);">부서선택</button></td>
+                    <td><button type="button" th:data-department-num="${dto.departmentNum}" onclick="setDepartment1(this);">부서선택</button></td>
                    
                 </tr>
             </tbody>
