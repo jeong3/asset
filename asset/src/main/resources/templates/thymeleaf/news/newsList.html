@@ -13,7 +13,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #4682B4;
         }
 
         .container {
@@ -313,7 +313,7 @@ function loadMoreItems(){
   </div>
   <button  class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" id="searchToggle" title="Search"><i class="fa fa-search"></i></button>
  </div>
- <br /><br /><br />
+ <br />
  
  
  	<form action="/news/newsList">
@@ -332,9 +332,9 @@ function loadMoreItems(){
    		 <h1 >No news available.</h1> <a class="loadNews" href="/news/newsList" style="text-decoration: none;">뉴스</a>
 		</div>
 		<div th:if="${count != 0}" class="EmptyNews">
-   		 <h1>뉴스 페이지</h1>
+   		 <h1>Latest News</h1>
 		</div>
-		<br><br><br><br><br><br>
+		<br><br>
         <div th:if="${list != null and !list.isEmpty()}" class="main-news" th:data-news-num="${list[0].newsNum}" onclick="newsDetail(this)">
     <img th:src="|/static/images/${list[0].storeImage}|" alt="Main News">
     <div class="headline">

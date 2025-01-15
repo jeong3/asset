@@ -12,6 +12,70 @@
 body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
+.naver-login-btn {
+            background-color: #03C75A;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+            width: 385px;
+            height: 45px;
+            line-height: 45px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+             
+             left: 815px;
+             top: 405px;
+        }
+
+        .naver-login-btn img {
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .naver-login-btn:hover {
+            background-color: #02B954;
+        }
+         .APILogin_naver {
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+         .APILogin_kakao {
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .img-button {
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease; /* 부드러운 전환 효과 */
+        }
+
+        
+
+        /* 버튼을 누를 때 이미지가 눌리는 효과 */
+        .img-button:active {
+            transform: scale(0.98); /* 이미지가 눌려서 작아지는 효과 */
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2); /* 눌리는 그림자 효과 */
+        }
+
+        /* 이미지 크기 조정 */
+        .img-button img {
+            width: 150px; /* 이미지의 너비 설정 */
+            height: auto; /* 자동 높이 */
+        }
 </style>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
@@ -53,6 +117,45 @@ h1 {letter-spacing: 6px}
 	    });
 	}
 
+  function naverLogin() {
+	    var naverLogin = new naver.LoginWithNaverId({
+	        clientId: "BJfDCO0tCiQL_dKyHZrm", // 네이버에서 발급받은 클라이언트 아이디
+	        callbackUrl: "http://localhost:8080/", // 로그인 성공 후 리다이렉트할 URL
+	        isPopup: false, // 팝업으로 로그인할지 여부
+	        loginButton: { color: "green", type: 3, height: 40 } // 로그인 버튼의 스타일 설정
+	    });
+
+	    naverLogin.init(); // 네이버 로그인 초기화
+
+	    naverLogin.getLoginStatus(function(status) {
+	        if (status) {
+	            var accessToken = naverLogin.oauthParams.access_token;
+	            console.log("로그인 성공: " + accessToken);
+	            // access_token을 서버로 전송
+	            $.ajax({
+	                url: '/naver-login',  // 서버에서 처리할 URL
+	                type: 'POST',  // HTTP 메서드
+	                headers: {
+	                    'Authorization': 'Bearer ' + accessToken  // access_token을 Authorization 헤더로 전달
+	                },
+	                contentType: 'application/json;charset=utf-8',  // JSON 형식의 데이터 전송
+	                data: JSON.stringify({
+	                    accessToken: accessToken
+	                }),
+	                success: function(response) {
+	                    console.log('서버 응답:', response);
+	                    window.location.href = "/";
+	                    // 서버 응답에 따라 사용자 안내 또는 리다이렉트 처리
+	                },
+	                error: function(xhr, status, error) {
+	                    console.error('AJAX 요청 실패:', error);
+	                }
+	            });
+	        } else {
+	            console.log('로그인 실패');
+	        }
+	    });
+	}
 
 
 
@@ -110,12 +213,12 @@ h1 {letter-spacing: 6px}
         <td><h2>로그인</h2></td>
     </tr>
     <tr>
-        <td><input id="userId" type="text" placeholder="ID" th:field="*{userId}" required="required"> <br>
+        <td><input id="userId" type="text" placeholder="ID" th:field="*{userId}" > <br>
         <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color: red;"></span></td>
         
     </tr>
     <tr>
-        <td><input id="userPw" type="password" placeholder="Password" th:field="*{userPw}" required="required" ><br>
+        <td><input id="userPw" type="password" placeholder="Password" th:field="*{userPw}"  ><br>
         <span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}" style="color: red;"></span></td>
         
     </tr>
@@ -130,7 +233,13 @@ h1 {letter-spacing: 6px}
         <td class="join"><a href="/member/memberRegist" >회원가입</a></td>
     </tr>
 </table>
-<button onclick="kakaoLogin()">카카오 로그인</button>
+
+<div class="APILogin_kakao">
+<img alt="카카오로그인" src="/static/images/카카오로그인.png" width="400px" onclick="kakaoLogin()" class="img-button">
+</div>
+<div class="APILogin_naver">
+<button onclick="naverLogin()" class="naver-login-btn"><img alt="" src="/static/images/btnG_아이콘사각.png">네이버 아이디로 로그인</button>
+</div>
 </form>
 </body>
 </html>

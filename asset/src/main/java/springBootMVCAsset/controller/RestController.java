@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.KakaoUser;
-import springBootMVCAsset.domain.MemberDTO;
 import springBootMVCAsset.domain.SalaryDTO;
 import springBootMVCAsset.domain.StockDataDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
@@ -124,7 +128,7 @@ public class RestController {
 	@PostMapping("/kakao-login")
 	public ResponseEntity<?> kakaoLogin(@RequestBody Map<String, String> requestBody, HttpSession session) {
 	    String accessToken = requestBody.get("accessToken");
-
+	    
 	    // 카카오 API를 통해 사용자 정보 요청
 	    KakaoUser kakaoUser = kakaoService.getKakaoUserInfo(accessToken);
 	    
@@ -135,6 +139,29 @@ public class RestController {
 	    session.setAttribute("auth", auth);
 
 	    return ResponseEntity.ok(auth);
+	}
+	@PostMapping("/naver-login")
+	public ResponseEntity<?> naverLogin(@RequestBody Map<String, String> requestBody, HttpSession session) {
+	    String accessToken = requestBody.get("accessToken");
+	    // 네이버 API를 호출하여 사용자 정보 가져오기
+	    String apiURL = "https://openapi.naver.com/v1/nid/me";
+	    
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Authorization", "Bearer " + accessToken);
+	    
+	    HttpEntity<String> entity = new HttpEntity<>(headers);
+	    RestTemplate restTemplate = new RestTemplate();
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(apiURL, HttpMethod.GET, entity, String.class);
+	    KakaoUser kakaoUser = new KakaoUser();
+	    kakaoUser.setId("naverId");
+	 // 사용자 정보를 기반으로 회원가입 또는 로그인 처리
+	    AuthInfoDTO auth = memberService.findOrCreateMember(kakaoUser);
+	    System.out.println("auth"+auth);
+	    // 세션에 사용자 정보 저장 또는 로그인 처리
+	    session.setAttribute("auth", auth);
+	    
+	    return ResponseEntity.ok(response.getBody());
 	}
 
 	
