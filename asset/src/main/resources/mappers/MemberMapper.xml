@@ -69,6 +69,6 @@ select concat('mem_' , nvl(max(substr( member_num , 5 )),100000)+ 1) from member
 </sql>
 <insert id="KakaoAuthSave">
 	insert into members (<include refid="BaseColumns"/>)
-	values ( ( <include refid="memberNum" />), '카카오이용자', #{userId},'임시비밀번호', '카카오주소', '주소디테일', '0000', sysdate, 'M', '01000000000','00@naver.com', sysdate  )
+	values ( #{userNum}, '카카오이용자', #{userId},'임시비밀번호', '카카오주소', '주소디테일', '0000', sysdate, 'M', '01000000000','00@naver.com', sysdate  )
 </insert>
 </mapper>
