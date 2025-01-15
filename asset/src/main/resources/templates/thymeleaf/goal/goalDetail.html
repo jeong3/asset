@@ -12,7 +12,11 @@
 <script type="text/javascript" src="/static/js/checkbox.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <style>
-body,h1 {font-family: "Raleway", Arial, sans-serif}
+body,h1 {font-family: "Raleway", Arial, sans-serif;}
+img{ 
+	width: 200px;
+	height: 100px;
+}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 </style>
@@ -105,9 +109,42 @@ h1 {letter-spacing: 6px}
 	   </span>   
   	</h2>
     <p style="font-size: 20px;">[[${#dates.format(dto.startDate, 'yy/MM/dd')}]] ~ [[${#dates.format(dto.endDate, 'yy/MM/dd')}]]</p>
-  <!-- 그래프 -->
-  
-  <!-- 금액 테이블 -->
+  	<!-- 그래프 -->
+  	<div class="container">
+  	<div class="top-tables">
+  	
+  	<table  class="graph-table">
+  		<thead>
+  			<tr><td>달성율: [[${dto.goalRate}]]%</td></tr>
+  		</thead>
+  		<tbody>
+  			<tr><td>
+  				<span th:if="${dto.goalRate == 0}">
+  					<img src="/static/images/goal0.jpg">
+  				</span>
+  				<span th:if="${dto.goalRate > 0 && dto.goalRate <= 20}">
+  					<img src="/static/images/goal20.jpg">
+  				</span>
+  				<span th:if="${dto.goalRate > 20 && dto.goalRate <= 40}">
+  					<img src="/static/images/goal40.jpg">
+  				</span>
+  				<span th:if="${dto.goalRate > 40 && dto.goalRate <= 60}">
+  					<img src="/static/images/goal60.jpg">
+  				</span>
+  				<span th:if="${dto.goalRate > 60 && dto.goalRate <= 80}">
+  					<img src="/static/images/goal80.jpg">
+  				</span>
+  				<span th:if="${dto.goalRate > 80 && dto.goalRate < 100}">
+  					<img src="/static/images/goal90.jpg">
+  				</span>
+  				<span th:if="${dto.goalRate == 100}">
+  					<img src="/static/images/goal100.jpg">
+  				</span>
+  			</td></tr>
+  		</tbody>
+  	</table>
+  	
+  	<!-- 금액 테이블 -->
       <table class="price-table">
         <tbody>
             <tr>
@@ -119,13 +156,31 @@ h1 {letter-spacing: 6px}
                 <td style="color:red;">[[${dto.remainPrice}]]원</td>
             </tr>
             <tr>
-                <td>현재 금액</td>
+                <td>현재 <span th:if="${dto.goalName == '저축'}">저축</span>
+                		<span th:if="${dto.goalName == '지출'}">소비</span>
+                금액</td>
                 <td>[[${dto.currentPrice}]]원</td>
             </tr>
         </tbody>
     </table>
-     D- [[${#dates.format(dto.remainDate, 'yy/MM/dd')}]]
+    </div>
+    <table class="last-table">
+    	<tbody>
+    		<tr>
+    			<td>[[${dto.goalContents}]]</td>
+    			<td>D - [[${dto.remainDate}]]</td>
+    		</tr>
+    	</tbody>
+    </table>
+    <table>
+    <tr><td>
+    	<a class="buttons" th:href="|/myAsset/goalUpdate?goalNum=${dto.goalNum}|">&#128393;</a> &nbsp &nbsp  &nbsp
+    	<a class="buttons" th:href="|/myAsset/goalDelete?goalNum=${dto.goalNum}|">&#128473;</a>
+    </td></tr>
+    </table>
+    </div>
   </div>
 </div>
 </body>
 </html>
+               

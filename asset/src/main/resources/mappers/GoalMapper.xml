@@ -121,7 +121,7 @@ and end_date >= sysdate
 <select id="goalDetail" parameterType="string" resultType="goalDTO">
 select <include refid="BaseColumns"/>
 	, (GOAL_PRICE - CURRENT_PRICE) as remainPrice
-	, round(end_date - sysdate) as remainDate
+	, (TRUNC(end_date) - TRUNC(SYSDATE)) as remainDate
 from goal
 where goal_num = #{goalNum}
 </select>

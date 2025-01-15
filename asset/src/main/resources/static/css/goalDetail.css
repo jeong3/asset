@@ -1,4 +1,31 @@
 @charset "UTF-8";
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 750px;
+  align-items: center; /* 센터 정렬 */
+  gap: 20px; /* 위아래 간격 */
+}
+
+.top-tables {
+  display: flex;
+  justify-content: center; /* 가로 정렬 */
+  gap: 20px; /* 두 테이블 간 간격 */
+  width: 100%; /* 필요에 따라 테이블 간격 조절 */
+}
+
+.graph-table, .price-table {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.last-table table {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
 .price-table {
     border-collapse: collapse;
     width: 50%;
@@ -23,20 +50,15 @@
     border: 1px solid #ddd; /* 셀 경계선 */
 }
 
-.price-table th {
-    background-color: #4CAF50;
-    color: white;
-}
-
 .price-table td:first-child {
     background-color: #e3f5d5; 
     font-weight: bold;
-    width: 40%; /* 왼쪽 열을 더 좁게 설정 */
+    width: 45%; /* 왼쪽 열을 더 좁게 설정 */
 }
 
 .price-table td:last-child {
     background-color: white;
-    width: 60%; /* 오른쪽 열을 더 넓게 설정 */
+    width: 55%; /* 오른쪽 열을 더 넓게 설정 */
     text-align: right;
 }
 
@@ -59,4 +81,105 @@
 .price-table td[rowspan] {
     vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
     padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
+}
+
+
+
+.graph-table {
+    border-collapse: collapse;
+    width: 50%;
+    max-width: 300px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 20px auto;
+    table-layout: auto; /* 셀 크기를 데이터에 따라 조정 */
+}
+
+.graph-table th,
+.graph-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+
+.graph-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* 테이블 행 구분 줄 */
+.graph-table tr {
+    border-bottom: 1px solid #ddd;
+    height: auto; /* 행 높이를 자동으로 조정 */
+}
+
+/* 둥근 모서리 */
+.graph-table {
+    border-radius: 12px;
+}
+
+/* rowspan 관련 문제 해결 */
+.graph-table td[rowspan] {
+    vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
+    padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
+}
+
+
+
+
+.last-table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 700px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 20px auto;
+    table-layout: auto; /* 셀 크기를 데이터에 따라 조정 */
+}
+
+.last-table th,
+.last-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 16px;
+}
+
+
+.last-table td:last-child {
+    background-color: #e3f5d5;
+}
+
+/* 테이블 행 구분 줄 */
+.last-table tr {
+    border-bottom: 1px solid #ddd;
+    height: auto; /* 행 높이를 자동으로 조정 */
+}
+
+/* 둥근 모서리 */
+.last-table {
+    border-radius: 12px;
+}
+
+/* rowspan 관련 문제 해결 */
+.last-table td[rowspan] {
+    vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
+    padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
+}
+
+.buttons{
+	font-size:25px;
+	width: 200px;
+}
+a{
+	text-decoration-line: none;
 }
