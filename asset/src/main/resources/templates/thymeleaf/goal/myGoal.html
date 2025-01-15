@@ -7,30 +7,29 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="/static/css/goalList.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
-<script type="text/javascript" src="/static/js/checkbox.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="/static/js/checkbox.js"></script>
 <style>
 body,h1 {font-family: "Raleway", Arial, sans-serif; background-color: #f6fef0;}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
        .large-button {
-            width: 100px;
+            width: 120px;
             height: 70px;
-            font-size: 20px;
+            font-size: 17px;
             font-weight: bold;
-            border: none;
+            border: 1px #ccc;
             border-radius: 10px;
             margin: 10px;
             cursor: pointer;
-            color: white;
+            color: black;
             box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .large-button:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
             box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -115,13 +114,6 @@ h1 {letter-spacing: 6px}
 	    <h2>My 자산 목표</h2>
 	    <br/>
 	</div>
-	<div id="goalButton">
-		<div align="center">목표 등록</div>
-		<button class="large-button save-button" onclick="location.href='/goal/goalRegist?goalName=저축'">저축</button>
-		100% 달성시 성공!
-		<button class="large-button spend-button" onclick="location.href='/goal/goalRegist?goalName=지출'">소비</button>
-		0% 초과 일시 성공!
-	</div>
 	
 	<!-- 진행중인 목표 리스트 -->
     <div class="goal-run-list">
@@ -137,7 +129,7 @@ h1 {letter-spacing: 6px}
     			 </div>
                 <thead>
                     <tr>
-                    	<th><input type="checkbox" id="dealCheckBoxs"/></th>
+                    	<th><input type="checkbox" id="goalCheckBoxs"/></th>
                         <th>번호</th>
                         <th>내용</th>
                         <th>기간</th>
@@ -167,64 +159,85 @@ h1 {letter-spacing: 6px}
         </form>
     </div>
     </div>
-    
-    <!-- 완료된 목표 리스트 -->
-    <div class="my-finishGoal">
-    <div class="goal-finish-list">
-        <form action="goalsDelete" method="post" id="frm">
-            <table>
-             	<div style="text-align: left;">
-    				<b>목표수: [[${goalFinishCount}]]개</b>
-    			</div>
-                 <div style="text-align: right;">
-    				<a href="/myPage/memberMyDetail">
-        				<b style="text-decoration : underline;">[[${memberId}]]</b>
-        			</a>님의 <b>완료된 목표</b> 리스트 입니다
-    			 </div>
-                <thead>
-                    <tr>
-                    	<th><input type="checkbox" id="dealCheckBoxs"/></th>
-                        <th>번호</th>
-                        <th>내용</th>
-                        <th>기간</th>
-                        <th>달성 여부</th>
-                        <th><button type="submit">선택 삭제</button></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="dto : ${finishlist}">
-                    	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
-                        <td>[[${dto.myGoalNum}]]</td>
-                        <td><a th:href="|/goal/goalDetail?goalNum=${dto.goalNum}|">
-                        	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
-							<span th:if="${dto.goalName == '지출'}" style="color: #c06a24;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
-                        	</a>
-                        </td>
-                        <td>[[${#dates.format(dto.startDate, 'yy/MM/dd')}]] <br/>~ [[${#dates.format(dto.endDate, 'yy/MM/dd')}]]</td>
-						<td style="color:#da0101;font-weight: bold;">
-							<span th:if="${dto.goalName == '저축'}">
-								<span th:if="${dto.goalRate >= 100}">
-									<i class="fa fa-check-circle-o" style="font-size:20px;color:blue;"></i>
-								</span>
-								<span th:if="${dto.goalRate < 100}">
-									<i class="fa fa-close" style="font-size:20px;color:grey;"></i>
-								</span>			
-							</span>
-							<span th:if="${dto.goalName == '지출'}">
-								<span th:if="${dto.goalRate <= 0}">
-									<i class="fa fa-close" style="font-size:25px;color:#da0101;"></i>
-								</span>
-								<span th:if="${dto.goalRate > 0}">
-									<i class="fa fa-check-circle" style="font-size:25px;color:green;"></i>
-								</span>
-							</span>
+    <div class="container">
+	    <!-- 버튼들!! -->
+	    <div class="goalButton">
+			<table class="goal-table">
+				<thead>
+					<tr><td colspan="2">목표 등록</td></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><button class="large-button save-button" onclick="location.href='/goal/goalRegist?goalName=저축'">저축</button>
+							<br/>100% 달성 시 성공!
 						</td>
-                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalsDelete?goalNums=${dto.goalNum}'|">삭제</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
+						<td><button class="large-button spend-button" onclick="location.href='/goal/goalRegist?goalName=지출'">소비</button>
+							<br/>0% 초과일 시 성공!
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	
+	    <!-- 완료된 목표 리스트 -->
+	    
+	    <div class="my-finishGoal">
+	    <div class="goal-finish-list">
+	        <form action="goalsDelete" method="post" id="frm">
+	            <table>
+	             	<div style="text-align: left;">
+	    				<b>목표수: [[${goalFinishCount}]]개</b>
+	    			</div>
+	                 <div style="text-align: right;">
+	    				<a href="/myPage/memberMyDetail">
+	        				<b style="text-decoration : underline;">[[${memberId}]]</b>
+	        			</a>님의 <b>완료된 목표</b> 리스트 입니다
+	    			 </div>
+	                <thead>
+	                    <tr>
+	                    	<th><input type="checkbox" id="dealCheckBoxs"/></th>
+	                        <th>번호</th>
+	                        <th>내용</th>
+	                        <th>기간</th>
+	                        <th>달성 여부</th>
+	                        <th><button type="submit">선택 삭제</button></th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr th:each="dto : ${finishlist}">
+	                    	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
+	                        <td>[[${dto.myGoalNum}]]</td>
+	                        <td><a th:href="|/goal/goalDetail?goalNum=${dto.goalNum}|">
+	                        	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
+								<span th:if="${dto.goalName == '지출'}" style="color: #c06a24;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
+	                        	</a>
+	                        </td>
+	                        <td>[[${#dates.format(dto.startDate, 'yy/MM/dd')}]] <br/>~ [[${#dates.format(dto.endDate, 'yy/MM/dd')}]]</td>
+							<td style="color:#da0101;font-weight: bold;">
+								<span th:if="${dto.goalName == '저축'}">
+									<span th:if="${dto.goalRate >= 100}">
+										<i class="fa fa-check-circle" style="font-size:25px;color: green;"></i>
+									</span>
+									<span th:if="${dto.goalRate < 100}">
+										<i class="fa fa-close" style="font-size:25px;color:grey;"></i>
+									</span>			
+								</span>
+								<span th:if="${dto.goalName == '지출'}">
+									<span th:if="${dto.goalRate <= 0}">
+										<i class="fa fa-close" style="font-size:25px;color:#da0101;"></i>
+									</span>
+									<span th:if="${dto.goalRate > 0}">
+										<i class="fa fa-check-circle" style="font-size:25px;color:green;"></i>
+									</span>
+								</span>
+							</td>
+	                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalsDelete?goalNums=${dto.goalNum}'|">삭제</button></td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </form>
+	    </div>
+	</div>
 </div>
 </body>
 </html>

@@ -195,4 +195,22 @@ from (select row_number() over(order by DEAL_DATE desc) as rn
 )
 where rn between #{assetListDTO.startRow} and #{assetListDTO.endRow} 
 </select>
+
+<select id="creditList" parameterType="assetListDTO" resultType="dealDTO">
+select *
+from (select row_number() over(order by DEAL_DATE desc) as rn
+	,<include refid="BaseColumns"/>
+	from deal
+<where>
+	<if test="searchWord != null">
+		(DEAL_PRICE like '%'||#{searchWord}||'%'
+		or CATEGORY_TYPE like '%'||#{searchWord}||'%'
+		or DEAL_CONTENTS like '%'||#{searchWord}||'%')
+	</if>
+		and member_num = #{memberNum}
+		and deal_method = 'creditCard'
+</where>
+)
+where rn between #{startRow} and #{endRow} 
+</select>
 </mapper>

@@ -1,8 +1,5 @@
 package springBootMVCAsset.controller;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +19,9 @@ import springBootMVCAsset.service.budget.BudgetDetailService;
 import springBootMVCAsset.service.budget.BudgetUpdateService;
 import springBootMVCAsset.service.deal.BankDealListService;
 import springBootMVCAsset.service.deal.CashDealListService;
+import springBootMVCAsset.service.deal.CreditListService;
+import springBootMVCAsset.service.deal.CreditPayService;
+import springBootMVCAsset.service.deal.CreditPayService;
 import springBootMVCAsset.service.deal.DealDeleteService;
 import springBootMVCAsset.service.deal.DealDetailService;
 import springBootMVCAsset.service.deal.DealListService;
@@ -61,6 +61,10 @@ public class MyAssetPageController {
 	SaveDealListService saveDealListService;
 	@Autowired
 	JaeTechDealListService jaeTechDealListService;
+	@Autowired
+	CreditListService creditListService;
+	@Autowired
+	CreditPayService creditPayService;
 	
 	@GetMapping("myAssetPage")
 	public String myAssetPage(Model model, HttpSession session) {
@@ -192,5 +196,20 @@ public class MyAssetPageController {
 		jaeTechDealListService.execute2(categoryType, page, assetListDTO, session, model);
 		jaeTechDealListService.execute(session, model, categoryType);
 		return "thymeleaf/myAsset/jaetechList";
+	}
+	
+	@GetMapping("creditList")
+	public String creditList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
+			, AssetListDTO assetListDTO
+			, HttpSession session, Model model) {
+		creditListService.execute(page, assetListDTO, session, model);
+		budgetDetailService.execute(model, session);
+		return "thymeleaf/myAsset/creditList";
+	}
+	
+	@GetMapping("creditPay")
+	public String creditPay(@RequestParam("dealNum")String dealNum){
+		creditPayService.execute(dealNum);
+		return "";
 	}
 }

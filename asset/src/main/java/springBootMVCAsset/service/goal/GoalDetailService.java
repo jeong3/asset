@@ -14,5 +14,6 @@ public class GoalDetailService {
 	public void execute(String goalNum, Model model) {
 		GoalDTO dto = goalMapper.goalDetail(goalNum);
 		model.addAttribute("dto", dto);
+		model.addAttribute("goalCommand", dto);
 	}
 }

@@ -115,7 +115,7 @@ from goal
 <select id="goalFinishCount" parameterType="string" resultType="Integer">
 select count(*) from goal
 where member_num = #{memberNum}
-and end_date >= sysdate
+and sysdate > end_date 
 </select>
 
 <select id="goalDetail" parameterType="string" resultType="goalDTO">
@@ -125,4 +125,90 @@ select <include refid="BaseColumns"/>
 from goal
 where goal_num = #{goalNum}
 </select>
+
+<update id="goalUpdate1" parameterType="goalDTO">
+update goal
+set GOAL_CONTENTS = #{goalContents},
+	GOAL_PRICE = #{goalPrice},
+	CURRENT_PRICE = CASE 
+            WHEN SYSDATE >= #{startDate} THEN (
+                SELECT NVL(SUM(deal_price), 0)
+                FROM deal
+                WHERE member_num = #{memberNum}
+                AND category_name = '저축'
+                AND deal_date BETWEEN #{startDate} AND SYSDATE
+            )
+            ELSE 0
+        END,
+    GOAL_RATE = CASE 
+		    WHEN SYSDATE >= #{startDate} THEN 
+		        CASE 
+		            WHEN NVL((
+		                SELECT SUM(deal_price)
+		                FROM deal
+		                WHERE member_num = #{memberNum}
+		                AND category_name = '저축'
+		                AND deal_date BETWEEN #{startDate} AND SYSDATE
+		            ), 0) = 0 THEN 0
+		            ELSE 
+		            	NVL((
+		                	SELECT SUM(deal_price)
+		                    FROM deal
+		                    WHERE member_num = #{memberNum}
+		                    AND category_name = '저축'
+		                    AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                ), 1) / #{goalPrice} * 100
+		        END
+    		ELSE 0
+		END,
+	START_DATE = #{startDate},
+	END_DATE = #{endDate}
+where goal_num = #{goalNum}
+</update>
+
+<update id="goalUpdate2" parameterType="goalDTO">
+update goal
+set GOAL_CONTENTS = #{goalContents},
+	GOAL_PRICE = #{goalPrice},
+	CURRENT_PRICE = CASE 
+            WHEN SYSDATE >= #{startDate} THEN (
+                SELECT NVL(SUM(deal_price), 0)
+                FROM deal
+                WHERE member_num = #{memberNum}
+                AND category_name = '지출'
+                AND deal_date BETWEEN #{startDate} AND SYSDATE
+            )
+            ELSE 0
+        END,
+    GOAL_RATE = CASE 
+		    WHEN SYSDATE >= #{startDate} THEN 
+		        CASE 
+		            WHEN NVL((
+		                SELECT SUM(deal_price)
+		                FROM deal
+		                WHERE member_num = #{memberNum}
+		                AND category_name = '지출'
+		                AND deal_date BETWEEN #{startDate} AND SYSDATE
+		            ), 0) = 0 THEN 100
+		            ELSE 
+		            	(1 - 
+		                NVL((
+		                    SELECT SUM(deal_price)
+		                    FROM deal
+		                    WHERE member_num = #{memberNum}
+		                    AND category_name = '지출'
+		                    AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                ), 1) / #{goalPrice}) * 100
+		        END
+    		ELSE 100
+		END,
+	START_DATE = #{startDate},
+	END_DATE = #{endDate}
+where goal_num = #{goalNum}
+</update>
+
+<delete id="goalDelete" parameterType="string">
+delete from goal
+where goal_num = #{goalNum}
+</delete>
 </mapper>

@@ -35,4 +35,5 @@ public interface DealMapper {
 	public List <DealDTO> jaetechList(
 			@Param("categoryType") String categoryType
 			,@Param("assetListDTO") AssetListDTO assetListDTO);
+	public List <DealDTO> creditList(AssetListDTO assetListDTO);
 }

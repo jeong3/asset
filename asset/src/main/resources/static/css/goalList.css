@@ -1,7 +1,33 @@
+.container {
+    display: flex;
+    justify-content: center; /* Space between the two sections */
+    align-items: flex-start; /* Align items at the top *//* Space between goalButton and my-finishGoal */
+    width: 1000px;
+}
+.goalButton, .my-finishGoal {
+    flex: 1; /* Ensures equal width for both sections */
+    max-width: 48%; /* Optional: Prevent sections from being too wide */
+    box-sizing: border-box; /* Includes padding and border in the width/height calculation */
+}
+
+/* Ensure table and content inside .my-finishGoal align */
+.goal-finish-list table {
+    width: 80%; /* Makes the table fill its container */
+    border-collapse: collapse; /* Removes gaps between table cells */
+}
+
+.goal-finish-list table th, .goal-finish-list table td {
+    text-align: left; /* Align text to the left */
+    padding: 8px; /* Add some padding for better appearance */
+}
+
+.goalButton .goal-table {
+    width: 80%; /* Ensures the button table spans its container */
+} 
 .my-runGoal {
     margin: 20px auto;
     width: 100%;
-    max-width: 950px;
+    max-width: 1000px;
     font-size: 15px;
 }
 
@@ -28,7 +54,7 @@
 }
 
 .my-runGoal table th {
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     padding: 12px;
     text-align: center;
     background-color: #e3f5d5;
@@ -38,7 +64,7 @@
 }
 
 .my-runGoal table td {
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     padding: 10px;
     text-align: center;
     background-color: white;
@@ -97,7 +123,6 @@ a:hover {
 
 .my-finishGoal {
     margin: 20px auto;
-    width: 100%;
     max-width: 600px;
     font-size: 15px;
 }
@@ -165,4 +190,50 @@ a:hover {
 .my-finishGoal input[type="submit"]:hover,
 .my-finishGoal button:hover {
     background-color: #d1efbd;
+}
+
+.goal-table {
+    border-collapse: collapse;
+    max-width: 300px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    margin: 20px auto;
+    table-layout: auto; /* 셀 크기를 데이터에 따라 조정 */
+}
+
+.goal-table thead{
+	padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #e3f5d5;
+}
+.goal-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 15px;
+    font-weight: none;
+    
+}
+
+
+/* 테이블 행 구분 줄 */
+.goal-table tr {
+    border-bottom: 1px solid #ddd;
+    height: auto; /* 행 높이를 자동으로 조정 */
+}
+
+/* 둥근 모서리 */
+.goal-table {
+    border-radius: 12px;
+}
+
+/* rowspan 관련 문제 해결 */
+.goal-table td[rowspan] {
+    vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
+    padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
 }

@@ -18,4 +18,9 @@ public interface GoalMapper {
 	public Integer goalFinishCount(String memberNum);
 	
 	public GoalDTO goalDetail(String goalNum);
+	
+	public void goalUpdate1(GoalDTO dto);
+	public void goalUpdate2(GoalDTO dto);
+	
+	public void goalDelete(String goalNum);
 }

@@ -38,3 +38,22 @@ $(function(){
 	});
 	
 });
+
+$(function(){
+	$("#goalCheckBoxs").click(function(){
+		if($("#goalCheckBoxs").prop("checked")){
+			$("input:checkbox[name=goalNums]").prop("checked",true);
+		} else{
+			$("input:checkbox[name=goalNums]").prop("checked",false);
+		}
+		prodChk();
+	});
+	$("input:checkbox[name=goalNums]").click(function(){
+		var tot = $("input:checkbox[name=goalNums]").length;
+		var cnt = $("input:checkbox[name=goalNums]:checked").length;
+		if (tot == cnt) $("#goalCheckBoxs").prop("checked", true);
+		else $("#goalCheckBoxs").prop("checked", false);
+		prodChk();
+	});
+	
+});

@@ -59,6 +59,8 @@
 .price-table td:last-child {
     background-color: white;
     width: 55%; /* 오른쪽 열을 더 넓게 설정 */
+    font-weight: bold;
+    font-size: 18px;
     text-align: right;
 }
 
@@ -151,13 +153,20 @@
     padding: 12px 15px;
     text-align: center;
     border: 1px solid #ddd; /* 셀 경계선 */
-    font-size: 16px;
+    font-size: 18px;
 }
 
+.last-table td:first-child {
+    background-color: white;
+    font-weight: bold;
+    width: 80%; /* 왼쪽 열을 더 좁게 설정 */
+}
 
 .last-table td:last-child {
+    width: 200%; /* 오른쪽 열을 더 넓게 설정 */
     background-color: #e3f5d5;
 }
+
 
 /* 테이블 행 구분 줄 */
 .last-table tr {
@@ -182,4 +191,11 @@
 }
 a{
 	text-decoration-line: none;
+}
+.box{
+	border-radius: 20px; /* 테이블 모서리를 둥글게 */
+  	overflow: hidden; 
+  	margin: 0 auto; /* 테이블을 가운데 정렬 */
+  	background-color: #bfd8b0;;
+  	width: 55%;
 }

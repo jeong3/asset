@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.GoalCommand;
+import springBootMVCAsset.service.goal.GoalDeleteService;
 import springBootMVCAsset.service.goal.GoalDetailService;
 import springBootMVCAsset.service.goal.GoalFinishListService;
 import springBootMVCAsset.service.goal.GoalRegistService;
 import springBootMVCAsset.service.goal.GoalRunListService;
+import springBootMVCAsset.service.goal.GoalUpdateService;
+import springBootMVCAsset.service.goal.GoalsDeleteService;
 
 @Controller
 @RequestMapping("goal")
@@ -28,6 +31,12 @@ public class GoalController {
 	GoalFinishListService goalFinishListService;
 	@Autowired
 	GoalDetailService goalDetailService;
+	@Autowired
+	GoalUpdateService goalUpdateService;
+	@Autowired
+	GoalsDeleteService goalsDeleteService;
+	@Autowired
+	GoalDeleteService goalDeleteService;
 	
 	@GetMapping("myGoal")
 	public String myGoal(HttpSession session, Model model) {
@@ -61,4 +70,34 @@ public class GoalController {
 		return "thymeleaf/goal/goalDetail";
 	}
 	
+	@GetMapping("goalUpdate")
+	public String goalUpdate(@RequestParam("goalNum") String goalNum, Model model) {
+		goalDetailService.execute(goalNum, model);
+		return "thymeleaf/goal/goalUpdate";
+	}
+	
+	@PostMapping("goalUpdate")
+	public String goalUpdate(@Validated GoalCommand goalCommand, BindingResult result
+			, HttpSession session){
+		if(result.hasErrors()) {
+			return "thymeleaf/myAsset/dealUpdate";
+		}
+		goalUpdateService.execute(goalCommand, session);
+		return "redirect:/goal/myGoal";
+	}
+	
+	@RequestMapping("goalsDelete")
+	public String goalsDelete(@RequestParam(value = "goalNums", required = false) String goalNums[]) {
+		if (goalNums == null || goalNums.length == 0) {
+            // 파라미터가 없으면 "dealList" 페이지 반환
+            return "redirect:myGoal";
+        }
+		goalsDeleteService.execute(goalNums);
+		return "redirect:myGoal";
+	}
+	
+	@GetMapping("goalDelete")
+	public String goalDelete(@RequestParam("goalNum") String goalNum) {
+		return "redirect:myGoal";
+	}
 }
