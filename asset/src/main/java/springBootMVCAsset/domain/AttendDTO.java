@@ -1,5 +1,6 @@
 package springBootMVCAsset.domain;
 
+
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
@@ -15,6 +16,8 @@ public class AttendDTO {
 	Date endTime;
 	String rateWhether;
 	String absenceWhether;
-	Date attendDate;
+	String attendDate;
 	
+	 
+	 
 }

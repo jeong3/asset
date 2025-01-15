@@ -25,16 +25,19 @@ WHERE emp_num = #{empNum}
   )
 </update>
 
-<select id="AttendSelectOne">
-	select <include refid="BaseColumns" /> from attend
-	where emp_num = #{empNum} 
-	order by attend_num desc
+<select id="AttendSelect">
+	SELECT <include refid="BaseColumns" />
+    FROM attend
+    WHERE emp_num = #{empNum}
+     AND TRUNC(attend_date) = TO_DATE(#{date}, 'yyyy-MM-dd')
+	
 </select>
 
 <select id="atWorkSelect">
  SELECT count(*) 
 FROM attend 
 WHERE TRUNC(attend_date) = TRUNC(SYSDATE)
+and emp_num = #{empNum}
 </select>
 
 

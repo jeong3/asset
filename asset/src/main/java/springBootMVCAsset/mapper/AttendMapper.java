@@ -14,8 +14,8 @@ public interface AttendMapper {
 
 	int AttendUpdate(AttendDTO dto);
 
-	List<AttendDTO> AttendSelectOne(String empNum);
-
 	int atWorkSelect(String empNum);
+
+	AttendDTO AttendSelect(String empNum, String date);
 
 }
