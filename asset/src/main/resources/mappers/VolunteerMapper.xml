@@ -15,7 +15,13 @@ values (#{receiptNum}, #{announceNum, jdbcType=VARCHAR}, #{volunteerId}, #{volun
 </insert>
 
 <select id="volunteerSelectAll" resultType="volunteerDTO">
-select * from volunteer
+select receipt_num, volunteer_name, volunteer_phone, document_result, interview_result,
+a.announce_num,
+d.department_num, department_name
+from volunteer v join announce a 
+on v.announce_num = a.announce_num
+join department d
+on a.department_num = d.department_num
 </select>
 
 <update id="updateResult">

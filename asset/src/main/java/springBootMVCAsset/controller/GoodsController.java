@@ -69,6 +69,17 @@ public class GoodsController {
 	    goodsListService.execute(goodsKind, page, searchWord, model);
 	    return "thymeleaf/goods/goodsList";
 	}
+	@GetMapping("study")
+	public String index(@RequestParam(value = "goodsKind", required = false, defaultValue = "강의") String goodsKind,
+	                    @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+	                    @RequestParam(value = "searchWord", required = false) String searchWord,
+	                    Model model) {
+	    model.addAttribute("goodsKind", goodsKind);
+	    goodsListService.execute(goodsKind, page, searchWord, model);
+	    model.addAttribute("bookList", model.getAttribute("list"));
+	    return "thymeleaf/goods/studyList";
+	}
+	
 	/*
 	@GetMapping("goodsDetail")
 	public String goodsDetail(@RequestParam("goodsNum") String goodsNum

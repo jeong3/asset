@@ -7,13 +7,13 @@
 <sql id="BaseColumns">
 	   goods_Num , goods_name , goods_price ,goods_contents , emp_num  
 	  ,regist_date , MAIN_IMAGE ,MAIN_STORE_IMAGE 
-	  ,DETAIL_IMAGE ,DETAIL_STORE_IMAGE, goods_kind, sale
+	  ,DETAIL_IMAGE ,DETAIL_STORE_IMAGE, goods_kind, sale, video_Url
 </sql>
 
 <insert id="goodsInsert" parameterType="goodsDTO">
 insert into goods ( <include refid="BaseColumns" /> )
 values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
-		,null, sysdate, 
+		,#{empNum}, sysdate, 
 		#{mainImage}, #{mainStoreImage},
 		<if test="detailImage != null">
 		#{detailImage},#{detailStoreImage},
@@ -21,7 +21,7 @@ values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
 		<if test="detailImage == null">
 		null,null,
 		</if>
-		#{goodsKind}, null)
+		#{goodsKind}, null, #{videoUrl, jdbcType=VARCHAR})
 </insert>
 
 <select id="goodsAllSelect" resultType="goodsDTO" parameterType="String">
@@ -73,7 +73,8 @@ where goods_num = #{goodsNum}
 		<arg column="MAIN_STORE_IMAGE" javaType="string" jdbcType="VARCHAR" />
 		<arg column="DETAIL_IMAGE" javaType="string" jdbcType="VARCHAR" />
 		<arg column="DETAIL_STORE_IMAGE" javaType="string" jdbcType="VARCHAR" />
-		<arg column="SALE" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />		
+		<arg column="SALE" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+		<arg column="VIDEO_URL" javaType="string" jdbcType="VARCHAR" />		
 	</constructor>
 </resultMap>	
 <select id="allSelect" resultMap="goodsResultMap">

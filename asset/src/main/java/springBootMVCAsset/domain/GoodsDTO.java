@@ -26,4 +26,5 @@ public class GoodsDTO {
 	String detailImage;
 	String detailStoreImage;
 	BigDecimal sale;
+	String videoUrl;
 }

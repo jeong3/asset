@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>지원자 리스트</title>
@@ -191,6 +191,7 @@
         <tr>
             <th>이름</th>
             <th>전화번호</th>
+            <th>부서 이름</th>
             <th>서류 전형</th>
             <th>면접 전형</th>
         </tr>
@@ -199,6 +200,7 @@
         <tr th:each="volunteer : ${list}">
             <td th:text="${volunteer.volunteerName}"></td>
             <td th:text="${volunteer.volunteerPhone}"></td>
+            <td th:text="${volunteer.departmentName}"></td>
             <td>
                 <form th:action="@{/volunteer/updateResult}" method="post">
                     <input type="hidden" name="receiptNum" th:value="${volunteer.receiptNum}" />

@@ -11,4 +11,5 @@ public interface CouponMapper {
 	public void couponInsert(String memberNum);
 	public List<CouponDTO> couponSelect(String memberNum);
 	public void couponDelete(String couponNum);
+	public void addCoupon(String memberNum);
 }

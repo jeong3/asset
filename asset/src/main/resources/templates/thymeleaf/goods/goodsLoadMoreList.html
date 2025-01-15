@@ -16,11 +16,12 @@
         font-weight: bold;
         border-radius: 5px;
     }
+    
 </style>
 </head>
 <body>
  		<div  class="w3-col l3 s6" th:each="dto : ${list}">
-        <div class="w3-container" >
+        <div class="w3-container" th:if="${dto.videoUrl == null}">
             <div class="w3-display-container"  >
                 <a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">
                     <img height="200px" width="200px"
@@ -61,6 +62,16 @@
     </span>
 </p>
 
+        </div>
+        <div class="w3-container" th:if="${dto.videoUrl != null}">
+        <div class="w3-row-padding w3-center">
+            			<div class="w3-col m3">
+                			<iframe width="560" height="315" th:src="${dto.videoUrl}" title="YouTube video player" frameborder="0" 
+                			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                 			referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                 			<p>[[${dto.goodsName}]]</p>
+            			</div>
+        </div>
         </div>
     </div>
 </body>

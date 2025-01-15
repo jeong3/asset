@@ -20,4 +20,6 @@ public class VolunteerDTO {
 	Date volunteerBirth;
 	String documentResult;
 	String interviewResult;
+	String departmentNum;
+	String departmentName;
 }

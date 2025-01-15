@@ -118,6 +118,7 @@ public class VolunteerController {
     	AnnounceDTO announce = announceMapper.announceSelectOne(announceNum);
     	model.addAttribute("announce", announce);
     	model.addAttribute("dto", dto);
+    	model.addAttribute("volunteerId", volunteerId);
     	return "thymeleaf/volunteer/checkResult";
     }
 }

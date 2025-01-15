@@ -9,6 +9,58 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
 </head>
+<style>
+    .coupon-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .coupon-card {
+        border: 2px dashed #4caf50;
+        background-color: #f9fff4;
+        border-radius: 10px;
+        width: 300px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .coupon-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .coupon-header {
+        font-size: 14px;
+        font-weight: bold;
+        color: #4caf50;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .coupon-body h4 {
+        font-size: 20px;
+        margin: 10px 0;
+        color: #333;
+    }
+
+    .coupon-body p {
+        margin: 5px 0;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .empty-message {
+        font-size: 18px;
+        color: #555;
+        text-align: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+</style>
 <body>
 <div class="w3-top">
 
@@ -115,33 +167,25 @@
 <br/>
 <br/>
     <div class="container mt-5">
-        <h2 align="center">쿠폰 리스트</h2>
-        <br/>  
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">쿠폰 번호</th>
-                    <th scope="col">쿠폰 이름</th>
-                    <th scope="col">쿠폰 가격</th>
-                    <th scope="col">쿠폰 내용</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- 리스트가 비어 있으면 안내 메시지를 출력 -->
-                <tr th:each="coupon : ${list}">
-                    <td th:text="${coupon.couponNum}"></td>
-                    <td th:text="${coupon.couponName}"></td>
-                    <td th:text="${coupon.couponPrice}"></td>
-                    <td th:text="${coupon.couponContents}"></td>
-                </tr>
-                <!-- 리스트가 없으면 표시될 메시지 -->
-                <tr th:if="${#lists.isEmpty(list)}">
-                    <td colspan="6" class="text-center">현재 쿠폰이 없습니다.</td>
-                </tr>
-            </tbody>
-        </table>
+    <h2 align="center">쿠폰 리스트</h2>
+    <br/>
+    <div class="coupon-container">
+        <!-- 리스트가 비어 있으면 안내 메시지를 출력 -->
+        <div th:each="coupon : ${list}" class="coupon-card">
+            <div class="coupon-header">
+            </div>
+            <div class="coupon-body">
+                <h4 th:text="${coupon.couponName}"></h4>
+                <p><strong>가격:</strong> <span th:text="${coupon.couponPrice}"></span>원</p>
+                <p><strong>내용:</strong> <span th:text="${coupon.couponContents}"></span></p>
+            </div>
+        </div>
+        <!-- 리스트가 없으면 표시될 메시지 -->
+        <div th:if="${#lists.isEmpty(list)}" class="empty-message">
+            현재 쿠폰이 없습니다.
+        </div>
     </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

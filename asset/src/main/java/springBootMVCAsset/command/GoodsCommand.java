@@ -14,7 +14,9 @@ public class GoodsCommand {
 	Integer goodsPrice;
 	Date registDate;
 	String goodsKind;
+	String videoUrl;
 	MultipartFile mainImage;
 	MultipartFile detailImage[];
+	
 	
 }

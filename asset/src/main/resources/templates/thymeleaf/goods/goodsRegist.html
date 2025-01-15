@@ -123,6 +123,11 @@
             <label><b>상품 설명</b></label>
             <textarea class="w3-input w3-border" name="goodsContents" rows="5" placeholder="상품 설명을 입력하세요."></textarea>
         </div>
+        
+        <div class="w3-section">
+            <label><b>영상 링크</b></label>
+            <input class="w3-input w3-border" type="text" name="videoUrl" placeholder="영상 링크를 입력하세요." th:value="${goodsCommand.videoUrl}"/>
+        </div>
 
         <div class="w3-section">
             <label><b>메인이미지</b></label>

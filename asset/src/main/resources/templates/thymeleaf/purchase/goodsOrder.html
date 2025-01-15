@@ -222,7 +222,6 @@ function updateDiscount() {
                         <option value="" selected>-- 쿠폰 선택 --</option>
                         <!-- 쿠폰 목록을 순회하여 옵션 추가 -->
                         <th:block th:each="dto : ${couponList}">
-                        	<option>사용안함</option>
                             <option th:value="${dto.couponNum}" th:text="${dto.couponName}" th:data-price="${dto.couponPrice}" >
                            
                             </option>

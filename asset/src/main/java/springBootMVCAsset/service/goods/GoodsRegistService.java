@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.GoodsCommand;
+import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.GoodsDTO;
 import springBootMVCAsset.mapper.GoodsMapper;
 
@@ -24,9 +25,10 @@ public class GoodsRegistService {
 		dto.setGoodsNum(goodsCommand.getGoodsNum());
 		dto.setGoodsPrice(goodsCommand.getGoodsPrice());
 		dto.setGoodsKind(goodsCommand.getGoodsKind());
-		//AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
-		//String empNum = employeeMapper.getEmpNum(auth.getUserId());
-		//dto.setEmpNum(empNum);
+		dto.setVideoUrl(goodsCommand.getVideoUrl());
+		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		String empNum = auth.getUserNum();
+		dto.setEmpNum(empNum);
 		
 		URL resource = getClass().getClassLoader().getResource("static/images");
 		System.out.println("resource : " + resource);

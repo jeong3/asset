@@ -7,10 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import springBootMVCAsset.domain.VolunteerDTO;
+import springBootMVCAsset.mapper.AnnounceMapper;
 import springBootMVCAsset.mapper.VolunteerMapper;
 
 @Service
 public class VolunteerListService {
+	@Autowired
+	AnnounceMapper announceMapper;
 	@Autowired
 	VolunteerMapper volunteerMapper;
 	public void execute(Model model) {

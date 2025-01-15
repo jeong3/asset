@@ -39,30 +39,9 @@ WHEN NOT MATCHED THEN
 	where cart_num = #{cartNum}
 </select>
 
-<select id="couponSelect" resultMap="couponResultMap" parameterType="integer">
-	select <include refid="BaseColumns" />
-	from coupon
-	where member_num = #{memberNum}
-</select>
-
-<resultMap type="couponDTO" id="couponResultMap">
-	<id column="coupon_num" jdbcType="VARCHAR" property="couponNum"/>
-	<id column="coupon_name" jdbcType="VARCHAR" property="couponName"/>
-	<result column="coupon_period" jdbcType="VARCHAR" property="couponPeriod"/>
-	<result column="coupon_price" jdbcType="BIGINT" property="couponPrice"/>
-	<result column="regist_date" jdbcType="DATE" property="registDate"/>
-	<result column="coupon_contents" jdbcType="VARCHAR" property="couponContents"/>
-	<result column="member_num" jdbcType="VARCHAR" property="memberNum"/>
-</resultMap>
-
 <resultMap type="goodsCartDTO" id="cartGoodsResultMap">
 	<association property="goodsDTO" javaType="goodsDTO" column="goodsNum"  select="goodsSelect" />
 	<association property="cartDTO" javaType="cartDTO" column="cartNum"  select="cartSelect"/>
-	<association property="couponDTO" javaType="couponDTO">
-        <result column="couponNum" jdbcType="VARCHAR" property="couponNum"/>
-        <result column="couponName" jdbcType="VARCHAR" property="couponName"/>
-        <result column="couponPrice" jdbcType="BIGINT" property="couponPrice"/>
-    </association>
 </resultMap>
 
 
@@ -89,10 +68,8 @@ WHEN NOT MATCHED THEN
 </resultMap>
 
 <select id="cartSelectList" resultMap="cartGoodsResultMap">
-    select c.GOODS_NUM goodsNum, c.cart_num cartNum, cu.coupon_num couponNum,
-           cu.coupon_name couponName, cu.coupon_price couponPrice
+    select c.GOODS_NUM goodsNum, c.cart_num cartNum
     from cart c
-    left join coupon cu on c.member_num = cu.member_num
     <trim prefix="where" prefixOverrides="AND | OR">
         c.member_num = #{memberNum}
         <if test="nums != null">

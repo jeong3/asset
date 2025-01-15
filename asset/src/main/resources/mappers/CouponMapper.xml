@@ -19,4 +19,9 @@ select * from coupon where member_num = #{memberNum}
 <delete id="couponDelete" parameterType="String">
 delete from coupon where coupon_num = #{couponNum}
 </delete>
+
+<insert id="addCoupon" parameterType="String">
+insert into coupon (<include refid="BaseColumns"/>)
+values((SELECT NVL(MAX(coupon_num), 0) + 1 FROM coupon), '3천원 할인 쿠폰', sysdate + 30, 3000, sysdate, '5만원 이상 구매시 증정 되는 할인 쿠폰', #{memberNum})
+</insert>
 </mapper>

@@ -28,6 +28,7 @@ function loadMoreItems(){
 	var maxPage = "[[${maxPage}]]";
 	var goodsKind = "[[${goodsKind}]]";
 	var searchWord = "[[${searchWord}]]";
+	alert(goodsKind);
 	$.ajax({
 		url : "/goods/loadMoreGoodsList",
 		type: "post",

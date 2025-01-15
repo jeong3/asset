@@ -1,62 +1,60 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>결과 확인</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script>
+var page = 0;
+var searchWord = "";
+$(function(){
+	loadMoreItems();
+	$("#load-more").click(loadMoreItems);
+});
+function loadMoreItems(){
+	page++;
+	var maxPage = "[[${maxPage}]]";
+	var goodsKind = "[[${goodsKind}]]";
+	var searchWord = "[[${searchWord}]]";
+	$.ajax({
+		url : "/goods/loadMoreGoodsList",
+		type: "post",
+		data : {
+            "page": page,
+            "goodsKind": goodsKind,
+            "searchWord" : searchWord
+        },
+		dataType : "html",
+		success : function(result){
+			$("#content").html(result);
+			if(maxPage <= page)$("#load-more").css("display","none");
+		},
+		error : function(){
+			alert("서버오류");
+		}
+	});
+
+}
+</script>
 <style>
-  /* 전체 화면을 flexbox로 설정하여 중앙 정렬 */
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* 화면 높이를 100%로 설정 */
-    margin: 0;
-    background-color: #f4f4f9;
-    color: #333;
-  }
-  .container {
-    max-width: 800px;
-    width: 100%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  h1 {
-    text-align: center;
-    color: #333;
-  }
-  .result {
-    padding: 15px;
-    margin-top: 20px;
-    font-size: 18px;
-    border-radius: 8px;
-  }
-  .pass {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-  }
-  .fail {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-  }
-  .pending {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-  }
-  .final-pass {
-    background-color: #c3e6cb;
-    color: #155724;
-    border: 1px solid #28a745;
-  }
+.w3-row-padding img { margin-bottom: 12px; }
+
+.w3-col.m3 {
+    margin-bottom: 32px; /* 영상 간 간격을 늘리기 */
+	margin-top: 100px;	
+    width: 25%; /* 열이 전체 화면을 차지하도록 설정 */
+}
+
+iframe {
+    width: 100%; /* iframe이 부모 요소의 너비를 100% 차지하도록 설정 */
+    height: 400px; /* 영상의 높이를 400px로 설정, 필요에 따라 조정 가능 */
+}
 </style>
+
 </head>
 <body>
 <div class="w3-top">
@@ -66,6 +64,7 @@
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <a href="/goods/study" class="w3-bar-item w3-button w3-hide-small">강의</a>
   <div class="w3-dropdown-hover w3-hide-small">
   	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
 		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
@@ -114,15 +113,16 @@
     <div class="w3-dropdown-hover w3-hide-small">
         <button class="w3-button" title="Notifications">상품<i class="fa fa-caret-down"></i></button>
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-            <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
             <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+            <a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     		<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     		<a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
         </div>
     </div>
 </th:block>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
-     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
-     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
      	
      	<!-- 마이자산페이지 -->
      	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
@@ -153,38 +153,27 @@
   </div>
   <div th:if="${session.auth == null}">
        <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
+       
   </div>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
-<div class="container" align="center">
-  <!-- 서류결과가 불합격인 경우 -->
-  <div th:if="${dto.documentResult == '불합격'}" class="result fail">
-    <strong>서류결과: 불합격</strong><br>
-    안타깝게도 서류전형에서 불합격되었습니다. <br/>다음 기회에 더 좋은 성과가 있기를 바랍니다.
-  </div>
-  
-  <!-- 서류결과가 합격이고 면접결과가 null인 경우 -->
-  <div th:if="${dto.documentResult == '합격' and dto.interviewResult == null}" class="result pending">
-    <strong>서류결과: 합격</strong><br>
-    축하합니다! 서류전형을 통과하셨습니다.<br/>
-    면접 장소와 날짜는 
-    <span th:text="${#dates.format(announce.interviewDate, 'yyyy-MM-dd')}"></span>
-    [[${announce.interviewAddr}]]입니다.<br/>
+<div  id="portfolio">
+        <div class="w3-container" >
+            <div class="w3-row-padding w3-center">
+                    <th:block th:each="dto : ${bookList}">
+            			<div class="w3-col m3">
+                			<iframe width="560" height="315" th:src="${dto.videoUrl}" title="YouTube video player" frameborder="0" 
+                			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                 			referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                 			<p>[[${dto.goodsName}]]</p>
+            			</div>
+            			
+					</th:block>
+            </div>
+        </div>
+        <div id="content"></div>
+  		<button type="button" class="load-more" id="load-more">더보기</button>
 </div>
-  
-  <!-- 서류결과가 합격이고 면접결과가 불합격인 경우 -->
-  <div th:if="${dto.documentResult == '합격' and dto.interviewResult == '불합격'}" class="result fail">
-    <strong>면접결과: 불합격</strong><br>
-    면접에서 불합격되었습니다. <br/>아쉽지만, 추후 더 좋은 기회가 있기를 바랍니다.
-  </div>
-  
-  <!-- 서류결과와 면접결과가 모두 합격인 경우 -->
-  <div th:if="${dto.documentResult == '합격' and dto.interviewResult == '합격'}" class="result final-pass">
-    <strong>최종합격</strong><br>
-    축하합니다! 최종 합격하셨습니다. <br/>자세한 내용은 전화로 말씀드리겠습니다.
-  </div>
-</div>
-
 </body>
 </html>
