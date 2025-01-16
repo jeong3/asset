@@ -197,13 +197,21 @@ h1 {letter-spacing: 6px}
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center; font-size:25px;">
-                <a th:href="|/myAsset/dealUpdate?dealNum=${dto.dealNum}|">&#128393;</a> &nbsp
-                <a th:href="|/myAsset/dealDelete?dealNum=${dto.dealNum}|">&#128473;</a>
+                	<a th:href="|/myAsset/dealUpdate?dealNum=${dto.dealNum}|">&#128393;</a> &nbsp
+                	<a th:href="|/myAsset/dealDelete?dealNum=${dto.dealNum}&pastLocation=${1}|">&#128473;</a>
                 </td>
             </tr>
         </tbody>
     </table>
   </div>
 </div>
+
+<script type="text/javascript">
+// 전 주소인 pastlocation이 dealList일 때 1 보내기 -> 주소 
+//  			 		 cashList일 때 2
+//						 bankList일 때 3
+//						 saveList일 때 4
+//						 List일 때 4..
+</script>
 </body>
 </html>

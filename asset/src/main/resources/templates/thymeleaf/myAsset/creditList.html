@@ -130,7 +130,8 @@ h1 {letter-spacing: 6px}
  </div>
 </div>
  <br/> <br/> <br/>
- <a href="javascript:history.back()"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
+ 
+ <a id="backLink"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
 <div class="my-transaction">
     <h1>이번달 신용카드 이용요금</h1>
     <br/>
@@ -205,5 +206,17 @@ h1 {letter-spacing: 6px}
     </div>
 </div>
 </div>
+
+<script type="text/javascript">
+
+const pastLink = document.referrer;
+const backLink = document.getElementById("backLink");
+
+if (pastLink.includes("/myAsset/myAssetPage")) {
+    backLink.setAttribute("href", "javascript:history.back()");
+} else {
+    backLink.setAttribute("href", "/myAsset/assetList");
+}
+</script>
 </body>
 </html>

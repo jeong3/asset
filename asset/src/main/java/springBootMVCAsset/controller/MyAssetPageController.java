@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -133,22 +134,32 @@ public class MyAssetPageController {
 	}
 	@RequestMapping("dealsDelete")
 	public String dealDelete(@RequestParam(value = "dealNums", required = false) String dealNums[]
-			, HttpSession session) {
+			, HttpSession session
+			, @RequestHeader(value = "Referer", required = false) String referer) {
 		if (dealNums == null || dealNums.length == 0) {
             // 파라미터가 없으면 "dealList" 페이지 반환
             return "redirect:dealList";
         }
 		dealsDeleteService.execute(dealNums);
 		budgetUpdateService.execute(session);
-		return "redirect:dealList";
+		if (referer != null && !referer.isEmpty()) {
+	        return "redirect:" + referer;
+	    } else {
+	        return "redirect:dealList"; // 기본 경로 설정
+	    }
 	}
 	
 	@GetMapping("dealDelete")
 	public String dealDelete(@RequestParam("dealNum") String dealNum
-			, HttpSession session) {
+			, HttpSession session
+			, @RequestParam("pathLocation") Integer pathLocation) {
 		dealDeleteService.execute(dealNum);
 		budgetUpdateService.execute(session);
-		return "redirect:dealList";
+		if (pathLocation == 1) {
+			return "redirect:dealList";
+	    } else {
+	        return "redirect:dealList"; // 기본 경로 설정
+	    }
 	}
 	
 	// 내 자산 리스트
