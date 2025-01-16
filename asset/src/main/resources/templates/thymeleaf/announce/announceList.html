@@ -111,6 +111,9 @@ h1 {
 </head>
 <body>
 <div class="w3-content" style="max-width:1500px">
+
+
+
 <div class="w3-top">
 
  <div class="w3-bar w3-theme-d2 w3-left-align">
@@ -118,7 +121,15 @@ h1 {
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
-  <a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+  <a href="/goods/study" class="w3-bar-item w3-button w3-hide-small">강의</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+  	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
+		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+	    	<a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+	    	<a href="/volunteer/receiptCheck" class="w3-bar-item w3-button w3-hide-small">접수확인</a>
+	    </div>
+  </div>
+  
   <div th:if="${session.auth != null}">
   	<th:block th:if="${session.auth.grade == 'emp'}">
 	  <div class="w3-dropdown-hover w3-hide-small">
@@ -159,15 +170,16 @@ h1 {
     <div class="w3-dropdown-hover w3-hide-small">
         <button class="w3-button" title="Notifications">상품<i class="fa fa-caret-down"></i></button>
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-            <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
             <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+            <a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     		<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     		<a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
         </div>
     </div>
 </th:block>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
-     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
-     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
      	
      	<!-- 마이자산페이지 -->
      	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
@@ -235,6 +247,6 @@ h1 {
 		</div>
 	</div>
 </div>
-
+</div>
 </body>
 </html>
