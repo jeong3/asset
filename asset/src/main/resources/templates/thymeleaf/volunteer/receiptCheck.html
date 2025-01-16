@@ -10,8 +10,10 @@
     <style>
         /* 전체 페이지 스타일 */
         body {
+                    background-color: #f4f4f9;
+        }
+        .container {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
             display: flex;
@@ -74,24 +76,24 @@
             background-color: #388e3c;
         }
 
-        /* 반응형 디자인 */
-        @media (max-width: 480px) {
-            .login-container {
-                width: 90%;
-                padding: 20px;
-            }
-        }
+       
     </style>
 </head>
 <body>
+<div class="w3-content" style="max-width:1500px">
+
+<!-- Header -->
+
+
 
 <div class="w3-top">
 
- <div class="w3-bar w3-theme-d2 w3-left-align" style="margin-left: 202px;">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="/" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Asset</a>
   <a href="/news/newsList" class="w3-bar-item w3-button w3-hide-small">뉴스</a>
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
+  <a href="/goods/study" class="w3-bar-item w3-button w3-hide-small">강의</a>
   <div class="w3-dropdown-hover w3-hide-small">
   	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
 		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
@@ -121,7 +123,7 @@
 	  <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button" title="Notifications">상품관리<i class="fa fa-caret-down"></i></button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-    	<a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
+    	<a href="/goods/study" class="w3-bar-item w3-button">강의</a>
         <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
 		<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
 		<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
@@ -140,15 +142,16 @@
     <div class="w3-dropdown-hover w3-hide-small">
         <button class="w3-button" title="Notifications">상품<i class="fa fa-caret-down"></i></button>
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-            <a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
             <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
+            <a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
+     		<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     		<a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
         </div>
     </div>
 </th:block>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
-     	<a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
-     	<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+     	
      	
      	<!-- 마이자산페이지 -->
      	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
@@ -184,6 +187,7 @@
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
+	<div class="container">
     <div class="login-container">
         <form action="checkResult" name="frm" id="frm" method="post">
             <h2>합격 결과 확인</h2>
@@ -200,5 +204,7 @@
             </table>
         </form>
     </div>
+    </div>
+</div>
 </body>
 </html>
