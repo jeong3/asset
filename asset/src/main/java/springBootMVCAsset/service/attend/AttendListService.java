@@ -17,18 +17,19 @@ public class AttendListService {
 	@Autowired
 	AttendMapper attendMapper;
 	public List<String> getThisMonthDates() {
-		
 	    List<String> dates = new ArrayList<>();
-	    LocalDate startDate = LocalDate.of(2025, 1, 1);  // 2025년 1월 1일
-	    LocalDate endDate = LocalDate.of(2025, 1, 31);   // 2025년 1월 31일
-	   
-	    while (!startDate.isAfter(endDate)) {
-	        System.out.println("생성된 날짜: " + startDate);
-	        dates.add(startDate.toString());
-	        startDate = startDate.plusDays(1);  // 하루씩 증가
+	    LocalDate startDate = LocalDate.now().withDayOfMonth(1);
+	    LocalDate endDate = LocalDate.now();  // 현재 날짜
+
+	    while (!endDate.isBefore(startDate)) {
+	        System.out.println("생성된 날짜: " + endDate);
+	        dates.add(endDate.toString());
+	        endDate = endDate.minusDays(1);  // 하루씩 감소
 	    }
 	    return dates;
 	}
+
+
 
     // 특정 직원의 이번 달 근태 기록 조회
     public Map<String, AttendDTO> getAttendRecords(String empNum) {

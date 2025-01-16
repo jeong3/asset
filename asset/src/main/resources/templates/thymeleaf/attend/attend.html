@@ -60,12 +60,12 @@
     <script type="text/javascript">
 $(document).ready(function() {
     // 회사 위치 (예: 위도와 경도)
-    const latitude_company = 37.3922383; // 회사의 위도 설정 (예: 서울의 위도)
-    const longitude_company = 126.9205039; // 회사의 경도 설정 (예: 서울의 경도)
+    const latitude_company = 37.3834824; // 회사의 위도 설정 (예: 서울의 위도)
+    const longitude_company = 126.9252078; // 회사의 경도 설정 (예: 서울의 경도)
     var count = "[[${count}]]";
     var empNum = "[[${empNum}]]";
 
-	if(count != 0 || count != null){
+	if(count != 0){
 		document.getElementById('attendanceButton').textContent = '퇴근'; // 버튼 텍스트를 '퇴근'으로 변경
 	} 
 
@@ -263,10 +263,10 @@ $(document).ready(function() {
     <button id="attendanceButton" onclick="handleAttendance()">출근</button>
     <p id="statusMessage"></p>
 	
-   [[${attendRecords}]]<br />
-    [[${#strings.isEmpty(attendRecords['2025-01-10'].startTime) ? '결근' :  attendRecords['2025-01-10'].startTime }]]
-    <br> <br> <br>
-    [[${dates}]]
+
+
+
+
    <table>
     <tr>
         <th>날짜</th>
@@ -274,10 +274,10 @@ $(document).ready(function() {
         <th>퇴근 시간</th>
     </tr>
    <tr th:each="date,idx : ${dates}">
-    <td th:text="${date}"></td>
-    <td >[[${#strings.isEmpty(attendRecords['2025-01-10'].startTime) ? '결근' :  attendRecords['2025-01-10'].startTime }]]</td>
-    <td ></td>
-</tr>
+    <td th:text="${dates[idx.index]}"></td>
+    <td th:text="${attendRecords[dates[idx.index].toString()] != null ? #dates.format(attendRecords[dates[idx.index].toString()].startTime,'HH:mm:ss')  : '결근' }"></td>
+    <td th:text="${attendRecords[dates[idx.index].toString()] != null ? #dates.format(attendRecords[dates[idx.index].toString()].endTime,'HH:mm:ss')  : '결근' }"></td>
+	</tr>
 
 </table>
 	</div>
