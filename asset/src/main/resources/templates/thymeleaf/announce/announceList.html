@@ -20,6 +20,19 @@ function editJob(button) {
 }
 </script>
 <style>
+.regist {
+ padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
+}
 table {
             width: 100%;
             border-collapse: collapse;
@@ -112,8 +125,6 @@ h1 {
 <body>
 <div class="w3-content" style="max-width:1500px">
 
-
-
 <div class="w3-top">
 
  <div class="w3-bar w3-theme-d2 w3-left-align">
@@ -123,48 +134,47 @@ h1 {
   <a href="/stock/stockList" class="w3-bar-item w3-button w3-hide-small">주식</a>
   <a href="/goods/study" class="w3-bar-item w3-button w3-hide-small">강의</a>
   <div class="w3-dropdown-hover w3-hide-small">
-  	<button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
-		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	    	<a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
-	    	<a href="/volunteer/receiptCheck" class="w3-bar-item w3-button w3-hide-small">접수확인</a>
-	    </div>
+     <button class="w3-button" title="Notifications">공고<i class="fa fa-caret-down"></i></button>
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+          <a href="/announce/announceList" class="w3-bar-item w3-button w3-hide-small">공고</a>
+          <a href="/volunteer/receiptCheck" class="w3-bar-item w3-button w3-hide-small">접수확인</a>
+       </div>
   </div>
   
   <div th:if="${session.auth != null}">
-  	<th:block th:if="${session.auth.grade == 'emp'}">
-	  <div class="w3-dropdown-hover w3-hide-small">
-	     <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
-	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	        <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
-	        <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
-	    </div>
-	  </div>
-	  
-	  <div class="w3-dropdown-hover w3-hide-small">
-	     <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
-	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	        <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
-	        <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
-	        <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
-	    </div>
-	  </div>
-	  <div class="w3-dropdown-hover w3-hide-small">
+     <th:block th:if="${session.auth.grade == 'emp'}">
+     <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+           <a href="/member/memberRegist" class="w3-bar-item w3-button">회원등록</a>
+           <a href="/member/memberList" class="w3-bar-item w3-button">회원리스트</a>
+       </div>
+     </div>
+     
+     <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-button" title="Notifications">직원관리 <i class="fa fa-caret-down"></i></button>
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+           <a href="/employee/employeeRegist" class="w3-bar-item w3-button">직원등록</a>
+           <a href="/employee/employeeList" class="w3-bar-item w3-button">직원리스트</a>
+           <a href="/employee/departmentList" class="w3-bar-item w3-button">부서</a>
+       </div>
+     </div>
+     <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button" title="Notifications">상품관리<i class="fa fa-caret-down"></i></button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-    	<a href="/goods/goodsList/강의" class="w3-bar-item w3-button">강의</a>
         <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
-		<a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
-		<a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
-		<a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
+      <a href="/goods/goodsRegist" class="w3-bar-item w3-button">상품등록</a>
+      <a href="/inquire/goodsQuestion" class="w3-bar-item w3-button">상품 문의</a>
+      <a href="/goodsIpgo/ipgoList" class="w3-bar-item w3-button">입고현황</a>
     </div>
   </div>
-  	<div class="w3-dropdown-hover w3-hide-small">
-	     <button class="w3-button" title="Notifications">지원자관리 <i class="fa fa-caret-down"></i></button>
-	     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-	        <a href="/volunteer/volunteerList" class="w3-bar-item w3-button">지원자목록</a>
-	    </div>
-	  </div>
-  	</th:block>
+     <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-button" title="Notifications">지원자관리 <i class="fa fa-caret-down"></i></button>
+        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+           <a href="/volunteer/volunteerList" class="w3-bar-item w3-button">지원자목록</a>
+       </div>
+     </div>
+     </th:block>
   </div>
   <th:block th:if="${session.auth == null or session.auth.grade == 'mem'}">
     <div class="w3-dropdown-hover w3-hide-small">
@@ -172,18 +182,18 @@ h1 {
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
             <a href="/goods/goodsList/도서" class="w3-bar-item w3-button">도서</a>
             <a href="/item/cartList" class="w3-bar-item w3-button">장바구니</a>
-     		<a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
-     		<a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
+           <a href="/purchase/orderList" class="w3-bar-item w3-button">주문 목록</a>
+           <a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
         </div>
     </div>
 </th:block>
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'mem'}">
-     	
-     	
-     	<!-- 마이자산페이지 -->
-     	<a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
-     	
+        
+        
+        <!-- 마이자산페이지 -->
+        <a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
+        
         <!-- 마이페이지 -->
         <div class="w3-dropdown-hover w3-hide-small">
            <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
@@ -215,14 +225,15 @@ h1 {
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
+</div>
 <h1>공고 리스트</h1>
+
+<div class="container">
 <div th:if="${session.auth != null}">
 	<th:block th:if="${session.auth.grade == 'emp'}">
-		<a href="/announce/announceRegist" class="w3-button w3-teal">등록하기</a>
+		<a href="/announce/announceRegist" class="regist">등록하기</a>
 	</th:block>
 </div>
-<div class="container">
-
     <!-- Thymeleaf 반복문 -->
     <div class="card" th:each="announce : ${list}">
         <div class="card-header" th:text="${announce.announceName}">공고명</div>

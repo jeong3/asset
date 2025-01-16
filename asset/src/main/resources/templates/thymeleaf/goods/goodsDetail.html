@@ -203,8 +203,8 @@
 	            success : function(data){
 	            	console.log("Response data:", data);
 	            	var item = "";
-	            	item += "<div class='product-details'>";
-	            	item += "<span class='product-description'>" + data.goodsDTO.goodsContents + "</span>";
+	            	item += "<div class='product-details' style='text-align: left;'>"; 
+	            	item += "<span class='product-description' style='text-align: left;'>" + data.goodsDTO.goodsContents + "</span>";
 	            	item += "<br />";
 	            	if (data.goodsDTO.goodsDetailStoreImage != null) {
 	            	    var imageParts = data.goodsDTO.etailStoreImage.split(/[\/,`]/);
