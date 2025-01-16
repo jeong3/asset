@@ -143,6 +143,19 @@
             background: none;
             border: none;
         }
+        .newsRegist{
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
+        }
         .load-more {
         position: absolute;
         left: 50%;
@@ -350,7 +363,8 @@ function loadMoreItems(){
      </div>
      </form>
     <div class="container">
- 
+    <br>
+ <a href="/news/newsRegist" class="newsRegist" style="text-decoration: none;">뉴스등록</a>
         <!-- Main News Section -->
        <div th:if="${count == 0}" class="EmptyNews">
    		 <h1 >No news available.</h1> <a class="loadNews" href="/news/newsList" style="text-decoration: none;">뉴스</a>
