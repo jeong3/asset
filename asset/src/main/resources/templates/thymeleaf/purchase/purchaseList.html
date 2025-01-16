@@ -76,7 +76,6 @@ function detail(purchaseNum){
 </style>
 </head>
 <div class="w3-content" style="max-width:1500px">
-
 <div class="w3-top">
 
  <div class="w3-bar w3-theme-d2 w3-left-align">
@@ -95,6 +94,8 @@ function detail(purchaseNum){
   
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'emp'}">
+     <div>
+     </div>
      <div class="w3-dropdown-hover w3-hide-small">
         <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
@@ -138,15 +139,10 @@ function detail(purchaseNum){
            <a href="/goods/couponList" class="w3-bar-item w3-button">쿠폰 목록</a>
         </div>
     </div>
-</th:block>
-  <div th:if="${session.auth != null}">
-     <th:block th:if="${session.auth.grade == 'mem'}">
-        
-        
-        <!-- 마이자산페이지 -->
+            <!-- 마이자산페이지 -->
         <a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
         
-        <!-- 마이페이지 -->
+        <!-- 회원 마이페이지 -->
         <div class="w3-dropdown-hover w3-hide-small">
            <button class="w3-button" title="Notifications">My 페이지 <i class="fa fa-caret-down"></i></button>     
            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
@@ -156,7 +152,9 @@ function detail(purchaseNum){
               <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
             </div>
         </div>
-       </th:block>
+</th:block>
+
+       <div th:if="${session.auth != null}">
        <th:block th:if="${session.auth.grade == 'emp'}">
        <a href="/purchase/purchaseList" class="w3-bar-item w3-button">주문 내역</a>
         <!-- 직원마이페이지 -->
@@ -177,7 +175,7 @@ function detail(purchaseNum){
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
  </div>
 </div>
-</div>
+
 <table>
     <tr>
         <th>주문일(결제번호)</th>
@@ -226,5 +224,6 @@ function detail(purchaseNum){
         </td>
     </tr>
 </table>
+</div>
 </body>
 </html>

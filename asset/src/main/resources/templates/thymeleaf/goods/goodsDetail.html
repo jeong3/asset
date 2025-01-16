@@ -155,7 +155,7 @@
 	        xhr.onload = function(){
 	            if (xhr.status === 200) {
 	                if(xhr.responseText == "200"){
-	                    if(confirm("계속 쇼핑하려면 '취소'를 클릭하세요."))
+	                    if(confirm("장바구니로 이동하시겠습니까?\n계속 쇼핑하려면 '취소'를 클릭하세요."))
 	                        location.href="/item/cartList";
 	                }else if(xhr.responseText == "900"){
 	                    alert("관리자는 사용할 수 없는 페이지입니다.");
