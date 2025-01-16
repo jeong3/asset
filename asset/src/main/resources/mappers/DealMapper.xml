@@ -55,8 +55,12 @@ where rn between #{startRow} and #{endRow}
 order by deal_num desc
 </select>
 
-<select id="dealCount" resultType="integer">
+<select id="dealCount" resultType="integer" parameterType="string">
 select count(*) from deal
+where member_num = #{memberNum}
+<if test="dealMethod != null">
+and deal_method = #{dealMethod}
+</if>
 </select>
 
 <select id="dealDetail" parameterType="string" resultType="dealDTO">

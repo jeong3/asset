@@ -131,7 +131,15 @@ h1 {letter-spacing: 6px}
                     <tr th:each="dto : ${list}">
                     	<td><input type="checkbox" name="dealNums" th:value="${dto.dealNum}"/></td>
                         <td>
-	                        [[${dto.categoryType}]]
+	                        <span th:if="${dto.categoryType == '식비'}">&#127869;</span>
+			            	<span th:if="${dto.categoryType == '교통비'}">&#128647;</span>
+			            	<span th:if="${dto.categoryType == '문화생활'}">&#127925;</span>
+			            	<span th:if="${dto.categoryType == '생필품'}">&#128722;</span>
+			            	<span th:if="${dto.categoryType == '의류'}">&#128090;</span>
+			            	<span th:if="${dto.categoryType == '미용'}">&#128135;</span>
+			            	<span th:if="${dto.categoryType == '의료'}">&#127973;</span>
+			            	<span th:if="${dto.categoryType == '교육'}">&#128214;</span>
+			            	[[${dto.categoryType}]]
 	                   	</td>
                         <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
                         <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">

@@ -27,7 +27,9 @@ public class CreditListService {
 		String searchWord = assetListDTO.getSearchWord();
 		AssetListDTO dto = assetListService.execute(page, limit, searchWord, memberNum);
 		List <DealDTO> list = dealMapper.creditList(dto);
-		Integer count = dealMapper.dealCount();
+		
+		String dealMethod = "creditCard";
+		Integer count = dealMapper.dealCount(memberNum, dealMethod);
 		assetListService.execute(page, limit, count, searchWord, model);
 		
 		model.addAttribute("list", list);
