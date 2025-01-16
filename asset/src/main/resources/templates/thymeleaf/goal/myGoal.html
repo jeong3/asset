@@ -129,7 +129,7 @@ h1 {letter-spacing: 6px}
     			 </div>
                 <thead>
                     <tr>
-                    	<th><input type="checkbox" id="goalCheckBoxs"/></th>
+                    	<th><input type="checkbox" id="runGoalCheckBoxs"/></th>
                         <th>번호</th>
                         <th>내용</th>
                         <th>기간</th>
@@ -141,7 +141,7 @@ h1 {letter-spacing: 6px}
                 </thead>
                 <tbody>
                     <tr th:each="dto : ${runlist}">
-                    	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
+                    	<td><input type="checkbox" name="runGoalNums" th:value="${dto.goalNum}"/></td>
                         <td>[[${dto.myGoalNum}]]</td>
                         <td><a th:href="|/goal/goalDetail?goalNum=${dto.goalNum}|">
                         	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>
@@ -195,7 +195,7 @@ h1 {letter-spacing: 6px}
 	    			 </div>
 	                <thead>
 	                    <tr>
-	                    	<th><input type="checkbox" id="dealCheckBoxs"/></th>
+	                    	<th><input type="checkbox" id="finishGoalCheckBoxs"/></th>
 	                        <th>번호</th>
 	                        <th>내용</th>
 	                        <th>기간</th>
@@ -205,7 +205,7 @@ h1 {letter-spacing: 6px}
 	                </thead>
 	                <tbody>
 	                    <tr th:each="dto : ${finishlist}">
-	                    	<td><input type="checkbox" name="goalNums" th:value="${dto.goalNum}"/></td>
+	                    	<td><input type="checkbox" name="finishGoalNums" th:value="${dto.goalNum}"/></td>
 	                        <td>[[${dto.myGoalNum}]]</td>
 	                        <td><a th:href="|/goal/goalDetail?goalNum=${dto.goalNum}|">
 	                        	<span th:if="${dto.goalName == '저축'}" style="color: #b1972f;">[[${#strings.abbreviate(dto.goalContents, 13)}]]</span>

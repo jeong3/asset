@@ -213,4 +213,31 @@ from (select row_number() over(order by DEAL_DATE desc) as rn
 )
 where rn between #{startRow} and #{endRow} 
 </select>
+
+<select id="monthEx" resultType="int">
+select sum(deal_price) from deal
+	where member_num = #{memberNum}
+	and deal_date between #{dealStartDate} and #{dealEndDate}
+	and CATEGORY_NAME = '지출'
+</select>
+<select id="monthIm" resultType="int">
+select sum(deal_price) from deal
+	where member_num = #{memberNum}
+	and deal_date between #{dealStartDate} and #{dealEndDate}
+	and CATEGORY_NAME = '수입'
+</select>
+
+<select id="todayEx" parameterType="string" resultType="int">
+select sum(deal_price) from deal
+	where member_num = #{memberNum}
+	and trunc(deal_date) = trunc(sysdate)
+	and CATEGORY_NAME = '지출'
+</select>
+
+<select id="todayIm" parameterType="string" resultType="int">
+select sum(deal_price) from deal
+	where member_num = #{memberNum}
+	and trunc(deal_date) = trunc(sysdate)
+	and CATEGORY_NAME = '수입'
+</select>
 </mapper>

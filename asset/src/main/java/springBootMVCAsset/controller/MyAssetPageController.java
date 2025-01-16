@@ -21,11 +21,11 @@ import springBootMVCAsset.service.deal.BankDealListService;
 import springBootMVCAsset.service.deal.CashDealListService;
 import springBootMVCAsset.service.deal.CreditListService;
 import springBootMVCAsset.service.deal.CreditPayService;
-import springBootMVCAsset.service.deal.CreditPayService;
 import springBootMVCAsset.service.deal.DealDeleteService;
 import springBootMVCAsset.service.deal.DealDetailService;
 import springBootMVCAsset.service.deal.DealListService;
 import springBootMVCAsset.service.deal.DealRegistService;
+import springBootMVCAsset.service.deal.DealTotalService;
 import springBootMVCAsset.service.deal.DealUpdateService;
 import springBootMVCAsset.service.deal.DealsDeleteService;
 import springBootMVCAsset.service.deal.JaeTechDealListService;
@@ -65,10 +65,13 @@ public class MyAssetPageController {
 	CreditListService creditListService;
 	@Autowired
 	CreditPayService creditPayService;
+	@Autowired
+	DealTotalService dealTotalService;
 	
 	@GetMapping("myAssetPage")
 	public String myAssetPage(Model model, HttpSession session) {
 		budgetDetailService.execute(model, session);
+		dealTotalService.execute(session, model);
 		return "thymeleaf/myAsset/myAssetPage";
 	}
 	// 거래 등록
@@ -207,9 +210,4 @@ public class MyAssetPageController {
 		return "thymeleaf/myAsset/creditList";
 	}
 	
-	@GetMapping("creditPay")
-	public String creditPay(@RequestParam("dealNum")String dealNum){
-		creditPayService.execute(dealNum);
-		return "";
-	}
 }

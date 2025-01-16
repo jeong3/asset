@@ -125,7 +125,6 @@ h1 {letter-spacing: 6px}
                         <th style="background-color: #e18383">날짜</th>
                         <th style="background-color: #e18383">금액</th>
                         <th style="background-color: #e18383"><button type="submit">선택 삭제</button></th>
-                        <th style="background-color: #e18383">납부</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,14 +137,6 @@ h1 {letter-spacing: 6px}
                         <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">
 							[[${dto.dealPrice}]]</a></td>
                     	<td><button type="button" th:attr="onclick=|javascript:location.href='dealsDelete?dealNums=${dto.dealNum}'|">삭제</button></td>
-                    	<td>
-                    		<span th:if="${dto.creditPay == 0}">
-                    			납부완료
-                    		</span>
-                    		<span th:if="${dto.dealPrice != 0}">
-                    			<button type="button" th:attr="onclick=|javascript:location.href='creditPay?dealNum=${dto.dealNum}'|">삭제</button>
-                    		</span>
-                    	</td>
                     </tr>
                 </tbody>
             </table>

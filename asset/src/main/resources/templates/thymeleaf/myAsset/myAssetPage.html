@@ -118,12 +118,6 @@ h1 {letter-spacing: 6px}
 	      </a>
 	    </td>
 	    <td>
-	      <a href="/myAsset/dealData">
-	        <span>&#128202;</span>
-	        통계
-	      </a>
-	    </td>
-	    <td>
 	      <a href="/goal/myGoal">
 	        <span>&#127919;</span>
 	        목표
@@ -138,6 +132,8 @@ h1 {letter-spacing: 6px}
 	  </tr>
 	</table>
     
+    <div class="second-container">
+    <div class="table1">
     <!-- 총자산 테이블 -->
     <table class="financial-table">
     	<thead>
@@ -175,6 +171,47 @@ h1 {letter-spacing: 6px}
             </tr>
         </tbody>
     </table>
+    </div>
+    
+    <div class="total-table">
+    
+    <div class="table2">
+	<table class="month-table">
+		<thead>
+			<tr>
+				<td>이달의 지출</td>
+				<td>이달의 수입</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="color:red;">[[${monthEx}]]원</td>
+				<td style="color:green;">[[${monthIm}]]원</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	
+	<div class="table3">
+	<table class="today-table">
+		<thead>
+			<tr>
+				<td>오늘의 지출</td>
+				<td>오늘의 수입</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="color:red;">[[${todayEx}]]원</td>
+				<td style="color:green;">[[${todayIm}]]원</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	
+	</div>
+	</div>
+	
   </div>
 </div>
 </body>

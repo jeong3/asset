@@ -142,10 +142,6 @@ function newsDetail(element){
         </div>
     </div>
 </th:block>
-  <div th:if="${session.auth != null}">
-     <th:block th:if="${session.auth.grade == 'mem'}">
-        
-        
         <!-- 마이자산페이지 -->
         <a href="/myAsset/myAssetPage" class="w3-bar-item w3-button">My 자산 페이지</a>
         
@@ -159,7 +155,7 @@ function newsDetail(element){
               <a href="/myPage/memberMyDelete" class="w3-bar-item w3-button">회원 탈퇴</a>
             </div>
         </div>
-       </th:block>
+       <div th:if="${session.auth != null}">
        <th:block th:if="${session.auth.grade == 'emp'}">
        <a href="/purchase/purchaseList" class="w3-bar-item w3-button">주문 내역</a>
         <!-- 직원마이페이지 -->

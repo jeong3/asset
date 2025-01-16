@@ -40,19 +40,38 @@ $(function(){
 });
 
 $(function(){
-	$("#goalCheckBoxs").click(function(){
-		if($("#goalCheckBoxs").prop("checked")){
-			$("input:checkbox[name=goalNums]").prop("checked",true);
+	$("#runGoalCheckBoxs").click(function(){
+		if($("#runGoalCheckBoxs").prop("checked")){
+			$("input:checkbox[name=runGoalNums]").prop("checked",true);
 		} else{
-			$("input:checkbox[name=goalNums]").prop("checked",false);
+			$("input:checkbox[name=runGoalNums]").prop("checked",false);
 		}
 		prodChk();
 	});
-	$("input:checkbox[name=goalNums]").click(function(){
-		var tot = $("input:checkbox[name=goalNums]").length;
-		var cnt = $("input:checkbox[name=goalNums]:checked").length;
-		if (tot == cnt) $("#goalCheckBoxs").prop("checked", true);
-		else $("#goalCheckBoxs").prop("checked", false);
+	$("input:checkbox[name=runGoalNums]").click(function(){
+		var tot = $("input:checkbox[name=runGoalNums]").length;
+		var cnt = $("input:checkbox[name=runGoalNums]:checked").length;
+		if (tot == cnt) $("#runGoalCheckBoxs").prop("checked", true);
+		else $("#runGoalCheckBoxs").prop("checked", false);
+		prodChk();
+	});
+	
+});
+
+$(function(){
+	$("#finishGoalCheckBoxs").click(function(){
+		if($("#finishGoalCheckBoxs").prop("checked")){
+			$("input:checkbox[name=finishGoalNums]").prop("checked",true);
+		} else{
+			$("input:checkbox[name=finishGoalNums]").prop("checked",false);
+		}
+		prodChk();
+	});
+	$("input:checkbox[name=runGoalNums]").click(function(){
+		var tot = $("input:checkbox[name=finishGoalNums]").length;
+		var cnt = $("input:checkbox[name=finishGoalNums]:checked").length;
+		if (tot == cnt) $("#finishGoalCheckBoxs").prop("checked", true);
+		else $("#finishGoalCheckBoxs").prop("checked", false);
 		prodChk();
 	});
 	

@@ -110,7 +110,7 @@ h1 {letter-spacing: 6px}
 	   </span>   
   	</h2><br/>
   	  	<div class="box" align="center">
-    <p style="font-size: 20px; text-align:center;">[[${#dates.format(dto.startDate, 'yy/MM/dd')}]] ~ [[${#dates.format(dto.endDate, 'yy/MM/dd')}]]</p>
+    <p style="font-size: 20px; text-align:center;">[[${#dates.format(dto.startDate, 'yy-MM-dd')}]] ~ [[${#dates.format(dto.endDate, 'yy-MM-dd')}]]</p>
   	<!-- 그래프 -->
   	<div class="container">
   	<div class="top-tables">
@@ -180,16 +180,16 @@ h1 {letter-spacing: 6px}
 	    			<span th:if="${dto.remainDate == 0}">
 	    				D - day
 	    			</span>
-	    			<span th:if="${dto.remainDate < 0}" style="color:red;">
+	    			<span th:if="${dto.remainDate < 0}" style="color:rgb(107, 107, 107);">
 	    				종료
 	    			</span>
     			</td>
     		</tr>
     	</tbody>
     </table>
-    <table>
+    <table class="button-table">
     <tr><td>
-    	<a class="buttons" th:href="|/goal/goalUpdate?goalNum=${dto.goalNum}|">&#128393;</a> &nbsp &nbsp &nbsp &nbsp &nbsp
+    	<a class="buttons" th:href="|/goal/goalUpdate?goalNum=${dto.goalNum}|">&#128393;</a> &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp
     	<a class="buttons" th:href="|/goal/goalDelete?goalNum=${dto.goalNum}|">&#128473;</a>
     </td></tr>
     </table>

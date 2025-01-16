@@ -3,11 +3,16 @@
     justify-content: center; /* Space between the two sections */
     align-items: flex-start; /* Align items at the top *//* Space between goalButton and my-finishGoal */
     width: 1000px;
+    position: absolute;
+    margin-top: 20px;
+    top: 550px;    /* 부모 요소의 위쪽에서 10px 떨어짐 */
+    left: 310px;   /* 부모 요소의 왼쪽에서 20px 떨어짐 */
 }
 .goalButton, .my-finishGoal {
     flex: 1; /* Ensures equal width for both sections */
     max-width: 48%; /* Optional: Prevent sections from being too wide */
     box-sizing: border-box; /* Includes padding and border in the width/height calculation */
+    padding: 0px;
 }
 
 /* Ensure table and content inside .my-finishGoal align */
@@ -60,7 +65,7 @@
     background-color: #e3f5d5;
     color: black;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 17px;
 }
 
 .my-runGoal table td {
@@ -68,7 +73,7 @@
     padding: 10px;
     text-align: center;
     background-color: white;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .my-runGoal input[type="date"],
@@ -123,7 +128,7 @@ a:hover {
 
 .my-finishGoal {
     margin: 20px auto;
-    max-width: 600px;
+    max-width: 650px;
     font-size: 15px;
 }
 
@@ -156,7 +161,7 @@ a:hover {
     background-color: #e3f5d5;
     color: black;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 17px;
 }
 
 .my-finishGoal table td {
@@ -164,7 +169,7 @@ a:hover {
     padding: 10px;
     text-align: center;
     background-color: white;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .my-finishGoal input[type="date"],

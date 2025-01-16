@@ -1,13 +1,12 @@
 .financial-table {
     border-collapse: collapse;
-    width: 50%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 450px;
     background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     overflow: hidden;
-    margin: 20px auto;
     table-layout: auto; /* 셀 크기를 데이터에 따라 조정 */
 }
 #memberId{
@@ -20,6 +19,7 @@
     padding: 12px 15px;
     text-align: left;
     border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 17px;
 }
 
 .financial-table th {
@@ -49,13 +49,130 @@
     background-color: #f1f1f1;
 }
 
-/* 둥근 모서리 */
-.financial-table {
-    border-radius: 12px;
-}
 
 /* rowspan 관련 문제 해결 */
 .financial-table td[rowspan] {
     vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
     padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
+}
+
+.table2{
+	border-radius: 12px;
+    overflow: hidden; /* 테두리를 벗어난 부분을 잘라냄 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 30px auto;
+    background-color: #fff;
+}
+
+.month-table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+}
+
+.month-table thead td{
+	padding: 17px 15px;
+    text-align: center;/* 셀 경계선 */
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #e3f5d5;
+}
+.month-table tbody td{
+	padding: 20px 15px;
+    text-align: center; /* 셀 경계선 */
+    font-size: 17px;
+    font-weight: bold;
+    background-color: white;
+}
+
+.month-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 17px;
+    font-weight: none;
+    
+}
+
+/* 테이블 행 구분 줄 */
+.month-table tr {
+    border-bottom: 1px solid #ddd;
+    height: auto; /* 행 높이를 자동으로 조정 */
+}
+
+/* rowspan 관련 문제 해결 */
+.month-table td[rowspan] {
+    vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
+    padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
+}
+
+
+.table3{
+	border-radius: 12px;
+    overflow: hidden; /* 테두리를 벗어난 부분을 잘라냄 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 30px auto;
+    background-color: #fff;
+}
+.today-table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+}
+
+.today-table thead td{
+	padding: 17px 15px;
+    text-align: center;/* 셀 경계선 */
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #e3f5d5;
+}
+.today-table tbody td{
+	padding: 20px 15px;
+    text-align: center; /* 셀 경계선 */
+    font-size: 17px;
+    font-weight: bold;
+    background-color: white;
+}
+
+.today-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 17px;
+    font-weight: none;
+    
+}
+
+/* 테이블 행 구분 줄 */
+.today-table tr {
+    border-bottom: 1px solid #ddd;
+    height: auto; /* 행 높이를 자동으로 조정 */
+}
+
+/* rowspan 관련 문제 해결 */
+.today-table td[rowspan] {
+    vertical-align: top; /* rowspan 셀의 내용이 위쪽에 정렬되도록 설정 */
+    padding: 15px; /* 추가적인 패딩을 설정하여 시각적 균형 유지 */
+}
+
+.second-container{
+	display: flex; /* 플렉스 레이아웃 활성화 */
+    justify-content: center; /* 가운데 정렬 */
+    align-items: flex-start;
+    gap:  0px; /* 두 div 간격 */
+    margin: 20px;
+}
+
+.table1 {
+    width: 40%; /* 각 div의 너비를 지정 (조정 가능) */
+    margin-top: 30px;
+    padding: 0px;
+}
+.total-table{
+	margin-top: 10px;
+	width: 40%;
+	padding: 0px;
 }
