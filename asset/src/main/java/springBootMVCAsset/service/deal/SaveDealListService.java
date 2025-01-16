@@ -41,7 +41,9 @@ public class SaveDealListService {
 		String searchWord = assetListDTO.getSearchWord();
 		AssetListDTO dto = assetListService.execute(page, limit, searchWord, memberNum);
 		List <DealDTO> list = dealMapper.saveList(categoryType, dto);
-		Integer count = dealMapper.dealCount();
+		
+		String categoryName = "저축";
+		Integer count = dealMapper.dealSaveCount(memberNum, categoryName, categoryType);
 		assetListService.execute(page, limit, count, searchWord, model);
 		
 		model.addAttribute("list", list);

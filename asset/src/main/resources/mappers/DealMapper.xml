@@ -63,6 +63,24 @@ and deal_method = #{dealMethod}
 </if>
 </select>
 
+<select id="dealSaveCount" resultType="integer" parameterType="string">
+select count(*) from deal
+where member_num = #{memberNum}
+and CATEGORY_NAME = #{categoryName}
+<if test="categoryType != null">
+and CATEGORY_TYPE = #{categoryType}
+</if>
+</select>
+
+<select id="dealjaetechCount" resultType="integer" parameterType="string">
+select count(*) from deal
+where member_num = #{memberNum}
+and CATEGORY_NAME = #{categoryName}
+<if test="categoryType != null">
+and CATEGORY_TYPE = #{categoryType}
+</if>
+</select>
+
 <select id="dealDetail" parameterType="string" resultType="dealDTO">
 	select * from deal
 	where deal_num = #{dealNum}

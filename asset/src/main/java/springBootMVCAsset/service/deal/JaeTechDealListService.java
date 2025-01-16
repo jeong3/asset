@@ -41,7 +41,10 @@ public class JaeTechDealListService {
 		String searchWord = assetListDTO.getSearchWord();
 		AssetListDTO dto = assetListService.execute(page, limit, searchWord, memberNum);
 		List <DealDTO> list = dealMapper.jaetechList(categoryType, dto);
-		Integer count = dealMapper.dealCount();
+		
+		String categoryName = "재태크";
+		Integer count = dealMapper.dealjaetechCount(memberNum, categoryName, categoryType);
+
 		assetListService.execute(page, limit, count, searchWord, model);
 		model.addAttribute("list", list);
 		

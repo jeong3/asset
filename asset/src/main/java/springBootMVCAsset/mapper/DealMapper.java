@@ -17,6 +17,8 @@ public interface DealMapper {
 	public List <DealDTO> dealList(SearchDTO dto);
 	// 카운트
 	public Integer dealCount(String memberNum, String dealMethod);
+	public Integer dealSaveCount(String memberNum, String categoryName, String categoryType);
+	public Integer dealjaetechCount(String memberNum, String categoryName, String categoryType);
 	
 	public DealDTO dealDetail(String dealNum);
 	public void dealUpdate(DealDTO dto);
