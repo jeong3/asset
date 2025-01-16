@@ -59,8 +59,8 @@ EVAL_NUM, EMP_NUM, START_DATE, END_DATE, WORK_PERFORMANCE_ABILITY, WORK_ATTITUDE
 </select>
 
 <insert id="salaryInsert">
-	insert into employees_salary (EMP_NUM, SALARY, ALLOWANCES, deductions, SALARY_DATE)
-	values (#{empNum}, '5300000','0','0',sysdate);
+	insert into employees_salary (EMP_NUM,SALARY,DEDUCTIONS,BONUS,SALARY_DATE)
+	values (#{empNum}, '5300000','0','0',sysdate)
 </insert>
 
 <resultMap id="EmpSalaryResultMap" type="empSalaryDTO">

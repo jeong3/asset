@@ -32,6 +32,7 @@ EMP_NUM, DEPARTMENT_NUM, EMP_NAME, EMP_ID, EMP_PW, EMP_JUMIN, EMP_ADDR, EMP_ADDR
 	, EMP_PHONE = #{empPhone}
 	, EMP_EMAIL = #{empEmail}
 	, EMP_POST = #{empPost}
+	, department_num = #{departmentNum}
 	where emp_num = #{empNum}
 </update>
 <update id="setDepartmentNumUpdate">

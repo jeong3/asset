@@ -33,6 +33,7 @@ public class EmployeeCommand {
 	String empEmail;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date registDate;
+	String departmentNum;
 	
 
 	

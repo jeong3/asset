@@ -119,8 +119,8 @@ body {
 .save-button-container {
   text-align: center; /* 버튼을 가로로 중앙 정렬 */
   position: absolute; /* 부모 요소에서 벗어나 왼쪽에 위치하도록 설정 */
-    top: 100px; /* 상단에 위치하도록 설정 (필요에 따라 조정) */
-    right: 290px; /* 왼쪽 끝에 위치하도록 설정 */
+    top: 60px; /* 상단에 위치하도록 설정 (필요에 따라 조정) */
+    right: 350px; /* 왼쪽 끝에 위치하도록 설정 */
 }
 
 .save-button {
@@ -150,8 +150,8 @@ body {
 
 .like-container {
     position: absolute; /* 부모 요소에서 벗어나 왼쪽에 위치하도록 설정 */
-    top: 100px; /* 상단에 위치하도록 설정 (필요에 따라 조정) */
-    right: 200px; /* 왼쪽 끝에 위치하도록 설정 */
+    top: 60px; /* 상단에 위치하도록 설정 (필요에 따라 조정) */
+    right: 260px; /* 왼쪽 끝에 위치하도록 설정 */
 }
 
 .like-btn {
@@ -516,16 +516,19 @@ $(document).ready(function() {
 				      - <a th:href="|/news/commentDelete?newsNum=${commentDTO.newsNum}&commentNum=${commentDTO.commentNum}|">삭제</a>
 				      </th:block></p>
 				      <p>[[${commentDTO.commentContents}]] </p>
+				     
 				    </div>
-				     <th:block th:if="${commentDTO == null}">
+				    
+				     <th:block th:if="${commentList == null}">
 					  <p><strong> 댓글이 아직 없습니다. 첫 댓글을 달아보세요 </strong></p>
 					  </th:block>
 				  </div>
-				 
+				 <div th:if="${session.auth != null and session.auth.grade == 'mem'}">
 				  <h3>댓글</h3>
 				  <div class="comment-input">
 				    <textarea placeholder="댓글을 입력하세요..." rows="4" name="commentContents"></textarea>
 				    <button type="submit" class="comment-submit">작성</button>
+				  </div>
 				  </div>
 				  
 				</div>

@@ -147,6 +147,12 @@ public class EmployeeController {
 		model.addAttribute("empNum", empNum);
 		return "thymeleaf/department/departmentItem";
 	}
+	@GetMapping("departmentItem2")
+	public String departmentItem2(Model model, String empNum) {
+		departmentListService.execute(model);
+		model.addAttribute("empNum", empNum);
+		return "thymeleaf/department/departmentItem2";
+	}
 	@GetMapping("eval")
 	public String eval(String empNum, Model model) {
 		model.addAttribute("empNum", empNum);

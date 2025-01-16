@@ -362,7 +362,10 @@ function loadMoreItems(){
      </form>
     <div class="container">
     <br>
+      
+     <th:block th:if="${session.auth != null and session.auth.grade == 'emp'}">
  <a href="/news/newsRegist" class="newsRegist" style="text-decoration: none;">뉴스등록</a>
+ </th:block>
         <!-- Main News Section -->
        <div th:if="${count == 0}" class="EmptyNews">
    		 <h1 >No news available.</h1> <a class="loadNews" href="/news/newsList" style="text-decoration: none;">뉴스</a>
