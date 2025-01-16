@@ -35,6 +35,7 @@ EVAL_NUM, EMP_NUM, START_DATE, END_DATE, WORK_PERFORMANCE_ABILITY, WORK_ATTITUDE
 	, eval_num, start_Date, end_date, WORK_PERFORMANCE_ABILITY, WORK_ATTITUDE, ATTEND_STATUS, GENERAL_OPINION
 	from employees e join eval ev
 	on e.emp_num = ev.emp_num
+	where e.emp_num = #{empNum}
 </select>
 
 <update id="EvalUpdate">
