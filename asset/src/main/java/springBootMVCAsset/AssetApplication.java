@@ -1,5 +1,7 @@
 package springBootMVCAsset;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import springBootMVCAsset.domain.NewsDTO;
+import springBootMVCAsset.domain.StartEndPageDTO;
+import springBootMVCAsset.mapper.NewsMapper;
 import springBootMVCAsset.service.EmailSendService;
 import springBootMVCAsset.service.goods.GoodsListService;
 @Controller
@@ -16,6 +21,8 @@ import springBootMVCAsset.service.goods.GoodsListService;
 public class AssetApplication {
 	@Autowired
 	GoodsListService goodsListService;
+	@Autowired
+	NewsMapper newsMapper;
 	public static void main(String[] args) {
 		SpringApplication.run(AssetApplication.class, args);
 	}
@@ -31,6 +38,10 @@ public class AssetApplication {
 	    model.addAttribute("lectureList", model.getAttribute("list"));
 	    goodsListService.execute(goodsKind2, page, searchWord, model);
 	    model.addAttribute("bookList", model.getAttribute("list"));
+	    StartEndPageDTO sepDTO = new StartEndPageDTO(1, 1, null);
+	    List<NewsDTO> newslist = newsMapper.newsSelectAll(sepDTO);
+	    model.addAttribute("newslist", newslist);
+	    
 	    return "thymeleaf/index";
 	}
 
