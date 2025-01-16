@@ -119,6 +119,9 @@ h1 {
     text-align: center;
     background-color: #f4f4f4;
 }
+.w3-top{
+	margin-bottom : 100px;
+}
 
 </style>
 </head>
@@ -226,14 +229,15 @@ h1 {
  </div>
 </div>
 </div>
-<h1>공고 리스트</h1>
+<br/>
+<h1 class="w3-xlarge">공고 리스트</h1>
 
 <div class="container">
 <div th:if="${session.auth != null}">
 	<th:block th:if="${session.auth.grade == 'emp'}">
 		<a href="/announce/announceRegist" class="regist">등록하기</a>
 	</th:block>
-</div>
+</div>	
     <!-- Thymeleaf 반복문 -->
     <div class="card" th:each="announce : ${list}">
         <div class="card-header" th:text="${announce.announceName}">공고명</div>

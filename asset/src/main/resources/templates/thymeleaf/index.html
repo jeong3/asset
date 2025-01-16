@@ -98,6 +98,8 @@ function newsDetail(element){
   
   <div th:if="${session.auth != null}">
      <th:block th:if="${session.auth.grade == 'emp'}">
+     <div>
+     </div>
      <div class="w3-dropdown-hover w3-hide-small">
         <button class="w3-button" title="Notifications">회원관리 <i class="fa fa-caret-down"></i></button>
         <div class="w3-dropdown-content w3-card-4 w3-bar-block">
