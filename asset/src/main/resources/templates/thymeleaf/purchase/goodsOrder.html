@@ -233,7 +233,7 @@ window.onload = function() {
         <tr><td> 할인가격</td><td><span id="discountPrice">0</span>원</td></tr>
         <tr><td> 총 배송비</td><td>
             <span th:if="${deliveryCost == 0}">무료배송</span>
-            <span th:if="${deliveryCost != 0}">[[${#numbers.formatCurrency(deliveryCost).replace('₩', '')R}]]원</span>
+            <span th:if="${deliveryCost != 0}">[[${#numbers.formatCurrency(deliveryCost).replace('₩', '')}]]원</span>
         </td></tr>
         <tr><td> 총 결제 금액 </td><td><span id="totalAmount"></span>원</td></tr>
         <tr><td align="center" colspan=2>
