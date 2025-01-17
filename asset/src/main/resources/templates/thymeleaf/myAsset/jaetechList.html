@@ -221,20 +221,20 @@ h1 {letter-spacing: 6px}
             </table>
         </form>
     </div>
-
+[[${ccategoryType}]]asdasdsadasdasdasddasd
     <!-- 페이지 네비게이션 -->
     <div class="pagination">
     <span th:if="${page <= 1}">[이전]</span>
         <span th:if="${page > 1}">
-            <a th:href="|saveList?page=${page - 1}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[이전]</a>
+            <a th:href="|jaetechList?page=${page - 1}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[이전]</a>
         </span>
         <span th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}">
-            <a th:href="|saveList?page=${i}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[[${i}]]</a>
+            <a th:href="|jaetechList?page=${i}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[[${i}]]</a>
         </span>
         <span th:if="${page < maxPage}">
-            <a th:href="|saveList?page=${page + 1}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[다음]</a>
+            <a th:href="|jaetechList?page=${page + 1}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[다음]</a>
         </span>
-        <span th:if="${page >= maxPage}">
+        <span th:if="${page <= maxPage}">
                [다음]
         </span>
     </div>

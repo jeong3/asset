@@ -42,7 +42,7 @@ public class JaeTechDealListService {
 		AssetListDTO dto = assetListService.execute(page, limit, searchWord, memberNum);
 		List <DealDTO> list = dealMapper.jaetechList(categoryType, dto);
 		
-		String categoryName = "재태크";
+		String categoryName = "재테크";
 		Integer count = dealMapper.dealjaetechCount(memberNum, categoryName, categoryType);
 
 		assetListService.execute(page, limit, count, searchWord, model);
