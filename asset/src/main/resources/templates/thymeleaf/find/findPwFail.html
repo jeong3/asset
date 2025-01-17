@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비밀번호 찾기 결과</title>
+<style>
+    /* 기본 설정 */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* 메인 컨테이너 스타일 */
+    .container {
+        background: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        width: 600px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .message {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    /* 링크 스타일 */
+    a {
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #007BFF;
+        padding: 10px 15px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div th:if="${#strings.isEmpty(auth)}" class="message">
+        정보가 부족합니다. 다시 확인하여 주시기 바랍니다.
+    </div>
+    <div th:if="${not #strings.isEmpty(auth)}" class="message">
+        [[${auth.userId}]]님의 임시 비밀번호는 이메일로 전송되었습니다.<br />
+        로그인 후 비밀번호를 변경해 주시기 바랍니다.
+    </div>
+    <a href="/">홈으로</a>
+</div>
+</body>
+</html>

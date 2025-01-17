@@ -26,4 +26,15 @@ where emp_id = #{userId}
 	union
 	select 1 from employees where emp_id = #{userId}
 </select>
+
+<select id="loginSelectOne" parameterType="string" resultMap="authResultMap">
+select member_id , member_pw , member_name ,member_email , 'mem' as grade
+from members
+where member_id = #{userId}
+union
+select emp_id    , emp_pw    , emp_name    , emp_email   , 'emp' as  grade
+from employees
+where emp_id = #{userId}
+</select>
+
 </mapper>

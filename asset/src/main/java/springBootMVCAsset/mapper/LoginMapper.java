@@ -11,4 +11,5 @@ public interface LoginMapper {
 
 	Integer idCheckSelectOne(String userId);
 	
+	public AuthInfoDTO loginSelectOne(String userId);
 }

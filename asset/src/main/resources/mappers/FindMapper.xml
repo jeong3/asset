@@ -1,0 +1,31 @@
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCAsset.mapper.FindMapper">
+<select id="findId" parameterType="string" resultType="string">
+select member_id
+from members
+where member_email = #{_userEmail} 
+and member_phone = #{_userPhone} 
+union
+select emp_id
+from employees
+where emp_phone = #{_userPhone} and emp_email = #{_userEmail}
+</select>
+<update id="pwUpdate" parameterType="userChangePwDTO">
+update ${tableName}
+set ${pwColumName}  = #{userPw}
+where ${userIdColumName}  = #{userId} 
+and ${phoneColumn} = #{userPhone}
+</update>
+<select id="compare" parameterType="String" resultType="String">
+select member_pw as Pw
+from members
+where member_id = #{userId} 
+and member_phone = #{userPhone} 
+union
+select emp_id
+from employees
+where emp_phone = #{userPhone} and emp_id = #{userId}
+</select>
+</mapper>
