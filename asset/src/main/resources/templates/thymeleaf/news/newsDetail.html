@@ -547,7 +547,7 @@ $(document).ready(function() {
 			</div>
 		    
             <!-- 돌아가기 버튼 -->
-            <a href="javascript:history.back()" class="back-button">돌아가기</a>
+            <a href="/news/newsList" class="back-button">돌아가기</a>
             <th:block th:if="${session.auth != null and session.auth.grade == 'emp'}">
             <a th:href="|/news/newsUpdate?newsNum=${dto.newsNum}|" class="back-button">수정</a>
             <a th:data-news-num="${dto.newsNum}" onclick="newsDelete(this);" class="back-button">삭제</a>

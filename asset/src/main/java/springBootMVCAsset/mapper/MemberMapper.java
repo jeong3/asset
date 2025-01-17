@@ -17,4 +17,7 @@ public interface MemberMapper {
 	public String memberNumSelect(String memberId);
 	public AuthInfoDTO findByKakaoId(String memberId);
 	public void KakaoAuthSave(AuthInfoDTO newAuth);
+	public String memberNumSelectToPurchase(String purchaseNum);
+	public AuthInfoDTO memberSelect(String memberNum);
+	public int pwCheck(String userId, String userPhone);
 }

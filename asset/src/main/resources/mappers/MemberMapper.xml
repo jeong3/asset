@@ -71,4 +71,13 @@ select concat('mem_' , nvl(max(substr( member_num , 5 )),100000)+ 1) from member
 	insert into members (<include refid="BaseColumns"/>)
 	values ( #{userNum}, '카카오이용자', #{userId},'임시비밀번호', '카카오주소', '주소디테일', '0000', sysdate, 'M', '01000000000','00@naver.com', sysdate  )
 </insert>
+
+<select id="memberNumSelectToPurchase">
+select member_num from purchase where purchase_num = #{purchaseNum}
+</select>
+
+<select id="memberSelect">
+select member_num as userNum, member_id as userId, member_pw as userPw, member_name as userName, member_email as userEmail, 'mem' grade
+from members where member_num = #{memberNum}
+</select>
 </mapper>
