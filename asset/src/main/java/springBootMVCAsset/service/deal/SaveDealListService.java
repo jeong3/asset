@@ -21,16 +21,20 @@ public class SaveDealListService {
 	public void execute(HttpSession session, Model model, String categoryType) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = auth.getUserNum();
-		//List <DealDTO> list = dealMapper.assetDealList(memberNum);
-		//model.addAttribute("saveList", list);
 		Integer totalSave = dealMapper.totalSavePrice(null, memberNum);
 		Integer totalYegeumPrice = dealMapper.totalSavePrice("예금", memberNum);
 		Integer totalJuckgeumPrice = dealMapper.totalSavePrice("적금", memberNum);
 		Integer totalSaveGitaPrice = dealMapper.totalSavePrice("기타", memberNum);
+		System.out.println("페이지이동");
+		System.out.println(totalSave);
+		System.out.println(totalYegeumPrice);
+		System.out.println(totalJuckgeumPrice);
+		System.out.println(totalSaveGitaPrice);
 		model.addAttribute("totalSave", totalSave);
 		model.addAttribute("totalYegeumPrice", totalYegeumPrice);
 		model.addAttribute("totalJuckgeumPrice", totalJuckgeumPrice);
 		model.addAttribute("totalSaveGitaPrice", totalSaveGitaPrice);
+		if(categoryType == null) categoryType = "";
 		model.addAttribute("categoryType", categoryType);
 	}
 	public void execute2(String categoryType, Integer page, AssetListDTO assetListDTO, HttpSession session, Model model) {
@@ -50,10 +54,9 @@ public class SaveDealListService {
 		
 		if(searchWord == null) searchWord = "";
 		dto.setSearchWord(searchWord);
-		if(categoryType == null) categoryType = "";
 		
 		model.addAttribute("assetListDTO", dto);
-		model.addAttribute("categoryType", categoryType);
+		
 		
 		// 멤버 아이디
 		String memberId = auth.getUserId();

@@ -194,11 +194,10 @@ public class MyAssetPageController {
 	
 	@RequestMapping("saveList")
 	public String saveList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
-			, @RequestParam(value="categoryType", required = false) String categoryType
 			, AssetListDTO assetListDTO
 			, HttpSession session, Model model) {
-		saveDealListService.execute2(categoryType, page, assetListDTO, session, model);
-		saveDealListService.execute(session, model, categoryType);
+		saveDealListService.execute2(null, page, assetListDTO, session, model);
+		saveDealListService.execute(session, model, null);
 		
 		return "thymeleaf/myAsset/saveList";
 	}

@@ -132,7 +132,7 @@ h1 {letter-spacing: 6px}
  
   <a id="backLink"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
 <div class="my-transaction">
-	<span th:if="${categoryType == null}"><h1>저축</h1></span>
+	<span th:if="${categoryType == ''}"><h1>저축</h1></span>
     <span th:if="${categoryType == '예금'}"><h1>예금</h1></span>
     <span th:if="${categoryType == '적금'}"><h1>적금</h1></span>
     <span th:if="${categoryType == '기타'}"><h1>기타 저축</h1></span>
@@ -152,7 +152,7 @@ h1 {letter-spacing: 6px}
             <table>
              	<div style="text-align: left;">
     				<b>총 금액:  
-    					<span th:if="${categoryType == null}">[[${totalSave}]]원</span>
+    					<span th:if="${categoryType == ''}">[[${totalSave}]]원</span>
     					<span th:if="${categoryType == '예금'}">[[${totalYegeumPrice}]]원</span>
     					<span th:if="${categoryType == '적금'}">[[${totalJuckgeumPrice}]]원</span>
     					<span th:if="${categoryType == '기타'}">[[${totalSaveGitaPrice}]]원</span>
@@ -162,7 +162,7 @@ h1 {letter-spacing: 6px}
     				<a href="/myPage/memberMyDetail">
         				<b style="text-decoration : underline;">[[${memberId}]]</b>
         			</a>님의 
-        			<span th:if="${categoryType == null}"><b>총 저축</b> 내역 입니다</span>
+        			<span th:if="${categoryType == ''}"><b>총 저축</b> 내역 입니다</span>
     				<span th:if="${categoryType == '예금'}"><b>예금 저축</b> 내역 입니다</span>
     				<span th:if="${categoryType == '적금'}"><b>적금 저축</b> 내역 입니다</span>
     				<span th:if="${categoryType == '기타'}"><b>기타 저축</b> 내역 입니다</span>
@@ -222,13 +222,13 @@ h1 {letter-spacing: 6px}
     <div class="pagination">
     <span th:if="${page <= 1}">[이전]</span>
         <span th:if="${page > 1}">
-            <a th:href="|saveList?page=${page - 1}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[이전]</a>
+            <a th:href="|saveList?page=${page - 1}&assetListDTO=${assetListDTO}|">[이전]</a>
         </span>
         <span th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}">
-            <a th:href="|saveList?page=${i}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[[${i}]]</a>
+            <a th:href="|saveList?page=${i}&assetListDTO=${assetListDTO}|">[[${i}]]</a>
         </span>
         <span th:if="${page < maxPage}">
-            <a th:href="|saveList?page=${page + 1}&assetListDTO=${assetListDTO}&categoryType=${categoryType}|">[다음]</a>
+            <a th:href="|saveList?page=${page + 1}&assetListDTO=${assetListDTO}|">[다음]</a>
         </span>
         <span th:if="${page >= maxPage}">
                [다음]
