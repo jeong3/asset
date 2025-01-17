@@ -40,7 +40,7 @@ public class BankDealListService {
 		List <DealDTO> list = dealMapper.bankList(dto);
 		
 		String dealMethod = "checkCard";
-		Integer count = dealMapper.dealCount(memberNum, dealMethod);
+		Integer count = dealMapper.bankDealCount(memberNum);
 		assetListService.execute(page, limit, count, searchWord, model);
 		
 		model.addAttribute("list", list);

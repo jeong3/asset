@@ -58,10 +58,13 @@ order by deal_num desc
 <select id="dealCount" resultType="integer" parameterType="string">
 select count(*) from deal
 where member_num = #{memberNum}
-<if test="dealMethod != null">
+</select>
+
+<select id="bankDealCount" resultType="integer" parameterType="string">
+select count(*) from deal
+where member_num = #{memberNum}
 and deal_method = #{dealMethod}
-and CATEGORY_NAME not in ('저축', '재태크')
-</if>
+and CATEGORY_NAME not in ('저축', '재테크')
 </select>
 
 <select id="dealSaveCount" resultType="integer" parameterType="string">
@@ -109,7 +112,7 @@ where
 	<if test="dealMethodValue == 'checkCard'">
 		deal_method = #{dealMethodValue} 
 		and 
-		CATEGORY_NAME NOT IN ('저축', '재태크')
+		CATEGORY_NAME NOT IN ('저축', '재테크')
 	</if>
 	<if test="dealMethodValue == 'cash'">
 		deal_method = #{dealMethodValue}
@@ -132,7 +135,7 @@ and CATEGORY_TYPE = #{categoryTypeValue}
 select nvl(sum(deal_price),0)
 from deal
 where member_num = #{memberNum} 
-and CATEGORY_NAME = '재태크'
+and CATEGORY_NAME = '재테크'
 <if test="categoryTypeValue != null">
 and CATEGORY_TYPE = #{categoryTypeValue} 
 </if>
@@ -169,7 +172,7 @@ from (select row_number() over(order by DEAL_DATE desc) as rn
 	</if>
 		and member_num = #{memberNum}
 		and deal_method = 'checkCard'
-		and CATEGORY_NAME NOT IN ('저축', '재태크')
+		and CATEGORY_NAME NOT IN ('저축', '재테크')
 </where>
 )
 where rn between #{startRow} and #{endRow} 
@@ -213,7 +216,7 @@ from (select row_number() over(order by DEAL_DATE desc) as rn
 	</if>
 	and member_num = #{assetListDTO.memberNum}
 	and deal_method = 'checkCard'
-	and CATEGORY_NAME = '재태크'
+	and CATEGORY_NAME = '재테크'
 </where>
 )
 where rn between #{assetListDTO.startRow} and #{assetListDTO.endRow} 
