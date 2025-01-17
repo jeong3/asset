@@ -435,7 +435,7 @@
 	        <nav>
 	          <ol class="breadcrumb-list">
 	            <li class="breadcrumb-item"><a href="/">Home</a></li>
-	            <li class="breadcrumb-item"><a href="/goods/goodsList">back</a></li>
+	            <li class="breadcrumb-item"><a href="/goods/goodsList/도서">back</a></li>
 	            <li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsUpdate(goodsNum=${dto.goodsDTO.goodsNum})}">update</a></li>
 	         	<li th:if="${session.auth != null and session.auth.grade == 'emp'}" class="breadcrumb-item"><a th:href="@{/goods/goodsDelete(goodsNum=${dto.goodsDTO.goodsNum})}">delete</a></li>
 	          </ol>
