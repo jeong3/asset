@@ -148,7 +148,7 @@ h1 {letter-spacing: 6px}
         <form action="dealsDelete" method="post" id="frm">
             <table>
              	<div style="text-align: left;">
-    				<b>총 금액:  [[${dto.totalCash}]]원</b>
+    				<b>총 금액:  [[${#numbers.formatCurrency(dto.totalCash).replace('₩','')}]]원</b>
     			</div>
                  <div style="text-align: right;">
     				<a href="/myPage/memberMyDetail">
@@ -186,9 +186,9 @@ h1 {letter-spacing: 6px}
 	                   	</td>
                         <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
                         <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">
-                        	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${dto.dealPrice}]]</span>
-            				<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${dto.dealPrice}]]</span>
-            				<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${dto.dealPrice}]]</span>
+                        	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+            				<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+            				<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
 							<th:block th:if="${dto.dealMethod == 'cash'}">
 								&#128181;
 							</th:block>

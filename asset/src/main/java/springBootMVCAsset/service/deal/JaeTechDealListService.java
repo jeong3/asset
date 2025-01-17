@@ -32,6 +32,8 @@ public class JaeTechDealListService {
 		model.addAttribute("totalJusickPrice", totalJusickPrice);
 		model.addAttribute("totalJaeTechGitaPrice", totalJaeTechGitaPrice);
 		model.addAttribute("categoryType", categoryType);
+		if(categoryType == null) categoryType = "";
+		model.addAttribute("categoryType", categoryType);
 	}
 	public void execute2(String categoryType, Integer page, AssetListDTO assetListDTO, HttpSession session, Model model) {
 		Integer limit = 5;

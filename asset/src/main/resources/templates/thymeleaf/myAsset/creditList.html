@@ -131,7 +131,7 @@ h1 {letter-spacing: 6px}
 </div>
  <br/> <br/> <br/>
  
- <a id="backLink"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
+ <a href="/myAsset/myAssetPage"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
 <div class="my-transaction">
     <h1>이번달 신용카드 이용요금</h1>
     <br/>
@@ -148,7 +148,7 @@ h1 {letter-spacing: 6px}
         <form action="dealsDelete" method="post" id="frm">
             <table>
              	<div style="text-align: left;">
-    				<b>총 금액:  [[${dto.totalCredit}]]원</b>
+    				<b>총 금액:  [[${#numbers.formatCurrency(dto.totalCredit).replace('₩','')}]]원</b>
     			</div>
                  <div style="text-align: right;">
     				<a href="/myPage/memberMyDetail">
@@ -180,7 +180,7 @@ h1 {letter-spacing: 6px}
 	                   	</td>
                         <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
                         <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">
-							[[${dto.dealPrice}]]</a></td>
+							[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</a></td>
                     	<td><button type="button" th:attr="onclick=|javascript:location.href='dealsDelete?dealNums=${dto.dealNum}'|">삭제</button></td>
                     </tr>
                 </tbody>
@@ -192,13 +192,13 @@ h1 {letter-spacing: 6px}
     <div class="pagination">
     <span th:if="${page <= 1}">[이전]</span>
         <span th:if="${page > 1}">
-            <a th:href="|cashList?page=${page - 1}&assetListDTO=${assetListDTO}|">[이전]</a>
+            <a th:href="|creditList?page=${page - 1}&assetListDTO=${assetListDTO}|">[이전]</a>
         </span>
         <span th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}">
-            <a th:href="|cashList?page=${i}&assetListDTO=${assetListDTO}|">[[${i}]]</a>
+            <a th:href="|creditList?page=${i}&assetListDTO=${assetListDTO}|">[[${i}]]</a>
         </span>
         <span th:if="${page < maxPage}">
-            <a th:href="|cashList?page=${page + 1}&assetListDTO=${assetListDTO}|">[다음]</a>
+            <a th:href="|creditList?page=${page + 1}&assetListDTO=${assetListDTO}|">[다음]</a>
         </span>
         <span th:if="${page >= maxPage}">
                [다음]

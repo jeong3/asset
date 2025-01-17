@@ -39,7 +39,6 @@ public class BankDealListService {
 		AssetListDTO dto = assetListService.execute(page, limit, searchWord, memberNum);
 		List <DealDTO> list = dealMapper.bankList(dto);
 		
-		String dealMethod = "checkCard";
 		Integer count = dealMapper.bankDealCount(memberNum);
 		assetListService.execute(page, limit, count, searchWord, model);
 		

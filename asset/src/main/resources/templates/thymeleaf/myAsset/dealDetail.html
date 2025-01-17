@@ -173,9 +173,9 @@ h1 {letter-spacing: 6px}
             <tr>
                 <td>금액</td>
                 <td style="font-size: 24px;">
-                	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${dto.dealPrice}]]원</span>
-                	<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${dto.dealPrice}]]원</span>
-                	<span th:if="${dto.categoryName == '저축' || dto.categoryName == '재테크'}">[[${dto.dealPrice}]]원</span>
+                	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+                	<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+                	<span th:if="${dto.categoryName == '저축' || dto.categoryName == '재테크'}">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
                 </td>
             </tr>
             <tr>

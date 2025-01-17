@@ -40,7 +40,7 @@ public class DealListService {
 		
 		List <DealDTO> list = dealMapper.dealList(dto);
 		
-		Integer count = dealMapper.dealCount(memberNum);
+		Integer count = dealMapper.dealCount(memberNum, null);
 		
 		dealSearchService.execute(page, limit, count, searchWord, model);
 		model.addAttribute("list", list);

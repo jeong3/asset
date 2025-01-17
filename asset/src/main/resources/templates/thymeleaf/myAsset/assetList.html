@@ -133,7 +133,7 @@ h1 {letter-spacing: 6px}
   <div class="all-container" align="center">
     <br/>
     <div class="total-asset">
-        총 자산: <b>[[${dto.totalAsset}]]원</b>
+        총 자산: <b>[[${#numbers.formatCurrency(dto.totalAsset).replace('₩','')}]]원</b>
     </div>
     <div class="table-container">
     <!-- 현금 테이블-->
@@ -142,7 +142,7 @@ h1 {letter-spacing: 6px}
 			<thead>
 				<tr>
 					<td><b>현금</b> </td>
-					<td><b>[[${dto.totalCash}]]원</b>
+					<td><b>[[${#numbers.formatCurrency(dto.totalCash).replace('₩','')}]]원</b>
 					<a href="/myAsset/cashList"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
@@ -155,9 +155,9 @@ h1 {letter-spacing: 6px}
 					</td>
 					<td>
 						<span th:if="${dto.categoryName != null}">
-							<span th:if="${dto.categoryName == '지출'}" style="color: red;">- [[${dto.dealPrice}]]원</span>
-	            			<span th:if="${dto.categoryName == '수입'}" style="color: green;">+ [[${dto.dealPrice}]]원</span>
-	            			<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${dto.dealPrice}]]원</span>
+							<span th:if="${dto.categoryName == '지출'}" style="color: red;">- [[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+	            			<span th:if="${dto.categoryName == '수입'}" style="color: green;">+ [[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+	            			<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
 	            		</span>
 	            		<span th:if="${dto.categoryName == null}">...</span>
 	            	</td>
@@ -176,7 +176,7 @@ h1 {letter-spacing: 6px}
 			<thead>
 				<tr>
 					<td><b>통장</b> </td>
-					<td><b>[[${dto.totalCheck}]]원</b>
+					<td><b>[[${#numbers.formatCurrency(dto.totalCheck).replace('₩','')}]]원</b>
 					<a href="/myAsset/bankList"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
@@ -189,9 +189,9 @@ h1 {letter-spacing: 6px}
 					</td>
 					<td>
 						<span th:if="${dto.categoryName != null}">
-							<span th:if="${dto.categoryName == '지출'}" style="color: red;">- [[${dto.dealPrice}]]원</span>
-	            			<span th:if="${dto.categoryName == '수입'}" style="color: green;">+ [[${dto.dealPrice}]]원</span>
-	            			<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${dto.dealPrice}]]원</span>
+							<span th:if="${dto.categoryName == '지출'}" style="color: red;">- [[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+	            			<span th:if="${dto.categoryName == '수입'}" style="color: green;">+ [[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+	            			<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
 	            		</span>
 	            		<span th:if="${dto.categoryName == null}">...</span>
 	            	</td>
@@ -210,7 +210,7 @@ h1 {letter-spacing: 6px}
 			<thead>
 				<tr>
 					<td><b>저축</b> </td>
-					<td><b>[[${totalSave}]]원</b>
+					<td><b>[[${#numbers.formatCurrency(totalSave).replace('₩','')}]]원</b>
 					<a href="/myAsset/saveList"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
@@ -218,19 +218,19 @@ h1 {letter-spacing: 6px}
 			<tbody>
 				<tr>
 					<td>예금</td>
-					<td>[[${totalYegeumPrice}]]원
+					<td>[[${#numbers.formatCurrency(totalYegeumPrice).replace('₩','')}]]원
 					<a href="/myAsset/saveList?categoryType=예금"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
 				<tr>
 					<td>적금</td>
-					<td>[[${totalJuckgeumPrice}]]원
+					<td>[[${#numbers.formatCurrency(totalJuckgeumPrice).replace('₩','')}]]원
 					<a href="/myAsset/saveList?categoryType=적금"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
 				<tr>
 					<td>기타</td>
-					<td>[[${totalSaveGitaPrice}]]원
+					<td>[[${#numbers.formatCurrency(totalSaveGitaPrice).replace('₩','')}]]원
 					<a href="/myAsset/saveList?categoryType=기타"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
@@ -244,7 +244,7 @@ h1 {letter-spacing: 6px}
 			<thead>
 				<tr>
 					<td><b>재테크</b> </td>
-					<td><b>[[${totalJaeTech}]]원</b>
+					<td><b>[[${#numbers.formatCurrency(totalJaeTech).replace('₩','')}]]원</b>
 					<a href="/myAsset/jaetechList"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
@@ -252,25 +252,25 @@ h1 {letter-spacing: 6px}
 			<tbody>
 				<tr>
 					<td>펀드</td>
-					<td>[[${totalFundPrice}]]원
+					<td>[[${#numbers.formatCurrency(totalFundPrice).replace('₩','')}]]원
 					<a href="/myAsset/jaetechList?categoryType=펀드"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
 				<tr>
 					<td>투자</td>
-					<td>[[${totalToojaPrice}]]원
+					<td>[[${#numbers.formatCurrency(totalToojaPrice).replace('₩','')}]]원
 					<a href="/myAsset/jaetechList?categoryType=투자"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
 				<tr>
 					<td>주식</td>
-					<td>[[${totalJusickPrice}]]원
+					<td>[[${#numbers.formatCurrency(totalJusickPrice).replace('₩','')}]]원
 					<a href="/myAsset/jaetechList?categoryType=주식"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>
 				<tr>
 					<td>기타</td>
-					<td>[[${totalJaeTechGitaPrice}]]원
+					<td>[[${#numbers.formatCurrency(totalJaeTechGitaPrice).replace('₩','')}]]원
 					<a href="/myAsset/jaetechList?categoryType=기타"><i class="fa fa-chevron-circle-right" style="font-size:20px;"></i></a>
 					</td>
 				</tr>

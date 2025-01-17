@@ -205,8 +205,8 @@ h1 {letter-spacing: 6px}
                         	</a>
                         </td>
                         <td>[[${#dates.format(dto.startDate, 'yy/MM/dd')}]] <br/>~ [[${#dates.format(dto.endDate, 'yy/MM/dd')}]]</td>
-						<td>[[${dto.currentPrice}]]원</td>
-						<td>[[${dto.goalPrice}]]원</td>
+						<td>[[${#numbers.formatCurrency(dto.currentPrice).replace('₩','')}]]원</td>
+						<td>[[${#numbers.formatCurrency(dto.goalPrice).replace('₩','')}]]원</td>
 						<td style="color:#da0101;font-weight: bold;">[[${dto.goalRate}]]%</td>
                     	<td><button type="button" th:attr="onclick=|javascript:location.href='goalsDelete?goalNums=${dto.goalNum}'|">삭제</button></td>
                     </tr>
@@ -242,7 +242,7 @@ h1 {letter-spacing: 6px}
 	        <form action="goalsDelete" method="post" id="frm">
 	            <table>
 	             	<div style="text-align: left;">
-	    				<b>목표수: [[${goalFinishCount}]]개</b>
+	    				<b>목표 수: [[${goalFinishCount}]]개</b>
 	    			</div>
 	                 <div style="text-align: right;">
 	    				<a href="/myPage/memberMyDetail">

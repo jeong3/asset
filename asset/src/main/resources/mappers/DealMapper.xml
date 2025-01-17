@@ -58,6 +58,9 @@ order by deal_num desc
 <select id="dealCount" resultType="integer" parameterType="string">
 select count(*) from deal
 where member_num = #{memberNum}
+<if test="dealMethod != null">
+AND deal_method = #{dealMethod}
+</if>
 </select>
 
 <select id="bankDealCount" resultType="integer" parameterType="string">

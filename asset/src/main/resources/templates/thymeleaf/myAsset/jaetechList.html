@@ -132,11 +132,11 @@ h1 {letter-spacing: 6px}
  <br/> <br/> <br/>
  <a id="backLink"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
 <div class="my-transaction">
-	<span th:if="${categoryType == null}"><h1>재태크</h1></span>
+	<span th:if="${categoryType == ''}"><h1>재테크</h1></span>
     <span th:if="${categoryType == '펀드'}"><h1>예금</h1></span>
     <span th:if="${categoryType == '투자'}"><h1>적금</h1></span>
     <span th:if="${categoryType == '주식'}"><h1>주식</h1></span>
-    <span th:if="${categoryType == '기타'}"><h1>기타 재태크</h1></span>
+    <span th:if="${categoryType == '기타'}"><h1>기타 재테크</h1></span>
     <br/>
     <!-- 검색 -->
     <form action="jaetechList" method="get">
@@ -153,18 +153,18 @@ h1 {letter-spacing: 6px}
             <table>
              	<div style="text-align: left;">
     				<b>총 금액:  
-    					<span th:if="${categoryType == null}">[[${totalJaeTech}]]원</span>
-    					<span th:if="${categoryType == '펀드'}">[[${totalFundPrice}]]원</span>
-    					<span th:if="${categoryType == '투자'}">[[${totalToojaPrice}]]원</span>
-    					<span th:if="${categoryType == '주식'}">[[${totalJusickPrice}]]원</span>
-    					<span th:if="${categoryType == '기타'}">[[${totalJaeTechGitaPrice}]]원</span>
+    					<span th:if="${categoryType == ''}">[[${#numbers.formatCurrency(totalJaeTech).replace('₩','')}]]원</span>
+    					<span th:if="${categoryType == '펀드'}">[[${#numbers.formatCurrency(totalFundPrice).replace('₩','')}]]원</span>
+    					<span th:if="${categoryType == '투자'}">[[${#numbers.formatCurrency(totalToojaPrice).replace('₩','')}]]원</span>
+    					<span th:if="${categoryType == '주식'}">[[${#numbers.formatCurrency(totalJusickPrice).replace('₩','')}]]원</span>
+    					<span th:if="${categoryType == '기타'}">[[${#numbers.formatCurrency(totalJaeTechGitaPrice).replace('₩','')}]]원</span>
     				</b>
     			</div>
                  <div style="text-align: right;">
     				<a href="/myPage/memberMyDetail">
         				<b style="text-decoration : underline;">[[${memberId}]]</b>
         			</a>님의 
-        			<span th:if="${categoryType == null}"><b>총 재태크</b> 내역 입니다</span>
+        			<span th:if="${categoryType == ''}"><b>총 재태크</b> 내역 입니다</span>
     				<span th:if="${categoryType == '펀드'}"><b>펀드</b> 내역 입니다</span>
     				<span th:if="${categoryType == '투자'}"><b>투자</b> 내역 입니다</span>
     				<span th:if="${categoryType == '주식'}"><b>주식</b> 내역 입니다</span>
@@ -191,9 +191,9 @@ h1 {letter-spacing: 6px}
 	                   	</td>
                         <td>[[${#dates.format(dto.dealDate, 'yyyy-MM-dd')}]]</td>
                         <td><a th:href="|/myAsset/dealDetail?dealNum=${dto.dealNum}|">
-                        	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${dto.dealPrice}]]</span>
-            				<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${dto.dealPrice}]]</span>
-            				<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${dto.dealPrice}]]</span>
+                        	<span th:if="${dto.categoryName == '지출'}" style="color: red;">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+            				<span th:if="${dto.categoryName == '수입'}" style="color: green;">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
+            				<span th:if="${dto.categoryName != '지출' and dto.categoryName != '수입'}">[[${#numbers.formatCurrency(dto.dealPrice).replace('₩','')}]]원</span>
 							<th:block th:if="${dto.dealMethod == 'cash'}">
 								&#128181;
 							</th:block>
@@ -221,7 +221,6 @@ h1 {letter-spacing: 6px}
             </table>
         </form>
     </div>
-[[${ccategoryType}]]asdasdsadasdasdasddasd
     <!-- 페이지 네비게이션 -->
     <div class="pagination">
     <span th:if="${page <= 1}">[이전]</span>

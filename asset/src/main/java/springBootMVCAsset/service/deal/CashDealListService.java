@@ -26,10 +26,10 @@ public class CashDealListService {
 		String memberNum = auth.getUserNum();
 		//List <DealDTO> list = dealMapper.assetDealList(dealMethodValue, memberNum).stream().limit(3).collect(Collectors.toList());
 		List <DealDTO> list = dealMapper.assetDealList(dealMethodValue, memberNum);
-		while (list.size() < 4) {
+		while (list.size() < 3) {
 			list.add(new DealDTO());
 		}
-		if (list.size() > 4) {
+		if (list.size() > 3) {
 			list = list.subList(0, 3);
 	    }
 		model.addAttribute("cashList", list);
@@ -46,7 +46,7 @@ public class CashDealListService {
 		List <DealDTO> list = dealMapper.cashList(dto);
 		
 		String dealMethod = "cash";
-		Integer count = dealMapper.dealCount(memberNum);
+		Integer count = dealMapper.dealCount(memberNum, dealMethod);
 		assetListService.execute(page, limit, count, searchWord, model);
 		
 		model.addAttribute("list", list);
