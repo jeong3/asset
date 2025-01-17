@@ -20,6 +20,15 @@ img{
 }
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
+.fa-mail-reply{
+    		color: #477f6a;
+    		padding-left: 50px;
+
+    	}
+    	
+    	.fa-mail-reply:hover{
+    		transform: scale(1.1);
+    	}
 </style>
 <title>Member Detail</title>
 </head>
@@ -99,7 +108,8 @@ h1 {letter-spacing: 6px}
  </div>
 </div>
  <br/> <br/> <br/>
-  <a>뒤로가기</a>
+ 
+ <a href="/goal/myGoal"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
 
   	<h2 align="center">
 	   <span th:if="${dto.goalName == '저축'}">

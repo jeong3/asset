@@ -12,6 +12,15 @@
 body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
+.fa-mail-reply{
+    		color: #477f6a;
+    		padding-left: 50px;
+
+    	}
+    	
+    	.fa-mail-reply:hover{
+    		transform: scale(1.1);
+    	}
 </style>
 <script type="text/javascript">
 
@@ -87,6 +96,8 @@ document.getElementById("endDate").setAttribute("min", formattedTomorrow);
 	 </div>
 	 </div>
  <br/> <br/> <br/>
+ 
+ <a href="javascript:history.back()"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
 	<form action="goalUpdate" method="post" th:object="${goalCommand}">
 	<div class="w3-container" align="center">
 		<h2> 목표 수정</h2>

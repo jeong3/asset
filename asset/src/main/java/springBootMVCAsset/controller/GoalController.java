@@ -87,12 +87,14 @@ public class GoalController {
 	}
 	
 	@RequestMapping("goalsDelete")
-	public String goalsDelete(@RequestParam(value = "goalNums", required = false) String goalNums[]) {
-		if (goalNums == null || goalNums.length == 0) {
-            // 파라미터가 없으면 "dealList" 페이지 반환
-            return "redirect:myGoal";
-        }
-		goalsDeleteService.execute(goalNums);
+	public String goalsDelete(@RequestParam(value = "runGoalNums", required = false) String runGoalNums[]
+			, @RequestParam(value = "finishGoalNums", required = false) String finishGoalNums[]) {
+		if(runGoalNums != null) {
+			goalsDeleteService.execute(runGoalNums);
+		}
+		if(finishGoalNums != null) {
+			goalsDeleteService.execute(finishGoalNums);
+		}
 		return "redirect:myGoal";
 	}
 	

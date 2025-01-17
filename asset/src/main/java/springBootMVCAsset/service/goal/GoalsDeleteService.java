@@ -9,7 +9,7 @@ import springBootMVCAsset.mapper.AutoNumMapper;
 public class GoalsDeleteService {
 	@Autowired
 	AutoNumMapper autoNumMapper;
-	public void execute( String goalNums[]) {
+	public void execute(String goalNums[]) {
 		autoNumMapper.numsDelete(goalNums, "goal", "goal_num");
 	}
 }

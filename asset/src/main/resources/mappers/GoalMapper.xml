@@ -95,13 +95,13 @@ select row_number() over(order by end_date) as myGoalNum,
 	<include refid="BaseColumns"/>
 from goal
 	where member_num = #{memberNum}
-	and end_date >= sysdate
+	and trunc(end_date) >= trunc(sysdate)
 </select>
 
 <select id="goalRunCount" parameterType="string" resultType="Integer">
 select count(*) from goal
 where member_num = #{memberNum}
-and end_date >= sysdate
+and trunc(end_date) >= trunc(sysdate)
 </select>
 
 <select id="goalFinishList" parameterType="string" resultType="goalDTO">
@@ -109,13 +109,13 @@ select row_number() over(order by end_date) as myGoalNum,
 	<include refid="BaseColumns"/>
 from goal
 	where member_num = #{memberNum}
-	and sysdate > end_date 
+	and trunc(sysdate) > trunc(end_date)
 </select>
 
 <select id="goalFinishCount" parameterType="string" resultType="Integer">
 select count(*) from goal
 where member_num = #{memberNum}
-and sysdate > end_date 
+and trunc(sysdate) > trunc(end_date)
 </select>
 
 <select id="goalDetail" parameterType="string" resultType="goalDTO">

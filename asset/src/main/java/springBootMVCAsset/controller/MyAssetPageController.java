@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCAsset.command.DealCommand;
 import springBootMVCAsset.domain.AssetListDTO;
@@ -110,8 +111,11 @@ public class MyAssetPageController {
 	}
 	// 거래 영수증
 	@GetMapping("dealDetail")
-	public String dealDetail(@RequestParam("dealNum") String dealNum, Model model) {
+	public String dealDetail(@RequestParam("dealNum") String dealNum, Model model
+			, HttpServletRequest request) {
 		dealDetailService.execute(dealNum, model);
+		 String referrer = request.getHeader("Referer"); // 이전 페이지 URL
+	     model.addAttribute("previousPage", referrer);  
 		return "thymeleaf/myAsset/dealDetail";
 	}
 	
@@ -149,17 +153,14 @@ public class MyAssetPageController {
 	    }
 	}
 	
-	@GetMapping("dealDelete")
+	@RequestMapping("dealDelete")
 	public String dealDelete(@RequestParam("dealNum") String dealNum
 			, HttpSession session
-			, @RequestParam("pathLocation") Integer pathLocation) {
+			, @RequestParam("pastLocation") String pastLocation) {
 		dealDeleteService.execute(dealNum);
 		budgetUpdateService.execute(session);
-		if (pathLocation == 1) {
-			return "redirect:dealList";
-	    } else {
-	        return "redirect:dealList"; // 기본 경로 설정
-	    }
+		//String decodedLocation = URLDecoder.decode(pastLocation, StandardCharsets.UTF_8);
+		return "redirect:" + pastLocation;
 	}
 	
 	// 내 자산 리스트
@@ -193,7 +194,7 @@ public class MyAssetPageController {
 	
 	@RequestMapping("saveList")
 	public String saveList(@RequestParam(value="page", required = false, defaultValue="1") Integer page
-			, @RequestParam(required = false) String categoryType
+			, @RequestParam(value="categoryType", required = false) String categoryType
 			, AssetListDTO assetListDTO
 			, HttpSession session, Model model) {
 		saveDealListService.execute2(categoryType, page, assetListDTO, session, model);

@@ -2,11 +2,11 @@
     display: flex;
     justify-content: center; /* Space between the two sections */
     align-items: flex-start; /* Align items at the top *//* Space between goalButton and my-finishGoal */
-    width: 1000px;
+    width: 1100px;
     position: absolute;
     margin-top: 20px;
-    top: 550px;    /* 부모 요소의 위쪽에서 10px 떨어짐 */
-    left: 310px;   /* 부모 요소의 왼쪽에서 20px 떨어짐 */
+    top: 650px;    /* 부모 요소의 위쪽에서 10px 떨어짐 */
+    left: 240px;   /* 부모 요소의 왼쪽에서 20px 떨어짐 */
 }
 .goalButton, .my-finishGoal {
     flex: 1; /* Ensures equal width for both sections */
@@ -32,7 +32,7 @@
 .my-runGoal {
     margin: 20px auto;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1100px;
     font-size: 15px;
 }
 

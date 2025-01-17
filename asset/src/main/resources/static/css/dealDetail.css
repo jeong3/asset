@@ -1,7 +1,7 @@
 .financial-table {
     border-collapse: collapse;
     width: 50%;
-    max-width: 480px;
+    max-width: 550px;
     background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -9,13 +9,15 @@
     overflow: hidden;
     margin: 20px auto;
     table-layout: auto; /* 셀 크기를 데이터에 따라 조정 */
+    padding: 20px;
 }
 
 .financial-table th,
 .financial-table td {
-    padding: 12px 15px;
+    padding: 15px 15px;
     text-align: center;
     border: 1px solid #ddd; /* 셀 경계선 */
+    font-size: 18px;
 }
 
 .financial-table th {

@@ -50,8 +50,10 @@ public class SaveDealListService {
 		
 		if(searchWord == null) searchWord = "";
 		dto.setSearchWord(searchWord);
+		if(categoryType == null) categoryType = "";
 		
 		model.addAttribute("assetListDTO", dto);
+		model.addAttribute("categoryType", categoryType);
 		
 		// 멤버 아이디
 		String memberId = auth.getUserId();

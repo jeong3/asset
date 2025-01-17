@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/static/js/checkbox.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <style>
-body,h1 {font-family: "Raleway", Arial, sans-serif}
+body,h1 {font-family: "Raleway", Arial, sans-serif; background-color: #f6fef0;}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
 .fa-mail-reply{
@@ -129,8 +129,7 @@ h1 {letter-spacing: 6px}
  </div>
 </div>
  <br/> <br/> <br/>
-  <a href="/myAsset/dealDetail"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
-  <a>뒤로가기</a>
+  <a href="javascript:history.back()"><i class="fa fa-mail-reply" style="font-size:40px;"></i></a>
   <form action="dealUpdate" method="post" th:object="${dealCommand}">
 	<div class="w3-container" align="center">
 		<div th:if="${dealCommand.categoryName == '지출'}">
