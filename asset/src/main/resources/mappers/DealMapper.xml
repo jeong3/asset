@@ -60,6 +60,7 @@ select count(*) from deal
 where member_num = #{memberNum}
 <if test="dealMethod != null">
 and deal_method = #{dealMethod}
+and CATEGORY_NAME not in ('저축', '재태크')
 </if>
 </select>
 
