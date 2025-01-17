@@ -7,7 +7,48 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-    
+
+    /* 메인 컨테이너 스타일 */
+    .container {
+        background: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        width: 500px;
+        padding: 20px;
+        text-align: center;
+        transform: translate(100%, 300%);
+    }
+
+    .message {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .user-id {
+        font-weight: bold;
+        color: #4CAF50;
+    }
+
+    /* 점 스타일 */
+    .dots {
+        display: inline-block;
+        margin: 0 2px;
+        color: #4CAF50;
+    }
+
+    /* 링크 스타일 */
+    a {
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #007BFF;
+        padding: 10px 15px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+        background-color: #0056b3;
+    }
 </style>
 </head>
 <body>
@@ -121,7 +162,7 @@
     <div th:if="${userId == null}" class="message">
         입력한 정보에 해당하는 아이디가 존재하지 않습니다.
     </div>
-    <a href="/">홈으로</a>
+    <a href="/login/login">로그인 페이지로 이동</a>
 </div>
 </div>
 </body>

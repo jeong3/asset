@@ -12,6 +12,66 @@
 body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing: 6px}
 .w3-row-padding img {margin-bottom: 12px}
+.login-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    transform: translate(140%, 50%);
+}
+
+/* 제목 스타일 */
+.login-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+}
+
+/* 각 입력 필드 스타일 */
+input[type="text"], input[type="email"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 제출 버튼 스타일 */
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* 제출 버튼 호버 효과 */
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* 입력 필드 및 버튼에 포커스 시 스타일 */
+input[type="text"]:focus, input[type="email"]:focus, input[type="submit"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+    
 </style>
 <title>Member Detail</title>
 </head>
@@ -117,6 +177,7 @@ h1 {letter-spacing: 6px}
  </div>
 </div>
  <br/> <br/> <br/>
+ <div class="login-container">
  <form action="pwChange" method="post" id="frm">
         <input type ="hidden" name ="grade" th:value="${grade}" />
 		<input type ="hidden" name ="userNum" th:value="${userNum}" />
@@ -124,36 +185,22 @@ h1 {letter-spacing: 6px}
 	 <h2>새로운 비밀번호 등록</h2>
 	  <p>Member Password</p>
 	  <hr/>
-		<table  style="width:50%;">
-		
-		    <tr class="w3-bar">
-		      <th>
-		        새 비밀번호
-		      </th>
-		      <th>
-		        <div class="w3-bar-item">
-		          <input type="password" name="newPw" id="newPw" required="required"/>
-		        </div>
-		      </th>
-		    </tr>
-		    <tr class="w3-bar">
-		      <th>
-		        새 비밀번호 확인
-		      </th>
-		      <th>
-		        <div class="w3-bar-item">
-		          <input type="password" name="newPwCon" id="newPwCon" required="required"/>
-		        </div>
-		      </th>
-		    </tr>
-		    <tr class="w3-bar">
-		      <th colspan="2">
-		        	<input type="submit" value="비밀번호 변경" >
-		      </th>
-		    </tr>  
-		  </table>
+		<table align="center" style="width:100%">
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="text" name="userPhone" placeholder="새로운 비밀번호" /></td>
+            </tr>
+            <tr>
+                <td>비밀번호 확인</td>
+                <td><input type="email" name="userEmail" placeholder="비밀번호 확인" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" class="login-btn" /></td>
+            </tr>
+        </table>
 	  </div>
 	</form>
+	</div>
 </div>
 </body>
 </html>
