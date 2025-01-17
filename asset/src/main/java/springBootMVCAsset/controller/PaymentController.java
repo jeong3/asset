@@ -29,8 +29,8 @@ public class PaymentController {
 	@RequestMapping("INIstdpay_pc_return")
 	public String payReturn(HttpServletRequest request, Model model, @RequestParam(required = false) String couponNum, HttpSession session) {
 	    System.out.println("쿠폰 번호 : " + couponNum);
-	    couponMapper.couponDelete(couponNum);
 		iniPayReturnService.execute(request);
+		couponMapper.couponDelete(couponNum);
 		String purchaseNum = (String) request.getAttribute("orderNumber");
 		System.out.println("구매 번호 : " + purchaseNum);
 		PaymentDTO dto = purchaseMapper.paymentSelectOne(purchaseNum);

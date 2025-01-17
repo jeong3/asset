@@ -15,10 +15,10 @@ function updateCouponId() {
     document.getElementById("couponIdInput").value = couponNum;
 }
 function updateDiscount() {
-    var sumPrice = [[${sumPrice}]];  // 원래 금액
+    var sumPrice = [[${sumPrice}]];  // 원래 물건 가격
     var deliveryCost = [[${deliveryCost}]];  // 배송비
     var discountPrice = 0;  // 쿠폰 할인액
-    
+
     // 선택된 쿠폰 정보를 가져옴
     var selectedCoupon = document.getElementById("couponId").selectedOptions[0];
 
@@ -28,25 +28,26 @@ function updateDiscount() {
         discountPrice = couponPrice;
     }
 
-    // 할인된 가격 계산
-    var totalAmount = sumPrice + deliveryCost - discountPrice;
-    
-    console.log(sumPrice);
-    console.log(deliveryCost);
-    console.log(discountPrice);
+    // 물건 가격에서 할인액 적용
+    var discountedPrice = sumPrice - discountPrice;
+
+    // 배송비 유지 조건: 할인 후 물건 가격이 0보다 작아도 배송비는 유지
+    if (discountedPrice < 0) {
+        discountedPrice = 0; // 음수는 0으로 처리
+    }
+
+    // 총 결제 금액 계산 (물건 가격 + 배송비)
+    var totalAmount = discountedPrice + deliveryCost;
 
     // 결과를 화면에 표시
-    document.getElementById("discountPrice").textContent = discountPrice > 0 ? discountPrice.toLocaleString() : '0';  // 할인가격
-    document.getElementById("totalAmount").textContent = totalAmount > 0 ? totalAmount.toLocaleString() : sumPrice.toLocaleString();  // 총 결제 금액
+    document.getElementById("discountPrice").textContent = discountPrice > 0 ? discountPrice.toLocaleString() : '0';  // 쿠폰 할인액 표시
+    document.getElementById("totalAmount").textContent = totalAmount > 0 ? totalAmount.toLocaleString() : '0';  // 총 결제 금액 표시
     document.getElementsByName("totalPaymentPrice")[0].value = totalAmount;  // 총 결제 금액을 hidden input에 저장
 }
 
-
-
-    // 페이지가 로드될 때 초기 계산을 수행하려면 이 함수를 호출할 수 있습니다.
-    window.onload = function() {
-        updateDiscount();  // 초기 계산을 수행
-    }
+window.onload = function() {
+    updateDiscount();  // 초기 계산을 수행
+}
 </script>
 
 <style>

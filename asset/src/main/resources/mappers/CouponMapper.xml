@@ -9,7 +9,7 @@
 </sql>
 <insert id="couponInsert" parameterType="String">
 insert into coupon (<include refid="BaseColumns"/>)
-values((SELECT NVL(MAX(coupon_num), 0) + 1 FROM coupon), '회원가입쿠폰', sysdate + 30, 5000, sysdate, '회원가입시 증정되는 5천원 할인 쿠폰입니다.', #{memberNum})
+values((SELECT NVL(MAX(coupon_num), 0) + 1 FROM coupon), '회원가입쿠폰(5천원 할인)', sysdate + 30, 5000, sysdate, '회원가입시 증정되는 5천원 할인 쿠폰입니다.', #{memberNum})
 </insert>
 
 <select id="couponSelect" resultType="couponDTO">

@@ -20,6 +20,7 @@ import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.domain.DepartmentDTO;
 import springBootMVCAsset.mapper.EmployeeMapper;
 import springBootMVCAsset.service.AutoNumService;
+import springBootMVCAsset.service.announce.AnnounceDeleteService;
 import springBootMVCAsset.service.announce.AnnounceDetailService;
 import springBootMVCAsset.service.announce.AnnounceListService;
 import springBootMVCAsset.service.announce.AnnounceRegistService;
@@ -29,6 +30,8 @@ import springBootMVCAsset.service.volunteer.VolunteerRegistService;
 @Controller
 @RequestMapping("announce")
 public class AnnounceController {
+	@Autowired
+	AnnounceDeleteService announceDeleteService;
 	@Autowired
 	AnnounceUpdateService announceUpdateService;
 	@Autowired
@@ -100,6 +103,11 @@ public class AnnounceController {
 	@PostMapping("announceUpdate")
 	public String announceUpdate(AnnounceCommand announceCommand, Model model, HttpSession session) {
 		announceUpdateService.execute(announceCommand, model, session);
+		return "redirect:announceList";
+	}
+	@GetMapping("announceDelete")
+	public String announceDelete(String announceNum) {
+		announceDeleteService.execute(announceNum);
 		return "redirect:announceList";
 	}
 }

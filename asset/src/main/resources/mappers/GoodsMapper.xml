@@ -21,7 +21,7 @@ values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
 		<if test="detailImage == null">
 		null,null,
 		</if>
-		#{goodsKind}, null, #{videoUrl, jdbcType=VARCHAR})
+		#{goodsKind}, 0, #{videoUrl, jdbcType=VARCHAR})
 </insert>
 
 <select id="goodsAllSelect" resultType="goodsDTO" parameterType="String">

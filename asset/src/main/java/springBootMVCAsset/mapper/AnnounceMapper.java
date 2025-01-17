@@ -12,4 +12,5 @@ public interface AnnounceMapper {
 	public List<AnnounceDTO> announceSelectAll();
 	public AnnounceDTO announceSelectOne(String announceNum);
 	public void announceUpdate(AnnounceDTO dto);
+	public void announceDelete(String announceNum);
 }

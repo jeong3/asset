@@ -27,6 +27,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		excludeList.add("/kakao-login");
 		excludeList.add("/naver-login");
 		excludeList.add("/member/memberRegist");
+		excludeList.add("/review/**/*");
 		registry.addInterceptor(inteceptorConfig)
 				.addPathPatterns("/**/*") // 모두 차단
 				.excludePathPatterns(excludeList); // 허용할 주소

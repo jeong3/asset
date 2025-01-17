@@ -188,25 +188,30 @@ h1 {
     </tr>
 </table>
 
-<form action="/delivery/deliveryDelete" method="post" 
-      th:if="${list[0].deliveryDTO.deliveryNum != null}">
-    <input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
-    <table align="center">
-        <tr><th colspan="2">배송정보</th></tr>
-        <tr><td>송장번호</td><td>[[${list[0].deliveryDTO.deliveryNum}]]</td></tr>
-        <tr><td colspan="2"><input type="submit" value="배송정보삭제"/></td></tr>
-    </table>
-</form>
+<div th:if="${session.auth != null}">
+    <th:block th:if="${session.auth.grade == 'emp'}">
+        <form action="/delivery/deliveryDelete" method="post" 
+              th:if="${list[0].deliveryDTO.deliveryNum != null}">
+            <input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
+            <table align="center">
+                <tr><th colspan="2">배송정보</th></tr>
+                <tr><td>송장번호</td><td>[[${list[0].deliveryDTO.deliveryNum}]]</td></tr>
+                <tr><td colspan="2"><input type="submit" value="배송정보삭제"/></td></tr>
+            </table>
+        </form>
 
-<form action="/delivery/deliveryRegist" method="post" 
-      th:if="${list[0].deliveryDTO.deliveryNum == null and list[0].paymentDTO.appldate != null}">
-    <input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
-    <table align="center">
-        <tr><th colspan="2">배송정보입력</th></tr>
-        <tr><td>송장번호</td><td><input type="text" name="deliveryNum" required="required"/></td></tr>
-        <tr><td colspan="2"><input type="submit" value="배송정보등록"/></td></tr>    
-    </table>
-</form>
+        <form action="/delivery/deliveryRegist" method="post" 
+              th:if="${list[0].deliveryDTO.deliveryNum == null and list[0].paymentDTO.appldate != null}">
+            <input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
+            <table align="center">
+                <tr><th colspan="2">배송정보입력</th></tr>
+                <tr><td>송장번호</td><td><input type="text" name="deliveryNum" required="required"/></td></tr>
+                <tr><td colspan="2"><input type="submit" value="배송정보등록"/></td></tr>    
+            </table>
+        </form>
+    </th:block>
+</div>
+
 
 <div class="center">
     <button type="button" id="btn">닫기</button>

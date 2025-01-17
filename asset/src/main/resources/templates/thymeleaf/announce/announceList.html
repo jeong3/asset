@@ -18,6 +18,10 @@ function editJob(button) {
     var announceNum = button.getAttribute('data-announceNum'); 
     window.location.href = '/announce/announceUpdate?announceNum=' + announceNum; 
 }
+function deleteAnnounce(button) {
+	var announceNum = button.getAttribute('data-announceNum');
+	window.location.href = '/announce/announceDelete?announceNum=' + announceNum; 
+}
 </script>
 <style>
 .regist {
@@ -257,6 +261,11 @@ h1 {
     th:attr="data-announceNum=${announce.announceNum}" 
     th:if="${session.auth != null and session.auth.grade == 'emp'}"
     onclick="editJob(this)">수정하기</button>
+    <button 
+    type="button" 
+    th:attr="data-announceNum=${announce.announceNum}" 
+    th:if="${session.auth != null and session.auth.grade == 'emp'}"
+    onclick="deleteAnnounce(this)">삭제하기</button>
 		</div>
 	</div>
 </div>

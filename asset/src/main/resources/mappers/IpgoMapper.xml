@@ -15,7 +15,8 @@
 </insert>
 
 <select id="ipgoSelectAll" resultType="ipgoDTO">
-select * from ipgo
+SELECT * FROM ipgo
+ORDER BY ipgo_num ASC
 </select>
 
 <delete id="ipgoDelete" parameterType="String">

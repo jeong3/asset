@@ -29,4 +29,8 @@ start_date = #{startDate}, end_date = #{endDate}, announce_contents = #{announce
 interview_date = #{interviewDate}, interview_addr = #{interviewAddr}, department_num = #{departmentNum}
 where announce_num = #{announceNum}
 </update>
+
+<delete id="announceDelete" parameterType="String">
+delete from announce where announce_num = #{announceNum}
+</delete>
 </mapper>
