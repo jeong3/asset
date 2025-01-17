@@ -46,7 +46,7 @@ public class CashDealListService {
 		List <DealDTO> list = dealMapper.cashList(dto);
 		
 		String dealMethod = "cash";
-		Integer count = dealMapper.dealCount(memberNum, dealMethod);
+		Integer count = dealMapper.dealCount(memberNum);
 		assetListService.execute(page, limit, count, searchWord, model);
 		
 		model.addAttribute("list", list);

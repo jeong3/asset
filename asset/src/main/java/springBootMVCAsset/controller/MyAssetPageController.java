@@ -198,13 +198,8 @@ public class MyAssetPageController {
 			, AssetListDTO assetListDTO
 			, HttpSession session, Model model) {
 		System.out.println("카테고리"+categoryType);
-		if(categoryType == null) {
-			saveDealListService.execute2(null, page, assetListDTO, session, model);
-		}
-		if(categoryType != null) {
-			saveDealListService.execute2(categoryType, page, assetListDTO, session, model);
-		}
-		
+	
+		saveDealListService.execute2(null, page, assetListDTO, session, model);
 		saveDealListService.execute(session, model, null);
 		
 		return "thymeleaf/myAsset/saveList";
@@ -215,7 +210,7 @@ public class MyAssetPageController {
 			, @RequestParam(required = false) String categoryType
 			, AssetListDTO assetListDTO
 			, HttpSession session, Model model) {
-		jaeTechDealListService.execute2(categoryType, page, assetListDTO, session, model);
+		jaeTechDealListService.execute2(null, page, assetListDTO, session, model);
 		jaeTechDealListService.execute(session, model, categoryType);
 		return "thymeleaf/myAsset/jaetechList";
 	}
