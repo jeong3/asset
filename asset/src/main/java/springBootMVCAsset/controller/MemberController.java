@@ -58,7 +58,7 @@ public class MemberController {
 		
 		String autoNum = autoNumService.execute("budget_", "budget_num", 8, "budget");
 		budgetRegistService.execute(memberCommand, autoNum);
-		return "redirect:memberList";
+		return "redirect:/login/login";
 	}
 	
 	@GetMapping("memberList")

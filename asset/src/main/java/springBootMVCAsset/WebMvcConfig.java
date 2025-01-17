@@ -18,6 +18,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		List<String> excludeList = new ArrayList<String>();
 		excludeList.add("/news/**/*");
 		excludeList.add("/login/**/*");
+		excludeList.add("/payment/**/*");
 		excludeList.add("/goods/**/*");
 		excludeList.add("/static/**/*");
 		excludeList.add("/announce/**/*");
