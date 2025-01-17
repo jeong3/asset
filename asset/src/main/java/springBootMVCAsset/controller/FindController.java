@@ -1,7 +1,9 @@
 package springBootMVCAsset.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import springBootMVCAsset.command.PwChangeCommand;
+import springBootMVCAsset.domain.AuthInfoDTO;
 import springBootMVCAsset.mapper.FindMapper;
 import springBootMVCAsset.service.find.FindIdService;
 import springBootMVCAsset.service.find.FindPwService;
+import springBootMVCAsset.service.find.PwChangeService;
 
 @Controller
 @RequestMapping("find")
 public class FindController {
-
+	@Autowired
+	PwChangeService pwChangeService;
 	@Autowired
 	FindMapper findMapper;
 	@Autowired
@@ -41,15 +47,36 @@ public class FindController {
 		return "thymeleaf/find/findPw";
 	}
 	@PostMapping("findPassword")
-	public String findPassword(String userId,String userPhone,Model model) {
-		System.out.println("아이디 : " + userId);
-		System.out.println("번호 : " + userPhone);
-		String Pw = findMapper.compare(userId, userPhone);
-		
-		System.out.println("비밀번호 : " + Pw);
-		if(Pw != null) {
-			return "thymeleaf/find/changePw";
+	public String findPassword(String userId, String userPhone, Model model) {
+	    // 로그 출력
+	    System.out.println("아이디 : " + userId);
+	    System.out.println("번호 : " + userPhone);
+
+	    // Map 객체를 사용하여 파라미터 전달
+	    Map<String, String> params = new HashMap<>();
+	    params.put("_userId", userId);
+	    params.put("_userPhone", userPhone);
+
+	    // MyBatis mapper 호출
+	    AuthInfoDTO auth = findMapper.compare(params);
+	    // 결과 확인 후 적절한 뷰로 이동
+	    System.out.println("auth : " + auth);
+	    if (auth != null) {
+	    	model.addAttribute("grade", auth.getGrade());
+	    	model.addAttribute("userNum", auth.getUserNum());
+	        return "thymeleaf/find/changePw";
+	    }
+	    return "thymeleaf/find/findPwFail";
+	}
+	@PostMapping("pwChange")
+	public String pwChange(PwChangeCommand pwChangeCommand) {
+		System.out.println("출력");
+		System.out.println("pwChangeCommand : " + pwChangeCommand);
+		int i = pwChangeService.execute(pwChangeCommand);
+		if(i == 1) {
+			return "thymeleaf/find/pwChangeOk";
+		}else{
+			return "redirect:memberMyPwUpdate";
 		}
-		return "thymeleaf/find/findPwFail";
 	}
 }

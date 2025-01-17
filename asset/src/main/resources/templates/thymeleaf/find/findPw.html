@@ -7,6 +7,70 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+    /* 전체 배경 스타일 */
+
+
+/* 로그인 컨테이너 스타일 */
+.login-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    transform: translate(200%, 100%);
+}
+
+/* 제목 스타일 */
+.login-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+}
+
+/* 각 입력 필드 스타일 */
+input[type="text"], input[type="email"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 제출 버튼 스타일 */
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* 제출 버튼 호버 효과 */
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* 입력 필드 및 버튼에 포커스 시 스타일 */
+input[type="text"]:focus, input[type="email"]:focus, input[type="submit"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+    
 </style>
 </head>
 <body>

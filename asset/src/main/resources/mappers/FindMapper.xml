@@ -12,20 +12,25 @@ select emp_id
 from employees
 where emp_phone = #{_userPhone} and emp_email = #{_userEmail}
 </select>
-<update id="pwUpdate" parameterType="userChangePwDTO">
-update ${tableName}
-set ${pwColumName}  = #{userPw}
-where ${userIdColumName}  = #{userId} 
-and ${phoneColumn} = #{userPhone}
-</update>
-<select id="compare" parameterType="String" resultType="String">
-select member_pw as Pw
-from members
-where member_id = #{userId} 
-and member_phone = #{userPhone} 
-union
-select emp_id
-from employees
-where emp_phone = #{userPhone} and emp_id = #{userId}
+
+<select id="compare" parameterType="map" resultType="authDTO">
+    select member_num as userNum, member_id as userId, member_pw as userPw, member_name as userName, member_email as userEmail, 'mem' grade
+    from members
+    where member_id = #{_userId} 
+    and member_phone = #{_userPhone} 
+    union
+    select emp_num, emp_id, emp_pw, emp_name, emp_email, 'emp' 
+    from employees
+    where emp_phone = #{_userPhone} and emp_id = #{_userId}
 </select>
+<update id="pwMemberChange" parameterType="String">
+update members
+set member_pw = #{pw}
+where member_num = #{userNum}
+</update>
+<update id="pwEmployeeChange" parameterType="String">
+update employees
+set emp_pw = #{pw}
+where emp_num = #{userNum}
+</update>
 </mapper>
