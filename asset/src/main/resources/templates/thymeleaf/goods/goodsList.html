@@ -342,7 +342,8 @@ h1 {letter-spacing: 6px}
 
 	<!-- Product grid -->
 	<div class="main-image-container">
-    <div class="main-image-slider">
+	<div style="border: 3px solid black;">
+    <div class="main-image-slider" >
         <th:block th:each="dto : ${list}">
             <div class="main-image-item">
                 <a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">
@@ -350,6 +351,7 @@ h1 {letter-spacing: 6px}
                 </a>
             </div>
         </th:block>
+    </div>
     </div>
 </div>
 <div style="height: 50px;"></div>
@@ -359,7 +361,8 @@ h1 {letter-spacing: 6px}
 
   </div>
   </div>
-  <div id="content"></div>
+
+  <div id="content" ></div>
   <button type="button" class="load-more" id="load-more">더보기</button>
 </div>
 </div>

@@ -24,6 +24,9 @@ public class SalarySelectService {
 		} else {
 			allowances = 70000;
 		}
+		int netSalary = dto.getSalary() + allowances + dto.getAttendCount() * 10000;
+		 model.addAttribute("netSalary", netSalary);
+		 
 		model.addAttribute("allowances", allowances);
 		
 	}
