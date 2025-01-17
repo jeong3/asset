@@ -67,17 +67,17 @@
     <br> 
     <!-- sale이 0인 경우에는 원래 가격만 표시 -->
     <span th:if="${dto.sale == 0}">
-        [[${dto.goodsPrice}]]원
+        [[${#numbers.formatCurrency(dto.goodsPrice).replace('₩','')}]]원
     </span>
     <br>
     <!-- sale이 0이 아닌 경우에만 원래 가격에 라인 추가 -->
     <span th:if="${dto.sale != 0}" style="text-decoration: line-through;">
-        [[${dto.goodsPrice}]]원
+        [[${#numbers.formatCurrency(dto.goodsPrice).replace('₩','')}]]원
     </span>
     <br>
     <!-- sale 값이 0이 아닌 경우에만 세일 가격 표시 -->
     <span th:if="${dto.sale != 0}" style="color: red;">
-        [[${#numbers.formatDecimal(dto.goodsPrice * (1 - dto.sale), 0, 0)}]]원
+        [[${#numbers.formatCurrency(dto.goodsPrice * (1 - dto.sale), 0, 0).replace('₩','')}]]원
     </span>
 </p>
 
