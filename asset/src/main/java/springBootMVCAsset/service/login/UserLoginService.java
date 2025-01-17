@@ -64,7 +64,7 @@ public class UserLoginService {
 			}
 		} else {
 			if (loginCommand.getUserId() != null) {
-				result.rejectValue("userId", "loginCommand.userId", "이메일인증이 안됐거나 아이디가 존재하지 않습니다.");
+				result.rejectValue("userId", "loginCommand.userId", "아이디가 존재하지 않습니다.");
 				System.out.println("아이디가 존재하지 않습니다.");
 			}
 		}
