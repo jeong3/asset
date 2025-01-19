@@ -428,7 +428,7 @@ input[type="submit"] {
                 <span th:id="${dto.goodsDTO.goodsNum}" class="cartQty">[[${#numbers.formatInteger(dto.cartDTO.cartQty,1,'COMMA')}]]</span>개
                 <a th:href="|javascript:cartAdd('${dto.goodsDTO.goodsNum}','${dto.goodsDTO.goodsPrice}', '${dto.goodsDTO.sale}');|"> + </a>
           </td>
-         <td><span th:id="${'t_'+dto.goodsDTO.goodsNum}" class="totalPrice">[[${#numbers.formatCurrency(dto.goodsDTO.goodsPrice * (1 - dto.goodsDTO.sale) * dto.cartDTO.cartQty).replace('₩', '')}]]</span>원</td>
+         <td><span th:id="${'t_'+dto.goodsDTO.goodsNum}" class="totalPrice">[[${#numbers.formatCurrency(dto.goodsDTO.goodsPrice * (1 - dto.goodsDTO.sale) * dto.cartDTO.cartQty)}]]</span>원</td>
 
           <td>
             <a th:attr="onclick=|javascript:location.href='cartDel?goodsNums=${dto.goodsDTO.goodsNum}'|" style="text-decoration: none;">×</a>
@@ -439,7 +439,7 @@ input[type="submit"] {
         <tr><td colspan="7" align="right">
 			상품수 : <span id="prodCnt">[[${#numbers.formatInteger(list.size(),1,'COMMA')}]]</span>개<br />
                 총수량 : <span id="totQty">[[${#numbers.formatInteger(totQty,1,'COMMA')}]]</span>개<br />
-                전체 합계 : <span id="totalPrice">[[${#numbers.formatCurrency(totPri).replace('₩', '')}]]</span>원
+                전체 합계 : <span id="totalPrice">[[${#numbers.formatCurrency(totPri)}]]</span>원
 		</td></tr>
 		<tr> <th colspan="7"><input type="submit" value="구매하기"/></th></tr>
     </tfoot> 

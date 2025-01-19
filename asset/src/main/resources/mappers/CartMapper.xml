@@ -12,7 +12,7 @@ WHEN MATCHED THEN
 WHEN NOT MATCHED THEN	
 	insert (cart_NUM
 			, MEMBER_NUM,GOODS_NUM,REGIST_DATE, CART_QTY)
-	values ((select nvl(max(cart_num),0) + 1  from cart)
+	values ((SELECT NVL(MAX(TO_NUMBER(cart_num)), 0) + 1 FROM cart)
 			,#{memberNum}, #{goodsNum}, sysdate, #{cartQty, jdbcType=INTEGER})
 </update>
 <sql id="BaseColumns">

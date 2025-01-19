@@ -103,7 +103,7 @@
         .search-bar-container {
             position: relative;
             width: 1160px;
-            top:-117px;
+            top: -10px;
             left:170px;
         }
 
@@ -201,6 +201,11 @@
         transform: translate(-50%, 0); /* 클릭 시 원래 위치로 돌아옴 */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 초기화 */
     }
+    #searchToggle {
+    position: absolute;
+    top: 30px;
+    right : 100px;
+    }
     </style>
 </head>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
@@ -214,6 +219,7 @@ function newsDetail(element){
 $(document).ready(function () {
     // 돋보기 버튼을 눌렀을 때 검색창 표시
     $("#searchToggle").on("click", function () {
+    	
         $("#searchBar").slideToggle(); // 열고 닫기를 토글로 처리
     });
 });
@@ -345,13 +351,14 @@ function loadMoreItems(){
        <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
        
   </div>
-
+   
  </div>
+ 
 </div>
 
-
+<a href="#"  id="searchToggle" onclick="searchToggle" title="Search"><i class="fa fa-search"></i></a>
  
-   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" id="searchToggle" title="Search"><i class="fa fa-search"></i></a>
+
  	<form action="/news/newsList">
 	 <div class="search-bar-container">
         <div class="search-bar" id="searchBar">

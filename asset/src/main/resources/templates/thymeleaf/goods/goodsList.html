@@ -175,7 +175,7 @@ function buyItem(element) {
 }
 .search-bar-container {
             position: relative;
-            width: 1160px;
+            width: 1200px;
             top:-11px;
             left:0px;
         }
@@ -212,7 +212,11 @@ function buyItem(element) {
             font-size: 20px;
             cursor: pointer;
         }
-        
+        #searchToggle {
+	    position: absolute;
+	    top: 10px;
+	    right : 500px;
+	    }
 
 /* 추가적인 스타일 설정 */
 body,h1 {font-family: "Raleway", Arial, sans-serif}
@@ -318,8 +322,9 @@ h1 {letter-spacing: 6px}
        <a href="/login/login" class="w3-bar-item w3-button w3-hide-small">로그인</a>
        
   </div>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+
  </div>
+   <a href="#" id="searchToggle" title="Search"><i class="fa fa-search"></i></a>
 </div>
 
 <form action="/goods/goodsList" method="get" id="searchForm">

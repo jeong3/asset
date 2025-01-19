@@ -38,7 +38,7 @@ table {
 }
 
 /* 각 입력 필드 스타일 */
-input[type="text"], input[type="email"] {
+input[type="password"] {
     width: calc(100% - 20px);
     padding: 10px;
     margin: 10px 0;
@@ -188,11 +188,11 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="submit"]:focus 
 		<table align="center" style="width:100%">
             <tr>
                 <td>비밀번호</td>
-                <td><input type="text" name="userPhone" placeholder="새로운 비밀번호" /></td>
+                <td><input type="password" name="newPw" placeholder="새로운 비밀번호" /></td>
             </tr>
             <tr>
                 <td>비밀번호 확인</td>
-                <td><input type="email" name="userEmail" placeholder="비밀번호 확인" /></td>
+                <td><input type="password" name="newPwCon" placeholder="비밀번호 확인" /></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" class="login-btn" /></td>
