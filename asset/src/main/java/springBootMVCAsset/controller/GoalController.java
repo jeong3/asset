@@ -15,6 +15,7 @@ import springBootMVCAsset.command.GoalCommand;
 import springBootMVCAsset.service.goal.GoalDeleteService;
 import springBootMVCAsset.service.goal.GoalDetailService;
 import springBootMVCAsset.service.goal.GoalFinishListService;
+import springBootMVCAsset.service.goal.GoalPriceUpdateService;
 import springBootMVCAsset.service.goal.GoalRegistService;
 import springBootMVCAsset.service.goal.GoalRunListService;
 import springBootMVCAsset.service.goal.GoalUpdateService;
@@ -37,11 +38,14 @@ public class GoalController {
 	GoalsDeleteService goalsDeleteService;
 	@Autowired
 	GoalDeleteService goalDeleteService;
+	@Autowired
+	GoalPriceUpdateService goalPriceUpdateService;
 	
 	@GetMapping("myGoal")
 	public String myGoal(HttpSession session, Model model) {
 		goalRunListService.execute(session, model);
 		goalFinishListService.execute(session, model);
+		goalPriceUpdateService.execute(session);
 		return "thymeleaf/goal/myGoal";
 	}
 	

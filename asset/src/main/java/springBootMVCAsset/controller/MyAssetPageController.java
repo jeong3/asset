@@ -32,7 +32,7 @@ import springBootMVCAsset.service.deal.DealUpdateService;
 import springBootMVCAsset.service.deal.DealsDeleteService;
 import springBootMVCAsset.service.deal.JaeTechDealListService;
 import springBootMVCAsset.service.deal.SaveDealListService;
-import springBootMVCAsset.service.goal.GoalUpdateService;
+import springBootMVCAsset.service.goal.GoalPriceUpdateService;
 
 @Controller
 @RequestMapping("myAsset")
@@ -70,8 +70,6 @@ public class MyAssetPageController {
 	CreditPayService creditPayService;
 	@Autowired
 	DealTotalService dealTotalService;
-	@Autowired
-	GoalUpdateService goalUpdateService;
 	
 	@GetMapping("myAssetPage")
 	public String myAssetPage(Model model, HttpSession session) {
@@ -103,7 +101,6 @@ public class MyAssetPageController {
 		}
 		dealRegistService.execute(dealCommand, session, categoryName);
 		budgetUpdateService.execute(session);
-		//goalUpdateService.execute(null, session);
 		return "redirect:myAssetPage";
 	}
 	// 거래 내역 조회

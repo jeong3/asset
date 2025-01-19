@@ -23,4 +23,7 @@ public interface GoalMapper {
 	public void goalUpdate2(GoalDTO dto);
 	
 	public void goalDelete(String goalNum);
+	
+	public void goalPriceUpdate1(String memberNum);
+	public void goalPriceUpdate2(String memberNum);
 }
