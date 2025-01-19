@@ -20,7 +20,7 @@
                 FROM deal
                 WHERE member_num = #{memberNum}
                 AND category_name = '저축'
-                AND deal_date BETWEEN #{startDate} AND SYSDATE
+                AND deal_date BETWEEN #{startDate} trunc(end_date)
             )
             ELSE 0
         END,
@@ -32,7 +32,7 @@
 		                FROM deal
 		                WHERE member_num = #{memberNum}
 		                AND category_name = '저축'
-		                AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                AND deal_date BETWEEN #{startDate} trunc(end_date)
 		            ), 0) = 0 THEN 0
 		            ELSE 
 		            	NVL((
@@ -40,7 +40,7 @@
 		                    FROM deal
 		                    WHERE member_num = #{memberNum}
 		                    AND category_name = '저축'
-		                    AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                    AND deal_date BETWEEN #{startDate} trunc(end_date)
 		                ), 1) / #{goalPrice} * 100
 		        END
     		ELSE 0
@@ -61,7 +61,7 @@
                 FROM deal
                 WHERE member_num = #{memberNum}
                 AND category_name = '지출'
-                AND deal_date BETWEEN #{startDate} AND SYSDATE
+                AND deal_date BETWEEN #{startDate} trunc(end_date)
             )
             ELSE 0
         END,
@@ -73,7 +73,7 @@
 		                FROM deal
 		                WHERE member_num = #{memberNum}
 		                AND category_name = '지출'
-		                AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                AND deal_date BETWEEN #{startDate} trunc(end_date)
 		            ), 0) = 0 THEN 100
 		            ELSE 
 		            	(1 - 
@@ -82,7 +82,7 @@
 		                    FROM deal
 		                    WHERE member_num = #{memberNum}
 		                    AND category_name = '지출'
-		                    AND deal_date BETWEEN #{startDate} AND SYSDATE
+		                    AND deal_date BETWEEN #{startDate} trunc(end_date)
 		                ), 1) / #{goalPrice}) * 100
 		        END
     		ELSE 100
@@ -215,7 +215,7 @@ set CURRENT_PRICE = CASE
                 FROM deal
                 WHERE member_num = #{memberNum}
                 AND category_name = '저축'
-                AND deal_date BETWEEN trunc(start_date) AND trunc(SYSDATE)
+                AND deal_date BETWEEN trunc(start_date) AND trunc(end_date)
             )
             ELSE 0
         END,
@@ -227,7 +227,7 @@ set CURRENT_PRICE = CASE
 		                FROM deal
 		                WHERE member_num = #{memberNum}
 		                AND category_name = '저축'
-		                AND deal_date BETWEEN trunc(start_date) AND trunc(SYSDATE)
+		                AND deal_date BETWEEN trunc(start_date) AND trunc(end_date)
 		            ), 0) = 0 THEN 0
 		            ELSE 
 		            	NVL((
@@ -235,7 +235,7 @@ set CURRENT_PRICE = CASE
 		                    FROM deal
 		                    WHERE member_num = #{memberNum}
 		                    AND category_name = '저축'
-		                    AND deal_date BETWEEN trunc(start_date) AND trunc(SYSDATE)
+		                    AND deal_date BETWEEN trunc(start_date) AND trunc(end_date)
 		                ), 1) / goal_price * 100
 		        END
     		ELSE 0
@@ -252,7 +252,7 @@ set CURRENT_PRICE = CASE
                 FROM deal
                 WHERE member_num = #{memberNum}
                 AND category_name = '지출'
-                AND deal_date BETWEEN trunc(start_date) AND trunc(SYSDATE)
+                AND deal_date BETWEEN trunc(start_date) AND trunc(end_date)
             )
             ELSE 0
         END,
@@ -264,7 +264,7 @@ set CURRENT_PRICE = CASE
 		                FROM deal
 		                WHERE member_num = #{memberNum}
 		                AND category_name = '지출'
-		                AND deal_date BETWEEN trunc(start_date) AND trunc(SYSDATE)
+		                AND deal_date BETWEEN trunc(start_date) AND trunc(end_date)
 		            ), 0) = 0 THEN 100
 		            ELSE 
 		            	(1 - 
@@ -273,7 +273,7 @@ set CURRENT_PRICE = CASE
 		                    FROM deal
 		                    WHERE member_num = #{memberNum}
 		                    AND category_name = '지출'
-		                    AND deal_date BETWEEN trunc(start_date) AND trunc(SYSDATE)
+		                    AND deal_date BETWEEN trunc(start_date) AND trunc(end_date)
 		                ), 1) / goal_price) * 100
 		        END
     		ELSE 100
