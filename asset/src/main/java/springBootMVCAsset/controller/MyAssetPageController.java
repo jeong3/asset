@@ -70,6 +70,8 @@ public class MyAssetPageController {
 	CreditPayService creditPayService;
 	@Autowired
 	DealTotalService dealTotalService;
+	@Autowired
+	GoalPriceUpdateService goalPriceUpdateService;
 	
 	@GetMapping("myAssetPage")
 	public String myAssetPage(Model model, HttpSession session) {
@@ -101,6 +103,7 @@ public class MyAssetPageController {
 		}
 		dealRegistService.execute(dealCommand, session, categoryName);
 		budgetUpdateService.execute(session);
+		goalPriceUpdateService.execute(session);
 		return "redirect:myAssetPage";
 	}
 	// 거래 내역 조회

@@ -45,7 +45,7 @@ public class GoalController {
 	public String myGoal(HttpSession session, Model model) {
 		goalRunListService.execute(session, model);
 		goalFinishListService.execute(session, model);
-		goalPriceUpdateService.execute(session);
+		//goalPriceUpdateService.execute(session);
 		return "thymeleaf/goal/myGoal";
 	}
 	
