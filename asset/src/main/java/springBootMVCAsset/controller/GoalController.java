@@ -100,6 +100,7 @@ public class GoalController {
 	
 	@GetMapping("goalDelete")
 	public String goalDelete(@RequestParam("goalNum") String goalNum) {
+		goalDeleteService.execute(goalNum);
 		return "redirect:myGoal";
 	}
 }

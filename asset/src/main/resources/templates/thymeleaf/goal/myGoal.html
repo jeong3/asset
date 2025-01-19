@@ -208,7 +208,7 @@ h1 {letter-spacing: 6px}
 						<td>[[${#numbers.formatCurrency(dto.currentPrice).replace('₩','')}]]원</td>
 						<td>[[${#numbers.formatCurrency(dto.goalPrice).replace('₩','')}]]원</td>
 						<td style="color:#da0101;font-weight: bold;">[[${dto.goalRate}]]%</td>
-                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalsDelete?goalNums=${dto.goalNum}'|">삭제</button></td>
+                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalDelete?goalNum=${dto.goalNum}'|">삭제</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -287,7 +287,7 @@ h1 {letter-spacing: 6px}
 									</span>
 								</span>
 							</td>
-	                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalsDelete?goalNums=${dto.goalNum}'|">삭제</button></td>
+	                    	<td><button type="button" th:attr="onclick=|javascript:location.href='goalDelete?goalNum=${dto.goalNum}'|">삭제</button></td>
 	                    </tr>
 	                </tbody>
 	            </table>
