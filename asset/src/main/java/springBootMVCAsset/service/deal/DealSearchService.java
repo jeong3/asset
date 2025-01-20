@@ -28,6 +28,10 @@ public class DealSearchService {
 		if(endPageNum > maxPage) {
 			endPageNum = maxPage;
 		}
+		if(count == 0) {
+			maxPage = 1;
+			endPageNum = 1;
+		}
 		
 		if(searchWord == null) searchWord = "";
 		model.addAttribute("searchWord", searchWord);

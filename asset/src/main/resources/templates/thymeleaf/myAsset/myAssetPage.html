@@ -167,7 +167,9 @@ h1 {letter-spacing: 6px}
         <tbody>
             <tr>
                 <td>총 자산</td>
-                <td>[[${#numbers.formatCurrency(dto.totalAsset).replace('₩','')}]]원&nbsp
+                <td th:if ="${dto.totalAsset != null}">[[${#numbers.formatCurrency(dto.totalAsset).replace('₩','')}]]원&nbsp
+                <a href="/myAsset/assetList"><i class="fa fa-chevron-circle-right" style="font-size:20px;color: grey;"></i></a></td>
+                 <td th:if ="${dto.totalAsset == null}">0원&nbsp
                 <a href="/myAsset/assetList"><i class="fa fa-chevron-circle-right" style="font-size:20px;color: grey;"></i></a></td>
             </tr>
             <tr>

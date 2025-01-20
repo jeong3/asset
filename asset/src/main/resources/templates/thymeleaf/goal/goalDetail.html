@@ -131,7 +131,7 @@ h1 {letter-spacing: 6px}
   		</thead>
   		<tbody>
   			<tr><td>
-  				<span th:if="${dto.goalRate == 0}">
+  				<span th:if="${dto.goalRate <= 0}">
   					<img src="/static/images/goal0.jpg">
   				</span>
   				<span th:if="${dto.goalRate > 0 && dto.goalRate <= 20}">
@@ -149,7 +149,7 @@ h1 {letter-spacing: 6px}
   				<span th:if="${dto.goalRate > 80 && dto.goalRate < 100}">
   					<img src="/static/images/goal90.jpg">
   				</span>
-  				<span th:if="${dto.goalRate == 100}">
+  				<span th:if="${dto.goalRate >= 100}">
   					<img src="/static/images/goal100.jpg">
   				</span>
   			</td></tr>
@@ -165,7 +165,14 @@ h1 {letter-spacing: 6px}
             </tr>
             <tr>
                 <td>남은 금액</td>
-                <td style="color:orange;">[[${#numbers.formatCurrency(dto.remainPrice).replace('₩','')}]]원</td>
+                <td style="color:orange;">
+	                <span th:if="${dto.remainPrice <= 0}">
+	                	0원
+	                </span>
+	                <span th:if="${dto.remainPrice > 0}">
+	                	[[${#numbers.formatCurrency(dto.remainPrice).replace('₩','')}]]원
+	                </span>
+                </td>
             </tr>
             <tr>
                 <td>현재 <span th:if="${dto.goalName == '저축'}">저축</span>

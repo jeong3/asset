@@ -137,7 +137,7 @@ public class MyAssetPageController {
 		}
 		dealUpdateService.execute(dealCommand, categoryName);
 		budgetUpdateService.execute(session);
-		
+		goalPriceUpdateService.execute(session);
 		return "redirect:dealDetail?dealNum=" + dealCommand.getDealNum();
 	}
 	@RequestMapping("dealsDelete")
@@ -150,6 +150,7 @@ public class MyAssetPageController {
         }
 		dealsDeleteService.execute(dealNums);
 		budgetUpdateService.execute(session);
+		goalPriceUpdateService.execute(session);
 		if (referer != null && !referer.isEmpty()) {
 	        return "redirect:" + referer;
 	    } else {
@@ -163,9 +164,10 @@ public class MyAssetPageController {
 			, @RequestParam("pastLocation") String pastLocation) {
 		dealDeleteService.execute(dealNum);
 		budgetUpdateService.execute(session);
+		goalPriceUpdateService.execute(session);
 		//String decodedLocation = URLDecoder.decode(pastLocation, StandardCharsets.UTF_8);
 		if(pastLocation.contains("dealUpdate")) {
-			return "redirect: dealList";
+			return "redirect:dealList";
 		}
 		return "redirect:" + pastLocation;
 	}
