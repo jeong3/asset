@@ -5,8 +5,8 @@
     width: 1100px;
     position: absolute;
     margin-top: 20px;
-    top: 650px;    /* 부모 요소의 위쪽에서 10px 떨어짐 */
-    left: 240px;   /* 부모 요소의 왼쪽에서 20px 떨어짐 */
+    top: 570px;    /* 부모 요소의 위쪽에서 10px 떨어짐 */
+    left: 410px;   /* 부모 요소의 왼쪽에서 20px 떨어짐 */
 }
 .goalButton, .my-finishGoal {
     flex: 1; /* Ensures equal width for both sections */
