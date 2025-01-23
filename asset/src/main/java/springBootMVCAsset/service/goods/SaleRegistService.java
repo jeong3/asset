@@ -14,9 +14,9 @@ public class SaleRegistService {
 		
 		
 		double sale = 0;
-		if(close > 57000) {
+		if(close > 55000) {
 			sale = 0.2;
-		} else if(close > 55000) {
+		} else if(close > 51000) {
 			sale = 0.1;
 		} else {
 			sale = 0;

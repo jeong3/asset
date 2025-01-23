@@ -37,6 +37,7 @@
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 </style>
+ 
 </head>
 <body >
 
@@ -78,7 +79,7 @@
     <br>
     <!-- sale 값이 0이 아닌 경우에만 세일 가격 표시 -->
     <span th:if="${dto.sale != 0}" style="color: red;">
-        [[${#numbers.formatCurrency(dto.goodsPrice * (1 - dto.sale), 0, 0).replace('₩','')}]]원
+        [[${dto.goodsPrice * (1 - dto.sale)}]]원
     </span>
 </p>
 
